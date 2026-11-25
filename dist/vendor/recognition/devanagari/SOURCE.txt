@@ -1,0 +1,21 @@
+Devanagari recognition model: devanagari_PP-OCRv5_mobile_rec (PaddleOCR),
+exported to ONNX by Wycliffe Associates / docscanner-ocr.
+https://huggingface.co/wycliffeassociates/docscanner-ocr
+Pinned source revision: 354549cf968c1d8883482a1dc74dde9c762ebf53
+Files: devanagari/rec_model.onnx and devanagari/charset.json.
+Model and character table: Apache License 2.0 (LICENSE).
+Model SHA-256: a3d5b5fa34fa3dfc9f3790ee5a28da697ea08b0043d25080d19bf1b9517fa56c
+Character table SHA-256: 621d0073b27b8d8ff19629ee7a961f337697f553a29f21c9817057f4359549c3
+
+Experimental for Marathi handwriting. Leafnote validated three rendered Marathi
+words with this exact ONNX model in ONNX Runtime Web/WASM, not a handwriting
+accuracy benchmark. Always review and correct recognition before saving.
+
+Noto Sans Devanagari font: The Noto Project Authors.
+https://github.com/notofonts/devanagari
+SIL Open Font License 1.1 (OFL.txt).
+
+Marathi dictionary: unmodified LibreOffice mr_IN/mr_IN.dic.
+Source: https://github.com/LibreOffice/dictionaries/tree/e7b61087d7d42eba51425eae74643ea5623c574a/mr_IN
+GPL version 2; see dictionary-COPYING. The dictionary is used only to rank
+nearby optical readings; it does not generate or force a specified word.

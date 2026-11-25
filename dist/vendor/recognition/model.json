@@ -1,0 +1,5 @@
+{
+    "revision":  "02bea33ca09a70e2e2d91140a7e6e1a729606a5b",
+    "dtype":  "q8",
+    "model":  "Xenova/trocr-small-handwritten"
+}
