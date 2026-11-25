@@ -960,3 +960,66 @@ test("mixed ordinary pages and their styles synchronize between clients", async 
   assert.equal(b.data.notes[0].extraPages[0].paper, "grid");
   assert.equal(b.data.notes[0].extraPages[0].texts[0].text, "Second page");
 });
+
+test("reordered and removed pages synchronize and older Git revisions retain the prior page order", async (t) => {
+  const server = await api(t),
+    { createSyncTransport, createSyncEngine } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base }),
+    n = note("page-order", "First");
+  n.paper = "lined";
+  n.extraPages = [
+    {
+      paper: "plain",
+      height: 1050,
+      strokes: [],
+      texts: [{ x: 20, y: 40, size: 18, color: "#264c3d", text: "Second" }],
+    },
+    {
+      paper: "grid",
+      height: 1050,
+      strokes: [],
+      texts: [{ x: 20, y: 40, size: 18, color: "#264c3d", text: "Third" }],
+    },
+  ];
+  const a = device(snap([n]).data),
+    b = device(snap([]).data),
+    ea = createSyncEngine({
+      app: a,
+      storage: settings(),
+      transport,
+      deviceId: "a",
+    }),
+    eb = createSyncEngine({
+      app: b,
+      storage: settings(),
+      transport,
+      deviceId: "b",
+    });
+  await ea.run();
+  await eb.run();
+  const old = (await transport.history()).commits[0].hash;
+  a.edit((data) => {
+    const n = data.notes[0],
+      first = {
+        paper: n.paper,
+        height: 1050,
+        strokes: n.strokes,
+        texts: n.texts,
+      },
+      third = n.extraPages[1];
+    n.paper = third.paper;
+    n.strokes = third.strokes;
+    n.texts = third.texts;
+    n.extraPages = [first];
+  });
+  await ea.run();
+  await eb.run();
+  assert.equal(b.data.notes[0].texts[0].text, "Third");
+  assert.equal(b.data.notes[0].paper, "grid");
+  assert.equal(b.data.notes[0].extraPages[0].texts[0].text, "First");
+  assert.equal(b.data.notes[0].extraPages.length, 1);
+  const prior = (await transport.revision(old)).data.notes[0];
+  assert.equal(prior.texts[0].text, "First");
+  assert.equal(prior.extraPages[0].texts[0].text, "Second");
+  assert.equal(prior.extraPages[1].texts[0].text, "Third");
+});

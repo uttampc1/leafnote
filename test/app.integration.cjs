@@ -39,6 +39,7 @@ async function makeApp(
   writerLock,
   expectBlocked = false,
   libraryView,
+  pagePositions,
 ) {
   const html = fs
     .readFileSync(root + "/index.html", "utf8")
@@ -201,6 +202,8 @@ async function makeApp(
   await modelModule.evaluate();
   if (libraryView)
     w.localStorage.setItem("leafnote-library-view-v1", libraryView);
+  if (pagePositions)
+    w.localStorage.setItem("leafnote-page-positions-v1", pagePositions);
   if (legacy) w.localStorage.setItem("leafnote-v1", JSON.stringify(legacy));
   if (layout)
     w.localStorage.setItem("leafnote-layout-v1", JSON.stringify(layout));
@@ -527,10 +530,10 @@ async function main() {
   );
   ev("createNote()");
   check(
-    ev("note().paper") === "plain" &&
+    ev("note().paper") === "lined" &&
       ev("note().texts.length") === 0 &&
       ev("note().html") === "",
-    "new note opens as an empty plain sheet",
+    "new note opens as an empty lined sheet",
   );
   check(
     ev("tool") === "pen" &&
@@ -1997,6 +2000,192 @@ async function main() {
   $("#notemenu").open = false;
   $("#toolsettings").open = false;
   w.document.activeElement?.blur();
+
+  ev(
+    'createNote();note().title="Page order fixture";note().book="old";note().paper="plain";note().recognitionLanguage="mr";note().texts=[{x:40,y:60,size:18,width:700,lineHeight:1.5,font:"monospace",color:"#264c3d",text:"Page A"}];touch()',
+  );
+  const orderId = ev("current");
+  await $("#addpaperpage").onclick();
+  check(
+    w.LeafnoteApp.pageIndex() === 1 && $("#pagepaper").value === "lined",
+    "new pages default to Lined even when the preceding page is Plain",
+  );
+  ev(
+    'LeafnoteApp.page().texts=[{x:40,y:60,size:18,width:700,lineHeight:1.5,font:"monospace",color:"#264c3d",text:"Page B"}];touch()',
+  );
+  await $("#addpaperpage").onclick();
+  ev(
+    'LeafnoteApp.page().texts=[{x:40,y:60,size:18,width:700,lineHeight:1.5,font:"monospace",color:"#264c3d",text:"Page C"}];touch()',
+  );
+  await w.LeafnoteApp.open(mixedId);
+  await w.LeafnoteApp.open(orderId);
+  check(
+    w.LeafnoteApp.pageIndex() === 2 &&
+      $("#addpaperpage").textContent === "Add after page 3",
+    "returning to a note keeps the selected page and the Add label follows it",
+  );
+  check(
+    [...w.document.querySelectorAll(".insert-page-inline")]
+      .map((el) => el.textContent)
+      .join("|") ===
+      "Add page after page 1|Add page after page 2|Add page after page 3",
+    "every displayed page has its own correctly numbered Add button",
+  );
+  await w.document
+    .querySelector('.insert-page-inline[data-after-page="0"]')
+    .onclick();
+  check(
+    w.LeafnoteApp.pageIndex() === 1 &&
+      ev(
+        'LeafSearch.pages(note()).map(p=>p.texts[0]?.text||"blank").join(",")',
+      ) === "Page A,blank,Page B,Page C",
+    "adding after a non-selected earlier page inserts at that exact position",
+  );
+  ev(
+    'LeafnoteApp.page().texts=[{x:40,y:60,size:18,width:700,lineHeight:1.5,font:"monospace",color:"#264c3d",text:"Inserted page"}];touch()',
+  );
+  $("#pagepaper").value = "grid";
+  $("#pagepaper").onchange();
+  let actionHeader = w.document.querySelector('[data-page-controls="3"]');
+  actionHeader.querySelector("input").value = "1";
+  await [...actionHeader.querySelectorAll("button")]
+    .find((el) => el.textContent === "Move to position")
+    .onclick();
+  check(
+    ev('LeafSearch.pages(note()).map(p=>p.texts[0]?.text).join(",")') ===
+      "Page C,Page A,Inserted page,Page B" &&
+      ev("note().extraPages[0].recognitionLanguage") === "mr" &&
+      ev("note().book") === "old" &&
+      ev("note().title") === "Page order fixture",
+    "moving a later page to the front keeps page content, language and parent note metadata",
+  );
+  check(
+    w.LeafnoteApp.pageIndex() === 2 && $("#pagepaper").value === "grid",
+    "moving another page retains the selected page rather than selecting page 1",
+  );
+  await w.LeafnoteApp.movePage(2, 3);
+  check(
+    w.LeafnoteApp.pageIndex() === 3 &&
+      ev("LeafSearch.pages(note())[3].texts[0].text") === "Inserted page",
+    "moving the selected page follows it to its new position",
+  );
+  actionHeader = w.document.querySelector('[data-page-controls="3"]');
+  await [...actionHeader.querySelectorAll("button")]
+    .find((el) => el.textContent === "Move up")
+    .onclick();
+  check(
+    w.LeafnoteApp.pageIndex() === 2 &&
+      ev("LeafSearch.pages(note())[2].texts[0].text") === "Inserted page",
+    "Move up updates both the order and selected page",
+  );
+  w.confirm = () => false;
+  await w.LeafnoteApp.deletePage(1);
+  check(
+    ev("LeafSearch.pages(note()).length") === 4,
+    "cancelling page deletion leaves the document unchanged",
+  );
+  w.confirm = () => true;
+  await w.LeafnoteApp.deletePage(1);
+  check(
+    ev('LeafSearch.pages(note()).map(p=>p.texts[0]?.text).join(",")') ===
+      "Page C,Inserted page,Page B" && w.LeafnoteApp.pageIndex() === 1,
+    "deleting an earlier page preserves remaining page order and current content",
+  );
+  await $("#export").onclick();
+  const orderExport = new JSDOM(w.__export.body);
+  check(
+    [...orderExport.window.document.querySelectorAll("section")]
+      .map((section) => section.textContent)
+      .join("|") === "Page C|Inserted page|Page B",
+    "ordinary note export follows the edited page order",
+  );
+  orderExport.window.close();
+  ev("createNote()");
+  const singlePageId = ev("current");
+  await w.LeafnoteApp.deletePage(0);
+  check(
+    ev("LeafSearch.pages(note()).length") === 1 &&
+      [...w.document.querySelectorAll(".page-actions-panel button")].find(
+        (el) => el.textContent === "Delete page 1",
+      ).disabled,
+    "the last page is protected from deletion",
+  );
+  const pdfOrderSource = structuredClone(retainedSource);
+  pdfOrderSource.star = false;
+  pdfOrderSource.pdf.pages.forEach((pg, i) =>
+    pg.texts.push({
+      x: 30,
+      y: 35,
+      size: 16,
+      width: 350,
+      lineHeight: 1.5,
+      font: "monospace",
+      color: "#264c3d",
+      text: "Order label " + i,
+    }),
+  );
+  await w.LeafnoteApp.maintenance.restoreRevision(
+    pdfOrderSource,
+    retainedBytes,
+  );
+  const pdfOrderId = ev("current");
+  await w.LeafnoteApp.goToPage(1);
+  await w.LeafnoteApp.movePage(0, 3);
+  let rawOrder = await PDFLib.PDFDocument.load(
+    new Uint8Array(await (await w.LeafnoteApp.file(pdfOrderId)).arrayBuffer()),
+  );
+  check(
+    rawOrder
+      .getPages()
+      .map((p) => p.getRotation().angle)
+      .join(",") === "90,180,270,0" &&
+      ev(
+        'note().pdf.pages.map(p=>p.texts.find(t=>t.text.startsWith("Order label")).text).join(",")',
+      ) === "Order label 1,Order label 2,Order label 3,Order label 0",
+    "PDF reordering moves original page bytes and annotation metadata together",
+  );
+  w.confirm = () => false;
+  await w.LeafnoteApp.deletePage(1);
+  check(
+    ev("note().pdf.pages.length") === 4,
+    "cancelling PDF page deletion retains every original page",
+  );
+  w.confirm = () => true;
+  await w.LeafnoteApp.deletePage(1);
+  rawOrder = await PDFLib.PDFDocument.load(
+    new Uint8Array(await (await w.LeafnoteApp.file(pdfOrderId)).arrayBuffer()),
+  );
+  check(
+    rawOrder
+      .getPages()
+      .map((p) => p.getRotation().angle)
+      .join(",") === "90,270,0" &&
+      ev(
+        'note().pdf.pages.map(p=>p.texts.find(t=>t.text.startsWith("Order label")).text).join(",")',
+      ) === "Order label 1,Order label 3,Order label 0",
+    "PDF deletion removes only the chosen page and keeps remaining annotations aligned",
+  );
+  await $("#export").onclick();
+  const orderedPDFExport = await PDFLib.PDFDocument.load(
+    new Uint8Array(w.__export.body),
+  );
+  check(
+    orderedPDFExport
+      .getPages()
+      .map((p) => p.getRotation().angle)
+      .join(",") === "90,270,0",
+    "annotated PDF export follows moved and deleted page order",
+  );
+  await w.LeafnoteApp.open(orderId);
+  await w.LeafnoteApp.goToPage(1);
+  await ev("persist()");
+  w.LeafnoteApp.finish();
+  w.LeafBoard.finish();
+  $("#inkoptions").hidden = true;
+  $("#recognitionreview").hidden = true;
+  $("#notemenu").open = false;
+  $("#toolsettings").open = false;
+  w.document.activeElement?.blur();
   const syncEvents = [];
   w.document.addEventListener("leafnote-local-saved", (e) =>
     syncEvents.push(e.detail),
@@ -2053,6 +2242,7 @@ async function main() {
     undefined,
     false,
     w.localStorage.getItem("leafnote-library-view-v1"),
+    w.localStorage.getItem("leafnote-page-positions-v1"),
   );
   check(
     again.evaluate("data.notes.some(n=>n.pdf)") &&
@@ -2211,6 +2401,22 @@ async function main() {
       "data.purged.some(n=>n.id===" + JSON.stringify(purgedId) + ")",
     ) && !(await again.w.LeafnoteApp.file(purgedId)),
     "permanent deletion markers and removed PDF state survive reopening",
+  );
+  await again.w.LeafnoteApp.open(orderId);
+  check(
+    again.w.LeafnoteApp.pageIndex() === 1 &&
+      again.evaluate(
+        'LeafSearch.pages(note()).map(p=>p.texts[0]?.text).join(",")',
+      ) === "Page C,Inserted page,Page B",
+    "page ordering and selected page survive reopening",
+  );
+  check(
+    again.evaluate(
+      "data.notes.find(n=>n.id===" +
+        JSON.stringify(pdfOrderId) +
+        ").pdf.pages.length",
+    ) === 3,
+    "PDF page removal survives persisted validation and reopening",
   );
   const blocked = await makeApp(
     undefined,

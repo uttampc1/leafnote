@@ -19,7 +19,26 @@
   let syncApplying = false,
     lastSaveOK = true,
     writerLocked = false;
-  const fileVersions = new Map();
+  const fileVersions = new Map(),
+    pagePositions = new Map();
+  try {
+    for (const [id, index] of Object.entries(
+      JSON.parse(localStorage.getItem("leafnote-page-positions-v1") || "{}"),
+    ))
+      if (Number.isInteger(index) && index >= 0) pagePositions.set(id, index);
+  } catch {}
+  /** Remember the selected page locally without changing note content or creating a sync revision. */
+  function rememberPagePosition(id, index) {
+    if (!id) return;
+    pagePositions.set(id, index);
+    try {
+      localStorage.setItem(
+        "leafnote-page-positions-v1",
+        JSON.stringify(Object.fromEntries([...pagePositions].slice(-3000))),
+      );
+    } catch {}
+  }
+
   const undoStack = [],
     redoStack = [];
   const original = {
@@ -958,6 +977,7 @@
     $("#pagepaper").value = (page() || note()).paper || "plain";
     $("#paper").value = (page() || note()).paper || "plain";
     $("#addpaperpage").disabled = !!note().board;
+    $("#addpaperpage").textContent = "Add after page " + (pageIndex + 1);
     $("#pagenum").value = pageIndex + 1;
     $("#pagenum").max = count;
     $("#pagecount").textContent = "of " + count;
@@ -1065,7 +1085,8 @@
     /** Open a note, update its controls, and refresh its drawing surface. */
     function (id) {
       finishInput();
-      pageIndex = 0;
+      if (current !== id) rememberPagePosition(current, pageIndex);
+      pageIndex = pagePositions.get(id) || 0;
       zoom = 1;
       ++renderTicket;
       if (renderTask) {
@@ -1075,6 +1096,10 @@
       original.loadNote(id);
       const n = note(),
         isPDF = !!n.pdf;
+      pageIndex = Math.max(0, Math.min(pageIndex, pageList(n).length - 1));
+      rememberPagePosition(current, pageIndex);
+      $("#sheet").className =
+        (isPDF ? "pdf-sheet " : "") + ((page() || n).paper || "plain");
       $("#sheet").classList.toggle("pdf-sheet", isPDF);
       $("#pdfbar").hidden = !!n.board;
       $("#zoomout").parentElement.hidden = !isPDF;
@@ -1135,6 +1160,7 @@
       0,
       Math.min(pageList().length - 1, Number(index) || 0),
     );
+    rememberPagePosition(current, pageIndex);
     if (note().pdf) await renderPDF();
     else {
       const pg = page() || note();
@@ -1474,6 +1500,7 @@
     files = [],
     preferredId = current,
     removeFiles = [],
+    preferredPage,
   ) {
     if (syncApplying) throw Error("Wait for the current save to finish");
     finishInput();
@@ -1494,6 +1521,8 @@
         ++saveVersion;
         undoStack.length = redoStack.length = 0;
         renderNav();
+        if (Number.isInteger(preferredPage))
+          rememberPagePosition(preferredId, preferredPage);
         loadNote(
           data.notes.find((n) => n.id === preferredId && !n.deleted)?.id ||
             data.notes.find((n) => !n.deleted)?.id,
@@ -1722,11 +1751,12 @@
   $("#paper").onchange = () => changePagePaper($("#paper").value);
   $("#pagepaper").onchange = () => changePagePaper($("#pagepaper").value);
   /** Insert a blank page immediately after the current one, atomically saving any changed PDF original. */
-  async function addPaperPage() {
+  async function addPaperPage(afterIndex = pageIndex) {
     if (note().board) return;
     const id = current,
-      index = pageIndex,
-      paper = (page() || note()).paper || "plain";
+      index = Number.isInteger(afterIndex) ? afterIndex : pageIndex,
+      paper = "lined";
+    if (index < 0 || index >= pageList().length) return;
     try {
       await maintenanceChange(
         async (candidate) => {
@@ -1760,13 +1790,129 @@
         },
         [],
         id,
+        [],
+        index + 1,
       );
       await goTo(index + 1);
     } catch (error) {
       toast("Could not add page: " + error.message);
     }
   }
-  $("#addpaperpage").onclick = addPaperPage;
+  $("#addpaperpage").onclick = () => addPaperPage();
+
+  /** Capture ordinary page fields separately from note identity, notebooks, favorites, and timestamps. */
+  function ordinaryPagePayload(n) {
+    return {
+      width: 800,
+      height: n.height || 1050,
+      paper: n.paper || "lined",
+      strokes: clone(n.strokes || []),
+      texts: clone(n.texts || []),
+      recognitionLanguage: n.recognitionLanguage || "en",
+      handwriting: clone(n.handwriting),
+    };
+  }
+  /** Repack reordered ordinary pages while retaining the parent note's stable identity and metadata. */
+  function replaceOrdinaryPages(n, pages) {
+    const first = pages[0];
+    for (const key of [
+      "height",
+      "paper",
+      "strokes",
+      "texts",
+      "recognitionLanguage",
+      "handwriting",
+    ]) {
+      if (first[key] === undefined) delete n[key];
+      else n[key] = clone(first[key]);
+    }
+    n.extraPages = pages.slice(1).map((pg) => clone(pg));
+    n.html = (n.texts || [])
+      .map((t) => "<p>" + escapeText(t.text).replace(/\n/g, "<br>") + "</p>")
+      .join("");
+  }
+  /** Move or delete a page and atomically commit PDF order and annotation metadata together. */
+  async function changePageOrder(from, to, remove = false) {
+    const n = note();
+    if (!n || n.board) return;
+    const count = pageList(n).length,
+      id = current,
+      selected = pageIndex;
+    if (
+      !Number.isInteger(from) ||
+      from < 0 ||
+      from >= count ||
+      (!remove && (!Number.isInteger(to) || to < 0 || to >= count))
+    ) {
+      toast("Choose an existing page position");
+      return;
+    }
+    if (remove && count === 1) {
+      toast("Keep at least one page, or move the note to Trash");
+      return;
+    }
+    if (!remove && from === to) return;
+    if (
+      remove &&
+      !window.confirm(
+        "Delete page " +
+          (from + 1) +
+          " from this document? Its current writing and PDF content will be removed. Older Git revisions and backups can retain it.",
+      )
+    )
+      return;
+    const selectedAfter = remove
+      ? selected === from
+        ? Math.min(from, count - 2)
+        : selected - (from < selected ? 1 : 0)
+      : selected === from
+        ? to
+        : selected -
+          (from < selected && to >= selected ? 1 : 0) +
+          (to <= selected && from > selected ? 1 : 0);
+    try {
+      await maintenanceChange(
+        async (candidate) => {
+          const target = candidate.notes.find((n) => n.id === id),
+            pages = target.pdf
+              ? target.pdf.pages
+              : [
+                  ordinaryPagePayload(target),
+                  ...(target.extraPages || []).map((pg) => clone(pg)),
+                ];
+          const [moving] = pages.splice(from, 1);
+          if (!remove) pages.splice(to, 0, moving);
+          target.updated = Date.now();
+          if (target.pdf) {
+            const original = await getFile(id),
+              doc = await PDFLib.PDFDocument.load(
+                new Uint8Array(await original.arrayBuffer()),
+              ),
+              movingPDF = doc.getPage(from);
+            doc.removePage(from);
+            if (!remove) doc.insertPage(to, movingPDF);
+            target.pdf.pages = pages;
+            return [
+              [id, new Blob([await doc.save()], { type: "application/pdf" })],
+            ];
+          }
+          replaceOrdinaryPages(target, pages);
+        },
+        [],
+        id,
+        [],
+        selectedAfter,
+      );
+      await goTo(selectedAfter);
+      toast(
+        remove
+          ? "Page removed from this document"
+          : "Page moved to position " + (to + 1),
+      );
+    } catch (error) {
+      toast("Could not change page order: " + error.message);
+    }
+  }
   /** Permanently remove a retained note and its local PDF while retaining a content-free sync deletion marker. */
   async function purgeDeleted(id) {
     return maintenanceChange(
@@ -1856,10 +2002,15 @@
     /** Implement the pageIndex callback in this object. */
     pageIndex: () => pageIndex,
     goToPage: goTo,
+    addPageAfter: addPaperPage,
+    /** Implement the movePage callback in this object. */
+    movePage: (from, to) => changePageOrder(from, to, false),
+    /** Implement the deletePage callback in this object. */
+    deletePage: (index) => changePageOrder(index, undefined, true),
     /** Open a model dialog or note/page through the module’s public entry point. */
     open: async (id, index) => {
       loadNote(id);
-      if (!note()?.board) await goTo(index);
+      if (!note()?.board && index !== undefined) await goTo(index);
     },
   };
   $(".app").inert = true;

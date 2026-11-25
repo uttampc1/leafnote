@@ -173,3 +173,7 @@ flowchart LR
 Ordinary notes retain their original first-page fields and add `extraPages`; PDFs retain their page array. The current page has an independent `paper` choice. `document-pages.js` reuses the one active editor between read-only neighboring page previews, preserving scroll position when activating a page. Page insertion and changed PDF bytes commit atomically through the existing save queue. `paper-engine.js` shares transparent ruling generation with PDF overlays and previews.
 
 Permanent deletion retains only an ID/time entry in root `purged` markers and removes the current note/PDF reference. Three-way merge and server normalization union these markers so stale notes cannot return. Protocol 3 fences clients that do not preserve them. Prior Git revisions and immutable server PDF blobs remain available to historical restoration as new note IDs.
+
+## Page ordering follow-up
+
+Every page header owns explicit Add/Move/Delete callbacks for its displayed index. Selection positions are device-local preferences and do not create note revisions. Ordinary first-page fields are promoted/repacked with content, ruling, height, language and recognition metadata when page order changes; note ID, title, notebook and favorites remain attached to the document. PDF page tree order and per-page annotation arrays are changed in one atomic state/PDF transaction. Structural changes clear index-based undo stacks. Page deletion preserves at least one page; earlier versions remain available through Git revisions/backups.

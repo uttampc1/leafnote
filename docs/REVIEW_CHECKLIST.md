@@ -32,3 +32,7 @@ The automated suite covers real app/IndexedDB flows, real PDF import/insertion/e
 The folder migration helper is tested with real filesystem copies and comparisons while the Docker CLI is mocked: success, failed service switch/rollback, and nonempty destination refusal. This is not a Linux Docker launch test. Docker Engine and interactive browser automation are unavailable on the preparation machine. Visual layout, physical stylus behavior, and an actual Linux mount change still need hands-on validation.
 
 This build uses sync protocol 3. Update both client and Linux backend together. The new protocol prevents older clients from dropping permanent-deletion markers or added-page state.
+
+## Page-order follow-up
+
+Create pages A, B, C; select C, then use the Add button under A. The new page should appear between A and B. Return to another note and back; the selected page and Add label should remain correct. Use Page actions to move C to position 1, move it down/up, and delete a middle page. Verify text, ink, style, and language move with each page. Try canceling deletion and deleting the last page (disabled). Repeat with a test PDF, export it, and reopen the app to confirm the final order. New blank pages default to Lined without changing existing page styles. No new Git bundle is prepared for this follow-up.

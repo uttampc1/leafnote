@@ -64,3 +64,7 @@ Use **Add page after current** to insert a blank page where you are writing. Eac
 ## Dashboard and storage
 
 Open **Dashboard** in the library header. Overview shows note/document size, browser-estimated app storage, and the configured Linux sync folder when paired. Location controls guide changing server address or copying a Linux folder-change command. **Trash** offers Restore and confirmed Delete permanently. Permanent deletion removes the current record and local PDF; old Git revisions and backups can retain copies.
+
+## Arrange pages
+
+New notes and blank inserted pages start Lined; existing paper choices stay unchanged. Each displayed page has a numbered Add button and a **Page actions** menu. Move a page up/down or to an exact position, or choose **Delete page** and confirm. The last page is protected; move the whole note to Trash if needed. The selected page is remembered on this device. Page deletion changes the current document; older Git revisions and backups can retain it.
