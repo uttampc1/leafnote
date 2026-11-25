@@ -134,6 +134,11 @@
       try {
         localStorage.setItem("leafnote-library-view-v1", mode);
       } catch {}
+      if (
+        app.classList.contains("library-home") ||
+        app.classList.contains("library-split")
+      )
+        open();
       decorate();
     }
     /** Open the roomy note overview without changing the selected note. */
@@ -141,19 +146,21 @@
       window.LeafnoteApp.finish();
       window.LeafBoard?.finish();
       if (
-        !initial &&
+        (mode === "list" || !initial) &&
         (app.classList.contains("focus-mode") ||
           app.classList.contains("library-hidden") ||
           (innerWidth <= 760 && !app.classList.contains("showlist")))
       )
         originalToggle();
-      app.classList.add("library-home");
+      app.classList.toggle("library-home", mode === "grid");
+      app.classList.toggle("library-split", mode === "list");
+      window.LeafnoteApp.resize();
       $("#mobile").setAttribute("aria-expanded", "true");
       decorate();
     }
     /** Return to the current writing surface with the compact library tucked away. */
     function close() {
-      app.classList.remove("library-home");
+      app.classList.remove("library-home", "library-split");
       if (
         (innerWidth > 760 &&
           !app.classList.contains("library-hidden") &&
@@ -181,12 +188,16 @@
     $("#viewlist").onclick = () => selectMode("list");
     $("#continuewriting").onclick = close;
     $("#mobile").onclick = () =>
-      app.classList.contains("library-home") ? close() : open();
+      app.classList.contains("library-home") ||
+      app.classList.contains("library-split")
+        ? close()
+        : open();
     document.addEventListener(
       "click",
       (event) => {
         if (
-          app.classList.contains("library-home") &&
+          (app.classList.contains("library-home") ||
+            (innerWidth <= 760 && app.classList.contains("library-split"))) &&
           event.target.closest(
             "#notes [data-id],#notes [data-result-id],#new,.listbar button:not(#viewgrid):not(#viewlist)",
           )
@@ -207,20 +218,21 @@
         }
       });
     });
+    $("#librarydashboard").onclick = () => $("#maintenance").click();
     $("#librarymaintenance").onclick = () => $("#maintenance").click();
     $("#libraryboard").onclick = () => {
-      close();
+      if (mode === "grid") close();
       $("#newboard").click();
     };
     $("#librarypdf").onclick = () => $("#importpdf").click();
     document
       .querySelector('input[type="file"][accept*="pdf"]')
       ?.addEventListener("change", (event) => {
-        if (event.target.files.length) close();
+        if (event.target.files.length && mode === "grid") close();
       });
     selectMode(mode);
     open(true);
-    window.LeafLibrary = { open, close };
+    window.LeafLibrary = { open, close, previewPDF: pdf };
   }
   if (window.LeafnoteApp?.ready) setup();
   else document.addEventListener("leafnote-ready", setup, { once: true });

@@ -1,5 +1,6 @@
 /** @file Authenticated, single-writer sync API with atomic JSON snapshots and immutable PDF blobs. */
 import http from "node:http";
+import { createStorageReporter } from "./storage-info.mjs";
 import { createGitHistory } from "./git-history.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -121,7 +122,26 @@ function validateNotebook(data, files) {
   for (const [id, hash] of Object.entries(files))
     if (!pdfs.has(id) || !HASH.test(hash))
       throw new HttpError(422, "Invalid PDF reference");
-  return { books: data.books, notes: data.notes };
+  const purged = data.purged || [];
+  if (!Array.isArray(purged) || purged.length > 100000)
+    throw new HttpError(422, "Invalid deletion markers");
+  const ids = new Set();
+  for (const item of purged) {
+    if (
+      !item ||
+      !validId(item.id) ||
+      ids.has(item.id) ||
+      !Number.isFinite(item.at) ||
+      item.at <= 0
+    )
+      throw new HttpError(422, "Invalid deletion marker");
+    ids.add(item.id);
+  }
+  return {
+    books: data.books,
+    notes: data.notes,
+    ...(purged.length ? { purged } : {}),
+  };
 }
 /** Open an immutable snapshot/PDF store rooted only in the configured server folder. */
 export async function createSyncStore({ root, keepSnapshots = 50 }) {
@@ -254,6 +274,18 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
           validateNotebook(input.data, input.files),
         ),
         files = structuredClone(input.files);
+      const permanent = new Map();
+      for (const item of [
+        ...(current.data.purged || []),
+        ...(incoming.purged || []),
+      ])
+        if (!permanent.has(item.id) || permanent.get(item.id).at < item.at)
+          permanent.set(item.id, item);
+      if (permanent.size) {
+        incoming.purged = [...permanent.values()];
+        incoming.notes = incoming.notes.filter((n) => !permanent.has(n.id));
+        for (const id of permanent.keys()) delete files[id];
+      }
       if (
         incoming &&
         Array.isArray(incoming.notes) &&
@@ -261,7 +293,7 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
       ) {
         const ids = new Set(incoming.notes.map((n) => n.id));
         for (const previous of current.data.notes)
-          if (!ids.has(previous.id)) {
+          if (!ids.has(previous.id) && !permanent.has(previous.id)) {
             incoming.notes.push({
               ...previous,
               deleted: true,
@@ -338,6 +370,7 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
 export async function startSyncServer({
   root,
   key,
+  displayRoot = root,
   host = "127.0.0.1",
   port = 3000,
   maxStateBytes = 64 * 1024 * 1024,
@@ -348,6 +381,7 @@ export async function startSyncServer({
     throw Error("A 64-character private connection code is required");
   const secret = Buffer.from(key),
     store = await createSyncStore({ root, keepSnapshots });
+  const storageReport = createStorageReporter(root, displayRoot);
   let inFlight = 0;
   const server = http.createServer(async (req, res) => {
     /** Return JSON without caching authenticated notebook responses. */
@@ -379,7 +413,7 @@ export async function startSyncServer({
         return;
       }
       if (url.pathname === "/api/sync/config" && req.method === "GET") {
-        json(200, { enabled: true, protocol: 2, requiresKey: true });
+        json(200, { enabled: true, protocol: 3, requiresKey: true });
         return;
       }
       const supplied = Buffer.from(
@@ -394,6 +428,10 @@ export async function startSyncServer({
         throw new HttpError(503, "Sync server is busy; retry shortly");
       inFlight++;
       counted = true;
+      if (url.pathname === "/api/sync/storage" && req.method === "GET") {
+        json(200, await storageReport());
+        return;
+      }
       if (url.pathname === "/api/sync/history" && req.method === "GET") {
         const offset = Number(url.searchParams.get("offset") || 0);
         if (!Number.isSafeInteger(offset) || offset < 0 || offset > 1000000)
@@ -413,7 +451,7 @@ export async function startSyncServer({
         return;
       }
       if (url.pathname === "/api/sync/state") {
-        if (req.headers["x-leafnote-protocol"] !== "2")
+        if (req.headers["x-leafnote-protocol"] !== "3")
           throw new HttpError(
             426,
             "Update Leafnote and close older app windows before syncing recoverable notes",
@@ -506,6 +544,7 @@ if (
   await startSyncServer({
     root,
     key,
+    displayRoot: process.env.LEAFNOTE_SYNC_FOLDER || root,
     host: "0.0.0.0",
     port: Number(process.env.PORT || 3000),
   });

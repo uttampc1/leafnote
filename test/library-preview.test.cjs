@@ -105,3 +105,32 @@ test("PDF preview overlays use the selected page dimensions and stay transparent
   assert.ok(svg.querySelector("[data-ink]"));
   dom.window.close();
 });
+
+test("added ordinary pages preview their own paper and content", () => {
+  const dom = new JSDOM(""),
+    n = note();
+  n.paper = "lined";
+  n.extraPages = [
+    {
+      paper: "grid",
+      height: 1600,
+      strokes: [],
+      texts: [
+        {
+          x: 20,
+          y: 1400,
+          size: 18,
+          lineHeight: 1.5,
+          color: "#264c3d",
+          text: "Second page only",
+        },
+      ],
+    },
+  ];
+  const svg = Preview.render(n, 1, dom.window.document);
+  assert.equal(svg.getAttribute("viewBox"), "0 0 800 1600");
+  assert.match(svg.textContent, /Second page only/);
+  assert.ok(svg.querySelector('[data-paper="grid"]'));
+  assert.ok(!svg.textContent.includes("alert(1)"));
+  dom.window.close();
+});

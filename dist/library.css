@@ -289,3 +289,87 @@
 .library-home #sort {
   order: 3;
 }
+/* List keeps the notebook editor beside its compact library. */
+@media (min-width: 761px) {
+  .app.library-split {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+  .app.library-split > #library {
+    display: flex !important;
+    width: auto !important;
+  }
+  .app.library-split > main {
+    display: flex;
+  }
+}
+.library-split .library-views {
+  display: inline-flex;
+}
+.library-split .listbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.library-split .listbar #results {
+  margin-right: auto;
+}
+.library-split .listbar .library-views {
+  order: 2;
+}
+.library-split #sort {
+  order: 3;
+}
+.library-split .listbar > button {
+  display: none;
+}
+/* Library actions stays at the top with a clear button and a floating menu. */
+.library-top {
+  flex-wrap: wrap;
+}
+.library-top #librarydashboard {
+  border: 1px solid #cbd7c4;
+  font-size: 14px;
+  padding: 9px 11px;
+  white-space: nowrap;
+}
+.library-top > #librarymore {
+  position: relative;
+  margin: 0;
+  flex-basis: 100%;
+  z-index: 30;
+}
+.library-home .library-top > #librarymore {
+  flex-basis: auto;
+}
+.library-top > #librarymore > summary {
+  border: 1px solid #b9cbb0;
+  background: #e7efdf;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 13px;
+  white-space: nowrap;
+  color: #264c3d;
+}
+#libraryactions-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 240px;
+  background: #fff;
+  border: 1px solid #d6e0cf;
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 8px 24px #203a272b;
+  z-index: 40;
+}
+#libraryactions-panel > button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 11px 12px;
+  font-size: 14px;
+}
+.library-top > #librarymore:not([open]) > #libraryactions-panel {
+  display: none;
+}

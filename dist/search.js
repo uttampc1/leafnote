@@ -54,7 +54,7 @@
   function workItems(includeInk = true, includePdf = true) {
     const result = [];
     for (const n of data.notes.filter((n) => !n.deleted))
-      for (const [i, p] of (n.pdf ? n.pdf.pages : [n]).entries()) {
+      for (const [i, p] of S.pages(n).entries()) {
         if (includePdf && n.pdf && p.pdfText === undefined)
           result.push(n.id + ":pdf:" + i);
         if (
@@ -114,7 +114,7 @@
         boards++;
         cards += n.board.nodes.length;
       }
-      for (const p of n.pdf ? n.pdf.pages : [n])
+      for (const p of S.pages(n))
         if (p.strokes?.some((s) => s.opacity !== 0.3)) {
           ink++;
           const index = S.currentIndex(p);
@@ -189,10 +189,10 @@
                 : (n.texts || []).map((t) => t.text).join(" ") ||
                   n.board?.nodes.map((c) => c.text).join(" ") ||
                   plain(n.html),
-              hasInk = (n.pdf ? n.pdf.pages : [n]).some((p) =>
+              hasInk = S.pages(n).some((p) =>
                 p.strokes?.some((s) => s.opacity !== 0.3),
               ),
-              fresh = (n.pdf ? n.pdf.pages : [n]).every(
+              fresh = S.pages(n).every(
                 (p) =>
                   !p.strokes?.some((s) => s.opacity !== 0.3) ||
                   S.currentIndex(p),
@@ -408,7 +408,7 @@
               app().pdfOptions(await file.arrayBuffer()),
             ).promise;
           }
-          const pages = n.pdf ? n.pdf.pages : [n];
+          const pages = S.pages(n);
           for (let i = 0; i < pages.length; i++) {
             if (cancelled) break;
             const pg = pages[i];
@@ -588,7 +588,7 @@
     if (!reviewTarget) return;
     const target = reviewTarget,
       n = data.notes.find((n) => n.id === target.id),
-      pg = n?.pdf ? n.pdf.pages[target.page] : n;
+      pg = n ? S.pages(n)[target.page] : null;
     if (!pg) return;
     if (
       target.signature !== S.signature(pg.strokes) ||
@@ -641,7 +641,7 @@
     }
     const target = reviewTarget,
       n = data.notes.find((n) => n.id === target.id),
-      pg = n?.pdf ? n.pdf.pages[target.page] : n;
+      pg = n ? S.pages(n)[target.page] : null;
     if (!pg) return;
     const rows = S.lines(pg.strokes);
     if (!rows.length) {

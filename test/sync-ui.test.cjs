@@ -40,7 +40,7 @@ async function syncUI(initial = {}) {
     return {
       ok: true /** Implement the json callback in this object. */,
       /** Implement the json callback in this object. */
-      json: async () => ({ enabled: true, protocol: 2 }),
+      json: async () => ({ enabled: true, protocol: 3 }),
     };
   };
   const settings = new vm.SyntheticModule(

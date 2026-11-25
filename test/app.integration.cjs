@@ -213,6 +213,7 @@ async function makeApp(
     "search-engine.js",
     "board-engine.js",
     "app.js",
+    "paper-engine.js",
     "features.js",
     "board.js",
     "search.js",
@@ -220,8 +221,10 @@ async function makeApp(
     "minimal.js",
     "pwa.js",
     "maintenance.js",
+    "dashboard.js",
     "library-preview.js",
     "library.js",
+    "document-pages.js",
   ]) {
     new vm.Script(fs.readFileSync(root + "/" + file, "utf8"), {
       filename: file,
@@ -1783,10 +1786,11 @@ async function main() {
     "Trash content is excluded from all-note search",
   );
   $("#maintenance").click();
+  $("#showtrash").click();
   check(
     $("#maintenancedialog").open &&
       $("#maintenancelist").textContent.includes("Retainedonly"),
-    "Maintenance opens local Trash with retained notes",
+    "Dashboard opens local Trash with retained notes",
   );
   await $("#maintenancelist button").onclick();
   check(
@@ -1797,6 +1801,202 @@ async function main() {
   );
   $("#closemaintenance").click();
   await w.LeafnoteApp.maintenance.trashNote(retainedId);
+
+  w.LeafLibrary.open();
+  $("#viewlist").click();
+  const splitCard = $("#notes [data-id]"),
+    splitId = splitCard.dataset.id;
+  splitCard.click();
+  check(
+    $(".app").classList.contains("library-split") &&
+      !$(".app").classList.contains("library-home") &&
+      !$(".app").classList.contains("library-hidden") &&
+      ev("current") === splitId,
+    "List keeps the note list beside the selected editable content",
+  );
+  check(
+    $(".library-top").contains($("#librarymore")) &&
+      $("#librarymore summary").textContent === "Library actions" &&
+      $(".library-top").contains($("#librarydashboard")),
+    "Library actions and Dashboard have obvious top-of-library entry points",
+  );
+  $("#librarydashboard").click();
+  await until(
+    () => $("#dashboardcontent").textContent !== "Measuring…",
+    "Dashboard storage measurement",
+  );
+  const measured = await w.LeafnoteApp.maintenance.usage();
+  check(
+    measured.contentBytes === measured.metadataBytes + measured.pdfBytes &&
+      measured.pdfBytes > 0 &&
+      measured.trashBytes > 0 &&
+      $("#maintenancetitle").textContent === "Dashboard",
+    "Dashboard measures content, PDFs and retained Trash and uses its new name",
+  );
+  $("#closemaintenance").click();
+  w.LeafLibrary.close();
+  const purgeSource = structuredClone(retainedSource);
+  purgeSource.star = false;
+  await w.LeafnoteApp.maintenance.restoreRevision(purgeSource, retainedBytes);
+  const purgedId = ev("current");
+  await w.LeafnoteApp.maintenance.trashNote(purgedId);
+  $("#maintenance").click();
+  $("#showtrash").click();
+  const purgeRow = [...w.document.querySelectorAll(".maintenance-row")].find(
+    (row) => row.textContent.includes("restored revision"),
+  );
+  w.confirm = () => false;
+  await purgeRow.querySelector(".danger").onclick();
+  check(
+    ev("data.notes.some(n=>n.id===" + JSON.stringify(purgedId) + ")"),
+    "cancelling permanent deletion keeps the retained note",
+  );
+  w.confirm = () => true;
+  await purgeRow.querySelector(".danger").onclick();
+  check(
+    !ev("data.notes.some(n=>n.id===" + JSON.stringify(purgedId) + ")") &&
+      !(await w.LeafnoteApp.file(purgedId)) &&
+      ev("data.purged.some(n=>n.id===" + JSON.stringify(purgedId) + ")"),
+    "permanent deletion atomically removes current content/PDF and saves a content-free marker",
+  );
+  $("#closemaintenance").click();
+  ev("createNote()");
+  const mixedId = ev("current");
+  $("#pagepaper").value = "lined";
+  $("#pagepaper").onchange();
+  await $("#addpaperpage").onclick();
+  $("#pagepaper").value = "grid";
+  $("#pagepaper").onchange();
+  ev(
+    'LeafnoteApp.page().texts.push({x:40,y:80,size:18,width:700,lineHeight:1.5,font:"monospace",color:"#264c3d",text:"Grid page needle"});touch()',
+  );
+  await w.LeafnoteApp.goToPage(0);
+  await $("#addpaperpage").onclick();
+  $("#pagepaper").value = "plain";
+  $("#pagepaper").onchange();
+  check(
+    ev('LeafSearch.pages(note()).map(p=>p.paper).join(",")') ===
+      "lined,plain,grid" && w.LeafnoteApp.pageIndex() === 1,
+    "Add page inserts after the current page and paper styles remain independent",
+  );
+  check(
+    w.document.querySelectorAll(".document-page-preview").length === 2 &&
+      !!$(".insert-page-inline") &&
+      !!$("#words"),
+    "all old/new pages are scrollable around the active page without losing the footer",
+  );
+  await w.LeafnoteApp.goToPage(2);
+  ev('tool="pen"');
+  const savedGridInk = event(w, 902, 200, 200, "mouse");
+  await c.onpointerdown(savedGridInk);
+  c.onpointerup(savedGridInk);
+  const gridInkCount = w.LeafnoteApp.page().strokes.length;
+  await w.LeafnoteApp.goToPage(0);
+  const savedFirstInk = event(w, 903, 240, 240, "mouse");
+  await c.onpointerdown(savedFirstInk);
+  c.onpointerup(savedFirstInk);
+  $("#undo").click();
+  check(
+    gridInkCount > 0 &&
+      ev("note().extraPages[1].strokes.length") === gridInkCount &&
+      ev("note().strokes.length") === 0,
+    "undo on one ordinary page leaves other pages intact",
+  );
+  const mixedMatch = Search.search(ev("data"), "Grid page needle");
+  check(
+    mixedMatch.some((r) => r.id === mixedId && r.page === 2),
+    "all-note search finds text on added pages at its correct page number",
+  );
+  const oldPageButton = [
+    ...w.document.querySelectorAll(".document-page-preview"),
+  ]
+    .find((el) => el.dataset.page === "2")
+    .querySelector("button");
+  oldPageButton.click();
+  await until(
+    () => w.LeafnoteApp.pageIndex() === 2,
+    "scrolling to edit another page",
+  );
+  check(
+    $("#pagepaper").value === "grid" &&
+      w.LeafnoteApp.page().texts.some((t) => t.text === "Grid page needle"),
+    "a scrolled page can become the active editor with its own paper and contents",
+  );
+  const scrollFrame = [...w.document.querySelectorAll(".document-page-preview")]
+    .find((el) => el.dataset.page === "0")
+    .querySelector(".document-page-surface");
+  const scrollInk = event(w, 904, 160, 160, "mouse");
+  scrollFrame.onpointerdown({
+    ...scrollInk,
+    type: "pointerdown",
+    target: scrollFrame,
+    /** Implement the stopPropagation callback in this object. */
+    stopPropagation() {},
+  });
+  await until(
+    () => w.LeafnoteApp.pageIndex() === 0 && ev("note().strokes.length") > 0,
+    "write directly on a scrolled page",
+  );
+  c.onpointerup(scrollInk);
+  check(
+    ev("note().strokes.length") > 0 &&
+      ev("note().extraPages[1].strokes.length") === gridInkCount,
+    "writing on a neighboring ordinary page activates it and preserves other pages",
+  );
+  await $("#export").onclick();
+  const mixedExport = new JSDOM(w.__export?.body || w.__plainExport.body);
+  check(
+    mixedExport.window.document.querySelectorAll("section").length === 3 &&
+      mixedExport.window.document.body.textContent.includes("Grid page needle"),
+    "ordinary note export includes every mixed-paper page",
+  );
+  mixedExport.window.close();
+  const pdfInsertSource = structuredClone(retainedSource);
+  pdfInsertSource.star = false;
+  await w.LeafnoteApp.maintenance.restoreRevision(
+    pdfInsertSource,
+    retainedBytes,
+  );
+  const mixedPdfId = ev("current");
+  await w.LeafnoteApp.goToPage(0);
+  $("#pagepaper").value = "lined";
+  $("#pagepaper").onchange();
+  await w.LeafnoteApp.goToPage(1);
+  $("#pagepaper").value = "grid";
+  $("#pagepaper").onchange();
+  await $("#addpaperpage").onclick();
+  $("#pagepaper").value = "dots";
+  $("#pagepaper").onchange();
+  const insertedPDF = await PDFLib.PDFDocument.load(
+    new Uint8Array(await (await w.LeafnoteApp.file(mixedPdfId)).arrayBuffer()),
+  );
+  check(
+    insertedPDF.getPageCount() === 5 &&
+      ev('note().pdf.pages.map(p=>p.paper).slice(0,3).join(",")') ===
+        "lined,grid,dots",
+    "PDF insertion updates the original atomically and supports different paper overlays per page",
+  );
+  check(
+    (await (await w.LeafnoteApp.file(retainedSource.id)).text()) ===
+      (await retainedBytes.text()),
+    "adding a page to a restored PDF leaves the source document unchanged",
+  );
+  await $("#export").onclick();
+  const mixedPDFExport = await PDFLib.PDFDocument.load(
+    new Uint8Array(w.__export.body),
+  );
+  check(
+    mixedPDFExport.getPageCount() === 5,
+    "annotated PDF export includes inserted pages and their paper overlays",
+  );
+  await ev("persist()");
+  w.LeafnoteApp.finish();
+  w.LeafBoard.finish();
+  $("#inkoptions").hidden = true;
+  $("#recognitionreview").hidden = true;
+  $("#notemenu").open = false;
+  $("#toolsettings").open = false;
+  w.document.activeElement?.blur();
   const syncEvents = [];
   w.document.addEventListener("leafnote-local-saved", (e) =>
     syncEvents.push(e.detail),
@@ -1909,10 +2109,9 @@ async function main() {
     "Favorites count is restored from saved notes after reload",
   );
   check(
-    again.w.document
+    !again.w.document
       .querySelector(".app")
-      .classList.contains("library-hidden") ===
-      JSON.parse(w.localStorage.getItem("leafnote-layout-v1")).libraryHidden,
+      .classList.contains("library-hidden"),
     "a chosen library visibility preference survives reopening",
   );
   check(
@@ -1986,11 +2185,32 @@ async function main() {
     "Trash metadata and retained PDF bytes survive reload",
   );
   check(
-    again.w.document.querySelector(".app").classList.contains("library-home") &&
+    again.w.document
+      .querySelector(".app")
+      .classList.contains("library-split") &&
       again.w.document
         .querySelector("#viewlist")
         .getAttribute("aria-pressed") === "true",
     "reopening starts in the library and remembers the selected view",
+  );
+  check(
+    again.evaluate(
+      "data.notes.find(n=>n.id===" +
+        JSON.stringify(mixedId) +
+        ").extraPages[1].paper",
+    ) === "grid" &&
+      again.evaluate(
+        "data.notes.find(n=>n.id===" +
+          JSON.stringify(mixedPdfId) +
+          ").pdf.pages.length",
+      ) === 5,
+    "added pages and mixed paper survive validation and reopening",
+  );
+  check(
+    again.evaluate(
+      "data.purged.some(n=>n.id===" + JSON.stringify(purgedId) + ")",
+    ) && !(await again.w.LeafnoteApp.file(purgedId)),
+    "permanent deletion markers and removed PDF state survive reopening",
   );
   const blocked = await makeApp(
     undefined,

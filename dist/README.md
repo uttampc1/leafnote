@@ -51,8 +51,16 @@ For a copy you can keep, open **Notes → Library actions → Export backup**. I
 
 ## Recover a note
 
-**Move to Trash** retains the note. Open **••• → Maintenance → Trash** to restore it, even offline. **Revision history** shows server autosaves when sync is connected. Select a revision and use **Restore as new note** to recover an older version while keeping the current note. Offline edits become a Git revision when they next sync.
+**Move to Trash** retains the note. Open **••• → Dashboard → Trash** to restore it, even offline. **Revision history** shows server autosaves when sync is connected. Select a revision and use **Restore as new note** to recover an older version while keeping the current note. Offline edits become a Git revision when they next sync.
 
 ## Find a note by its page
 
-Leafnote opens to large page thumbnails. Click a card to write, and click **Notes** to return to the overview. **Grid** and **List** switch views; your device remembers the choice. Search, Favorites, notebooks, and sorting work in either view. PDF thumbnails show the first page and annotations; search previews show the matching PDF page. Brainstorm thumbnails show cards and connections. **Continue writing** returns to the current note. Import PDF, new boards, backups, and Maintenance are available under **Library actions**.
+Leafnote opens to large page thumbnails. Click a card to write, and click **Notes** to return to the overview. **Grid** fills the window; **List** keeps your note list beside the writing page. your device remembers the choice. Search, Favorites, notebooks, and sorting work in either view. PDF thumbnails show the first page and annotations; search previews show the matching PDF page. Brainstorm thumbnails show cards and connections. **Continue writing** returns to the current note. Import PDF, new boards, backups, and Dashboard are available under **Library actions**.
+
+## Pages and paper
+
+Use **Add page after current** to insert a blank page where you are writing. Each page has its own Plain, Lined, Grid, or Dots choice. Scroll to older/newer pages and click a page to edit it, or use Previous/Next and the page number. PDF paper guides overlay the original; its content remains.
+
+## Dashboard and storage
+
+Open **Dashboard** in the library header. Overview shows note/document size, browser-estimated app storage, and the configured Linux sync folder when paired. Location controls guide changing server address or copying a Linux folder-change command. **Trash** offers Restore and confirmed Delete permanently. Permanent deletion removes the current record and local PDF; old Git revisions and backups can retain copies.

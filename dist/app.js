@@ -448,7 +448,7 @@ $("#favorite").onclick = () => {
 $("#delete").onclick = async () => {
   const r = await modal(
     "Move this note to Trash?",
-    `“${note().title || "Untitled note"}” can be restored later from Maintenance.`,
+    `“${note().title || "Untitled note"}” can be restored later from Dashboard.`,
     false,
     "Move to Trash",
   );

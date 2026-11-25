@@ -24,6 +24,24 @@
           <a class="brand" href="./"><span class="logo">✳</span> leafnote</a
           ><button id="continuewriting">Continue writing</button
           ><button class="primary" id="new">+ New note</button>
+          <button id="librarydashboard">Dashboard</button>
+          <details class="disclosure" id="librarymore">
+            <summary>Library actions</summary>
+
+            <div id="libraryactions-panel">
+              <button id="librarypdf">Import PDF</button
+              ><button id="libraryboard">New brainstorm board</button
+              ><button id="librarymaintenance">Dashboard</button
+              ><button id="backup">Export backup</button
+              ><button id="restore">Import backup</button
+              ><input
+                type="file"
+                id="backupfile"
+                accept="application/json"
+                hidden=""
+              />
+            </div>
+          </details>
         </div>
         <nav class="library-nav">
           <button class="nav active" data-filter="all">
@@ -94,22 +112,6 @@
           </select>
         </div>
         <div id="notes"></div>
-        <footer>
-          <details class="disclosure" id="librarymore">
-            <summary>Library actions</summary>
-            <button id="librarypdf">Import PDF</button
-            ><button id="libraryboard">New brainstorm board</button
-            ><button id="librarymaintenance">Maintenance</button
-            ><button id="backup">Export backup</button
-            ><button id="restore">Import backup</button
-            ><input
-              type="file"
-              id="backupfile"
-              accept="application/json"
-              hidden=""
-            />
-          </details>
-        </footer>
       </section>
       <button
         id="libraryshade"
@@ -376,7 +378,7 @@
                     ><span id="date"></span>
                   </div>
                 </div>
-                <button id="maintenance">Maintenance</button
+                <button id="maintenance">Dashboard</button
                 ><button id="serversync">Server sync</button
                 ><small id="syncstatus" role="status"></small
                 ><button id="installapp">Install app</button
@@ -410,8 +412,17 @@
                 type="number"
                 min="1"
                 value="1"
-                aria-label="PDF page number" /></label
+                aria-label="Page number" /></label
             ><span id="pagecount"></span
+            ><button id="addpaperpage">Add page after current</button
+            ><label
+              >Paper
+              <select id="pagepaper">
+                <option value="plain">Plain</option>
+                <option value="lined">Lined</option>
+                <option value="grid">Grid</option>
+                <option value="dots">Dots</option>
+              </select></label
             ><button id="nextpage" aria-label="Next page">Next</button>
           </div>
           <div>
@@ -530,6 +541,7 @@
     <script src="search-engine.js"></script>
     <script src="board-engine.js"></script>
     <script src="app.js"></script>
+    <script src="paper-engine.js"></script>
     <script src="features.js"></script>
     <script src="board.js"></script>
     <script src="search.js"></script>
@@ -579,16 +591,108 @@
     <script src="sync.js"></script>
     <dialog id="maintenancedialog" aria-labelledby="maintenancetitle">
       <header>
-        <h2 id="maintenancetitle">Maintenance</h2>
+        <h2 id="maintenancetitle">Dashboard</h2>
         <button id="closemaintenance" aria-label="Close maintenance">
           Close
         </button>
       </header>
-      <nav aria-label="Maintenance views">
-        <button id="showtrash" aria-pressed="true">Trash</button
+      <nav aria-label="Dashboard views">
+        <button id="showoverview">Overview</button
+        ><button id="showtrash" aria-pressed="true">Trash</button
         ><button id="showhistory" aria-pressed="false">Revision history</button
         ><button id="refreshmaintenance">Refresh</button>
       </nav>
+      <section id="dashboardoverview">
+        <div class="dashboard-stats">
+          <article>
+            <span>Notes &amp; documents on this device</span
+            ><strong id="dashboardcontent">Measuring…</strong
+            ><small id="dashboardcounts"></small
+            ><small id="dashboardtrashbytes"></small>
+          </article>
+          <article>
+            <span>Total app storage on this device</span
+            ><strong id="dashboardappbytes">Measuring…</strong
+            ><small id="dashboardquota"
+              >Browser estimate, including notes, installed models and offline
+              app files.</small
+            >
+          </article>
+          <article>
+            <span>Server notebook storage</span
+            ><strong id="dashboardserverbytes">Not connected</strong
+            ><small id="dashboardserverdetail"
+              >Includes PDF originals, snapshots and Git history.</small
+            >
+          </article>
+        </div>
+        <h3>Save locations</h3>
+        <dl class="dashboard-locations">
+          <dt>This device</dt>
+          <dd>
+            Browser-managed storage at <code id="dashboarddeviceorigin"></code>
+          </dd>
+          <dt>Sync server</dt>
+          <dd id="dashboardserverlocation">Not configured</dd>
+          <dt>Linux notes folder</dt>
+          <dd id="dashboardserverfolder">Not configured</dd>
+        </dl>
+        <div class="dashboard-location-actions">
+          <button id="dashboardconnect">Configure sync</button
+          ><button id="dashboardchangeserver">Change server address</button
+          ><button id="dashboardchangefolder" disabled="">
+            Change Linux folder
+          </button>
+        </div>
+        <form id="dashboardserverform" hidden="">
+          <label for="dashboardserveraddress">New server address</label
+          ><input
+            id="dashboardserveraddress"
+            type="url"
+            placeholder="https://192.168.1.50:8443/"
+            autocomplete="off"
+          />
+          <p>
+            A different address has separate browser storage. Export your
+            notebook, open the new server, import the backup before enabling
+            sync, then pair with that server’s code. Your current notebook is
+            kept here.
+          </p>
+          <button type="button" id="dashboardexport">
+            Export current notebook</button
+          ><a
+            id="dashboardopenserver"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled="true"
+            >Open new server</a
+          >
+          <p id="dashboardserveraddressstatus" role="status"></p>
+        </form>
+        <form id="dashboardfolderform" hidden="">
+          <label for="dashboardfolderpath"
+            >New Linux folder (absolute path)</label
+          ><input
+            id="dashboardfolderpath"
+            placeholder="/srv/leafnote-notes-new"
+            autocomplete="off"
+          />
+          <p>
+            Run this command from the Leafnote source folder on your Linux
+            server. It stops sync, copies and checks the entire notebook and Git
+            history, updates the Docker mount, then restarts sync. The original
+            directory is kept. The browser cannot remount a Docker folder.
+          </p>
+          <pre id="dashboardfoldercommand">Enter a new folder.</pre>
+          <button type="button" id="dashboardcopycommand">Copy command</button>
+          <p id="dashboardfolderstatus" role="status"></p>
+        </form>
+        <p class="dashboard-storage-note">
+          Content totals include Trash. Device and server copies are measured
+          separately. Browser storage is managed by the browser; an
+          operating-system folder path is not exposed.
+        </p>
+      </section>
       <p id="maintenancesummary"></p>
       <p id="maintenancestatus" role="status" aria-live="polite"></p>
       <div class="maintenance-columns">
@@ -596,17 +700,19 @@
           id="maintenancelist"
           aria-label="Retained notes or revisions"
         ></section>
-        <section id="revisiondetails" hidden>
+        <section id="revisiondetails" hidden="">
           <label for="revisionnote">Note in this revision</label
           ><select id="revisionnote"></select>
           <div id="revisionpreview"></div>
-          <button id="restorerevision" hidden>Restore as new note</button>
+          <button id="restorerevision" hidden="">Restore as new note</button>
         </section>
       </div>
-      <button id="olderrevisions" hidden>Older revisions</button>
+      <button id="olderrevisions" hidden="">Older revisions</button>
     </dialog>
     <script src="maintenance.js"></script>
+    <script src="dashboard.js"></script>
     <script src="library-preview.js"></script>
     <script src="library.js"></script>
+    <script src="document-pages.js"></script>
   </body>
 </html>

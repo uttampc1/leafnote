@@ -34,3 +34,7 @@ Review `server/git-history.mjs` (fixed CLI arguments, no shell/remote/hooks, Git
 ## Thumbnail library review (1.3)
 
 Review `library-preview.js` for safe DOM rendering and unchanged note data; `library.js` for default/remembered view behavior, existing result navigation, lazy PDF rendering, caching, and import/maintenance access; and `library.css` for desktop/mobile layouts. Integration tests render real PDF backgrounds with annotations and exercise note opening and reload. Preview tests preserve ink opacity, exact safe text, board content/connections, and PDF page coordinates.
+
+## Current review build
+
+Review dashboard storage estimates and authenticated folder metadata, the Linux helper’s copy/check/rollback behavior, split-vs-grid layout, permanent-delete marker union and old-client fencing, and mixed-page insertion/export. Read docs/REVIEW_CHECKLIST.md for exact test scope and manual checks. No new release bundle is created until review.

@@ -114,7 +114,7 @@ Use throwaway notes initially:
 1. Pair two devices or different browser profiles with the same URL/code. Use one editor window per profile.
 2. Create a note containing `Version 1`. Press Escape to finish typing, close editing popups, and wait for a successful sync.
 3. Change it to `Version 2`, finish editing, and wait for another sync.
-4. Open **More → Maintenance → Revision history**, select an earlier commit and the note, then **Restore as new note**. Confirm Version 1 returns as a separate note and Version 2 remains intact.
+4. Open **More → Dashboard → Revision history**, select an earlier commit and the note, then **Restore as new note**. Confirm Version 1 returns as a separate note and Version 2 remains intact.
 5. Install the PWA and wait for **Offline notebook ready**. Disconnect a client, edit a note, finish editing, and wait for **Saved on device**. Close/reopen it offline and verify the edit remains. Reconnect with the app open; confirm the other client receives it.
 6. Move a synchronized note to Trash, verify Trash on the other client, then restore it. Repeat a sync test with a small PDF and annotations.
 

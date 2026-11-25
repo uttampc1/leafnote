@@ -32,7 +32,11 @@
   /** Copy serializable note state before editing, persistence, or export. */
   const clone = (x) => structuredClone(x);
   /** Resolve the current PDF page, or the current note through the public bridge. */
-  const page = () => note()?.pdf?.pages[pageIndex];
+  const page = () =>
+    note()?.pdf?.pages[pageIndex] ||
+    (pageIndex > 0 ? note()?.extraPages?.[pageIndex - 1] : undefined);
+  /** Evaluate an inline callback in dist/features.js; its direct operations are listed below. */
+  const pageList = (n = note()) => LeafSearch.pages(n);
   /** Return the active page’s stored ink strokes. */
   const strokes = () => page()?.strokes || note()?.strokes || [];
   /** Return the active page’s free-position typed text boxes. */
@@ -103,7 +107,7 @@
   /** Keep the compatibility HTML field and word count aligned with typed text boxes. */
   function syncPlainText() {
     const n = note();
-    if (!n.pdf)
+    if (!n.pdf && pageIndex === 0)
       n.html = annotations()
         .map((t) => "<p>" + escapeText(t.text).replace(/\n/g, "<br>") + "</p>")
         .join("");
@@ -125,7 +129,7 @@
   function sizeBlank() {
     if (note()?.pdf) return;
     const b = note().board,
-      h = b?.height || note().height || 1050,
+      h = b?.height || (page() || note()).height || 1050,
       w = b?.width || 800;
     let scale;
     if (b) {
@@ -165,7 +169,11 @@
           t.y + textLines(t).length * t.size * (t.lineHeight || 1.5) + 24;
       if (note().board) {
         note().board.height = Math.max(note().board.height, Math.ceil(bottom));
-      } else note().height = Math.max(note().height || 1050, Math.ceil(bottom));
+      } else
+        (page() || note()).height = Math.max(
+          (page() || note()).height || 1050,
+          Math.ceil(bottom),
+        );
       sizeBlank();
     }
     positionTextEditor();
@@ -359,13 +367,14 @@
     return request(db.transaction("pdfs").objectStore("pdfs").get(id));
   }
   /** Atomically write notebook metadata and optional PDF blobs, pruning only when requested. */
-  function writeState(snapshot, files = [], prune = false) {
+  function writeState(snapshot, files = [], prune = false, removeFiles = []) {
     const remote = syncApplying;
     const tx = db.transaction(["state", "pdfs"], "readwrite"),
       done = complete(tx);
     tx.objectStore("state").put(snapshot, "notebook");
     const documents = tx.objectStore("pdfs");
     for (const [id, file] of files) documents.put(file, id);
+    for (const id of removeFiles) documents.delete(id);
     if (prune) {
       const keep = new Set(
           snapshot.notes.filter((n) => n.pdf).map((n) => n.id),
@@ -378,6 +387,11 @@
     return done.then(() => {
       for (const [id] of files)
         fileVersions.set(id, (fileVersions.get(id) || 0) + 1);
+      if (files.some(([id]) => id === pdfSource?.id)) {
+        const old = pdfSource;
+        pdfSource = null;
+        old.promise.then((doc) => doc.loadingTask.destroy()).catch(() => {});
+      }
       document.dispatchEvent(
         new CustomEvent("leafnote-local-saved", {
           detail: { remote, files: files.map(([id]) => id) },
@@ -476,6 +490,26 @@
           raw[i].recognitionLanguage === "mr" ? "mr" : "en";
         n.board = LeafBoardEngine.valid(raw[i].board);
         n.handwriting = LeafSearch.validIndex(raw[i].handwriting);
+        if (raw[i].extraPages !== undefined) {
+          if (
+            n.board ||
+            raw[i].pdf ||
+            !Array.isArray(raw[i].extraPages) ||
+            raw[i].extraPages.length > 999
+          )
+            throw Error("Invalid notebook pages");
+          n.extraPages = raw[i].extraPages.map((pg) => ({
+            width: 800,
+            height: Math.max(1050, Math.min(100000, Number(pg.height) || 1050)),
+            paper: ["plain", "lined", "grid", "dots"].includes(pg.paper)
+              ? pg.paper
+              : "plain",
+            strokes: validStrokes(pg.strokes || []),
+            texts: validTexts(pg.texts || []),
+            recognitionLanguage: pg.recognitionLanguage === "mr" ? "mr" : "en",
+            handwriting: LeafSearch.validIndex(pg.handwriting),
+          }));
+        }
         const p = raw[i].pdf;
         if (!p) return;
         if (!Array.isArray(p.pages) || !p.pages.length || p.pages.length > 1000)
@@ -493,6 +527,9 @@
             )
               throw Error("Invalid page dimensions");
             return {
+              paper: ["plain", "lined", "grid", "dots"].includes(pg.paper)
+                ? pg.paper
+                : "plain",
               width: pg.width,
               height: pg.height,
               strokes: validStrokes(pg.strokes || []),
@@ -508,6 +545,25 @@
           }),
         };
       });
+      if (value.purged !== undefined) {
+        if (!Array.isArray(value.purged) || value.purged.length > 100000)
+          throw Error("Invalid permanent deletion markers");
+        const ids = new Set();
+        result.purged = value.purged.map((item) => {
+          if (
+            !item ||
+            !/^[-A-Za-z0-9_]{1,100}$/.test(item.id) ||
+            ["__proto__", "constructor", "prototype"].includes(item.id) ||
+            ids.has(item.id) ||
+            !Number.isFinite(item.at) ||
+            item.at <= 0
+          )
+            throw Error("Invalid deletion marker");
+          ids.add(item.id);
+          return { id: item.id, at: item.at };
+        });
+        result.notes = result.notes.filter((n) => !ids.has(n.id));
+      }
       return result;
     };
   pathFor =
@@ -543,6 +599,15 @@
     function () {
       const c = $("#canvas");
       c.replaceChildren();
+      if (note()?.pdf) {
+        const rules = LeafPaper.ruling(
+          document,
+          page()?.paper || "plain",
+          page().width,
+          page().height,
+        );
+        if (rules) c.append(rules);
+      }
       window.LeafBoard?.paint(c, note()?.board);
       for (const s of strokes()) c.append(pathFor(s));
       for (const t of annotations()) {
@@ -564,9 +629,10 @@
   function applySnapshot(s, id = current, index = pageIndex) {
     const n = data.notes.find((n) => n.id === id);
     if (!n) return;
-    if (n.pdf) {
-      n.pdf.pages[index].strokes = clone(s.strokes);
-      n.pdf.pages[index].texts = clone(s.texts);
+    if (n.pdf || index > 0) {
+      const target = LeafSearch.pages(n)[index];
+      target.strokes = clone(s.strokes);
+      target.texts = clone(s.texts);
     } else {
       n.strokes = clone(s.strokes);
       n.texts = clone(s.texts);
@@ -581,7 +647,7 @@
   function remember(before) {
     undoStack.push({
       id: current,
-      page: note().pdf ? pageIndex : -1,
+      page: note().pdf || note().extraPages ? pageIndex : -1,
       before,
       after: snapshot(),
     });
@@ -591,7 +657,9 @@
   $("#undo").onclick = () => {
     finishInput();
     const i = undoStack.findLastIndex(
-      (h) => h.id === current && h.page === (note().pdf ? pageIndex : -1),
+      (h) =>
+        h.id === current &&
+        h.page === (note().pdf || note().extraPages ? pageIndex : -1),
     );
     if (i < 0) {
       toast("No annotations to undo on this page");
@@ -604,7 +672,9 @@
   $("#redo").onclick = () => {
     finishInput();
     const i = redoStack.findLastIndex(
-      (h) => h.id === current && h.page === (note().pdf ? pageIndex : -1),
+      (h) =>
+        h.id === current &&
+        h.page === (note().pdf || note().extraPages ? pageIndex : -1),
     );
     if (i < 0) {
       toast("No annotations to redo on this page");
@@ -883,12 +953,16 @@
   }
   /** Synchronize PDF navigation buttons and page number inputs. */
   function updatePageControls() {
-    if (!note()?.pdf) return;
+    if (!note()) return;
+    const count = pageList().length;
+    $("#pagepaper").value = (page() || note()).paper || "plain";
+    $("#paper").value = (page() || note()).paper || "plain";
+    $("#addpaperpage").disabled = !!note().board;
     $("#pagenum").value = pageIndex + 1;
-    $("#pagenum").max = note().pdf.pages.length;
-    $("#pagecount").textContent = "of " + note().pdf.pages.length;
+    $("#pagenum").max = count;
+    $("#pagecount").textContent = "of " + count;
     $("#prevpage").disabled = pageIndex === 0;
-    $("#nextpage").disabled = pageIndex === note().pdf.pages.length - 1;
+    $("#nextpage").disabled = pageIndex === count - 1;
     $("#zoomvalue").textContent =
       zoom === 1 ? "Fit width" : Math.round(zoom * 100) + "%";
     $("#zoomout").disabled = zoom <= 0.5;
@@ -1002,10 +1076,11 @@
       const n = note(),
         isPDF = !!n.pdf;
       $("#sheet").classList.toggle("pdf-sheet", isPDF);
-      $("#pdfbar").hidden = !isPDF;
+      $("#pdfbar").hidden = !!n.board;
+      $("#zoomout").parentElement.hidden = !isPDF;
       $("#pdfpage").hidden = !isPDF;
       $("#editor").hidden = true;
-      $("#paper").disabled = isPDF;
+      $("#paper").disabled = !!n.board;
       $("#export").textContent = isPDF ? "Export PDF" : "Export";
       $("#sheet").style.width = "";
       if (isPDF) {
@@ -1030,10 +1105,13 @@
             : [];
         }
         pdfReady = false;
+        $("#pdfstatus").textContent = "Changes save on this device";
         surface.classList.remove("pdf-loading");
         sizeBlank();
         redraw();
       }
+      updatePageControls();
+      document.dispatchEvent(new Event("leafnote-page-changed"));
       updateInput();
     };
   renderList =
@@ -1051,17 +1129,27 @@
     };
   /** Open a validated PDF page after finishing the current edit. */
   async function goTo(index) {
-    if (!note()?.pdf) return;
+    if (!note() || note().board) return;
     finishInput();
-    pageIndex = Math.max(0, Math.min(note().pdf.pages.length - 1, index));
-    await renderPDF();
+    pageIndex = Math.max(
+      0,
+      Math.min(pageList().length - 1, Number(index) || 0),
+    );
+    if (note().pdf) await renderPDF();
+    else {
+      const pg = page() || note();
+      $("#sheet").className = pg.paper || "plain";
+      sizeBlank();
+      redraw();
+      updatePageControls();
+    }
+    document.dispatchEvent(new Event("leafnote-page-changed"));
   }
   $("#prevpage").onclick = () => goTo(pageIndex - 1);
   $("#nextpage").onclick = () => goTo(pageIndex + 1);
   $("#pagenum").onchange = () => {
     const n = Number($("#pagenum").value);
-    if (Number.isInteger(n) && n >= 1 && n <= note().pdf.pages.length)
-      goTo(n - 1);
+    if (Number.isInteger(n) && n >= 1 && n <= pageList().length) goTo(n - 1);
     else updatePageControls();
   };
   /** Change PDF magnification and rerender the selected page. */
@@ -1177,6 +1265,8 @@
     svg.setAttribute("viewBox", `0 0 ${pg.width} ${pg.height}`);
     svg.setAttribute("width", pg.width);
     svg.setAttribute("height", pg.height);
+    const rules = LeafPaper.ruling(document, pg.paper, pg.width, pg.height);
+    if (rules) svg.append(rules);
     pg.strokes.forEach((s) => svg.append(pathFor(s)));
     pg.texts.forEach((t) => svg.append(textElement(t)));
     const url = URL.createObjectURL(
@@ -1212,7 +1302,25 @@
       svg.removeAttribute("id");
       svg.setAttribute("width", n.board?.width || 800);
       svg.setAttribute("height", n.board?.height || n.height || 1050);
-      const body = `<!doctype html><html><head><meta charset="utf-8"><title>${escapeText(n.title || "Untitled note")}</title><style>body{margin:0 auto;max-width:800px;background:white}svg{display:block;width:100%;height:auto}button{margin:16px;padding:8px}@media print{button{display:none}}</style></head><body><button onclick="window.print()">Print / Save as PDF</button>${new XMLSerializer().serializeToString(svg)}</body></html>`;
+      const exportedPages = pageList(n)
+        .map((pg, index) => {
+          const image = LeafPreview.render(n, index);
+          if (!n.board) {
+            image.querySelectorAll("text").forEach((el) => el.remove());
+            for (const text of pg.texts || []) image.append(textElement(text));
+            image.setAttribute("viewBox", "0 0 800 " + (pg.height || 1050));
+          }
+          image.setAttribute("xmlns", NS);
+          image.setAttribute("width", n.board?.width || 800);
+          image.setAttribute("height", n.board?.height || pg.height || 1050);
+          return (
+            '<section style="page-break-after:always">' +
+            new XMLSerializer().serializeToString(image) +
+            "</section>"
+          );
+        })
+        .join("");
+      const body = `<!doctype html><html><head><meta charset="utf-8"><title>${escapeText(n.title || "Untitled note")}</title><style>body{margin:0 auto;max-width:800px;background:white}svg{display:block;width:100%;height:auto}button{margin:16px;padding:8px}@media print{button{display:none}}</style></head><body><button onclick="window.print()">Print / Save as PDF</button>${exportedPages}</body></html>`;
       download(
         body,
         (n.title || "Untitled note")
@@ -1234,7 +1342,12 @@
         pages = doc.getPages();
       for (let i = 0; i < n.pdf.pages.length; i++) {
         const pg = n.pdf.pages[i];
-        if (!pg.strokes.length && !pg.texts.length) continue;
+        if (
+          !pg.strokes.length &&
+          !pg.texts.length &&
+          (!pg.paper || pg.paper === "plain")
+        )
+          continue;
         button.textContent = `Exporting ${i + 1}/${pages.length}`;
         const image = await doc.embedPng(await overlayPNG(pg)),
           placement = Ink.imagePlacement(
@@ -1356,7 +1469,12 @@
   };
 
   /** Atomically save a maintenance edit without pruning retained PDF originals. */
-  async function maintenanceChange(change, files = [], preferredId = current) {
+  async function maintenanceChange(
+    change,
+    files = [],
+    preferredId = current,
+    removeFiles = [],
+  ) {
     if (syncApplying) throw Error("Wait for the current save to finish");
     finishInput();
     syncApplying = true;
@@ -1364,9 +1482,10 @@
     const operation = saveQueue
       .then(async () => {
         const candidate = clone(data);
-        change(candidate);
+        const changedFiles = await change(candidate);
+        if (Array.isArray(changedFiles)) files = changedFiles;
         const validated = validate(candidate);
-        if (db) await writeState(validated, files);
+        if (db) await writeState(validated, files, false, removeFiles);
         else {
           if (files.length) throw Error("PDF storage is unavailable");
           localStorage.setItem(KEY, JSON.stringify(validated));
@@ -1397,7 +1516,10 @@
     const result = await operation;
     document.dispatchEvent(
       new CustomEvent("leafnote-local-saved", {
-        detail: { remote: false, files: files.map(([id]) => id) },
+        detail: {
+          remote: false,
+          files: [...files.map(([id]) => id), ...removeFiles],
+        },
       }),
     );
     return result;
@@ -1454,7 +1576,7 @@
     if (!n) return;
     const answer = await modal(
       "Move this note to Trash?",
-      "You can restore it later from Maintenance. Its original PDF is kept.",
+      "You can restore it later from Dashboard. Its original PDF is kept.",
       false,
       "Move to Trash",
     );
@@ -1518,6 +1640,7 @@
       !!active ||
       !!activeText ||
       !!window.LeafBoard?.isEditing?.() ||
+      !!window.LeafDocument?.busy?.() ||
       !!document.querySelector("dialog[open]:not(#syncdialog)") ||
       !$("#recognitionreview").hidden ||
       !$("#inkoptions").hidden ||
@@ -1585,11 +1708,116 @@
       throw Error("Save local changes successfully before syncing");
     return { data: clone(data), version: saveVersion, currentId: current };
   }
+  /** Apply a paper choice only to the active page, preserving ink and original PDF content. */
+  function changePagePaper(value) {
+    finishInput();
+    if (note().board) return;
+    (page() || note()).paper = value;
+    $("#sheet").className = (note().pdf ? "pdf-sheet " : "") + value;
+    updatePageControls();
+    redraw();
+    touch();
+    document.dispatchEvent(new Event("leafnote-page-changed"));
+  }
+  $("#paper").onchange = () => changePagePaper($("#paper").value);
+  $("#pagepaper").onchange = () => changePagePaper($("#pagepaper").value);
+  /** Insert a blank page immediately after the current one, atomically saving any changed PDF original. */
+  async function addPaperPage() {
+    if (note().board) return;
+    const id = current,
+      index = pageIndex,
+      paper = (page() || note()).paper || "plain";
+    try {
+      await maintenanceChange(
+        async (candidate) => {
+          const target = candidate.notes.find((n) => n.id === id),
+            blank = {
+              width: 800,
+              height: 1050,
+              paper,
+              strokes: [],
+              texts: [],
+              recognitionLanguage: "en",
+            };
+          target.updated = Date.now();
+          if (target.pdf) {
+            const source = await getFile(id),
+              doc = await PDFLib.PDFDocument.load(
+                new Uint8Array(await source.arrayBuffer()),
+              ),
+              size = target.pdf.pages[index];
+            blank.width = size.width;
+            blank.height = size.height;
+            doc.insertPage(index + 1, [blank.width, blank.height]);
+            const bytes = await doc.save();
+            target.pdf.pages.splice(index + 1, 0, blank);
+            return [[id, new Blob([bytes], { type: "application/pdf" })]];
+          }
+          target.extraPages ||= [];
+          if (target.extraPages.length >= 999)
+            throw Error("Notebook page limit reached");
+          target.extraPages.splice(index, 0, blank);
+        },
+        [],
+        id,
+      );
+      await goTo(index + 1);
+    } catch (error) {
+      toast("Could not add page: " + error.message);
+    }
+  }
+  $("#addpaperpage").onclick = addPaperPage;
+  /** Permanently remove a retained note and its local PDF while retaining a content-free sync deletion marker. */
+  async function purgeDeleted(id) {
+    return maintenanceChange(
+      (candidate) => {
+        if (!candidate.notes.some((n) => n.id === id && n.deleted))
+          throw Error("Only notes in Trash can be permanently deleted");
+        candidate.notes = candidate.notes.filter((n) => n.id !== id);
+        candidate.purged = [
+          ...(candidate.purged || []).filter((n) => n.id !== id),
+          { id, at: Date.now() },
+        ];
+      },
+      [],
+      current,
+      [id],
+    );
+  }
+  /** Measure logical note/PDF bytes and the browser's whole-origin persistent storage estimate. */
+  async function storageUsage() {
+    await saveQueue;
+    const snapshot = clone(data),
+      metadataBytes = new Blob([JSON.stringify(snapshot)]).size;
+    let pdfBytes = 0,
+      trashBytes = 0;
+    for (const n of snapshot.notes) {
+      const size = n.pdf ? (await getFile(n.id))?.size || 0 : 0;
+      pdfBytes += size;
+      if (n.deleted) trashBytes += size + new Blob([JSON.stringify(n)]).size;
+    }
+    let estimate = null;
+    try {
+      estimate = await navigator.storage?.estimate();
+    } catch {}
+    return {
+      metadataBytes,
+      pdfBytes,
+      contentBytes: metadataBytes + pdfBytes,
+      trashBytes,
+      activeNotes: snapshot.notes.filter((n) => !n.deleted).length,
+      trashNotes: snapshot.notes.filter((n) => n.deleted).length,
+      originBytes: estimate?.usage ?? null,
+      quotaBytes: estimate?.quota ?? null,
+    };
+  }
   window.LeafnoteApp = {
     ready: false,
     maintenance: {
       /** Implement the trash callback in this object. */
       trash: () => clone(data.notes.filter((n) => n.deleted)),
+      purgeDeleted,
+      usage: storageUsage,
       restoreDeleted,
       restoreRevision,
       trashNote,
@@ -1627,10 +1855,11 @@
     page: () => page() || note(),
     /** Implement the pageIndex callback in this object. */
     pageIndex: () => pageIndex,
+    goToPage: goTo,
     /** Open a model dialog or note/page through the module’s public entry point. */
     open: async (id, index) => {
       loadNote(id);
-      if (note()?.pdf) await goTo(index);
+      if (!note()?.board) await goTo(index);
     },
   };
   $(".app").inert = true;

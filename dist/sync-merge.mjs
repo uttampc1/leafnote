@@ -20,7 +20,7 @@ function semanticNote(note) {
   const copy = structuredClone(note);
   delete copy.updated;
   if (!copy.handwriting?.reviewed) delete copy.handwriting;
-  for (const pg of copy.pdf?.pages || [])
+  for (const pg of [...(copy.pdf?.pages || []), ...(copy.extraPages || [])])
     if (!pg.handwriting?.reviewed) delete pg.handwriting;
   return copy;
 }
@@ -62,6 +62,14 @@ function preserveIndex(remote, local) {
 /** Merge notes, notebooks, deletions, and PDF references without a last-writer-wins overwrite. */
 export function mergeSnapshots(base, local, remote, deviceId) {
   base = base || emptySnapshot();
+  const purgeMap = new Map();
+  for (const snapshot of [base, local, remote])
+    for (const item of snapshot.data.purged || [])
+      if (!purgeMap.has(item.id) || purgeMap.get(item.id).at < item.at)
+        purgeMap.set(item.id, structuredClone(item));
+  const purged = [...purgeMap.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
   const conflicts = [],
     books = new Map(),
     localBookMap = new Map(),
@@ -101,6 +109,7 @@ export function mergeSnapshots(base, local, remote, deviceId) {
     files = {};
   /** Add a note and its matching PDF; apply notebook remapping only to local versions. */
   function add(note, hash, fromLocal = false) {
+    if (purgeMap.has(note.id)) return;
     const copy = structuredClone(note);
     if (fromLocal && localBookMap.has(copy.book))
       copy.book = localBookMap.get(copy.book);
@@ -133,6 +142,7 @@ export function mergeSnapshots(base, local, remote, deviceId) {
     conflicts.push({ noteId: note.id, copyId, kind });
   }
   for (const id of new Set([...rn.keys(), ...ln.keys(), ...bn.keys()])) {
+    if (purgeMap.has(id)) continue;
     const b = bn.get(id),
       l = ln.get(id),
       r = rn.get(id),
@@ -180,7 +190,11 @@ export function mergeSnapshots(base, local, remote, deviceId) {
     }
   return {
     snapshot: {
-      data: { books: [...books.values()], notes: [...notes.values()] },
+      data: {
+        books: [...books.values()],
+        notes: [...notes.values()],
+        ...(purged.length ? { purged } : {}),
+      },
       files,
     },
     conflicts,
@@ -190,6 +204,7 @@ export function mergeSnapshots(base, local, remote, deviceId) {
 export function sameSnapshot(a, b) {
   /** Evaluate an inline callback in dist/sync-merge.mjs; its direct operations are listed below. */
   const normalize = (s) => ({
+    purged: [...(s.data.purged || [])].sort((a, b) => a.id.localeCompare(b.id)),
     books: [...s.data.books].sort((x, y) => x.id.localeCompare(y.id)),
     notes: s.data.notes
       .map((n) => ({ id: n.id, key: noteKey(n, s.files[n.id]) }))

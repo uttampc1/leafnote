@@ -15,7 +15,14 @@
       const page = note.pdf.pages[index] || note.pdf.pages[0];
       return { x: 0, y: 0, width: page.width, height: page.height };
     }
-    if (!note.board) return { x: 0, y: 0, width: 800, height: 1050 };
+    if (!note.board)
+      return {
+        x: 0,
+        y: 0,
+        width: 800,
+        height:
+          (index > 0 ? note.extraPages?.[index - 1] : note)?.height || 1050,
+      };
     const points = [];
     for (const n of note.board.nodes)
       points.push([n.x, n.y], [n.x + n.width, n.y + n.height]);
@@ -47,7 +54,9 @@
   /** Render paper, board connections, typed text, and pressure ink using safe DOM nodes. */
   function render(note, index = 0, doc = root.document) {
     const box = bounds(note, index),
-      page = note.pdf ? note.pdf.pages[index] || note.pdf.pages[0] : note;
+      page = note.pdf
+        ? note.pdf.pages[index] || note.pdf.pages[0]
+        : (index > 0 ? note.extraPages?.[index - 1] : note) || note;
     const svg = doc.createElementNS("http://www.w3.org/2000/svg", "svg");
     /** Append an SVG element with fixed attribute names and optional safe text. */
     function add(tag, attrs = {}, text) {
@@ -72,26 +81,18 @@
         height: box.height,
         fill: "#fff",
       });
-    if (!note.board && !note.pdf && note.paper !== "plain") {
-      if (note.paper === "dots") {
-        for (let y = 28; y < 1050; y += 32)
-          for (let x = 28; x < 800; x += 32)
-            add("circle", { cx: x, cy: y, r: 1.2, fill: "#dce4da" });
-      } else {
-        for (let y = 66; y < 1050; y += 32)
-          add("path", {
-            d: "M0 " + y + " H800",
-            stroke: "#e2e8e0",
-            "stroke-width": 1,
-          });
-        if (note.paper === "grid")
-          for (let x = 0; x < 800; x += 32)
-            add("path", {
-              d: "M" + x + " 0 V1050",
-              stroke: "#e2e8e0",
-              "stroke-width": 1,
-            });
-      }
+    const Paper =
+      typeof module === "object" && module.exports
+        ? require("./paper-engine.js")
+        : root.LeafPaper;
+    if (!note.board) {
+      const rules = Paper.ruling(
+        doc,
+        page.paper || (!note.pdf ? note.paper : "plain"),
+        box.width,
+        box.height,
+      );
+      if (rules) svg.append(rules);
     }
     if (note.board) {
       const nodes = new Map(note.board.nodes.map((n) => [n.id, n]));

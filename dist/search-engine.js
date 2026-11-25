@@ -129,10 +129,10 @@
         star: n.star,
       };
       out.push({ ...base, page: 0, kind: "title", text: n.title || "" });
-      const pages = n.pdf ? n.pdf.pages : [n];
-      pages.forEach((p, i) => {
+      const pageList = pages(n);
+      pageList.forEach((p, i) => {
         /** Append a searchable text record with optional document bounds. */
-        const page = n.pdf ? i : 0,
+        const page = i,
           add = (kind, text, rect) => {
             if (text)
               out.push({ ...base, page, kind, text, rect, pdf: !!n.pdf });
@@ -224,7 +224,12 @@
         })),
     };
   }
+  /** Enumerate ordinary notebook pages and imported PDF pages without changing stored data. */
+  function pages(n) {
+    return n?.pdf?.pages || (n ? [n, ...(n.extraPages || [])] : []);
+  }
   const api = {
+    pages,
     norm,
     signature,
     lines,

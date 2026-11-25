@@ -36,7 +36,7 @@ export function createSyncTransport({
           headers: {
             ...options.headers,
             Authorization: "Bearer " + token,
-            "X-Leafnote-Protocol": "2",
+            "X-Leafnote-Protocol": "3",
           },
         },
       );
@@ -93,6 +93,8 @@ export function createSyncTransport({
         },
         (response) => response.json(),
       ),
+    /** Read authenticated server usage and the configured host folder. */
+    storageInfo: () => request("storage", {}, (r) => r.json()),
     /** Fetch one page of private Git revision metadata. */
     history: (offset = 0) =>
       request("history?offset=" + offset, {}, (r) => r.json()),

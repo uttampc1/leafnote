@@ -858,3 +858,105 @@ test("missing Git HEAD cannot silently reset an existing revision history", asyn
   );
   assert.equal(server.store.state().data.notes[0].id, "retained");
 });
+
+test("private storage information reports bytes/folder without exposing them before authentication", async (t) => {
+  const server = await api(t, { displayRoot: "/srv/dashboard-notes" }),
+    { createSyncTransport } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base });
+  assert.equal((await fetch(server.base + "storage")).status, 401);
+  const info = await transport.storageInfo();
+  assert.equal(info.folder, "/srv/dashboard-notes");
+  assert.ok(info.bytes > 0);
+  assert.equal(
+    Object.values(info.categories).reduce((a, b) => a + b, 0),
+    info.bytes,
+  );
+  assert.ok(!JSON.stringify(info).includes(key));
+});
+test("permanent deletion survives stale offline edits and keeps older Git revisions retrievable", async (t) => {
+  const server = await api(t),
+    { createSyncTransport, createSyncEngine } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base }),
+    a = device(snap([note("permanent")]).data),
+    b = device(snap([]).data);
+  const ea = createSyncEngine({
+      app: a,
+      storage: settings(),
+      transport,
+      deviceId: "a",
+    }),
+    eb = createSyncEngine({
+      app: b,
+      storage: settings(),
+      transport,
+      deviceId: "b",
+    });
+  await ea.run();
+  await eb.run();
+  const old = (await transport.history()).commits[0].hash;
+  a.edit((d) => {
+    d.notes = [];
+    d.purged = [{ id: "permanent", at: Date.now() }];
+  });
+  await ea.run();
+  b.edit((d) => {
+    d.notes[0].texts[0].text = "stale offline edit";
+  });
+  await eb.run();
+  assert.equal(b.data.notes.length, 0);
+  assert.equal(b.data.purged[0].id, "permanent");
+  const state = (await transport.getState(null)).state;
+  assert.equal(state.data.notes.length, 0);
+  assert.equal(state.data.purged[0].id, "permanent");
+  const before = await transport.revision(old);
+  assert.equal(before.data.notes[0].id, "permanent");
+  await transport.putState({
+    workspaceId: state.workspaceId,
+    baseRevision: state.revision,
+    ...snap([note("permanent", "stale backup")]),
+  });
+  assert.equal((await transport.getState(null)).state.data.notes.length, 0);
+});
+test("mixed ordinary pages and their styles synchronize between clients", async (t) => {
+  const server = await api(t),
+    { createSyncTransport, createSyncEngine } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base }),
+    n = note("mixed");
+  n.paper = "lined";
+  n.extraPages = [
+    {
+      paper: "grid",
+      height: 1050,
+      strokes: [],
+      texts: [
+        {
+          x: 20,
+          y: 40,
+          size: 18,
+          width: 700,
+          color: "#264c3d",
+          text: "Second page",
+        },
+      ],
+    },
+  ];
+  const a = device(snap([n]).data),
+    b = device(snap([]).data),
+    ea = createSyncEngine({
+      app: a,
+      storage: settings(),
+      transport,
+      deviceId: "a",
+    }),
+    eb = createSyncEngine({
+      app: b,
+      storage: settings(),
+      transport,
+      deviceId: "b",
+    });
+  await ea.run();
+  await eb.run();
+  assert.equal(b.data.notes[0].paper, "lined");
+  assert.equal(b.data.notes[0].extraPages[0].paper, "grid");
+  assert.equal(b.data.notes[0].extraPages[0].texts[0].text, "Second page");
+});

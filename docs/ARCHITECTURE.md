@@ -153,7 +153,7 @@ flowchart LR
   Git --> Current[Publish current snapshot]
   Delete[Move to Trash] --> Flag[Retain note with deleted flag]
   Flag --> IDB
-  Menu[Maintenance] --> Trash[Restore retained local note]
+  Menu[Dashboard] --> Trash[Restore retained local note]
   Menu --> History[Authenticated Git revision preview]
   History --> Copy[Restore full note under new ID]
   Trash --> IDB
@@ -165,3 +165,11 @@ flowchart LR
 ## Thumbnail library (1.3)
 
 `library.js` starts after the existing editor/search/minimal UI modules and shows the library overview by default. It reuses the existing filtered/search result buttons, so opening a card follows the same note/page navigation. A MutationObserver decorates list updates; IntersectionObserver defers thumbnails until near the viewport. `library-preview.js` builds safe read-only SVG for paper, pressure ink, positioned text, board cards, and connectors. Separate PDF.js tasks paint original pages underneath annotation SVGs, with two active jobs and a bounded cache of completed canvases. Editor render tickets and document state are untouched. The Grid/List preference is localStorage-only and is excluded from note sync and backups. Trash remains excluded by the existing list/search filters.
+
+## Dashboard and page review build
+
+`dashboard.js` displays measured metadata/PDF bytes and a separate browser-origin storage estimate. Paired clients read the private `/api/sync/storage` endpoint; `storage-info.mjs` counts regular files without following symlinks. The host mount path is supplied by Compose only to that authenticated response. Folder migration is a Linux helper command, never remote shell execution from browser input.
+
+Ordinary notes retain their original first-page fields and add `extraPages`; PDFs retain their page array. The current page has an independent `paper` choice. `document-pages.js` reuses the one active editor between read-only neighboring page previews, preserving scroll position when activating a page. Page insertion and changed PDF bytes commit atomically through the existing save queue. `paper-engine.js` shares transparent ruling generation with PDF overlays and previews.
+
+Permanent deletion retains only an ID/time entry in root `purged` markers and removes the current note/PDF reference. Three-way merge and server normalization union these markers so stale notes cannot return. Protocol 3 fences clients that do not preserve them. Prior Git revisions and immutable server PDF blobs remain available to historical restoration as new note IDs.

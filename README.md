@@ -1,3 +1,5 @@
+> Review build: Dashboard, split List view, permanent Trash deletion, and mixed-paper pages are under verification. No new Git bundle is prepared yet. See [the review checklist](docs/REVIEW_CHECKLIST.md).
+
 # Leafnote — local notebook and installable PWA
 
 This is the self-contained local deployment repository. It includes the app, both recognition models, Docker/Compose services, Linux deployment scripts, tests, and review documentation. It includes optional authenticated Linux-folder sync, Git autosave revisions, and recoverable Trash. Notes save first in each client browser’s IndexedDB, so writing and installed recognition models remain available offline.

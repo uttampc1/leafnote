@@ -5,7 +5,7 @@
   function setup() {
     const app = window.LeafnoteApp,
       dialog = $("#maintenancedialog");
-    let mode = "trash",
+    let mode = "overview",
       offset = 0,
       generation = 0,
       transport = null,
@@ -58,7 +58,29 @@
           lock(false);
         }
       };
-      row.append(button);
+      const purge = element("button", "Delete permanently");
+      purge.className = "danger";
+      purge.onclick = async () => {
+        if (
+          !window.confirm(
+            "Delete this note permanently from the current notebook and Trash on paired devices? Unsynced edits to this note on other devices will be discarded on reconnection. Older Git revisions and exported backups may still retain it.",
+          )
+        )
+          return;
+        lock(true);
+        try {
+          await app.maintenance.purgeDeleted(note.id);
+          maintenanceStatus(
+            "Removed from the current notebook. Older Git revisions and backups are unchanged.",
+          );
+          renderTrash();
+        } catch (error) {
+          maintenanceStatus(error.message);
+        } finally {
+          lock(false);
+        }
+      };
+      row.append(button, purge);
       return row;
     }
     /** Show local Trash without needing a server or connection code. */
@@ -224,6 +246,12 @@
       mode = next;
       ++generation;
       selected = null;
+      $("#dashboardoverview").hidden = mode !== "overview";
+      $("#maintenancelist").hidden = mode === "overview";
+      $("#showoverview").setAttribute(
+        "aria-pressed",
+        String(mode === "overview"),
+      );
       $("#revisiondetails").hidden = true;
       $("#restorerevision").hidden = true;
       $("#olderrevisions").hidden = true;
@@ -232,10 +260,16 @@
         "aria-pressed",
         String(mode === "history"),
       );
-      if (mode === "trash") {
+      if (mode === "overview") {
+        $("#maintenancesummary").textContent = "Storage and save locations";
+        maintenanceStatus(
+          "Notes save on this device first. Sync keeps an additional copy on your server.",
+        );
+        document.dispatchEvent(new Event("leafnote-dashboard-opened"));
+      } else if (mode === "trash") {
         renderTrash();
         maintenanceStatus(
-          "Deleted notes stay here until restored. No permanent delete is offered.",
+          "Restore a retained note or permanently remove it from the current notebook. Older Git revisions and backups can retain copies.",
         );
       } else {
         $("#maintenancelist").replaceChildren();
@@ -246,8 +280,9 @@
       app.finish();
       $("#notemenu").open = false;
       dialog.showModal();
-      show("trash");
+      show("overview");
     };
+    $("#showoverview").onclick = () => show("overview");
     $("#showtrash").onclick = () => show("trash");
     $("#showhistory").onclick = () => show("history");
     $("#refreshmaintenance").onclick = () => show(mode);

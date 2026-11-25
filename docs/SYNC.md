@@ -125,9 +125,9 @@ There is no automatic conversion into Markdown text files: handwriting, cards, P
 4. Import a small PDF, annotate it, and verify the original pages and annotations arrive on the second client. Repeat an annotation while offline.
 5. Inspect the chosen server folder for `CURRENT`, snapshots, and PDF blobs. Restart the deployment and reopen the clients; confirm the notebook remains. Use throwaway notes when testing synchronized deletions.
 
-## Autosave revisions and Maintenance
+## Autosave revisions and Dashboard
 
-Open **••• → Maintenance**. **Trash** works offline: restore a note with the same ID, ink, typed text, board cards, metadata, and PDF original. Deleted records carry `deleted: true` and `deletedAt`; active lists, counts, and search exclude them. Exported full backups include them. No permanent purge button is provided.
+Open **••• → Dashboard**. **Trash** works offline: restore a note with the same ID, ink, typed text, board cards, metadata, and PDF original. Deleted records carry `deleted: true` and `deletedAt`; active lists, counts, and search exclude them. Exported full backups include them. No permanent purge button is provided.
 
 **Revision history** uses your existing connection code to page through private Git commits. Select a commit and a note to preview its first page, then choose **Restore as new note**. The full note (all PDF pages, annotations, board content, and saved recognition text) is restored under a new ID. The current version remains unchanged. The preview shows ink and typed text; PDF backgrounds are available after restoration. Restoring creates a normal local change and a new server commit when sync succeeds.
 

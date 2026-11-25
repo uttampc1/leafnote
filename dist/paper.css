@@ -137,3 +137,89 @@
     display: none;
   }
 }
+/* Scroll through old and new pages; the selected page keeps the full editor. */
+.document-page-preview {
+  width: min(800px, calc(100% - 36px));
+  margin: 24px auto;
+  background: white;
+  border: 1px solid #dbe2d4;
+  box-shadow: 0 4px 14px #25351d13;
+}
+.document-page-surface {
+  position: relative;
+  width: 100%;
+  background: white;
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+.document-page-surface > svg,
+.document-page-surface > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.document-page-surface > svg {
+  z-index: 1;
+}
+.edit-page-label {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e1e8da;
+  font-size: 14px;
+  color: #45613b;
+  background: #f5f8f0;
+}
+.insert-page-inline {
+  display: block;
+  margin: 15px auto 26px;
+  border: 1px solid #bacbb0;
+  background: #edf4e5;
+  font-size: 14px;
+}
+#pdfbar {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+#pdfbar > div {
+  flex-wrap: wrap;
+}
+#pagepaper {
+  padding: 5px;
+  border: 1px solid #c7d5bd;
+  border-radius: 6px;
+}
+#addpaperpage {
+  border: 1px solid #c7d5bd;
+}
+.maintenance-row .danger {
+  color: #a63434;
+  border-color: #d8baba !important;
+}
+@media print {
+  .document-page-preview,
+  .insert-page-inline {
+    display: none;
+  }
+}
+.document-page-preview {
+  padding: 0;
+  border: 0;
+  outline: 1px solid #dbe2d4;
+}
+.current-page-label {
+  max-width: 100%;
+  margin: 24px auto 0;
+}
+.current-page-label + #sheet {
+  margin-top: 0;
+}
+#libraryactions-panel {
+  max-height: 50dvh;
+  overflow: auto;
+}
