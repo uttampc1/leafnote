@@ -52,3 +52,7 @@ For a copy you can keep, open **Notes → Library actions → Export backup**. I
 ## Recover a note
 
 **Move to Trash** retains the note. Open **••• → Maintenance → Trash** to restore it, even offline. **Revision history** shows server autosaves when sync is connected. Select a revision and use **Restore as new note** to recover an older version while keeping the current note. Offline edits become a Git revision when they next sync.
+
+## Find a note by its page
+
+Leafnote opens to large page thumbnails. Click a card to write, and click **Notes** to return to the overview. **Grid** and **List** switch views; your device remembers the choice. Search, Favorites, notebooks, and sorting work in either view. PDF thumbnails show the first page and annotations; search previews show the matching PDF page. Brainstorm thumbnails show cards and connections. **Continue writing** returns to the current note. Import PDF, new boards, backups, and Maintenance are available under **Library actions**.

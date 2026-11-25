@@ -1581,7 +1581,7 @@ Initialize dist/features.js inside an isolated scope.
 - Source: [`dist/features.js:2`](../dist/features.js#L2)
 - Parameters: `(none)`; async: true
 - Direct calls: `$`, `$("#loading").remove`, `JSON.parse`, `Promise.resolve`, `["pen", "all", "stylus"].includes`, `acquireWriter`, `console.error`, `data.notes.find`, `db.transaction`, `db.transaction("state").objectStore`, `db.transaction("state").objectStore("state").get`, `document.addEventListener`, `document.createElement`, `document.createElement("canvas").getContext`, `document.dispatchEvent`, `fresh`, `loadNote`, `localStorage.getItem`, `openDB`, `persist`, `renderNav`, `request`, `toast`, `updateInput`, `validate`, `window.addEventListener`
-- Assigned/updated targets: `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#delete").onclick`, `$("#export").onclick`, `$("#importpdf").onclick`, `$("#inputmode").onchange`, `$("#inputmode").value`, `$("#loading").textContent`, `$("#new").onclick`, `$("#nextpage").onclick`, `$("#notebook").onchange`, `$("#pagenum").onchange`, `$("#pdffile").onchange`, `$("#pressure").checked`, `$("#pressure").onchange`, `$("#prevpage").onclick`, `$("#redo").onclick`, `$("#saved").textContent`, `$("#undo").onclick`, `$("#zoomfit").onclick`, `$("#zoomin").onclick`, `$("#zoomout").onclick`, `$(".app").inert`, `$(".listbar button").onclick`, `canvas.oncontextmenu`, `canvas.ondragstart`, `canvas.onlostpointercapture`, `canvas.onpointercancel`, `canvas.onpointerdown`, `canvas.onpointermove`, `canvas.onpointerup`, `createNote`, `current`, `data`, `db`, `db.onversionchange`, `loadNote`, `pathFor`, `persist`, `preferences`, `redraw`, `renderList`, `resizePage`, `validate`, `window.LeafnoteApp`, `window.LeafnoteApp.ready`
+- Assigned/updated targets: `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#delete").onclick`, `$("#export").onclick`, `$("#importpdf").onclick`, `$("#inputmode").onchange`, `$("#inputmode").value`, `$("#loading").textContent`, `$("#new").onclick`, `$("#nextpage").onclick`, `$("#notebook").onchange`, `$("#pagenum").onchange`, `$("#pdffile").onchange`, `$("#pressure").checked`, `$("#pressure").onchange`, `$("#prevpage").onclick`, `$("#redo").onclick`, `$("#saved").textContent`, `$("#undo").onclick`, `$("#zoomfit").onclick`, `$("#zoomin").onclick`, `$("#zoomout").onclick`, `$(".app").inert`, `$(".listbar > button").onclick`, `canvas.oncontextmenu`, `canvas.ondragstart`, `canvas.onlostpointercapture`, `canvas.onpointercancel`, `canvas.onpointerdown`, `canvas.onpointermove`, `canvas.onpointerup`, `createNote`, `current`, `data`, `db`, `db.onversionchange`, `loadNote`, `pathFor`, `persist`, `preferences`, `redraw`, `renderList`, `resizePage`, `validate`, `window.LeafnoteApp`, `window.LeafnoteApp.ready`
 - Return expressions: `undefined`
 
 ### clone — line 33
@@ -3753,6 +3753,344 @@ Handle the callback assigned to $("#modelcards").onclick.
 - Source: [`dist/language-models.js:102`](../dist/language-models.js#L102)
 - Parameters: `e`; async: true
 - Direct calls: `$`, `$("#modelsdialog").close`, `document.dispatchEvent`, `e.target.closest`, `install`, `remove`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+## dist/library-preview.js
+
+First-party development or verification code.
+
+### <anonymous callback> — line 2
+
+Initialize dist/library-preview.js inside an isolated scope.
+
+- Source: [`dist/library-preview.js:2`](../dist/library-preview.js#L2)
+- Parameters: `root`; async: false
+- Direct calls: `require`
+- Assigned/updated targets: `module.exports`, `root.LeafPreview`
+- Return expressions: (none)
+
+### bounds — line 13
+
+Calculate padded bounds for one stroke.
+
+- Source: [`dist/library-preview.js:13`](../dist/library-preview.js#L13)
+- Parameters: `note, index = 0`; async: false
+- Direct calls: `Math.max`, `Math.min`, `points.push`
+- Assigned/updated targets: `bottom`, `left`, `right`, `top`
+- Return expressions: `{ x: 0, y: 0, width: page.width, height: page.height }`, `{ x: 0, y: 0, width: 800, height: 1050 }`, `{ x: Math.max(0, left - 60), y: Math.max(0, top - 60), width: Math.max(400, right - Math.max(0, left - 60) + 60), height: Math.max(300, bottom - Math.max(0, top - 60) + 60), }`
+
+### render — line 48
+
+Render this module’s controls from the current note and UI state.
+
+- Source: [`dist/library-preview.js:48`](../dist/library-preview.js#L48)
+- Parameters: `note, index = 0, doc = root.document`; async: false
+- Direct calls: `Board.textLines`, `Board.textLines(node).forEach`, `Ink.outline`, `String`, `String(text.text) .split`, `String(text.text) .split("\n") .forEach`, `[box.x, box.y, box.width, box.height].join`, `add`, `bounds`, `doc.createElementNS`, `nodes.get`, `note.board.nodes.map`, `svg.setAttribute`
+- Assigned/updated targets: `x`, `y`
+- Return expressions: `svg`
+
+### add — line 53
+
+Append a searchable text record with optional document bounds.
+
+- Source: [`dist/library-preview.js:53`](../dist/library-preview.js#L53)
+- Parameters: `tag, attrs = {}, text`; async: false
+- Direct calls: `Object.entries`, `String`, `doc.createElementNS`, `el.setAttribute`, `svg.append`
+- Assigned/updated targets: `el.textContent`
+- Return expressions: `el`
+
+### <anonymous callback> — line 97
+
+Provide the callback passed to note.board.nodes.map.
+
+- Source: [`dist/library-preview.js:97`](../dist/library-preview.js#L97)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `[n.id, n]`
+
+### <anonymous callback> — line 141
+
+Provide the callback passed to Board.textLines(node).forEach.
+
+- Source: [`dist/library-preview.js:141`](../dist/library-preview.js#L141)
+- Parameters: `line, i`; async: false
+- Direct calls: `add`
+- Assigned/updated targets: (none)
+- Return expressions: `add( "text", { x: node.x + 14, y: node.y + (node.size || 18) + 12 + i * (node.size || 18) * (node.lineHeight || 1.5), "font-size": node.size || 18, "font-family": "monospace", fill`
+
+### <anonymous callback> — line 171
+
+Provide the callback passed to String(text.text) .split("\n") .forEach.
+
+- Source: [`dist/library-preview.js:171`](../dist/library-preview.js#L171)
+- Parameters: `line, i`; async: false
+- Direct calls: `add`
+- Assigned/updated targets: `el.style.whiteSpace`
+- Return expressions: (none)
+
+## dist/library.js
+
+First-party development or verification code.
+
+### <anonymous callback> — line 2
+
+Initialize dist/library.js inside an isolated scope.
+
+- Source: [`dist/library.js:2`](../dist/library.js#L2)
+- Parameters: `(none)`; async: false
+- Direct calls: `document.addEventListener`, `setup`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### setup — line 5
+
+Attach this module’s event handlers after the application state is ready.
+
+- Source: [`dist/library.js:5`](../dist/library.js#L5)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `document .querySelector`, `document .querySelector('input[type="file"][accept*="pdf"]') ?.addEventListener`, `document.addEventListener`, `localStorage.getItem`, `new MutationObserver(decorate).observe`, `open`, `selectMode`
+- Assigned/updated targets: `$("#continuewriting").onclick`, `$("#libraryboard").onclick`, `$("#librarymaintenance").onclick`, `$("#librarypdf").onclick`, `$("#mobile").onclick`, `$("#viewgrid").onclick`, `$("#viewlist").onclick`, `mode`, `observer`, `window.LeafLibrary`
+- Return expressions: (none)
+
+### trim — line 21
+
+Release old preview canvases; only a small number of PDF pages remain cached.
+
+- Source: [`dist/library.js:21`](../dist/library.js#L21)
+- Parameters: `(none)`; async: false
+- Direct calls: `cache.delete`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### pump — line 28
+
+Run at most two independent thumbnail PDF renders at once.
+
+- Source: [`dist/library.js:28`](../dist/library.js#L28)
+- Parameters: `(none)`; async: false
+- Direct calls: `job`, `job().finally`, `jobs.shift`
+- Assigned/updated targets: `active`
+- Return expressions: (none)
+
+### <anonymous callback> — line 32
+
+Provide the callback passed to job().finally.
+
+- Source: [`dist/library.js:32`](../dist/library.js#L32)
+- Parameters: `(none)`; async: false
+- Direct calls: `pump`, `trim`
+- Assigned/updated targets: `active`
+- Return expressions: (none)
+
+### pdf — line 40
+
+Load a local PDF page independently of the editor and verify that its card is still current.
+
+- Source: [`dist/library.js:40`](../dist/library.js#L40)
+- Parameters: `note, index, frame`; async: true
+- Direct calls: `cache.get`, `cache.set`, `canvas.setAttribute`, `document.createElement`, `frame.append`, `frame.prepend`, `pump`, `window.LeafnoteApp.sync.fileVersion`
+- Assigned/updated targets: `entry`, `entry.ready`, `frame.dataset.pdfPreview`, `hint.className`, `hint.textContent`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 53
+
+Evaluate an inline callback in dist/library.js; its direct operations are listed below.
+
+- Source: [`dist/library.js:53`](../dist/library.js#L53)
+- Parameters: `resolve`; async: false
+- Direct calls: `jobs.push`
+- Assigned/updated targets: (none)
+- Return expressions: `jobs.push(async () => { let task; try { const blob = await window.LeafnoteApp.file(note.id); if (!blob) throw Error("PDF unavailable"); const lib = await window.LeafnoteApp.pdfLibr`
+
+### <anonymous callback> — line 54
+
+Provide the callback passed to jobs.push.
+
+- Source: [`dist/library.js:54`](../dist/library.js#L54)
+- Parameters: `(none)`; async: true
+- Direct calls: `Error`, `Math.ceil`, `Math.min`, `blob.arrayBuffer`, `cache.delete`, `canvas.getContext`, `documentPDF.getPage`, `lib.getDocument`, `page.getViewport`, `page.render`, `resolve`, `task?.destroy`, `window.LeafnoteApp.file`, `window.LeafnoteApp.pdfLibrary`, `window.LeafnoteApp.pdfOptions`
+- Assigned/updated targets: `canvas.height`, `canvas.width`, `entry.ok`, `entry.pending`, `task`
+- Return expressions: (none)
+
+### fill — line 104
+
+Decorate a visible result with a read-only preview of its note or matched PDF page.
+
+- Source: [`dist/library.js:104`](../dist/library.js#L104)
+- Parameters: `button`; async: false
+- Direct calls: `LeafPreview.render`, `Number`, `button.prepend`, `data.notes.find`, `document.createElement`, `frame.append`, `frame.setAttribute`, `pdf`
+- Assigned/updated targets: `button.dataset.previewReady`, `frame.className`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 108
+
+Provide the callback passed to data.notes.find.
+
+- Source: [`dist/library.js:108`](../dist/library.js#L108)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === id && !n.deleted`
+
+### decorate — line 119
+
+Observe newly rendered cards, including search results rendered by search.js closures.
+
+- Source: [`dist/library.js:119`](../dist/library.js#L119)
+- Parameters: `(none)`; async: false
+- Direct calls: `app.classList.contains`, `fill`, `list.querySelectorAll`, `observer.observe`, `observer?.disconnect`
+- Assigned/updated targets: (none)
+- Return expressions: `undefined`
+
+### selectMode — line 128
+
+Remember Grid/List as a device preference, independent of notebook content and sync.
+
+- Source: [`dist/library.js:128`](../dist/library.js#L128)
+- Parameters: `next`; async: false
+- Direct calls: `$`, `$("#viewgrid").setAttribute`, `$("#viewlist").setAttribute`, `String`, `app.classList.toggle`, `decorate`, `localStorage.setItem`
+- Assigned/updated targets: `mode`
+- Return expressions: (none)
+
+### open — line 140
+
+Open a model dialog or note/page through the module’s public entry point.
+
+- Source: [`dist/library.js:140`](../dist/library.js#L140)
+- Parameters: `initial = false`; async: false
+- Direct calls: `$`, `$("#mobile").setAttribute`, `app.classList.add`, `app.classList.contains`, `decorate`, `originalToggle`, `window.LeafBoard?.finish`, `window.LeafnoteApp.finish`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### close — line 155
+
+Close the model database connection.
+
+- Source: [`dist/library.js:155`](../dist/library.js#L155)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `$("#mobile").focus`, `$("#mobile").setAttribute`, `app.classList.contains`, `app.classList.remove`, `originalToggle`, `window.LeafnoteApp.resize`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 170
+
+Evaluate an inline callback in dist/library.js; its direct operations are listed below.
+
+- Source: [`dist/library.js:170`](../dist/library.js#L170)
+- Parameters: `entries`; async: false
+- Direct calls: `fill`, `observer.unobserve`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 180
+
+Handle the callback assigned to $("#viewgrid").onclick.
+
+- Source: [`dist/library.js:180`](../dist/library.js#L180)
+- Parameters: `(none)`; async: false
+- Direct calls: `selectMode`
+- Assigned/updated targets: (none)
+- Return expressions: `selectMode("grid")`
+
+### <anonymous callback> — line 181
+
+Handle the callback assigned to $("#viewlist").onclick.
+
+- Source: [`dist/library.js:181`](../dist/library.js#L181)
+- Parameters: `(none)`; async: false
+- Direct calls: `selectMode`
+- Assigned/updated targets: (none)
+- Return expressions: `selectMode("list")`
+
+### <anonymous callback> — line 183
+
+Handle the callback assigned to $("#mobile").onclick.
+
+- Source: [`dist/library.js:183`](../dist/library.js#L183)
+- Parameters: `(none)`; async: false
+- Direct calls: `app.classList.contains`, `close`, `open`
+- Assigned/updated targets: (none)
+- Return expressions: `app.classList.contains("library-home") ? close() : open()`
+
+### <anonymous callback> — line 187
+
+Handle the "click" event registered by document.addEventListener.
+
+- Source: [`dist/library.js:187`](../dist/library.js#L187)
+- Parameters: `event`; async: false
+- Direct calls: `app.classList.contains`, `close`, `event.target.closest`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 198
+
+Handle the "keydown" event registered by document.addEventListener.
+
+- Source: [`dist/library.js:198`](../dist/library.js#L198)
+- Parameters: `event`; async: false
+- Direct calls: `event.key.toLowerCase`, `open`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 202
+
+Handle the "leafnote-local-saved" event registered by document.addEventListener.
+
+- Source: [`dist/library.js:202`](../dist/library.js#L202)
+- Parameters: `(none)`; async: false
+- Direct calls: `app.classList.contains`, `requestAnimationFrame`
+- Assigned/updated targets: (none)
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 204
+
+Provide the callback passed to requestAnimationFrame.
+
+- Source: [`dist/library.js:204`](../dist/library.js#L204)
+- Parameters: `(none)`; async: false
+- Direct calls: `app.classList.contains`, `renderList`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 210
+
+Handle the callback assigned to $("#librarymaintenance").onclick.
+
+- Source: [`dist/library.js:210`](../dist/library.js#L210)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `$("#maintenance").click`
+- Assigned/updated targets: (none)
+- Return expressions: `$("#maintenance").click()`
+
+### <anonymous callback> — line 211
+
+Handle the callback assigned to $("#libraryboard").onclick.
+
+- Source: [`dist/library.js:211`](../dist/library.js#L211)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `$("#newboard").click`, `close`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 215
+
+Handle the callback assigned to $("#librarypdf").onclick.
+
+- Source: [`dist/library.js:215`](../dist/library.js#L215)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `$("#importpdf").click`
+- Assigned/updated targets: (none)
+- Return expressions: `$("#importpdf").click()`
+
+### <anonymous callback> — line 218
+
+Handle the "change" event registered by document .querySelector('input[type="file"][accept*="pdf"]') ?.addEventListener.
+
+- Source: [`dist/library.js:218`](../dist/library.js#L218)
+- Parameters: `event`; async: false
+- Direct calls: `close`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
@@ -8195,739 +8533,823 @@ Assert an integration outcome and report its human-readable description.
 Boot the real app against isolated fake storage and native canvas adapters.
 
 - Source: [`test/app.integration.cjs:33`](../test/app.integration.cjs#L33)
-- Parameters: `legacy, layout, textColor, textFormat, writing, writerLock, expectBlocked = false`; async: true
+- Parameters: `legacy, layout, textColor, textFormat, writing, writerLock, expectBlocked = false, libraryView`; async: true
 - Direct calls: `JSON.stringify`, `Object.defineProperty`, `dom.getInternalVMContext`, `fs .readFileSync`, `fs .readFileSync(root + "/index.html", "utf8") .replace`, `fs.readFileSync`, `mockModule.evaluate`, `mockModule.link`, `modelModule.evaluate`, `modelModule.link`, `new vm.Script(fs.readFileSync(root + "/" + file, "utf8"), { filename: file, /** Implement the import`, `root.replace`, `until`, `w.document.querySelector`, `w.localStorage.setItem`
 - Assigned/updated targets: `lib.GlobalWorkerOptions.workerSrc`, `w.Blob`, `w.File`, `w.HTMLCanvasElement.prototype.getContext`, `w.HTMLCanvasElement.prototype.toBlob`, `w.HTMLDialogElement.prototype.close`, `w.HTMLDialogElement.prototype.showModal`, `w.IDBKeyRange`, `w.Image`, `w.SVGElement.prototype.getBoundingClientRect`, `w.SVGElement.prototype.hasPointerCapture`, `w.SVGElement.prototype.releasePointerCapture`, `w.SVGElement.prototype.setPointerCapture`, `w.TextDecoder`, `w.TextEncoder`, `w.URL.createObjectURL`, `w.URL.revokeObjectURL`, `w.cancelAnimationFrame`, `w.devicePixelRatio`, `w.document.querySelector("#surface").getBoundingClientRect`, `w.indexedDB`, `w.requestAnimationFrame`, `w.structuredClone`
 - Return expressions: `{ w, dom, evaluate, objects, lib }`
 
-### <anonymous callback> — line 62
+### <anonymous callback> — line 63
 
 Handle the callback assigned to w.requestAnimationFrame.
 
-- Source: [`test/app.integration.cjs:62`](../test/app.integration.cjs#L62)
+- Source: [`test/app.integration.cjs:63`](../test/app.integration.cjs#L63)
 - Parameters: `fn`; async: false
 - Direct calls: `setTimeout`
 - Assigned/updated targets: (none)
 - Return expressions: `setTimeout(fn, 1)`
 
-### <anonymous callback> — line 64
+### <anonymous callback> — line 65
 
 Handle the callback assigned to w.document.querySelector("#surface").getBoundingClientRect.
 
-- Source: [`test/app.integration.cjs:64`](../test/app.integration.cjs#L64)
+- Source: [`test/app.integration.cjs:65`](../test/app.integration.cjs#L65)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `{ width: 600, height: 800, left: 0, top: 0, }`
 
-### <anonymous callback> — line 72
+### <anonymous callback> — line 73
 
 Handle the callback assigned to w.URL.createObjectURL.
 
-- Source: [`test/app.integration.cjs:72`](../test/app.integration.cjs#L72)
+- Source: [`test/app.integration.cjs:73`](../test/app.integration.cjs#L73)
 - Parameters: `b`; async: false
 - Direct calls: `objects.set`
 - Assigned/updated targets: `seq`
 - Return expressions: `id`
 
-### <anonymous callback> — line 77
+### <anonymous callback> — line 78
 
 Handle the callback assigned to w.URL.revokeObjectURL.
 
-- Source: [`test/app.integration.cjs:77`](../test/app.integration.cjs#L77)
+- Source: [`test/app.integration.cjs:78`](../test/app.integration.cjs#L78)
 - Parameters: `id`; async: false
 - Direct calls: `objects.delete`
 - Assigned/updated targets: (none)
 - Return expressions: `objects.delete(id)`
 
-### <anonymous callback> — line 79
+### <anonymous callback> — line 80
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:79`](../test/app.integration.cjs#L79)
+- Source: [`test/app.integration.cjs:80`](../test/app.integration.cjs#L80)
 - Parameters: `(none)`; async: true
 - Direct calls: `Buffer.from`, `b.arrayBuffer`, `native.loadImage`, `objects.get`
 - Assigned/updated targets: `this.image`
 - Return expressions: (none)
 
-### <anonymous callback> — line 84
+### <anonymous callback> — line 85
 
 Handle the callback assigned to w.HTMLCanvasElement.prototype.getContext.
 
-- Source: [`test/app.integration.cjs:84`](../test/app.integration.cjs#L84)
+- Source: [`test/app.integration.cjs:85`](../test/app.integration.cjs#L85)
 - Parameters: `(none)`; async: false
 - Direct calls: `c.drawImage.bind`, `native.createCanvas`, `this._native.getContext`
 - Assigned/updated targets: `c._wrapped`, `c.drawImage`, `this._native`
 - Return expressions: `c`
 
-### <anonymous callback> — line 94
+### <anonymous callback> — line 95
 
 Handle the callback assigned to c.drawImage.
 
-- Source: [`test/app.integration.cjs:94`](../test/app.integration.cjs#L94)
+- Source: [`test/app.integration.cjs:95`](../test/app.integration.cjs#L95)
 - Parameters: `im, ...args`; async: false
 - Direct calls: `draw`
 - Assigned/updated targets: (none)
 - Return expressions: `draw(im.image || im, ...args)`
 
-### <anonymous callback> — line 99
+### <anonymous callback> — line 100
 
 Handle the callback assigned to w.HTMLCanvasElement.prototype.toBlob.
 
-- Source: [`test/app.integration.cjs:99`](../test/app.integration.cjs#L99)
+- Source: [`test/app.integration.cjs:100`](../test/app.integration.cjs#L100)
 - Parameters: `callback`; async: false
 - Direct calls: `callback`, `this._native.toBuffer`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### get — line 105
+### get — line 106
 
 Implement the get callback in this object.
 
-- Source: [`test/app.integration.cjs:105`](../test/app.integration.cjs#L105)
+- Source: [`test/app.integration.cjs:106`](../test/app.integration.cjs#L106)
 - Parameters: `(none)`; async: false
 - Direct calls: `(this.getAttribute("viewBox") || "0 0 800 1050") .split`, `(this.getAttribute("viewBox") || "0 0 800 1050") .split(/\s+/) .map`, `this.getAttribute`
 - Assigned/updated targets: (none)
 - Return expressions: `{ baseVal: { x: v[0], y: v[1], width: v[2], height: v[3] } }`
 
-### <anonymous callback> — line 112
+### <anonymous callback> — line 113
 
 Handle the callback assigned to w.SVGElement.prototype.getBoundingClientRect.
 
-- Source: [`test/app.integration.cjs:112`](../test/app.integration.cjs#L112)
+- Source: [`test/app.integration.cjs:113`](../test/app.integration.cjs#L113)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `{ left: 0, top: 0, width: 800, height: 1050, }`
 
-### <anonymous callback> — line 118
+### <anonymous callback> — line 119
 
 Handle the callback assigned to w.SVGElement.prototype.setPointerCapture.
 
-- Source: [`test/app.integration.cjs:118`](../test/app.integration.cjs#L118)
+- Source: [`test/app.integration.cjs:119`](../test/app.integration.cjs#L119)
 - Parameters: `id`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `this._capture`
 - Return expressions: (none)
 
-### <anonymous callback> — line 121
+### <anonymous callback> — line 122
 
 Handle the callback assigned to w.SVGElement.prototype.hasPointerCapture.
 
-- Source: [`test/app.integration.cjs:121`](../test/app.integration.cjs#L121)
+- Source: [`test/app.integration.cjs:122`](../test/app.integration.cjs#L122)
 - Parameters: `id`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `this._capture === id`
 
-### <anonymous callback> — line 124
+### <anonymous callback> — line 125
 
 Handle the callback assigned to w.SVGElement.prototype.releasePointerCapture.
 
-- Source: [`test/app.integration.cjs:124`](../test/app.integration.cjs#L124)
+- Source: [`test/app.integration.cjs:125`](../test/app.integration.cjs#L125)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `this._capture`
 - Return expressions: (none)
 
-### get — line 129
+### get — line 130
 
 Implement the get callback in this object.
 
-- Source: [`test/app.integration.cjs:129`](../test/app.integration.cjs#L129)
+- Source: [`test/app.integration.cjs:130`](../test/app.integration.cjs#L130)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `this.textContent`
 
-### set — line 133
+### set — line 134
 
 Implement the set callback in this object.
 
-- Source: [`test/app.integration.cjs:133`](../test/app.integration.cjs#L133)
+- Source: [`test/app.integration.cjs:134`](../test/app.integration.cjs#L134)
 - Parameters: `v`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `this.textContent`
 - Return expressions: (none)
 
-### <anonymous callback> — line 137
+### <anonymous callback> — line 138
 
 Handle the callback assigned to w.HTMLDialogElement.prototype.showModal.
 
-- Source: [`test/app.integration.cjs:137`](../test/app.integration.cjs#L137)
+- Source: [`test/app.integration.cjs:138`](../test/app.integration.cjs#L138)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `this.open`
 - Return expressions: (none)
 
-### <anonymous callback> — line 140
+### <anonymous callback> — line 141
 
 Handle the callback assigned to w.HTMLDialogElement.prototype.close.
 
-- Source: [`test/app.integration.cjs:140`](../test/app.integration.cjs#L140)
+- Source: [`test/app.integration.cjs:141`](../test/app.integration.cjs#L141)
 - Parameters: `value`; async: false
 - Direct calls: `this.dispatchEvent`
 - Assigned/updated targets: `this.open`, `this.returnValue`
 - Return expressions: (none)
 
-### <anonymous callback> — line 152
+### <anonymous callback> — line 153
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:152`](../test/app.integration.cjs#L152)
+- Source: [`test/app.integration.cjs:153`](../test/app.integration.cjs#L153)
 - Parameters: `(none)`; async: false
 - Direct calls: `this.setExport`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 154
+### <anonymous callback> — line 155
 
 Provide the callback passed to this.setExport.
 
-- Source: [`test/app.integration.cjs:154`](../test/app.integration.cjs#L154)
+- Source: [`test/app.integration.cjs:155`](../test/app.integration.cjs#L155)
 - Parameters: `options`; async: false
 - Direct calls: `lib.getDocument`
 - Assigned/updated targets: (none)
 - Return expressions: `task`
 
-### <anonymous callback> — line 167
+### <anonymous callback> — line 168
 
 Provide the callback passed to mockModule.link.
 
-- Source: [`test/app.integration.cjs:167`](../test/app.integration.cjs#L167)
+- Source: [`test/app.integration.cjs:168`](../test/app.integration.cjs#L168)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### adoptLegacyEnglish — line 177
+### adoptLegacyEnglish — line 178
 
 Migrate an earlier English model cache unless the user explicitly removed it.
 
-- Source: [`test/app.integration.cjs:177`](../test/app.integration.cjs#L177)
+- Source: [`test/app.integration.cjs:178`](../test/app.integration.cjs#L178)
 - Parameters: `(none)`; async: true
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `false`
 
-### getInstalled — line 179
+### getInstalled — line 180
 
 Return an installation only when its revision and all required assets match.
 
-- Source: [`test/app.integration.cjs:179`](../test/app.integration.cjs#L179)
+- Source: [`test/app.integration.cjs:180`](../test/app.integration.cjs#L180)
 - Parameters: `id`; async: true
 - Direct calls: `installed.has`
 - Assigned/updated targets: (none)
 - Return expressions: `installed.has(id) ? { installed: true } : null`
 
-### storedBytes — line 182
+### storedBytes — line 183
 
 Count the stored bytes for the selected model.
 
-- Source: [`test/app.integration.cjs:182`](../test/app.integration.cjs#L182)
+- Source: [`test/app.integration.cjs:183`](../test/app.integration.cjs#L183)
 - Parameters: `id`; async: true
 - Direct calls: `installed.has`
 - Assigned/updated targets: (none)
 - Return expressions: `installed.has(id) ? 100 : 0`
 
-### install — line 184
+### install — line 185
 
 Download and verify approved model assets before marking a model installed.
 
-- Source: [`test/app.integration.cjs:184`](../test/app.integration.cjs#L184)
+- Source: [`test/app.integration.cjs:185`](../test/app.integration.cjs#L185)
 - Parameters: `id, { onProgress }`; async: true
 - Direct calls: `installed.add`, `onProgress`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### remove — line 189
+### remove — line 190
 
 Remove only the chosen model’s assets while preserving notes and transcripts.
 
-- Source: [`test/app.integration.cjs:189`](../test/app.integration.cjs#L189)
+- Source: [`test/app.integration.cjs:190`](../test/app.integration.cjs#L190)
 - Parameters: `id`; async: true
 - Direct calls: `installed.delete`
 - Assigned/updated targets: (none)
 - Return expressions: `installed.delete(id)`
 
-### <anonymous callback> — line 193
+### <anonymous callback> — line 194
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:193`](../test/app.integration.cjs#L193)
+- Source: [`test/app.integration.cjs:194`](../test/app.integration.cjs#L194)
 - Parameters: `(none)`; async: false
 - Direct calls: `this.setExport`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 199
+### <anonymous callback> — line 200
 
 Provide the callback passed to modelModule.link.
 
-- Source: [`test/app.integration.cjs:199`](../test/app.integration.cjs#L199)
+- Source: [`test/app.integration.cjs:200`](../test/app.integration.cjs#L200)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### importModuleDynamically — line 224
+### importModuleDynamically — line 229
 
 Implement the importModuleDynamically callback in this object.
 
-- Source: [`test/app.integration.cjs:224`](../test/app.integration.cjs#L224)
+- Source: [`test/app.integration.cjs:229`](../test/app.integration.cjs#L229)
 - Parameters: `specifier`; async: true
 - Direct calls: `specifier.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `specifier.includes("model-storage") ? modelModule : mockModule`
 
-### <anonymous callback> — line 230
+### <anonymous callback> — line 235
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:230`](../test/app.integration.cjs#L230)
+- Source: [`test/app.integration.cjs:235`](../test/app.integration.cjs#L235)
 - Parameters: `(none)`; async: false
 - Direct calls: `w.document .querySelector`, `w.document .querySelector("#loading") ?.textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `w.document .querySelector("#loading") ?.textContent.includes("already open")`
 
-### <anonymous callback> — line 236
+### <anonymous callback> — line 241
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:236`](../test/app.integration.cjs#L236)
+- Source: [`test/app.integration.cjs:241`](../test/app.integration.cjs#L241)
 - Parameters: `(none)`; async: false
 - Direct calls: `w.document.querySelector`
 - Assigned/updated targets: (none)
 - Return expressions: `!w.document.querySelector("#loading")`
 
-### evaluate — line 238
+### evaluate — line 243
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:238`](../test/app.integration.cjs#L238)
+- Source: [`test/app.integration.cjs:243`](../test/app.integration.cjs#L243)
 - Parameters: `code`; async: false
 - Direct calls: `vm.runInContext`
 - Assigned/updated targets: (none)
 - Return expressions: `vm.runInContext(code, ctx)`
 
-### event — line 242
+### event — line 247
 
 Create a synthetic pointer sample for pressure/input integration tests.
 
-- Source: [`test/app.integration.cjs:242`](../test/app.integration.cjs#L242)
+- Source: [`test/app.integration.cjs:247`](../test/app.integration.cjs#L247)
 - Parameters: `w, id, x, y, type = "pen", extra = {}`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `{ pointerId: id, clientX: x, clientY: y, pointerType: type, pressure: 0.5, button: 0, buttons: 1, /** Implement the preventDefault callback in this object. */ preventDefault() {}, `
 
-### preventDefault — line 252
+### preventDefault — line 257
 
 Implement the preventDefault callback in this object.
 
-- Source: [`test/app.integration.cjs:252`](../test/app.integration.cjs#L252)
+- Source: [`test/app.integration.cjs:257`](../test/app.integration.cjs#L257)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### main — line 257
+### main — line 262
 
 Run the full existing notebook, PDF, board, search, formatting, and pencil regression suite.
 
-- Source: [`test/app.integration.cjs:257`](../test/app.integration.cjs#L257)
+- Source: [`test/app.integration.cjs:262`](../test/app.integration.cjs#L262)
 - Parameters: `(none)`; async: true
-- Direct calls: `$`, `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#boardin").click`, `$("#cancelreview").click`, `$("#clearsearch").click`, `$("#closemaintenance").click`, `$("#closemodels").click`, `$("#color").dispatchEvent`, `$("#delete").onclick`, `$("#deleteidea").click`, `$("#discardreview").click`, `$("#export").onclick`, `$("#extendboard").click`, `$("#favorite").click`, `$("#focusmode").click`, `$("#focusmode").getAttribute`, `$("#indexnotes").onclick`, `$("#indexstatus").textContent.includes`, `$("#inkoptions").contains`, `$("#inktranscript").dispatchEvent`, `$("#inputmode").onchange`, `$("#languagemodels").onclick`, `$("#libraryshade").click`, `$("#maintenance").click`, `$("#maintenancelist button").onclick`, `$("#maintenancelist").textContent.includes`, `$("#mobile").click`, `$("#mobile").getAttribute`, `$("#modal").close`, `$("#modelcards").querySelectorAll`, `$("#modelcards").textContent.includes`, `$("#modelstatus").textContent.includes`, `$("#newboard").click`, `$("#nextpage").onclick`, `$("#notemenu summary").click`, `$("#notemenu").contains`, `$("#pdffile").onchange`, `$("#pencilgrade").dispatchEvent`, `$("#prevpage").onclick`, `$("#recognitionlanguage").onchange`, `$("#redo").click`, `$("#retryrecognition").onclick`, `$("#reviewhandwriting").click`, `$("#reviewinksearch").click`, `$("#reviewstatus").textContent.includes`, `$("#savetranscript").click`, `$("#savetranscript").onclick`, `$("#search").oninput`, `$("#searchallcontent").click`, `$("#searchkind").onchange`, `$("#searchscope").textContent.includes`, `$("#sheet").querySelector`, `$("#syncdialog").removeAttribute`, `$("#syncdialog").setAttribute`, `$("#textcolor").dispatchEvent`, `$("#textsize").dispatchEvent`, `$("#textspacing").dispatchEvent`, `$("#title").focus`, `$("#toast").textContent.includes`, `$("#toolsettings summary").click`, `$("#toolsettings").contains`, `$("#undo").click`, `$("#width").dispatchEvent`, `$("#writingkind").dispatchEvent`, `$("#zoomfit").click`, `$("#zoomin").click`, `$(".app").classList.contains`, `$(".app").classList.remove`, `$(".canvas-row").contains`, `$(".topbar").contains`, `$('#modelcards [data-install-model="mr"]').click`, `$('#modelcards [data-remove-model="mr"]').click`, `$('#modelcards [data-use-model="mr"]').click`, `$('#notes [data-result-id="' + plainId + '"]').click`, `$('[data-filter="all"]').click`, `$('[data-filter="star"]').click`, `$('[data-tool="highlighter"]').click`, `$('[data-tool="idea"]').click`, `$('[data-tool="link"]').click`, `$('[data-tool="pen"]').click`, `$('[data-tool="select"]').click`, `$('[data-tool="text"]').click`, `(await w.LeafnoteApp.file(retainedId)).text`, `Buffer.from`, `Ink.hits`, `Ink.imagePlacement`, `Ink.widthAt`, `JSON.parse`, `JSON.stringify`, `Number`, `Object.defineProperty`, `Object.keys`, `PDFLib.PDFDocument.create`, `PDFLib.PDFDocument.load`, `PDFLib.degrees`, `PDFLib.rgb`, `Search.lines`, `Search.norm`, `Search.search`, `Search.signature`, `["H", "HB", "1B", "2B"].entries`, `again.dom.window.close`, `again.evaluate`, `again.w.LeafnoteApp.file`, `again.w.document .querySelector`, `again.w.document .querySelector(".app") .classList.contains`, `again.w.document.querySelector`, `app.dom.window.close`, `app.lib.getDocument`, `backup.notes.find`, `blocked.dom.window.close`, `blocked.w.document .querySelector`, `blocked.w.document .querySelector("#loading") .textContent.includes`, `c.cloneNode`, `c.ondblclick`, `c.onpointercancel`, `c.onpointerdown`, `c.onpointermove`, `c.onpointerup`, `c.querySelector`, `c.querySelector("[data-board]").textContent.includes`, `c.querySelector("text").getAttribute`, `c.querySelectorAll`, `cardContext.drawImage`, `cardContext.getImageData`, `cardSurface.getContext`, `check`, `console.log`, `context.getImageData`, `db.close`, `doc.addPage`, `doc.save`, `ev`, `event`, `exportedDoc.getPage`, `exportedDoc.loadingTask.destroy`, `field.onblur`, `field.oninput`, `field.onkeydown`, `field.setSelectionRange`, `field.value.includes`, `formattedSpans[0].getAttribute`, `formattedSpans[1].getAttribute`, `granted.dom.window.close`, `granted.evaluate`, `granted.w.LeafnoteApp.sync.supported`, `incoming.notes.find`, `incoming.notes.push`, `latestSync.data.notes.map`, `makeApp`, `native.createCanvas`, `native.loadImage`, `new w.XMLSerializer().serializeToString`, `nodeField.onblur`, `nodeField.oninput`, `output.getPages`, `p.drawRectangle`, `p.drawText`, `p.getViewport`, `p.render`, `p.setCropBox`, `p.setRotation`, `penButton.click`, `penButton.getAttribute`, `pencilSamples.every`, `pencilSamples.push`, `plainExport.window.close`, `plainExport.window.document.querySelector`, `plainExport.window.document.querySelectorAll`, `point`, `retainedBytes.text`, `saved.notes.find`, `structuredClone`, `surface.getContext`, `syncEvents.some`, `transcript.dispatchEvent`, `transcript.setRangeText`, `transcript.setSelectionRange`, `transcript.value.indexOf`, `typeButton.click`, `typeButton.dispatchEvent`, `typeButton.focus`, `until`, `visibilitySVG.setAttribute`, `w.LeafnoteApp.file`, `w.LeafnoteApp.finish`, `w.LeafnoteApp.maintenance.restoreRevision`, `w.LeafnoteApp.maintenance.trashNote`, `w.LeafnoteApp.sync.apply`, `w.LeafnoteApp.sync.busy`, `w.LeafnoteApp.sync.read`, `w.dispatchEvent`, `w.document.activeElement?.blur`, `w.document.addEventListener`, `w.document.body.dispatchEvent`, `w.document.dispatchEvent`, `w.document.querySelector`, `w.localStorage.getItem`
+- Direct calls: `$`, `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#boardin").click`, `$("#cancelreview").click`, `$("#clearsearch").click`, `$("#closemaintenance").click`, `$("#closemodels").click`, `$("#color").dispatchEvent`, `$("#continuewriting").click`, `$("#delete").onclick`, `$("#deleteidea").click`, `$("#discardreview").click`, `$("#export").onclick`, `$("#extendboard").click`, `$("#favorite").click`, `$("#focusmode").click`, `$("#focusmode").getAttribute`, `$("#indexnotes").onclick`, `$("#indexstatus").textContent.includes`, `$("#inkoptions").contains`, `$("#inktranscript").dispatchEvent`, `$("#inputmode").onchange`, `$("#languagemodels").onclick`, `$("#maintenance").click`, `$("#maintenancelist button").onclick`, `$("#maintenancelist").textContent.includes`, `$("#mobile").click`, `$("#mobile").getAttribute`, `$("#modal").close`, `$("#modelcards").querySelectorAll`, `$("#modelcards").textContent.includes`, `$("#modelstatus").textContent.includes`, `$("#newboard").click`, `$("#nextpage").onclick`, `$("#notemenu summary").click`, `$("#notemenu").contains`, `$("#pdffile").onchange`, `$("#pencilgrade").dispatchEvent`, `$("#prevpage").onclick`, `$("#recognitionlanguage").onchange`, `$("#redo").click`, `$("#retryrecognition").onclick`, `$("#reviewhandwriting").click`, `$("#reviewinksearch").click`, `$("#reviewstatus").textContent.includes`, `$("#savetranscript").click`, `$("#savetranscript").onclick`, `$("#search").oninput`, `$("#searchallcontent").click`, `$("#searchkind").onchange`, `$("#searchscope").textContent.includes`, `$("#sheet").querySelector`, `$("#syncdialog").removeAttribute`, `$("#syncdialog").setAttribute`, `$("#textcolor").dispatchEvent`, `$("#textsize").dispatchEvent`, `$("#textspacing").dispatchEvent`, `$("#title").focus`, `$("#toast").textContent.includes`, `$("#toolsettings summary").click`, `$("#toolsettings").contains`, `$("#undo").click`, `$("#viewgrid").click`, `$("#viewgrid").getAttribute`, `$("#viewlist").click`, `$("#viewlist").getAttribute`, `$("#width").dispatchEvent`, `$("#writingkind").dispatchEvent`, `$("#zoomfit").click`, `$("#zoomin").click`, `$(".app").classList.contains`, `$(".app").classList.remove`, `$(".canvas-row").contains`, `$(".topbar").contains`, `$('#modelcards [data-install-model="mr"]').click`, `$('#modelcards [data-remove-model="mr"]').click`, `$('#modelcards [data-use-model="mr"]').click`, `$('#notes [data-result-id="' + plainId + '"]').click`, `$('[data-filter="all"]').click`, `$('[data-filter="star"]').click`, `$('[data-tool="highlighter"]').click`, `$('[data-tool="idea"]').click`, `$('[data-tool="link"]').click`, `$('[data-tool="pen"]').click`, `$('[data-tool="select"]').click`, `$('[data-tool="text"]').click`, `(await w.LeafnoteApp.file(retainedId)).text`, `Buffer.from`, `Ink.hits`, `Ink.imagePlacement`, `Ink.widthAt`, `JSON.parse`, `JSON.stringify`, `Number`, `Object.defineProperty`, `Object.keys`, `PDFLib.PDFDocument.create`, `PDFLib.PDFDocument.load`, `PDFLib.degrees`, `PDFLib.rgb`, `Search.lines`, `Search.norm`, `Search.search`, `Search.signature`, `["H", "HB", "1B", "2B"].entries`, `[...w.document.querySelectorAll("#notes .note")].find`, `again.dom.window.close`, `again.evaluate`, `again.w.LeafnoteApp.file`, `again.w.document .querySelector`, `again.w.document .querySelector("#viewlist") .getAttribute`, `again.w.document .querySelector(".app") .classList.contains`, `again.w.document.querySelector`, `again.w.document.querySelector(".app").classList.contains`, `app.dom.window.close`, `app.lib.getDocument`, `backup.notes.find`, `blocked.dom.window.close`, `blocked.w.document .querySelector`, `blocked.w.document .querySelector("#loading") .textContent.includes`, `boardCard?.querySelector`, `c.cloneNode`, `c.ondblclick`, `c.onpointercancel`, `c.onpointerdown`, `c.onpointermove`, `c.onpointerup`, `c.querySelector`, `c.querySelector("[data-board]").textContent.includes`, `c.querySelector("text").getAttribute`, `c.querySelectorAll`, `cardContext.drawImage`, `cardContext.getImageData`, `cardSurface.getContext`, `check`, `chosen.click`, `console.log`, `context.getImageData`, `db.close`, `doc.addPage`, `doc.save`, `ev`, `event`, `exportedDoc.getPage`, `exportedDoc.loadingTask.destroy`, `field.onblur`, `field.oninput`, `field.onkeydown`, `field.setSelectionRange`, `field.value.includes`, `formattedSpans[0].getAttribute`, `formattedSpans[1].getAttribute`, `granted.dom.window.close`, `granted.evaluate`, `granted.w.LeafnoteApp.sync.supported`, `incoming.notes.find`, `incoming.notes.push`, `latestSync.data.notes.map`, `makeApp`, `native.createCanvas`, `native.loadImage`, `new w.XMLSerializer().serializeToString`, `nodeField.onblur`, `nodeField.oninput`, `output.getPages`, `p.drawRectangle`, `p.drawText`, `p.getViewport`, `p.render`, `p.setCropBox`, `p.setRotation`, `pdfCard?.querySelector`, `penButton.click`, `penButton.getAttribute`, `pencilSamples.every`, `pencilSamples.push`, `plainExport.window.close`, `plainExport.window.document.querySelector`, `plainExport.window.document.querySelectorAll`, `point`, `retainedBytes.text`, `saved.notes.find`, `structuredClone`, `surface.getContext`, `syncEvents.some`, `transcript.dispatchEvent`, `transcript.setRangeText`, `transcript.setSelectionRange`, `transcript.value.indexOf`, `typeButton.click`, `typeButton.dispatchEvent`, `typeButton.focus`, `until`, `visibilitySVG.setAttribute`, `w.LeafLibrary.close`, `w.LeafLibrary.open`, `w.LeafnoteApp.file`, `w.LeafnoteApp.finish`, `w.LeafnoteApp.maintenance.restoreRevision`, `w.LeafnoteApp.maintenance.trashNote`, `w.LeafnoteApp.sync.apply`, `w.LeafnoteApp.sync.busy`, `w.LeafnoteApp.sync.read`, `w.dispatchEvent`, `w.document.activeElement?.blur`, `w.document.addEventListener`, `w.document.body.dispatchEvent`, `w.document.dispatchEvent`, `w.document.querySelector`, `w.document.querySelectorAll`, `w.localStorage.getItem`
 - Assigned/updated targets: `$("#color").value`, `$("#inkoptions").hidden`, `$("#inktranscript").value`, `$("#inputmode").value`, `$("#notemenu").open`, `$("#pencilgrade").value`, `$("#recognitionlanguage").value`, `$("#recognitionreview").hidden`, `$("#search").value`, `$("#searchkind").value`, `$("#textcolor").value`, `$("#textsize").value`, `$("#textspacing").value`, `$("#toolsettings").open`, `$("#width").value`, `$("#writingkind").value`, `arrival.id`, `arrival.title`, `createPointer.preventDefault`, `editPointer.preventDefault`, `exported`, `field`, `field.value`, `i`, `nodeField`, `nodeField.value`, `raw.files`, `raw.version`, `transcript.value`, `visibleGlyphs`, `w.Worker`, `w.__ocrDelay`, `w.__ocrError`, `w.__ocrResponse`, `w.innerWidth`
 - Return expressions: (none)
 
-### $ — line 403
+### $ — line 408
 
 Select the first DOM element matching a CSS selector.
 
-- Source: [`test/app.integration.cjs:403`](../test/app.integration.cjs#L403)
+- Source: [`test/app.integration.cjs:408`](../test/app.integration.cjs#L408)
 - Parameters: `s`; async: false
 - Direct calls: `w.document.querySelector`
 - Assigned/updated targets: (none)
 - Return expressions: `w.document.querySelector(s)`
 
-### <anonymous callback> — line 460
+### <anonymous callback> — line 415
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:460`](../test/app.integration.cjs#L460)
+- Source: [`test/app.integration.cjs:415`](../test/app.integration.cjs#L415)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`
+- Assigned/updated targets: (none)
+- Return expressions: `$("#notes .note-thumbnail svg")`
+
+### <anonymous callback> — line 478
+
+Provide the callback passed to until.
+
+- Source: [`test/app.integration.cjs:478`](../test/app.integration.cjs#L478)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$(".canvas-row").classList.contains`
 - Assigned/updated targets: (none)
 - Return expressions: `$(".canvas-row").classList.contains("review-open")`
 
-### <anonymous callback> — line 470
+### <anonymous callback> — line 488
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:470`](../test/app.integration.cjs#L470)
+- Source: [`test/app.integration.cjs:488`](../test/app.integration.cjs#L488)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$(".canvas-row").classList.contains`
 - Assigned/updated targets: (none)
 - Return expressions: `!$(".canvas-row").classList.contains("review-open")`
 
-### <anonymous callback> — line 532
+### <anonymous callback> — line 550
 
 Provide the callback passed to pencilSamples.every.
 
-- Source: [`test/app.integration.cjs:532`](../test/app.integration.cjs#L532)
+- Source: [`test/app.integration.cjs:550`](../test/app.integration.cjs#L550)
 - Parameters: `stroke, i`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `stroke.brush === "pencil" && stroke.grade === ["H", "HB", "1B", "2B"][i]`
 
-### preventDefault — line 636
+### preventDefault — line 654
 
 Implement the preventDefault callback in this object.
 
-- Source: [`test/app.integration.cjs:636`](../test/app.integration.cjs#L636)
+- Source: [`test/app.integration.cjs:654`](../test/app.integration.cjs#L654)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### stopPropagation — line 638
+### stopPropagation — line 656
 
 Implement the stopPropagation callback in this object.
 
-- Source: [`test/app.integration.cjs:638`](../test/app.integration.cjs#L638)
+- Source: [`test/app.integration.cjs:656`](../test/app.integration.cjs#L656)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 686
+### <anonymous callback> — line 704
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:686`](../test/app.integration.cjs#L686)
+- Source: [`test/app.integration.cjs:704`](../test/app.integration.cjs#L704)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `ev`
 - Assigned/updated targets: (none)
 - Return expressions: `ev("current") === plainId && !!$("#searchoverlay")`
 
-### point — line 787
+### point — line 805
 
 Convert a pointer event to the original canvas coordinates.
 
-- Source: [`test/app.integration.cjs:787`](../test/app.integration.cjs#L787)
+- Source: [`test/app.integration.cjs:805`](../test/app.integration.cjs#L805)
 - Parameters: `id, x, y`; async: false
 - Direct calls: `c.getBoundingClientRect`, `event`
 - Assigned/updated targets: (none)
 - Return expressions: `event( w, id, r.left + (x / v.width) * r.width, r.top + (y / v.height) * r.height, "mouse", )`
 
-### <anonymous callback> — line 842
+### <anonymous callback> — line 860
 
 Handle the callback assigned to editPointer.preventDefault.
 
-- Source: [`test/app.integration.cjs:842`](../test/app.integration.cjs#L842)
+- Source: [`test/app.integration.cjs:860`](../test/app.integration.cjs#L860)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `defaultPrevented`
 - Return expressions: (none)
 
-### <anonymous callback> — line 885
+### <anonymous callback> — line 903
 
 Handle the callback assigned to createPointer.preventDefault.
 
-- Source: [`test/app.integration.cjs:885`](../test/app.integration.cjs#L885)
+- Source: [`test/app.integration.cjs:903`](../test/app.integration.cjs#L903)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `creationPrevented`
 - Return expressions: (none)
 
-### getCoalescedEvents — line 1047
+### getCoalescedEvents — line 1065
 
 Implement the getCoalescedEvents callback in this object.
 
-- Source: [`test/app.integration.cjs:1047`](../test/app.integration.cjs#L1047)
+- Source: [`test/app.integration.cjs:1065`](../test/app.integration.cjs#L1065)
 - Parameters: `(none)`; async: false
 - Direct calls: `event`
 - Assigned/updated targets: (none)
 - Return expressions: `[ event(w, 7, 30, 40, "pen", { pressure: 0.2 }), event(w, 7, 40, 50, "pen", { pressure: 0.8 }), ]`
 
-### <anonymous callback> — line 1093
+### <anonymous callback> — line 1111
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1093`](../test/app.integration.cjs#L1093)
+- Source: [`test/app.integration.cjs:1111`](../test/app.integration.cjs#L1111)
 - Parameters: `resolve, reject`; async: false
 - Direct calls: `indexedDB.open`
 - Assigned/updated targets: `r.onerror`, `r.onsuccess`
 - Return expressions: (none)
 
-### <anonymous callback> — line 1095
+### <anonymous callback> — line 1113
 
 Handle the callback assigned to r.onsuccess.
 
-- Source: [`test/app.integration.cjs:1095`](../test/app.integration.cjs#L1095)
+- Source: [`test/app.integration.cjs:1113`](../test/app.integration.cjs#L1113)
 - Parameters: `(none)`; async: false
 - Direct calls: `resolve`
 - Assigned/updated targets: (none)
 - Return expressions: `resolve(r.result)`
 
-### <anonymous callback> — line 1098
+### <anonymous callback> — line 1116
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1098`](../test/app.integration.cjs#L1098)
+- Source: [`test/app.integration.cjs:1116`](../test/app.integration.cjs#L1116)
 - Parameters: `resolve`; async: false
 - Direct calls: `db.transaction`, `db.transaction("state").objectStore`, `db.transaction("state").objectStore("state").get`
 - Assigned/updated targets: `r.onsuccess`
 - Return expressions: (none)
 
-### <anonymous callback> — line 1100
+### <anonymous callback> — line 1118
 
 Handle the callback assigned to r.onsuccess.
 
-- Source: [`test/app.integration.cjs:1100`](../test/app.integration.cjs#L1100)
+- Source: [`test/app.integration.cjs:1118`](../test/app.integration.cjs#L1118)
 - Parameters: `(none)`; async: false
 - Direct calls: `resolve`
 - Assigned/updated targets: (none)
 - Return expressions: `resolve(r.result)`
 
-### <anonymous callback> — line 1103
+### <anonymous callback> — line 1121
 
 Provide the callback passed to saved.notes.find.
 
-- Source: [`test/app.integration.cjs:1103`](../test/app.integration.cjs#L1103)
+- Source: [`test/app.integration.cjs:1121`](../test/app.integration.cjs#L1121)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id === "legacy-note"`
 
-### <anonymous callback> — line 1173
+### <anonymous callback> — line 1191
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1173`](../test/app.integration.cjs#L1173)
+- Source: [`test/app.integration.cjs:1191`](../test/app.integration.cjs#L1191)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1228
+### <anonymous callback> — line 1246
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1228`](../test/app.integration.cjs#L1228)
+- Source: [`test/app.integration.cjs:1246`](../test/app.integration.cjs#L1246)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1238
+### <anonymous callback> — line 1256
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1238`](../test/app.integration.cjs#L1238)
+- Source: [`test/app.integration.cjs:1256`](../test/app.integration.cjs#L1256)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1253
+### <anonymous callback> — line 1271
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1253`](../test/app.integration.cjs#L1253)
+- Source: [`test/app.integration.cjs:1271`](../test/app.integration.cjs#L1271)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1349
+### <anonymous callback> — line 1367
 
 Provide the callback passed to backup.notes.find.
 
-- Source: [`test/app.integration.cjs:1349`](../test/app.integration.cjs#L1349)
+- Source: [`test/app.integration.cjs:1367`](../test/app.integration.cjs#L1367)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.pdf`
 
-### <anonymous callback> — line 1360
+### <anonymous callback> — line 1378
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1360`](../test/app.integration.cjs#L1360)
+- Source: [`test/app.integration.cjs:1378`](../test/app.integration.cjs#L1378)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#modal").open`
 
-### <anonymous callback> — line 1382
+### <anonymous callback> — line 1400
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1382`](../test/app.integration.cjs#L1382)
+- Source: [`test/app.integration.cjs:1400`](../test/app.integration.cjs#L1400)
 - Parameters: `m`; async: false
 - Direct calls: `setTimeout`
 - Assigned/updated targets: `w.__ocrJobs`, `w.__ocrLanguage`
 - Return expressions: (none)
 
-### <anonymous callback> — line 1386
+### <anonymous callback> — line 1404
 
 Provide the callback passed to setTimeout.
 
-- Source: [`test/app.integration.cjs:1386`](../test/app.integration.cjs#L1386)
+- Source: [`test/app.integration.cjs:1404`](../test/app.integration.cjs#L1404)
 - Parameters: `(none)`; async: false
 - Direct calls: `this.onmessage`
 - Assigned/updated targets: (none)
 - Return expressions: `this.onmessage({ data: w.__ocrError ? { type: "error", id: m.id, error: w.__ocrError } : { type: "result", id: m.id, ...w.__ocrResponse }, })`
 
-### <anonymous callback> — line 1395
+### <anonymous callback> — line 1413
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1395`](../test/app.integration.cjs#L1395)
+- Source: [`test/app.integration.cjs:1413`](../test/app.integration.cjs#L1413)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 1422
+### <anonymous callback> — line 1440
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1422`](../test/app.integration.cjs#L1422)
+- Source: [`test/app.integration.cjs:1440`](../test/app.integration.cjs#L1440)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `!!$('#notes [data-result-id="' + handId + '"]')`
 
-### <anonymous callback> — line 1426
+### <anonymous callback> — line 1444
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1426`](../test/app.integration.cjs#L1426)
+- Source: [`test/app.integration.cjs:1444`](../test/app.integration.cjs#L1444)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#indexnotes").textContent === "Index all notes"`
 
-### <anonymous callback> — line 1560
+### <anonymous callback> — line 1578
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1560`](../test/app.integration.cjs#L1560)
+- Source: [`test/app.integration.cjs:1578`](../test/app.integration.cjs#L1578)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `(w.__ocrJobs || 0) > jobsBefore`
 
-### <anonymous callback> — line 1603
+### <anonymous callback> — line 1621
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1603`](../test/app.integration.cjs#L1603)
+- Source: [`test/app.integration.cjs:1621`](../test/app.integration.cjs#L1621)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `!$('#modelcards [data-use-model="mr"]').disabled`
 
-### <anonymous callback> — line 1635
+### <anonymous callback> — line 1653
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1635`](../test/app.integration.cjs#L1635)
+- Source: [`test/app.integration.cjs:1653`](../test/app.integration.cjs#L1653)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$('#modelcards [data-use-model="mr"]').disabled`
 
-### <anonymous callback> — line 1707
+### <anonymous callback> — line 1710
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1707`](../test/app.integration.cjs#L1707)
+- Source: [`test/app.integration.cjs:1710`](../test/app.integration.cjs#L1710)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`
+- Assigned/updated targets: (none)
+- Return expressions: `$("#notes .note-thumbnail canvas")`
+
+### <anonymous callback> — line 1714
+
+Provide the callback passed to [...w.document.querySelectorAll("#notes .note")].find.
+
+- Source: [`test/app.integration.cjs:1714`](../test/app.integration.cjs#L1714)
+- Parameters: `el`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `el.dataset.id === pdfId`
+
+### <anonymous callback> — line 1722
+
+Provide the callback passed to [...w.document.querySelectorAll("#notes .note")].find.
+
+- Source: [`test/app.integration.cjs:1722`](../test/app.integration.cjs#L1722)
+- Parameters: `el`; async: false
+- Direct calls: `JSON.stringify`, `ev`
+- Assigned/updated targets: (none)
+- Return expressions: `ev( "data.notes.find(n=>n.id===" + JSON.stringify(el.dataset.id) + ")?.board", )`
+
+### <anonymous callback> — line 1768
+
+Provide the callback passed to until.
+
+- Source: [`test/app.integration.cjs:1768`](../test/app.integration.cjs#L1768)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#modal").open`
 
-### <anonymous callback> — line 1740
+### <anonymous callback> — line 1801
 
 Handle the "leafnote-local-saved" event registered by w.document.addEventListener.
 
-- Source: [`test/app.integration.cjs:1740`](../test/app.integration.cjs#L1740)
+- Source: [`test/app.integration.cjs:1801`](../test/app.integration.cjs#L1801)
 - Parameters: `e`; async: false
 - Direct calls: `syncEvents.push`
 - Assigned/updated targets: (none)
 - Return expressions: `syncEvents.push(e.detail)`
 
-### <anonymous callback> — line 1745
+### <anonymous callback> — line 1806
 
 Provide the callback passed to incoming.notes.find.
 
-- Source: [`test/app.integration.cjs:1745`](../test/app.integration.cjs#L1745)
+- Source: [`test/app.integration.cjs:1806`](../test/app.integration.cjs#L1806)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `!n.pdf && !n.board`
 
-### <anonymous callback> — line 1762
+### <anonymous callback> — line 1823
 
 Provide the callback passed to latestSync.data.notes.map.
 
-- Source: [`test/app.integration.cjs:1762`](../test/app.integration.cjs#L1762)
+- Source: [`test/app.integration.cjs:1823`](../test/app.integration.cjs#L1823)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id`
 
-### <anonymous callback> — line 1781
+### <anonymous callback> — line 1842
 
 Provide the callback passed to syncEvents.some.
 
-- Source: [`test/app.integration.cjs:1781`](../test/app.integration.cjs#L1781)
+- Source: [`test/app.integration.cjs:1842`](../test/app.integration.cjs#L1842)
 - Parameters: `e`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `e.remote`
 
-### request — line 1931
+### request — line 2003
 
 Convert an IndexedDB request to a promise.
 
-- Source: [`test/app.integration.cjs:1931`](../test/app.integration.cjs#L1931)
+- Source: [`test/app.integration.cjs:2003`](../test/app.integration.cjs#L2003)
 - Parameters: `name, options, callback`; async: true
 - Direct calls: `callback`
 - Assigned/updated targets: (none)
 - Return expressions: `callback(null)`
 
-### request — line 1950
+### request — line 2022
 
 Convert an IndexedDB request to a promise.
 
-- Source: [`test/app.integration.cjs:1950`](../test/app.integration.cjs#L1950)
+- Source: [`test/app.integration.cjs:2022`](../test/app.integration.cjs#L2022)
 - Parameters: `name, options, callback`; async: true
 - Direct calls: `callback`
 - Assigned/updated targets: (none)
 - Return expressions: `callback({ name })`
 
-### <anonymous callback> — line 1970
+### <anonymous callback> — line 2042
 
 Provide the callback passed to main() .then.
 
-- Source: [`test/app.integration.cjs:1970`](../test/app.integration.cjs#L1970)
+- Source: [`test/app.integration.cjs:2042`](../test/app.integration.cjs#L2042)
 - Parameters: `(none)`; async: false
 - Direct calls: `process.exit`
 - Assigned/updated targets: (none)
 - Return expressions: `process.exit(0)`
 
-### <anonymous callback> — line 1971
+### <anonymous callback> — line 2043
 
 Provide the callback passed to main() .then(() => process.exit(0)) .catch.
 
-- Source: [`test/app.integration.cjs:1971`](../test/app.integration.cjs#L1971)
+- Source: [`test/app.integration.cjs:2043`](../test/app.integration.cjs#L2043)
 - Parameters: `e`; async: false
 - Direct calls: `console.error`, `process.exit`
 - Assigned/updated targets: (none)
+- Return expressions: (none)
+
+## test/library-preview.test.cjs
+
+First-party development or verification code.
+
+### note — line 6
+
+Resolve the currently open note from its stable ID.
+
+- Source: [`test/library-preview.test.cjs:6`](../test/library-preview.test.cjs#L6)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `{ paper: "plain", strokes: [ { color: "#264c3d", width: 3, opacity: 0.68, brush: "pencil", grade: "HB", points: [ [20, 30, 0.2], [80, 60, 0.8], ], }, ], texts: [ { x: 40, y: 100, w`
+
+### <anonymous callback> — line 35
+
+Provide the callback passed to test.
+
+- Source: [`test/library-preview.test.cjs:35`](../test/library-preview.test.cjs#L35)
+- Parameters: `(none)`; async: false
+- Direct calls: `JSON.stringify`, `Preview.render`, `assert.equal`, `dom.window.close`, `note`, `svg.getAttribute`, `svg.querySelector`, `svg.querySelector("[data-ink]").getAttribute`, `svg.querySelector("text").getAttribute`, `svg.querySelectorAll`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 51
+
+Provide the callback passed to test.
+
+- Source: [`test/library-preview.test.cjs:51`](../test/library-preview.test.cjs#L51)
+- Parameters: `(none)`; async: false
+- Direct calls: `JSON.stringify`, `Preview.bounds`, `Preview.render`, `assert.equal`, `assert.match`, `assert.ok`, `dom.window.close`, `note`, `svg.querySelector`
+- Assigned/updated targets: `n.board`
+- Return expressions: (none)
+
+### <anonymous callback> — line 93
+
+Provide the callback passed to test.
+
+- Source: [`test/library-preview.test.cjs:93`](../test/library-preview.test.cjs#L93)
+- Parameters: `(none)`; async: false
+- Direct calls: `Preview.render`, `assert.equal`, `assert.ok`, `dom.window.close`, `note`, `svg.getAttribute`, `svg.querySelector`
+- Assigned/updated targets: `n.pdf`
 - Return expressions: (none)
 
 ## test/maintenance-ui.test.cjs

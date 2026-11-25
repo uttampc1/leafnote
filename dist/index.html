@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="search-board.css" />
     <link rel="stylesheet" href="language-models.css" />
     <link rel="stylesheet" href="minimal.css" />
+    <link rel="stylesheet" href="library.css" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -21,6 +22,7 @@
       <section class="notelist" id="library" aria-label="Note library">
         <div class="library-top">
           <a class="brand" href="./"><span class="logo">✳</span> leafnote</a
+          ><button id="continuewriting">Continue writing</button
           ><button class="primary" id="new">+ New note</button>
         </div>
         <nav class="library-nav">
@@ -81,6 +83,10 @@
           </details>
         </div>
         <div class="listbar">
+          <div class="library-views" role="group" aria-label="Library view">
+            <button id="viewgrid" aria-pressed="true">Grid</button
+            ><button id="viewlist" aria-pressed="false">List</button>
+          </div>
           <span id="results"></span
           ><select id="sort" aria-label="Sort notes">
             <option value="updated">Last edited</option>
@@ -91,7 +97,10 @@
         <footer>
           <details class="disclosure" id="librarymore">
             <summary>Library actions</summary>
-            <button id="backup">Export backup</button
+            <button id="librarypdf">Import PDF</button
+            ><button id="libraryboard">New brainstorm board</button
+            ><button id="librarymaintenance">Maintenance</button
+            ><button id="backup">Export backup</button
             ><button id="restore">Import backup</button
             ><input
               type="file"
@@ -597,5 +606,7 @@
       <button id="olderrevisions" hidden>Older revisions</button>
     </dialog>
     <script src="maintenance.js"></script>
+    <script src="library-preview.js"></script>
+    <script src="library.js"></script>
   </body>
 </html>

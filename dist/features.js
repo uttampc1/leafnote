@@ -1480,7 +1480,7 @@
       newNote();
     };
   $("#new").onclick = createNote;
-  $(".listbar button").onclick = createNote;
+  $(".listbar > button").onclick = createNote;
   window.addEventListener("blur", () => finishInput());
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) finishInput();

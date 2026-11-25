@@ -84,7 +84,7 @@ docker compose up -d --build --wait
 
 An installed app can continue running its old offline shell while a new version is downloaded. **••• → Update app** saves current edits before asking the waiting worker to activate and reloading. Closing all old app windows also lets a fully downloaded version activate naturally. Failed shell installation leaves the current version available.
 
-Keep an old image tag if you want a rollback: `docker tag leafnote-local:1.2.0 leafnote-local:previous` before rebuilding. To roll back, retag the previous image as `leafnote-local:1.2.0`, then run `docker compose up -d --no-build`. A browser may still have a newer offline shell; close its windows, reconnect, and allow the older server version to install as another complete shell. Do not clear site storage to force an update without first exporting the notebook.
+Keep an old image tag if you want a rollback: `docker tag leafnote-local:1.3.0 leafnote-local:previous` before rebuilding. To roll back, retag the previous image as `leafnote-local:1.3.0`, then run `docker compose up -d --no-build`. A browser may still have a newer offline shell; close its windows, reconnect, and allow the older server version to install as another complete shell. Do not clear site storage to force an update without first exporting the notebook.
 
 Export notebooks from every client. Synchronization propagates deletions; backups are still needed for recovery. Back up the complete server sync folder as well as client exports; Caddy/CA volumes alone do not contain the synchronized notebook. Clearing browser site data removes that client’s notes. A new IP, port, or HTTP/HTTPS scheme is a new origin and a different notebook store. **Import backup replaces destination notes.**
 

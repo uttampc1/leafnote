@@ -1,0 +1,291 @@
+﻿/* A roomy library overview; opening a note restores the minimal writing screen. */
+.app.library-home {
+  grid-template-columns: minmax(0, 1fr);
+}
+.app.library-home > main,
+.app.library-home > #libraryshade {
+  display: none !important;
+}
+.app.library-home > #library {
+  display: grid !important;
+  grid-template-columns: 200px minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
+  grid-column: 1;
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  height: 100dvh;
+  overflow: hidden;
+  visibility: visible !important;
+  background: #fafbf9;
+  border: 0;
+}
+.library-home .library-top {
+  grid-column: 1/-1;
+  grid-row: 1;
+  padding: 24px 30px;
+  justify-content: flex-start;
+  gap: 16px;
+  border-bottom: 1px solid #e4e9e0;
+}
+.library-home .library-top .brand {
+  margin-right: auto;
+}
+#continuewriting {
+  display: none;
+  border: 1px solid #d5dfce;
+}
+.library-home #continuewriting {
+  display: inline-flex;
+}
+.library-home .library-nav {
+  grid-column: 1;
+  grid-row: 2;
+  flex-direction: column;
+  padding: 20px 14px 6px;
+}
+.library-home #notebooks-menu {
+  grid-column: 1;
+  grid-row: 3/6;
+  align-self: start;
+  max-height: 100%;
+  overflow: auto;
+}
+.library-home .notelist > header {
+  grid-column: 2;
+  grid-row: 2;
+  padding: 24px 26px 12px;
+}
+.library-home .notelist h1 {
+  font-size: 26px;
+}
+.library-home .searchpanel {
+  grid-column: 2;
+  grid-row: 3;
+  margin: 0 26px 4px;
+  max-height: 36vh;
+  overflow: auto;
+}
+.library-home .listbar {
+  grid-column: 2;
+  grid-row: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 26px;
+  flex-wrap: wrap;
+}
+.library-home .listbar #results {
+  margin-right: auto;
+}
+.library-home .listbar > button:not(#viewgrid):not(#viewlist) {
+  display: none;
+}
+.library-views {
+  display: none;
+  gap: 3px;
+  border: 1px solid #dce4d7;
+  padding: 3px;
+  border-radius: 9px;
+}
+.library-home .library-views {
+  display: inline-flex;
+}
+.library-views button {
+  font-size: 14px;
+  padding: 7px 11px;
+}
+.library-views button[aria-pressed="true"] {
+  background: #e5edde;
+  color: #264c3d;
+}
+.library-home #notes {
+  grid-column: 2;
+  grid-row: 5/7;
+  overflow: auto;
+  padding: 8px 26px 28px;
+  min-height: 0;
+}
+.library-home .notelist > footer {
+  grid-column: 1;
+  grid-row: 6;
+  padding: 12px 14px;
+}
+.library-home.notes-grid #notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  gap: 22px;
+  align-content: start;
+  align-items: start;
+}
+.library-home.notes-grid #notes .note {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 13px;
+  border: 1px solid #dde5d7;
+  border-radius: 11px;
+  overflow: hidden;
+  background: white;
+  text-align: left;
+  box-shadow: 0 2px 7px #263b2110;
+}
+.library-home.notes-grid #notes .note:hover {
+  border-color: #91a780;
+  box-shadow: 0 5px 15px #263b2118;
+}
+.library-home.notes-grid #notes .note.active {
+  border-color: #79966a;
+}
+.note-thumbnail {
+  display: none;
+}
+.library-home.notes-grid .note-thumbnail {
+  display: block;
+  position: relative;
+  height: 280px;
+  background: #fff;
+  border-bottom: 1px solid #e6ebe2;
+  overflow: hidden;
+}
+.note-thumbnail > svg,
+.note-thumbnail > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.note-thumbnail > svg {
+  z-index: 1;
+}
+.preview-unavailable {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: white;
+  color: #697362;
+  padding: 3px 6px;
+  z-index: 2;
+}
+.library-home.notes-grid .note > .tag {
+  margin: 12px 13px 4px;
+  font-size: 12px;
+}
+.library-home.notes-grid .note h3 {
+  margin: 2px 13px 8px;
+  font-size: 16px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.library-home.notes-grid .note > .preview {
+  display: none;
+}
+.library-home.notes-grid .note > .meta {
+  margin: 0 13px;
+  font-size: 12px;
+  line-height: 1.5;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.library-home.notes-grid .note.search-result > .preview {
+  display: block;
+  margin: 0 13px 8px;
+  max-height: 42px;
+  overflow: hidden;
+}
+.library-home.notes-list #notes {
+  max-width: 1100px;
+}
+.library-home.notes-list .note {
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  border: 1px solid #e2e7de;
+  background: white;
+}
+@media (max-width: 760px) {
+  .app.library-home > #library {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
+  }
+  .library-home .library-top {
+    padding: 16px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .library-home .library-top .brand {
+    font-size: 20px;
+  }
+  .library-home .library-nav {
+    grid-column: 1;
+    grid-row: 2;
+    flex-direction: row;
+    padding: 12px 16px 4px;
+  }
+  .library-home #notebooks-menu {
+    grid-column: 1;
+    grid-row: 3;
+    max-height: 25vh;
+    margin: 0 16px;
+  }
+  .library-home .notelist > header {
+    grid-column: 1;
+    grid-row: 4;
+    padding: 12px 16px;
+  }
+  .library-home .searchpanel {
+    grid-column: 1;
+    grid-row: 5;
+    max-height: none;
+    overflow: visible;
+    margin: 0 16px;
+  }
+  .library-home .listbar {
+    grid-column: 1;
+    grid-row: 6;
+    padding: 10px 16px;
+  }
+  .library-home #notes {
+    grid-column: 1;
+    grid-row: 7;
+    overflow: visible;
+    padding: 8px 16px 20px;
+  }
+  .library-home .notelist > footer {
+    grid-column: 1;
+    grid-row: 8;
+  }
+  .app.library-home > #library {
+    display: grid !important;
+    grid-template-rows: repeat(8, auto);
+    align-content: start;
+    overflow: auto;
+  }
+  .library-home.notes-grid #notes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .library-home.notes-grid .note-thumbnail {
+    height: 220px;
+  }
+}
+@media (max-width: 400px) {
+  .library-home.notes-grid #notes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .library-home.notes-grid .note-thumbnail {
+    height: 300px;
+  }
+}
+
+.library-home .library-views {
+  order: 2;
+}
+.library-home #sort {
+  order: 3;
+}

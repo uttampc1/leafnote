@@ -38,6 +38,7 @@ async function makeApp(
   writing,
   writerLock,
   expectBlocked = false,
+  libraryView,
 ) {
   const html = fs
     .readFileSync(root + "/index.html", "utf8")
@@ -198,6 +199,8 @@ async function makeApp(
   );
   await modelModule.link(() => {});
   await modelModule.evaluate();
+  if (libraryView)
+    w.localStorage.setItem("leafnote-library-view-v1", libraryView);
   if (legacy) w.localStorage.setItem("leafnote-v1", JSON.stringify(legacy));
   if (layout)
     w.localStorage.setItem("leafnote-layout-v1", JSON.stringify(layout));
@@ -217,6 +220,8 @@ async function makeApp(
     "minimal.js",
     "pwa.js",
     "maintenance.js",
+    "library-preview.js",
+    "library.js",
   ]) {
     new vm.Script(fs.readFileSync(root + "/" + file, "utf8"), {
       filename: file,
@@ -403,6 +408,17 @@ async function main() {
   const $ = (s) => w.document.querySelector(s),
     c = $("#canvas");
   check(
+    $(".app").classList.contains("library-home") &&
+      $("#viewgrid").getAttribute("aria-pressed") === "true",
+    "large thumbnail library is the default starting view",
+  );
+  await until(() => $("#notes .note-thumbnail svg"), "initial thumbnails");
+  check(
+    !!$("#notes .note-thumbnail svg"),
+    "library cards render actual page previews",
+  );
+  $("#continuewriting").click();
+  check(
     $(".app").classList.contains("library-hidden") &&
       !$("#searchoptions").open &&
       !$("#notemenu").open &&
@@ -417,8 +433,9 @@ async function main() {
   check(
     !$(".app").classList.contains("library-hidden") &&
       $("#mobile").getAttribute("aria-expanded") === "true",
-    "Notes reveals the compact library and its search field",
+    "Notes reveals the library and its search field",
   );
+  $("#continuewriting").click();
   $("#notemenu summary").click();
   check(
     $("#notemenu").open &&
@@ -455,6 +472,7 @@ async function main() {
       w.document.activeElement === $("#search"),
     "Ctrl+K leaves Focus and reveals and focuses search",
   );
+  $("#continuewriting").click();
   $("#reviewhandwriting").click();
   await until(
     () => $(".canvas-row").classList.contains("review-open"),
@@ -482,9 +500,9 @@ async function main() {
   check(
     $(".app").classList.contains("showlist") &&
       $("#mobile").getAttribute("aria-expanded") === "true",
-    "Notes opens the library as a drawer on a small screen",
+    "Notes opens the thumbnail overview on a small screen",
   );
-  $("#libraryshade").click();
+  $("#continuewriting").click();
   check(
     !$(".app").classList.contains("showlist") &&
       JSON.stringify(ev("note().strokes")) === inkBeforeLayout,
@@ -1687,6 +1705,49 @@ async function main() {
   $("#toolsettings").open = false;
   w.document.activeElement?.blur();
 
+  w.LeafLibrary.open();
+  await until(
+    () => $("#notes .note-thumbnail canvas"),
+    "real PDF page thumbnail",
+  );
+  const pdfCard = [...w.document.querySelectorAll("#notes .note")].find(
+    (el) => el.dataset.id === pdfId,
+  );
+  check(
+    !!pdfCard?.querySelector("canvas") &&
+      !!pdfCard?.querySelector("svg [data-ink]"),
+    "PDF thumbnails combine a real original page with ink annotations",
+  );
+  const boardCard = [...w.document.querySelectorAll("#notes .note")].find(
+    (el) =>
+      ev(
+        "data.notes.find(n=>n.id===" +
+          JSON.stringify(el.dataset.id) +
+          ")?.board",
+      ),
+  );
+  check(
+    !!boardCard?.querySelector("svg rect") &&
+      !!boardCard?.querySelector("svg text"),
+    "brainstorm thumbnails contain visible idea cards and their labels",
+  );
+  $("#viewlist").click();
+  check(
+    $(".app").classList.contains("notes-list") &&
+      $("#viewlist").getAttribute("aria-pressed") === "true",
+    "the library offers a remembered list alternative",
+  );
+  $("#viewgrid").click();
+  const chosen = $("#notes .note[data-id]"),
+    chosenId = chosen.dataset.id;
+  chosen.click();
+  check(
+    !$(".app").classList.contains("library-home") && ev("current") === chosenId,
+    "opening a thumbnail returns to the matching editable note",
+  );
+  w.LeafLibrary.open();
+  $("#viewlist").click();
+  w.LeafLibrary.close();
   const retainedSource = ev("data.notes.find(n=>n.pdf)"),
     retainedBytes = await w.LeafnoteApp.file(retainedSource.id);
   await w.LeafnoteApp.maintenance.restoreRevision(
@@ -1789,6 +1850,9 @@ async function main() {
     w.localStorage.getItem("leafnote-text-color"),
     w.localStorage.getItem("leafnote-text-format"),
     w.localStorage.getItem("leafnote-writing"),
+    undefined,
+    false,
+    w.localStorage.getItem("leafnote-library-view-v1"),
   );
   check(
     again.evaluate("data.notes.some(n=>n.pdf)") &&
@@ -1845,9 +1909,10 @@ async function main() {
     "Favorites count is restored from saved notes after reload",
   );
   check(
-    !again.w.document
+    again.w.document
       .querySelector(".app")
-      .classList.contains("library-hidden"),
+      .classList.contains("library-hidden") ===
+      JSON.parse(w.localStorage.getItem("leafnote-layout-v1")).libraryHidden,
     "a chosen library visibility preference survives reopening",
   );
   check(
@@ -1919,6 +1984,13 @@ async function main() {
       "data.notes.find(n=>n.id===" + JSON.stringify(retainedId) + ").deleted",
     ) && !!(await again.w.LeafnoteApp.file(retainedId)),
     "Trash metadata and retained PDF bytes survive reload",
+  );
+  check(
+    again.w.document.querySelector(".app").classList.contains("library-home") &&
+      again.w.document
+        .querySelector("#viewlist")
+        .getAttribute("aria-pressed") === "true",
+    "reopening starts in the library and remembers the selected view",
   );
   const blocked = await makeApp(
     undefined,

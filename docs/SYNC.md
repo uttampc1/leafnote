@@ -134,3 +134,7 @@ Open **••• → Maintenance**. **Trash** works offline: restore a note with
 Local autosave remains immediate in IndexedDB. The existing sync debounce groups editing activity (about 1.2 seconds after a saved edit) and sends a snapshot while idle/online. Each accepted snapshot becomes an actual Git commit named `Autosave revision N`, with a full commit ID and server timestamp. Offline intermediate keystrokes/strokes are not individual Git commits; reconnect commits the durable local state after the normal conflict merge. Git is server-side, and revision browsing requires server access.
 
 The Git repository has no remote and uses a fixed local autosave identity. It tracks notebook JSON and immutable PDF hash references; the original PDFs remain in the sibling `blobs` folder. A Git-only clone is therefore not a complete PDF backup. Use the complete-folder backup procedure above. There is no history rewriting, garbage collection, or note purge action in the dashboard.
+
+## Version 1.3
+
+Version 1.3 adds the default thumbnail library and keeps the 1.2 sync protocol and server storage format. Preserve .env, server notes, Git history, and certificate volumes when upgrading. After rebuilding, update/reopen the client shell. Library Grid/List preferences stay on the device.

@@ -1,5 +1,5 @@
 {
-  "functionCount": 1076,
+  "functionCount": 1117,
   "functions": [
     {
       "file": "dist/app.js",
@@ -3451,7 +3451,7 @@
         "$(\"#zoomin\").onclick",
         "$(\"#zoomout\").onclick",
         "$(\".app\").inert",
-        "$(\".listbar button\").onclick",
+        "$(\".listbar > button\").onclick",
         "canvas.oncontextmenu",
         "canvas.ondragstart",
         "canvas.onlostpointercapture",
@@ -8056,6 +8056,713 @@
         "e.target.closest",
         "install",
         "remove"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library-preview.js",
+      "line": 2,
+      "column": 2,
+      "endLine": 191,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "root"
+      ],
+      "purpose": "Initialize dist/library-preview.js inside an isolated scope.",
+      "calls": [
+        "require"
+      ],
+      "writes": [
+        "module.exports",
+        "root.LeafPreview"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/library-preview.js",
+      "line": 13,
+      "column": 3,
+      "endLine": 46,
+      "name": "bounds",
+      "async": false,
+      "parameters": [
+        "note",
+        "index = 0"
+      ],
+      "purpose": "Calculate padded bounds for one stroke.",
+      "calls": [
+        "Math.max",
+        "Math.min",
+        "points.push"
+      ],
+      "writes": [
+        "bottom",
+        "left",
+        "right",
+        "top"
+      ],
+      "returns": [
+        "{ x: 0, y: 0, width: page.width, height: page.height }",
+        "{ x: 0, y: 0, width: 800, height: 1050 }",
+        "{ x: Math.max(0, left - 60), y: Math.max(0, top - 60), width: Math.max(400, right - Math.max(0, left - 60) + 60), height: Math.max(300, bottom - Math.max(0, top - 60) + 60), }"
+      ]
+    },
+    {
+      "file": "dist/library-preview.js",
+      "line": 48,
+      "column": 3,
+      "endLine": 187,
+      "name": "render",
+      "async": false,
+      "parameters": [
+        "note",
+        "index = 0",
+        "doc = root.document"
+      ],
+      "purpose": "Render this module’s controls from the current note and UI state.",
+      "calls": [
+        "Board.textLines",
+        "Board.textLines(node).forEach",
+        "Ink.outline",
+        "String",
+        "String(text.text) .split",
+        "String(text.text) .split(\"\\n\") .forEach",
+        "[box.x, box.y, box.width, box.height].join",
+        "add",
+        "bounds",
+        "doc.createElementNS",
+        "nodes.get",
+        "note.board.nodes.map",
+        "svg.setAttribute"
+      ],
+      "writes": [
+        "x",
+        "y"
+      ],
+      "returns": [
+        "svg"
+      ]
+    },
+    {
+      "file": "dist/library-preview.js",
+      "line": 53,
+      "column": 5,
+      "endLine": 60,
+      "name": "add",
+      "async": false,
+      "parameters": [
+        "tag",
+        "attrs = {}",
+        "text"
+      ],
+      "purpose": "Append a searchable text record with optional document bounds.",
+      "calls": [
+        "Object.entries",
+        "String",
+        "doc.createElementNS",
+        "el.setAttribute",
+        "svg.append"
+      ],
+      "writes": [
+        "el.textContent"
+      ],
+      "returns": [
+        "el"
+      ]
+    },
+    {
+      "file": "dist/library-preview.js",
+      "line": 97,
+      "column": 50,
+      "endLine": 97,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to note.board.nodes.map.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "[n.id, n]"
+      ]
+    },
+    {
+      "file": "dist/library-preview.js",
+      "line": 141,
+      "column": 39,
+      "endLine": 157,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "line",
+        "i"
+      ],
+      "purpose": "Provide the callback passed to Board.textLines(node).forEach.",
+      "calls": [
+        "add"
+      ],
+      "writes": [],
+      "returns": [
+        "add( \"text\", { x: node.x + 14, y: node.y + (node.size || 18) + 12 + i * (node.size || 18) * (node.lineHeight || 1.5), \"font-size\": node.size || 18, \"font-family\": \"monospace\", fill"
+      ]
+    },
+    {
+      "file": "dist/library-preview.js",
+      "line": 171,
+      "column": 18,
+      "endLine": 185,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "line",
+        "i"
+      ],
+      "purpose": "Provide the callback passed to String(text.text) .split(\"\\n\") .forEach.",
+      "calls": [
+        "add"
+      ],
+      "writes": [
+        "el.style.whiteSpace"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 2,
+      "column": 2,
+      "endLine": 227,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Initialize dist/library.js inside an isolated scope.",
+      "calls": [
+        "document.addEventListener",
+        "setup"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 5,
+      "column": 3,
+      "endLine": 224,
+      "name": "setup",
+      "async": false,
+      "parameters": [],
+      "purpose": "Attach this module’s event handlers after the application state is ready.",
+      "calls": [
+        "$",
+        "document .querySelector",
+        "document .querySelector('input[type=\"file\"][accept*=\"pdf\"]') ?.addEventListener",
+        "document.addEventListener",
+        "localStorage.getItem",
+        "new MutationObserver(decorate).observe",
+        "open",
+        "selectMode"
+      ],
+      "writes": [
+        "$(\"#continuewriting\").onclick",
+        "$(\"#libraryboard\").onclick",
+        "$(\"#librarymaintenance\").onclick",
+        "$(\"#librarypdf\").onclick",
+        "$(\"#mobile\").onclick",
+        "$(\"#viewgrid\").onclick",
+        "$(\"#viewlist\").onclick",
+        "mode",
+        "observer",
+        "window.LeafLibrary"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 21,
+      "column": 5,
+      "endLine": 26,
+      "name": "trim",
+      "async": false,
+      "parameters": [],
+      "purpose": "Release old preview canvases; only a small number of PDF pages remain cached.",
+      "calls": [
+        "cache.delete"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 28,
+      "column": 5,
+      "endLine": 38,
+      "name": "pump",
+      "async": false,
+      "parameters": [],
+      "purpose": "Run at most two independent thumbnail PDF renders at once.",
+      "calls": [
+        "job",
+        "job().finally",
+        "jobs.shift"
+      ],
+      "writes": [
+        "active"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 32,
+      "column": 23,
+      "endLine": 36,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to job().finally.",
+      "calls": [
+        "pump",
+        "trim"
+      ],
+      "writes": [
+        "active"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 40,
+      "column": 5,
+      "endLine": 102,
+      "name": "pdf",
+      "async": true,
+      "parameters": [
+        "note",
+        "index",
+        "frame"
+      ],
+      "purpose": "Load a local PDF page independently of the editor and verify that its card is still current.",
+      "calls": [
+        "cache.get",
+        "cache.set",
+        "canvas.setAttribute",
+        "document.createElement",
+        "frame.append",
+        "frame.prepend",
+        "pump",
+        "window.LeafnoteApp.sync.fileVersion"
+      ],
+      "writes": [
+        "entry",
+        "entry.ready",
+        "frame.dataset.pdfPreview",
+        "hint.className",
+        "hint.textContent"
+      ],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 53,
+      "column": 35,
+      "endLine": 86,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "resolve"
+      ],
+      "purpose": "Evaluate an inline callback in dist/library.js; its direct operations are listed below.",
+      "calls": [
+        "jobs.push"
+      ],
+      "writes": [],
+      "returns": [
+        "jobs.push(async () => { let task; try { const blob = await window.LeafnoteApp.file(note.id); if (!blob) throw Error(\"PDF unavailable\"); const lib = await window.LeafnoteApp.pdfLibr"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 54,
+      "column": 21,
+      "endLine": 86,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Provide the callback passed to jobs.push.",
+      "calls": [
+        "Error",
+        "Math.ceil",
+        "Math.min",
+        "blob.arrayBuffer",
+        "cache.delete",
+        "canvas.getContext",
+        "documentPDF.getPage",
+        "lib.getDocument",
+        "page.getViewport",
+        "page.render",
+        "resolve",
+        "task?.destroy",
+        "window.LeafnoteApp.file",
+        "window.LeafnoteApp.pdfLibrary",
+        "window.LeafnoteApp.pdfOptions"
+      ],
+      "writes": [
+        "canvas.height",
+        "canvas.width",
+        "entry.ok",
+        "entry.pending",
+        "task"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 104,
+      "column": 5,
+      "endLine": 117,
+      "name": "fill",
+      "async": false,
+      "parameters": [
+        "button"
+      ],
+      "purpose": "Decorate a visible result with a read-only preview of its note or matched PDF page.",
+      "calls": [
+        "LeafPreview.render",
+        "Number",
+        "button.prepend",
+        "data.notes.find",
+        "document.createElement",
+        "frame.append",
+        "frame.setAttribute",
+        "pdf"
+      ],
+      "writes": [
+        "button.dataset.previewReady",
+        "frame.className"
+      ],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 108,
+      "column": 29,
+      "endLine": 108,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === id && !n.deleted"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 119,
+      "column": 5,
+      "endLine": 126,
+      "name": "decorate",
+      "async": false,
+      "parameters": [],
+      "purpose": "Observe newly rendered cards, including search results rendered by search.js closures.",
+      "calls": [
+        "app.classList.contains",
+        "fill",
+        "list.querySelectorAll",
+        "observer.observe",
+        "observer?.disconnect"
+      ],
+      "writes": [],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 128,
+      "column": 5,
+      "endLine": 138,
+      "name": "selectMode",
+      "async": false,
+      "parameters": [
+        "next"
+      ],
+      "purpose": "Remember Grid/List as a device preference, independent of notebook content and sync.",
+      "calls": [
+        "$",
+        "$(\"#viewgrid\").setAttribute",
+        "$(\"#viewlist\").setAttribute",
+        "String",
+        "app.classList.toggle",
+        "decorate",
+        "localStorage.setItem"
+      ],
+      "writes": [
+        "mode"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 140,
+      "column": 5,
+      "endLine": 153,
+      "name": "open",
+      "async": false,
+      "parameters": [
+        "initial = false"
+      ],
+      "purpose": "Open a model dialog or note/page through the module’s public entry point.",
+      "calls": [
+        "$",
+        "$(\"#mobile\").setAttribute",
+        "app.classList.add",
+        "app.classList.contains",
+        "decorate",
+        "originalToggle",
+        "window.LeafBoard?.finish",
+        "window.LeafnoteApp.finish"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 155,
+      "column": 5,
+      "endLine": 167,
+      "name": "close",
+      "async": false,
+      "parameters": [],
+      "purpose": "Close the model database connection.",
+      "calls": [
+        "$",
+        "$(\"#mobile\").focus",
+        "$(\"#mobile\").setAttribute",
+        "app.classList.contains",
+        "app.classList.remove",
+        "originalToggle",
+        "window.LeafnoteApp.resize"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 170,
+      "column": 9,
+      "endLine": 176,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "entries"
+      ],
+      "purpose": "Evaluate an inline callback in dist/library.js; its direct operations are listed below.",
+      "calls": [
+        "fill",
+        "observer.unobserve"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 180,
+      "column": 30,
+      "endLine": 180,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#viewgrid\").onclick.",
+      "calls": [
+        "selectMode"
+      ],
+      "writes": [],
+      "returns": [
+        "selectMode(\"grid\")"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 181,
+      "column": 30,
+      "endLine": 181,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#viewlist\").onclick.",
+      "calls": [
+        "selectMode"
+      ],
+      "writes": [],
+      "returns": [
+        "selectMode(\"list\")"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 183,
+      "column": 28,
+      "endLine": 184,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#mobile\").onclick.",
+      "calls": [
+        "app.classList.contains",
+        "close",
+        "open"
+      ],
+      "writes": [],
+      "returns": [
+        "app.classList.contains(\"library-home\") ? close() : open()"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 187,
+      "column": 7,
+      "endLine": 195,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "event"
+      ],
+      "purpose": "Handle the \"click\" event registered by document.addEventListener.",
+      "calls": [
+        "app.classList.contains",
+        "close",
+        "event.target.closest"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 198,
+      "column": 42,
+      "endLine": 201,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "event"
+      ],
+      "purpose": "Handle the \"keydown\" event registered by document.addEventListener.",
+      "calls": [
+        "event.key.toLowerCase",
+        "open"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 202,
+      "column": 55,
+      "endLine": 209,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the \"leafnote-local-saved\" event registered by document.addEventListener.",
+      "calls": [
+        "app.classList.contains",
+        "requestAnimationFrame"
+      ],
+      "writes": [],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 204,
+      "column": 29,
+      "endLine": 208,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to requestAnimationFrame.",
+      "calls": [
+        "app.classList.contains",
+        "renderList"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 210,
+      "column": 40,
+      "endLine": 210,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#librarymaintenance\").onclick.",
+      "calls": [
+        "$",
+        "$(\"#maintenance\").click"
+      ],
+      "writes": [],
+      "returns": [
+        "$(\"#maintenance\").click()"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 211,
+      "column": 34,
+      "endLine": 214,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#libraryboard\").onclick.",
+      "calls": [
+        "$",
+        "$(\"#newboard\").click",
+        "close"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/library.js",
+      "line": 215,
+      "column": 32,
+      "endLine": 215,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#librarypdf\").onclick.",
+      "calls": [
+        "$",
+        "$(\"#importpdf\").click"
+      ],
+      "writes": [],
+      "returns": [
+        "$(\"#importpdf\").click()"
+      ]
+    },
+    {
+      "file": "dist/library.js",
+      "line": 218,
+      "column": 36,
+      "endLine": 220,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "event"
+      ],
+      "purpose": "Handle the \"change\" event registered by document .querySelector('input[type=\"file\"][accept*=\"pdf\"]') ?.addEventListener.",
+      "calls": [
+        "close"
       ],
       "writes": [],
       "returns": []
@@ -17154,7 +17861,7 @@
       "file": "test/app.integration.cjs",
       "line": 33,
       "column": 1,
-      "endLine": 240,
+      "endLine": 245,
       "name": "makeApp",
       "async": true,
       "parameters": [
@@ -17164,7 +17871,8 @@
         "textFormat",
         "writing",
         "writerLock",
-        "expectBlocked = false"
+        "expectBlocked = false",
+        "libraryView"
       ],
       "purpose": "Boot the real app against isolated fake storage and native canvas adapters.",
       "calls": [
@@ -17215,9 +17923,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 62,
+      "line": 63,
       "column": 29,
-      "endLine": 62,
+      "endLine": 63,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17234,9 +17942,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 64,
+      "line": 65,
       "column": 64,
-      "endLine": 69,
+      "endLine": 70,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17249,9 +17957,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 72,
+      "line": 73,
       "column": 27,
-      "endLine": 76,
+      "endLine": 77,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17270,9 +17978,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 77,
+      "line": 78,
       "column": 27,
-      "endLine": 77,
+      "endLine": 78,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17289,9 +17997,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 79,
+      "line": 80,
       "column": 17,
-      "endLine": 82,
+      "endLine": 83,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
@@ -17309,9 +18017,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 84,
+      "line": 85,
       "column": 46,
-      "endLine": 98,
+      "endLine": 99,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17332,9 +18040,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 94,
+      "line": 95,
       "column": 21,
-      "endLine": 94,
+      "endLine": 95,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17352,9 +18060,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 99,
+      "line": 100,
       "column": 42,
-      "endLine": 102,
+      "endLine": 103,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17370,9 +18078,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 105,
+      "line": 106,
       "column": 8,
-      "endLine": 110,
+      "endLine": 111,
       "name": "get",
       "async": false,
       "parameters": [],
@@ -17389,9 +18097,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 112,
+      "line": 113,
       "column": 50,
-      "endLine": 117,
+      "endLine": 118,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17404,9 +18112,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 118,
+      "line": 119,
       "column": 46,
-      "endLine": 120,
+      "endLine": 121,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17421,9 +18129,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 121,
+      "line": 122,
       "column": 46,
-      "endLine": 123,
+      "endLine": 124,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17438,9 +18146,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 124,
+      "line": 125,
       "column": 50,
-      "endLine": 126,
+      "endLine": 127,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17453,9 +18161,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 129,
+      "line": 130,
       "column": 8,
-      "endLine": 131,
+      "endLine": 132,
       "name": "get",
       "async": false,
       "parameters": [],
@@ -17468,9 +18176,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 133,
+      "line": 134,
       "column": 8,
-      "endLine": 135,
+      "endLine": 136,
       "name": "set",
       "async": false,
       "parameters": [
@@ -17485,9 +18193,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 137,
+      "line": 138,
       "column": 45,
-      "endLine": 139,
+      "endLine": 140,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17500,9 +18208,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 140,
+      "line": 141,
       "column": 41,
-      "endLine": 144,
+      "endLine": 145,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17520,9 +18228,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 152,
+      "line": 153,
       "column": 5,
-      "endLine": 164,
+      "endLine": 165,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17535,9 +18243,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 154,
+      "line": 155,
       "column": 37,
-      "endLine": 163,
+      "endLine": 164,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17554,9 +18262,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 167,
+      "line": 168,
       "column": 25,
-      "endLine": 167,
+      "endLine": 168,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17567,9 +18275,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 177,
+      "line": 178,
       "column": 25,
-      "endLine": 177,
+      "endLine": 178,
       "name": "adoptLegacyEnglish",
       "async": true,
       "parameters": [],
@@ -17582,9 +18290,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 179,
+      "line": 180,
       "column": 19,
-      "endLine": 180,
+      "endLine": 181,
       "name": "getInstalled",
       "async": true,
       "parameters": [
@@ -17601,9 +18309,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 182,
+      "line": 183,
       "column": 18,
-      "endLine": 182,
+      "endLine": 183,
       "name": "storedBytes",
       "async": true,
       "parameters": [
@@ -17620,9 +18328,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 184,
+      "line": 185,
       "column": 14,
-      "endLine": 187,
+      "endLine": 188,
       "name": "install",
       "async": true,
       "parameters": [
@@ -17639,9 +18347,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 189,
+      "line": 190,
       "column": 13,
-      "endLine": 189,
+      "endLine": 190,
       "name": "remove",
       "async": true,
       "parameters": [
@@ -17658,9 +18366,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 193,
+      "line": 194,
       "column": 5,
-      "endLine": 196,
+      "endLine": 197,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17673,9 +18381,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 199,
+      "line": 200,
       "column": 26,
-      "endLine": 199,
+      "endLine": 200,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17686,9 +18394,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 224,
+      "line": 229,
       "column": 32,
-      "endLine": 225,
+      "endLine": 230,
       "name": "importModuleDynamically",
       "async": true,
       "parameters": [
@@ -17705,9 +18413,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 230,
+      "line": 235,
       "column": 7,
-      "endLine": 233,
+      "endLine": 238,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17723,9 +18431,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 236,
+      "line": 241,
       "column": 20,
-      "endLine": 236,
+      "endLine": 241,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17740,9 +18448,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 238,
+      "line": 243,
       "column": 20,
-      "endLine": 238,
+      "endLine": 243,
       "name": "evaluate",
       "async": false,
       "parameters": [
@@ -17759,9 +18467,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 242,
+      "line": 247,
       "column": 1,
-      "endLine": 255,
+      "endLine": 260,
       "name": "event",
       "async": false,
       "parameters": [
@@ -17781,9 +18489,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 252,
+      "line": 257,
       "column": 19,
-      "endLine": 252,
+      "endLine": 257,
       "name": "preventDefault",
       "async": false,
       "parameters": [],
@@ -17794,9 +18502,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 257,
+      "line": 262,
       "column": 1,
-      "endLine": 1968,
+      "endLine": 2040,
       "name": "main",
       "async": true,
       "parameters": [],
@@ -17811,6 +18519,7 @@
         "$(\"#closemaintenance\").click",
         "$(\"#closemodels\").click",
         "$(\"#color\").dispatchEvent",
+        "$(\"#continuewriting\").click",
         "$(\"#delete\").onclick",
         "$(\"#deleteidea\").click",
         "$(\"#discardreview\").click",
@@ -17825,7 +18534,6 @@
         "$(\"#inktranscript\").dispatchEvent",
         "$(\"#inputmode\").onchange",
         "$(\"#languagemodels\").onclick",
-        "$(\"#libraryshade\").click",
         "$(\"#maintenance\").click",
         "$(\"#maintenancelist button\").onclick",
         "$(\"#maintenancelist\").textContent.includes",
@@ -17865,6 +18573,10 @@
         "$(\"#toolsettings summary\").click",
         "$(\"#toolsettings\").contains",
         "$(\"#undo\").click",
+        "$(\"#viewgrid\").click",
+        "$(\"#viewgrid\").getAttribute",
+        "$(\"#viewlist\").click",
+        "$(\"#viewlist\").getAttribute",
         "$(\"#width\").dispatchEvent",
         "$(\"#writingkind\").dispatchEvent",
         "$(\"#zoomfit\").click",
@@ -17904,18 +18616,22 @@
         "Search.search",
         "Search.signature",
         "[\"H\", \"HB\", \"1B\", \"2B\"].entries",
+        "[...w.document.querySelectorAll(\"#notes .note\")].find",
         "again.dom.window.close",
         "again.evaluate",
         "again.w.LeafnoteApp.file",
         "again.w.document .querySelector",
+        "again.w.document .querySelector(\"#viewlist\") .getAttribute",
         "again.w.document .querySelector(\".app\") .classList.contains",
         "again.w.document.querySelector",
+        "again.w.document.querySelector(\".app\").classList.contains",
         "app.dom.window.close",
         "app.lib.getDocument",
         "backup.notes.find",
         "blocked.dom.window.close",
         "blocked.w.document .querySelector",
         "blocked.w.document .querySelector(\"#loading\") .textContent.includes",
+        "boardCard?.querySelector",
         "c.cloneNode",
         "c.ondblclick",
         "c.onpointercancel",
@@ -17930,6 +18646,7 @@
         "cardContext.getImageData",
         "cardSurface.getContext",
         "check",
+        "chosen.click",
         "console.log",
         "context.getImageData",
         "db.close",
@@ -17965,6 +18682,7 @@
         "p.render",
         "p.setCropBox",
         "p.setRotation",
+        "pdfCard?.querySelector",
         "penButton.click",
         "penButton.getAttribute",
         "pencilSamples.every",
@@ -17987,6 +18705,8 @@
         "typeButton.focus",
         "until",
         "visibilitySVG.setAttribute",
+        "w.LeafLibrary.close",
+        "w.LeafLibrary.open",
         "w.LeafnoteApp.file",
         "w.LeafnoteApp.finish",
         "w.LeafnoteApp.maintenance.restoreRevision",
@@ -18000,6 +18720,7 @@
         "w.document.body.dispatchEvent",
         "w.document.dispatchEvent",
         "w.document.querySelector",
+        "w.document.querySelectorAll",
         "w.localStorage.getItem"
       ],
       "writes": [
@@ -18043,9 +18764,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 403,
+      "line": 408,
       "column": 13,
-      "endLine": 403,
+      "endLine": 408,
       "name": "$",
       "async": false,
       "parameters": [
@@ -18062,9 +18783,26 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 460,
+      "line": 415,
+      "column": 15,
+      "endLine": 415,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to until.",
+      "calls": [
+        "$"
+      ],
+      "writes": [],
+      "returns": [
+        "$(\"#notes .note-thumbnail svg\")"
+      ]
+    },
+    {
+      "file": "test/app.integration.cjs",
+      "line": 478,
       "column": 5,
-      "endLine": 460,
+      "endLine": 478,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18080,9 +18818,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 470,
+      "line": 488,
       "column": 5,
-      "endLine": 470,
+      "endLine": 488,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18098,9 +18836,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 532,
+      "line": 550,
       "column": 7,
-      "endLine": 534,
+      "endLine": 552,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18116,9 +18854,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 636,
+      "line": 654,
       "column": 19,
-      "endLine": 636,
+      "endLine": 654,
       "name": "preventDefault",
       "async": false,
       "parameters": [],
@@ -18129,9 +18867,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 638,
+      "line": 656,
       "column": 20,
-      "endLine": 638,
+      "endLine": 656,
       "name": "stopPropagation",
       "async": false,
       "parameters": [],
@@ -18142,9 +18880,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 686,
+      "line": 704,
       "column": 5,
-      "endLine": 686,
+      "endLine": 704,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18160,9 +18898,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 787,
+      "line": 805,
       "column": 17,
-      "endLine": 797,
+      "endLine": 815,
       "name": "point",
       "async": false,
       "parameters": [
@@ -18182,9 +18920,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 842,
+      "line": 860,
       "column": 32,
-      "endLine": 844,
+      "endLine": 862,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18197,9 +18935,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 885,
+      "line": 903,
       "column": 34,
-      "endLine": 887,
+      "endLine": 905,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18212,9 +18950,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1047,
+      "line": 1065,
       "column": 25,
-      "endLine": 1052,
+      "endLine": 1070,
       "name": "getCoalescedEvents",
       "async": false,
       "parameters": [],
@@ -18229,9 +18967,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1093,
+      "line": 1111,
       "column": 32,
-      "endLine": 1097,
+      "endLine": 1115,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18250,9 +18988,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1095,
+      "line": 1113,
       "column": 19,
-      "endLine": 1095,
+      "endLine": 1113,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18267,9 +19005,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1098,
+      "line": 1116,
       "column": 35,
-      "endLine": 1101,
+      "endLine": 1119,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18288,9 +19026,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1100,
+      "line": 1118,
       "column": 19,
-      "endLine": 1100,
+      "endLine": 1118,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18305,9 +19043,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1103,
+      "line": 1121,
       "column": 22,
-      "endLine": 1103,
+      "endLine": 1121,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18322,9 +19060,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1173,
+      "line": 1191,
       "column": 7,
-      "endLine": 1173,
+      "endLine": 1191,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18340,9 +19078,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1228,
+      "line": 1246,
       "column": 5,
-      "endLine": 1228,
+      "endLine": 1246,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18358,9 +19096,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1238,
+      "line": 1256,
       "column": 5,
-      "endLine": 1238,
+      "endLine": 1256,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18376,9 +19114,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1253,
+      "line": 1271,
       "column": 5,
-      "endLine": 1253,
+      "endLine": 1271,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18394,9 +19132,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1349,
+      "line": 1367,
       "column": 23,
-      "endLine": 1349,
+      "endLine": 1367,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18411,9 +19149,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1360,
+      "line": 1378,
       "column": 15,
-      "endLine": 1360,
+      "endLine": 1378,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18428,9 +19166,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1382,
+      "line": 1400,
       "column": 16,
-      "endLine": 1394,
+      "endLine": 1412,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18448,9 +19186,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1386,
+      "line": 1404,
       "column": 9,
-      "endLine": 1391,
+      "endLine": 1409,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18465,9 +19203,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1395,
+      "line": 1413,
       "column": 14,
-      "endLine": 1395,
+      "endLine": 1413,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18478,9 +19216,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1422,
+      "line": 1440,
       "column": 5,
-      "endLine": 1422,
+      "endLine": 1440,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18495,9 +19233,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1426,
+      "line": 1444,
       "column": 5,
-      "endLine": 1426,
+      "endLine": 1444,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18512,9 +19250,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1560,
+      "line": 1578,
       "column": 5,
-      "endLine": 1560,
+      "endLine": 1578,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18527,9 +19265,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1603,
+      "line": 1621,
       "column": 5,
-      "endLine": 1603,
+      "endLine": 1621,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18544,9 +19282,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1635,
+      "line": 1653,
       "column": 5,
-      "endLine": 1635,
+      "endLine": 1653,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18561,9 +19299,63 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1707,
+      "line": 1710,
+      "column": 5,
+      "endLine": 1710,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to until.",
+      "calls": [
+        "$"
+      ],
+      "writes": [],
+      "returns": [
+        "$(\"#notes .note-thumbnail canvas\")"
+      ]
+    },
+    {
+      "file": "test/app.integration.cjs",
+      "line": 1714,
+      "column": 5,
+      "endLine": 1714,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "el"
+      ],
+      "purpose": "Provide the callback passed to [...w.document.querySelectorAll(\"#notes .note\")].find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "el.dataset.id === pdfId"
+      ]
+    },
+    {
+      "file": "test/app.integration.cjs",
+      "line": 1722,
+      "column": 5,
+      "endLine": 1727,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "el"
+      ],
+      "purpose": "Provide the callback passed to [...w.document.querySelectorAll(\"#notes .note\")].find.",
+      "calls": [
+        "JSON.stringify",
+        "ev"
+      ],
+      "writes": [],
+      "returns": [
+        "ev( \"data.notes.find(n=>n.id===\" + JSON.stringify(el.dataset.id) + \")?.board\", )"
+      ]
+    },
+    {
+      "file": "test/app.integration.cjs",
+      "line": 1768,
       "column": 15,
-      "endLine": 1707,
+      "endLine": 1768,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18578,9 +19370,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1740,
+      "line": 1801,
       "column": 55,
-      "endLine": 1741,
+      "endLine": 1802,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18597,9 +19389,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1745,
+      "line": 1806,
       "column": 51,
-      "endLine": 1745,
+      "endLine": 1806,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18614,9 +19406,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1762,
+      "line": 1823,
       "column": 44,
-      "endLine": 1762,
+      "endLine": 1823,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18631,9 +19423,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1781,
+      "line": 1842,
       "column": 23,
-      "endLine": 1781,
+      "endLine": 1842,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18648,9 +19440,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1931,
+      "line": 2003,
       "column": 16,
-      "endLine": 1931,
+      "endLine": 2003,
       "name": "request",
       "async": true,
       "parameters": [
@@ -18669,9 +19461,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1950,
+      "line": 2022,
       "column": 16,
-      "endLine": 1950,
+      "endLine": 2022,
       "name": "request",
       "async": true,
       "parameters": [
@@ -18690,9 +19482,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1970,
+      "line": 2042,
       "column": 9,
-      "endLine": 1970,
+      "endLine": 2042,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -18707,9 +19499,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1971,
+      "line": 2043,
       "column": 10,
-      "endLine": 1974,
+      "endLine": 2046,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -18721,6 +19513,93 @@
         "process.exit"
       ],
       "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/library-preview.test.cjs",
+      "line": 6,
+      "column": 1,
+      "endLine": 34,
+      "name": "note",
+      "async": false,
+      "parameters": [],
+      "purpose": "Resolve the currently open note from its stable ID.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "{ paper: \"plain\", strokes: [ { color: \"#264c3d\", width: 3, opacity: 0.68, brush: \"pencil\", grade: \"HB\", points: [ [20, 30, 0.2], [80, 60, 0.8], ], }, ], texts: [ { x: 40, y: 100, w"
+      ]
+    },
+    {
+      "file": "test/library-preview.test.cjs",
+      "line": 35,
+      "column": 85,
+      "endLine": 50,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "JSON.stringify",
+        "Preview.render",
+        "assert.equal",
+        "dom.window.close",
+        "note",
+        "svg.getAttribute",
+        "svg.querySelector",
+        "svg.querySelector(\"[data-ink]\").getAttribute",
+        "svg.querySelector(\"text\").getAttribute",
+        "svg.querySelectorAll"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/library-preview.test.cjs",
+      "line": 51,
+      "column": 88,
+      "endLine": 92,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "JSON.stringify",
+        "Preview.bounds",
+        "Preview.render",
+        "assert.equal",
+        "assert.match",
+        "assert.ok",
+        "dom.window.close",
+        "note",
+        "svg.querySelector"
+      ],
+      "writes": [
+        "n.board"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/library-preview.test.cjs",
+      "line": 93,
+      "column": 97,
+      "endLine": 107,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "Preview.render",
+        "assert.equal",
+        "assert.ok",
+        "dom.window.close",
+        "note",
+        "svg.getAttribute",
+        "svg.querySelector"
+      ],
+      "writes": [
+        "n.pdf"
+      ],
       "returns": []
     },
     {

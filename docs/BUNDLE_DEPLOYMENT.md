@@ -1,4 +1,4 @@
-﻿# Build and deploy Leafnote v1.2 from a Git bundle
+﻿# Build and deploy Leafnote v1.3 from a Git bundle
 
 The Git bundle is the source distribution. It includes the application, Dockerfiles, Compose configuration, recognition models, tests, documentation, and development commit history. It does not include personal notes, connection codes, certificates, `.env`, or built Docker images. The server creates a separate private Git repository for note revisions after deployment.
 
@@ -15,8 +15,8 @@ ip -br -4 addr
 
 Copy these two files to the same directory on the Linux server:
 
-- `leafnote-v1.2.0-source.git.bundle`
-- `leafnote-v1.2.0-source.git.bundle.sha256`
+- `leafnote-v1.3.0-source.git.bundle`
+- `leafnote-v1.3.0-source.git.bundle.sha256`
 
 The first Docker build needs internet access to obtain the base images and install Git inside the sync image. Node.js/npm are not required on the host for a production build. All application and recognition-model assets are included in the bundle.
 
@@ -25,11 +25,11 @@ The first Docker build needs internet access to obtain the base images and insta
 Run from the directory containing the downloaded files:
 
 ```sh
-sha256sum -c leafnote-v1.2.0-source.git.bundle.sha256
-git clone leafnote-v1.2.0-source.git.bundle leafnote
+sha256sum -c leafnote-v1.3.0-source.git.bundle.sha256
+git clone leafnote-v1.3.0-source.git.bundle leafnote
 cd leafnote
-git bundle verify ../leafnote-v1.2.0-source.git.bundle
-git switch -c deploy-v1.2.0 v1.2.0
+git bundle verify ../leafnote-v1.3.0-source.git.bundle
+git switch -c deploy-v1.3.0 v1.3.0
 ```
 
 The checksum should report OK; bundle verification should confirm a complete history. The release tag pins the source used for the build. `origin` points to the local bundle file, not GitHub or an online update service.
@@ -75,11 +75,11 @@ Run from the cloned repository:
 ```sh
 docker compose config --quiet
 docker compose build --pull
-docker image ls leafnote-local:1.2.0
-docker image ls leafnote-sync:1.2.0
+docker image ls leafnote-local:1.3.0
+docker image ls leafnote-sync:1.3.0
 ```
 
-The build produces `leafnote-local:1.2.0` (HTTPS frontend) and `leafnote-sync:1.2.0` (Git-backed sync API). Both images are built on your machine from the cloned source. No prebuilt Leafnote image is downloaded. The frontend build regenerates the offline asset index; no separate npm build is needed.
+The build produces `leafnote-local:1.3.0` (HTTPS frontend) and `leafnote-sync:1.3.0` (Git-backed sync API). Both images are built on your machine from the cloned source. No prebuilt Leafnote image is downloaded. The frontend build regenerates the offline asset index; no separate npm build is needed.
 
 ## 5. Deploy the images you built
 
@@ -131,16 +131,16 @@ Expect `Autosave revision N` commits. Local autosave is immediate; Git commits o
 To recreate a source archive from the release tag:
 
 ```sh
-git archive --format=tar.gz --prefix=leafnote-local/ --output=../leafnote-v1.2.0-source.tar.gz v1.2.0
+git archive --format=tar.gz --prefix=leafnote-local/ --output=../leafnote-v1.3.0-source.tar.gz v1.3.0
 ```
 
 To export both locally built Docker images for another machine of the same target architecture:
 
 ```sh
-docker image save -o ../leafnote-v1.2.0-images.tar leafnote-local:1.2.0 leafnote-sync:1.2.0
+docker image save -o ../leafnote-v1.3.0-images.tar leafnote-local:1.3.0 leafnote-sync:1.3.0
 ```
 
-On the destination, clone the source bundle for Compose/scripts, run `docker image load -i /path/to/leafnote-v1.2.0-images.tar`, configure its `.env` and notes folder, then run `docker compose up -d --no-build --wait`. Image files do not contain your live notes, server configuration, or certificate volumes.
+On the destination, clone the source bundle for Compose/scripts, run `docker image load -i /path/to/leafnote-v1.3.0-images.tar`, configure its `.env` and notes folder, then run `docker compose up -d --no-build --wait`. Image files do not contain your live notes, server configuration, or certificate volumes.
 
 ## Troubleshooting and verification scope
 

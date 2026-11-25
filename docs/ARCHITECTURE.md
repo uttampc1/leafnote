@@ -161,3 +161,7 @@ flowchart LR
 ```
 
 `server/git-history.mjs` executes fixed Git argument arrays with isolated configuration and disabled hooks. The private history folder is never served by Caddy. Snapshot commits retain complete note metadata plus immutable PDF hashes; originals stay in blobs. Startup checks Git workspace/revision identity and repairs a lagging snapshot pointer from a valid HEAD. `maintenance.js` is only loaded with the shell; it requests historical note content after the user opens Revision history. Soft deletion retains all local content/PDF bytes and flows through the same merge and sync engine. Protocol 2 fences clients that do not preserve tombstones.
+
+## Thumbnail library (1.3)
+
+`library.js` starts after the existing editor/search/minimal UI modules and shows the library overview by default. It reuses the existing filtered/search result buttons, so opening a card follows the same note/page navigation. A MutationObserver decorates list updates; IntersectionObserver defers thumbnails until near the viewport. `library-preview.js` builds safe read-only SVG for paper, pressure ink, positioned text, board cards, and connectors. Separate PDF.js tasks paint original pages underneath annotation SVGs, with two active jobs and a bounded cache of completed canvases. Editor render tickets and document state are untouched. The Grid/List preference is localStorage-only and is excluded from note sync and backups. Trash remains excluded by the existing list/search filters.
