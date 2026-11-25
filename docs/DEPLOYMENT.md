@@ -1,5 +1,7 @@
 # Local Linux deployment
 
+For a source-first build using the Git bundle, start with [BUNDLE_DEPLOYMENT.md](BUNDLE_DEPLOYMENT.md).
+
 ## What runs where
 
 Caddy serves the app over HTTPS and forwards the authenticated sync API to a private Node container. Setup asks for an empty server notebook folder. Clients keep IndexedDB as their offline working copy and ask permission before enabling sync. The server folder stores atomic JSON snapshots and immutable original PDF blobs. See [SYNC.md](SYNC.md) for pairing, conflicts, backups, and upgrading an existing 1.0 installation.

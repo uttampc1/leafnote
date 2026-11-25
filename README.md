@@ -2,6 +2,10 @@
 
 This is the self-contained local deployment repository. It includes the app, both recognition models, Docker/Compose services, Linux deployment scripts, tests, and review documentation. It includes optional authenticated Linux-folder sync, Git autosave revisions, and recoverable Trash. Notes save first in each client browser’s IndexedDB, so writing and installed recognition models remain available offline.
 
+## Build and deploy from the Git bundle
+
+Use the source bundle to clone the tagged v1.2.0 release and build both Docker images locally. Follow [BUNDLE_DEPLOYMENT.md](docs/BUNDLE_DEPLOYMENT.md) for checksum verification, clone/build commands, server configuration, deployment, and revision/offline tests. No host Node.js/npm installation is needed for production builds.
+
 ## Run on a Linux LAN server
 
 Install Docker Engine with the Compose plugin. Give the server a stable LAN address, then run from this directory:
@@ -72,10 +76,12 @@ Build the container with `docker compose build`, or use the deployment script. T
 
 ## Portable Git history
 
-The working directory is already a local Git repository with the imported baseline, local deployment, and offline sync commits. A companion `leafnote-local-history-v1.2.0.git.bundle` can recreate that history elsewhere:
+The working directory is already a local Git repository with the imported baseline, local deployment, and offline sync commits. A companion `leafnote-v1.2.0-source.git.bundle` can recreate that history elsewhere:
 
 ```sh
-git clone leafnote-local-history-v1.2.0.git.bundle leafnote-review
+git clone leafnote-v1.2.0-source.git.bundle leafnote
+cd leafnote
+git switch -c deploy-v1.2.0 v1.2.0
 ```
 
 The Linux source archive includes everything needed to build the app image, including model files, but excludes `.git`, installed npm dependencies, private certificates, server note data, connection codes, and machine-specific `.env` configuration.
