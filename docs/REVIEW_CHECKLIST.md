@@ -1,11 +1,11 @@
 ﻿# Review checklist for the Dashboard and mixed-page build
 
-This is a review build. No new Git bundle has been created. The v1.3 bundle remains unchanged; review the updated current app before preparing a new release bundle.
+This checklist accompanies the v1.4.1 source bundle. Automated checks pass; complete the Linux and physical-device checks after deployment. Older bundles remain unchanged.
 
 ## Changes to review in the current app
 
 1. Open Notes and choose **List**. The list stays on the left and the selected note remains editable on the right. Select a different note and confirm the split remains. **Grid** uses the full window. Small screens use the compact list drawer.
-2. Find **Library actions** in the top library header. Open it to import PDFs, create boards, export/import backups, or open Dashboard. Dashboard also has its own header button.
+2. Find **Library actions** in the top library header. Open it to import PDFs, create boards, export/import backups, or open Dashboard. Dashboard is kept inside Library actions to simplify the main view.
 3. Open **Dashboard → Overview**. Check the logical size of notes/documents, retained Trash, and PDFs. The whole-app total is the browser's storage estimate, which also includes installed language models and offline app files. Some browsers do not provide that estimate; the measured content size remains available.
 4. Review save locations. This device uses browser-managed storage; an operating-system browser data folder is not exposed. A paired Linux server reports its authenticated host folder and measured server-file usage. On the hosted app without a Linux backend, server storage is correctly shown as unconfigured.
 5. **Change server address** guides an explicit export → open new origin → import → pair workflow. It does not silently move IndexedDB or send the connection code to another origin. **Change Linux folder** generates a command for the Linux administrator; it does not attempt to control Docker from the browser.
@@ -35,4 +35,4 @@ This build uses sync protocol 3. Update both client and Linux backend together. 
 
 ## Page-order follow-up
 
-Create pages A, B, C; select C, then use the Add button under A. The new page should appear between A and B. Return to another note and back; the selected page and Add label should remain correct. Use Page actions to move C to position 1, move it down/up, and delete a middle page. Verify text, ink, style, and language move with each page. Try canceling deletion and deleting the last page (disabled). Repeat with a test PDF, export it, and reopen the app to confirm the final order. New blank pages default to Lined without changing existing page styles. No new Git bundle is prepared for this follow-up.
+Create pages A, B, C; select C, then use the Add button under A. The new page should appear between A and B. Return to another note and back; the selected page and Add label should remain correct. Use Page actions to move C to position 1, move it down/up, and delete a middle page. Verify text, ink, style, and language move with each page. Try canceling deletion and deleting the last page (disabled). Repeat with a test PDF, export it, and reopen the app to confirm the final order. New blank pages default to Lined without changing existing page styles. These changes are included in the v1.4.1 source bundle.

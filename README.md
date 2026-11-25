@@ -1,4 +1,4 @@
-> Review build: Dashboard, split List view, permanent Trash deletion, and mixed-paper pages are under verification. No new Git bundle is prepared yet. See [the review checklist](docs/REVIEW_CHECKLIST.md).
+> Release v1.4.1: thumbnail/split library, Dashboard, mixed paper, page ordering, lined defaults, offline PWA, and Git-backed server sync. See [device testing](docs/DEVICE_TESTING.md).
 
 # Leafnote — local notebook and installable PWA
 
@@ -6,7 +6,7 @@ This is the self-contained local deployment repository. It includes the app, bot
 
 ## Build and deploy from the Git bundle
 
-Use the source bundle to clone the tagged v1.3.0 release and build both Docker images locally. Follow [BUNDLE_DEPLOYMENT.md](docs/BUNDLE_DEPLOYMENT.md) for checksum verification, clone/build commands, server configuration, deployment, and revision/offline tests. No host Node.js/npm installation is needed for production builds.
+Use the source bundle to clone the tagged v1.4.1 release and build both Docker images locally. Follow [BUNDLE_DEPLOYMENT.md](docs/BUNDLE_DEPLOYMENT.md) for checksum verification, clone/build commands, server configuration, deployment, and revision/offline tests. No host Node.js/npm installation is needed for production builds.
 
 ## Run on a Linux LAN server
 
@@ -78,12 +78,14 @@ Build the container with `docker compose build`, or use the deployment script. T
 
 ## Portable Git history
 
-The working directory is already a local Git repository with the imported baseline, local deployment, and offline sync commits. A companion `leafnote-v1.3.0-source.git.bundle` can recreate that history elsewhere:
+The working directory is already a local Git repository with the imported baseline, local deployment, and offline sync commits. A companion `leafnote-v1.4.1-source.git.bundle` can recreate that history elsewhere:
 
 ```sh
-git clone leafnote-v1.3.0-source.git.bundle leafnote
+git clone leafnote-v1.4.1-source.git.bundle leafnote
 cd leafnote
-git switch -c deploy-v1.3.0 v1.3.0
+git switch -c deploy-v1.4.1 v1.4.1
 ```
 
 The Linux source archive includes everything needed to build the app image, including model files, but excludes `.git`, installed npm dependencies, private certificates, server note data, connection codes, and machine-specific `.env` configuration.
+
+Systematic acceptance testing: follow [TEST_PLAN.md](docs/TEST_PLAN.md). Run the setup and data-recovery checks first, then repeat stylus/touch and offline checks on every client.
