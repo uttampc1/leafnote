@@ -1,0 +1,24 @@
+# Suggested code review
+
+1. **Deployment boundary:** read [DEPLOYMENT.md](DEPLOYMENT.md), `Dockerfile`, `compose.yaml`, and `deploy/Caddyfile`. Confirm the actual host address, trusted HTTPS, local-only CA volumes, and absence of server-side notebook storage.
+2. **Page and loading order:** read `dist/index.html`, then the startup diagram in [ARCHITECTURE.md](ARCHITECTURE.md). The order of classic scripts and readiness listeners is significant.
+3. **Data safety first:** inspect `features.js` functions `validStrokes`, `validTexts`, `writeState`, the serialized `persist` override, backup restore, and `finishInput`. Review rejection paths before happy paths.
+4. **Drawing and PDF coordinates:** inspect `ink-engine.js` (`widthAt`, `outline`, `hits`, `imagePlacement`) and `features.js` (`coord`, `renderPDF`, `overlayPNG`, export). Stored coordinates must not depend on zoom or crop rotation.
+5. **Text and mind maps:** review `beginText`, `setTextStyle`, `commitText`, then `board.js` editing/drag/connection handlers and `board-engine.js` validation. The app styles whole text boxes/cards and preserves plain text.
+6. **Recognition integrity:** review `search-engine.js` transcript signatures and Unicode normalization, `search.js` save/retry race guards, and `model-storage.mjs` checksum/install/remove paths. User-reviewed corrections must win over background OCR.
+7. **Local models:** inspect `language-catalog.mjs` pinned sizes/digests and local asset URLs. English keeps a pinned runtime URL alias for Transformers’ cache lookup; this alias is served from installed local Blobs, not fetched remotely.
+8. **Offline updates:** review `pwa.js`, `sw.js`, and `scripts/build-precache.mjs`. No automatic `skipWaiting` is used. User-triggered updates finish and persist edits first. Cache cleanup is confined to Leafnote shell caches.
+9. **Tests:** `npm test` covers the inherited app behaviors plus manifest icons, offline shell reads, cache isolation, update behavior, model aliases/checksums, and the development server. See [VERIFICATION.md](VERIFICATION.md) for browser/container limitations.
+
+Use [FUNCTIONS.md](FUNCTIONS.md) to find every named helper and callback. The JSON index includes the same source locations and facts for programmatic review. Run `npm run docs` after edits; `npm run check:docs` detects stale references.
+
+## Changes from the hosted source snapshot
+
+- Added PWA manifest, generated install icons, shell service worker, and explicit install/update controls.
+- Removed the remote Google Fonts import; platform serif/sans-serif fallbacks and bundled Devanagari font keep rendering local.
+- Bundled pinned English weights alongside the Marathi model. Both installers read the local server; checksums remain verified.
+- Added Docker/Caddy HTTPS packaging, Linux scripts, local developer server, and reproducible test dependencies.
+- Formatted maintained source and added function comments/catalogue; vendored libraries remain unformatted and unmodified.
+- Preserved the existing app behavior and local data model. The original notebook regression suite is included.
+
+The local Git history separates the imported app snapshot from the packaging/PWA/documentation changes. No remote is configured for this repository.

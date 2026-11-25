@@ -1,0 +1,8 @@
+node_modules/
+.env
+certs/
+coverage/
+*.log
+*.tar.gz
+*.bundle
+.DS_Store

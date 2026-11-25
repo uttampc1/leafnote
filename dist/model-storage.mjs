@@ -1,25 +1,269 @@
-import {languageModels,modelFor,assetURL} from './language-catalog.mjs';
-export {languageModels,modelFor,assetURL};
-export function createModelStore(options={}){
- const idb=options.indexedDB||globalThis.indexedDB,fetcher=options.fetcher||((...args)=>fetch(...args)),digest=options.crypto||globalThis.crypto,catalog=options.catalog||languageModels,urlFor=options.assetURL||assetURL,name=options.dbName||'leafnote-language-models';let opened;
- const request=req=>new Promise((resolve,reject)=>{req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
- const done=tx=>new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onabort=()=>reject(tx.error||Error('Model storage transaction cancelled'));tx.onerror=()=>{};});
- function db(){if(!opened)opened=new Promise((resolve,reject)=>{if(!idb){reject(Error('Language model storage is unavailable'));return;}const req=idb.open(name,1);req.onupgradeneeded=()=>{req.result.createObjectStore('assets');req.result.createObjectStore('models');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});return opened;}
- function definition(id){const model=catalog.find(m=>m.id===id);if(!model)throw Error('Unsupported language model');return model;}
- const key=(model,file)=>model.id+'/'+model.revision+'/'+file.name;
- async function record(id){const storage=await db();return request(storage.transaction('models').objectStore('models').get(id));}
- async function asset(id,filename){const model=definition(id),file=model.files.find(f=>f.name===filename);if(!file)throw Error('Unknown model file');const storage=await db();return request(storage.transaction('assets').objectStore('assets').get(key(model,file)));}
- async function putAsset(model,file,blob){const storage=await db(),tx=storage.transaction('assets','readwrite'),finished=done(tx);tx.objectStore('assets').put(blob,key(model,file));await finished;}
- async function markInstalled(model){const storage=await db(),tx=storage.transaction('models','readwrite'),finished=done(tx);tx.objectStore('models').put({id:model.id,revision:model.revision,installed:true,bytes:model.files.reduce((s,f)=>s+f.size,0),installedAt:Date.now()},model.id);await finished;}
- async function verify(file,blob){if(file.sha256){const bytes=await blob.arrayBuffer(),hash=new Uint8Array(await digest.subtle.digest('SHA-256',bytes)),hex=[...hash].map(v=>v.toString(16).padStart(2,'0')).join('');if(hex!==file.sha256)throw Error('Checksum mismatch: '+file.name);}return blob;}
- async function getInstalled(id){const model=definition(id),saved=await record(id);if(!saved?.installed||saved.revision!==model.revision)return null;for(const file of model.files)if(!(await asset(id,file.name)))return null;return saved;}
- async function legacyAsset(model,file){const cacheStorage=options.cacheStorage||globalThis.caches;if(!cacheStorage||model.id!=='en')return null;for(const name of await cacheStorage.keys()){if(!name.includes('transformers'))continue;const cache=await cacheStorage.open(name),response=await cache.match(urlFor(model,file));if(response?.ok)return response.blob();}return null;}
- async function adoptLegacyEnglish(){const id='en';if(!catalog.some(m=>m.id===id))return false;if(await getInstalled(id))return true;if((await record(id))?.removed)return false;const model=definition(id),files=[];for(const file of model.files){const blob=await legacyAsset(model,file);if(!blob)return false;files.push([file,await verify(file,blob)]);}for(const [file,blob]of files)await putAsset(model,file,blob);await markInstalled(model);return true;}
- async function install(id,{onProgress,signal}={}){const model=definition(id);let loaded=0;for(const file of model.files){signal?.throwIfAborted();let blob=await asset(id,file.name);if(!blob)blob=await legacyAsset(model,file);if(!blob){onProgress?.({file:file.name,loaded,total:model.files.reduce((s,f)=>s+f.size,0)});const response=await fetcher(urlFor(model,file),{signal,cache:'no-store'});if(!response.ok)throw Error('Download failed: '+file.name+' (HTTP '+response.status+')');blob=await response.blob();}await verify(file,blob);signal?.throwIfAborted();await putAsset(model,file,blob);loaded+=blob.size;onProgress?.({file:file.name,loaded,total:model.files.reduce((s,f)=>s+f.size,0)});}signal?.throwIfAborted();await markInstalled(model);return getInstalled(id);}
- async function requireInstalled(id){if(id==='en')await adoptLegacyEnglish();const state=await getInstalled(id);if(!state)throw Error('Install '+definition(id).name+' from Language models, then try recognition again.');return state;}
- async function remove(id){const model=definition(id),storage=await db(),keys=await request(storage.transaction('assets').objectStore('assets').getAllKeys()),tx=storage.transaction(['assets','models'],'readwrite'),finished=done(tx);for(const storedKey of keys)if(String(storedKey).startsWith(id+'/'))tx.objectStore('assets').delete(storedKey);tx.objectStore('models').put({id,installed:false,removed:true},id);await finished;const cacheStorage=options.cacheStorage||globalThis.caches;if(cacheStorage&&id==='en')for(const name of await cacheStorage.keys()){if(!name.includes('transformers'))continue;const cache=await cacheStorage.open(name);for(const file of model.files)await cache.delete(urlFor(model,file));}}
- async function responseFor(url){const address=typeof url==='string'?url:url.url;for(const model of catalog)for(const file of model.files)if(address===urlFor(model,file)){const blob=await asset(model.id,file.name);if(!blob)return undefined;return new Response(blob,{headers:{'Content-Type':file.name.endsWith('.json')?'application/json':'application/octet-stream','Content-Length':String(blob.size)}});}return undefined;}
- async function storedBytes(id){const model=definition(id);let bytes=0;for(const file of model.files)bytes+=(await asset(id,file.name))?.size||0;return bytes;}
- return {getInstalled,install,remove,requireInstalled,adoptLegacyEnglish,asset,responseFor,storedBytes,close:async()=>{(await db()).close();opened=null;}};
+/** @file Dedicated IndexedDB model storage with resumable installation, hashes, removal, and runtime URL aliases. */
+import { languageModels, modelFor, assetURL } from "./language-catalog.mjs";
+export { languageModels, modelFor, assetURL };
+export /** Construct an isolated, injectable model store for production or tests. */
+function createModelStore(options = {}) {
+  const idb = options.indexedDB || globalThis.indexedDB,
+    fetcher = options.fetcher || ((...args) => fetch(...args)),
+    digest = options.crypto || globalThis.crypto,
+    catalog = options.catalog || languageModels,
+    urlFor = options.assetURL || assetURL,
+    name = options.dbName || "leafnote-language-models";
+  let opened;
+  /** Convert an IndexedDB request to a promise. */
+  const request = (req) =>
+    new Promise((resolve, reject) => {
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  /** Wait for a model-store transaction to commit or reject on abort. */
+  const done = (tx) =>
+    new Promise((resolve, reject) => {
+      tx.oncomplete = resolve;
+      tx.onabort = () =>
+        reject(tx.error || Error("Model storage transaction cancelled"));
+      tx.onerror = () => {};
+    });
+  /** Lazily open the dedicated language-model IndexedDB database. */
+  function db() {
+    if (!opened)
+      opened = new Promise((resolve, reject) => {
+        if (!idb) {
+          reject(Error("Language model storage is unavailable"));
+          return;
+        }
+        const req = idb.open(name, 1);
+        req.onupgradeneeded = () => {
+          req.result.createObjectStore("assets");
+          req.result.createObjectStore("models");
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    return opened;
+  }
+  /** Validate a requested language ID against the approved model catalogue. */
+  function definition(id) {
+    const model = catalog.find((m) => m.id === id);
+    if (!model) throw Error("Unsupported language model");
+    return model;
+  }
+  /** Build a model/revision/file storage key. */
+  const key = (model, file) =>
+    model.id + "/" + model.revision + "/" + file.name;
+  /** Read a model’s installation metadata, or record an undoable public-API edit. */
+  async function record(id) {
+    const storage = await db();
+    return request(storage.transaction("models").objectStore("models").get(id));
+  }
+  /** Read an installed model file as a Blob. */
+  async function asset(id, filename) {
+    const model = definition(id),
+      file = model.files.find((f) => f.name === filename);
+    if (!file) throw Error("Unknown model file");
+    const storage = await db();
+    return request(
+      storage.transaction("assets").objectStore("assets").get(key(model, file)),
+    );
+  }
+  /** Commit a verified model Blob to the asset store. */
+  async function putAsset(model, file, blob) {
+    const storage = await db(),
+      tx = storage.transaction("assets", "readwrite"),
+      finished = done(tx);
+    tx.objectStore("assets").put(blob, key(model, file));
+    await finished;
+  }
+  /** Mark a model installed only after all required files are present. */
+  async function markInstalled(model) {
+    const storage = await db(),
+      tx = storage.transaction("models", "readwrite"),
+      finished = done(tx);
+    tx.objectStore("models").put(
+      {
+        id: model.id,
+        revision: model.revision,
+        installed: true,
+        bytes: model.files.reduce((s, f) => s + f.size, 0),
+        installedAt: Date.now(),
+      },
+      model.id,
+    );
+    await finished;
+  }
+  /** Verify a model file’s SHA-256 when its pinned manifest provides a digest. */
+  async function verify(file, blob) {
+    if (file.sha256) {
+      const bytes = await blob.arrayBuffer(),
+        hash = new Uint8Array(await digest.subtle.digest("SHA-256", bytes)),
+        hex = [...hash].map((v) => v.toString(16).padStart(2, "0")).join("");
+      if (hex !== file.sha256) throw Error("Checksum mismatch: " + file.name);
+    }
+    return blob;
+  }
+  /** Return an installation only when its revision and all required assets match. */
+  async function getInstalled(id) {
+    const model = definition(id),
+      saved = await record(id);
+    if (!saved?.installed || saved.revision !== model.revision) return null;
+    for (const file of model.files)
+      if (!(await asset(id, file.name))) return null;
+    return saved;
+  }
+  /** Read an old Transformers browser-cache asset for migration. */
+  async function legacyAsset(model, file) {
+    const cacheStorage = options.cacheStorage || globalThis.caches;
+    if (!cacheStorage || model.id !== "en") return null;
+    for (const name of await cacheStorage.keys()) {
+      if (!name.includes("transformers")) continue;
+      const cache = await cacheStorage.open(name),
+        response = await cache.match(
+          model.remoteBaseUrl
+            ? new URL(file.name, model.remoteBaseUrl).href
+            : urlFor(model, file),
+        );
+      if (response?.ok) return response.blob();
+    }
+    return null;
+  }
+  /** Migrate an earlier English model cache unless the user explicitly removed it. */
+  async function adoptLegacyEnglish() {
+    const id = "en";
+    if (!catalog.some((m) => m.id === id)) return false;
+    if (await getInstalled(id)) return true;
+    if ((await record(id))?.removed) return false;
+    const model = definition(id),
+      files = [];
+    for (const file of model.files) {
+      const blob = await legacyAsset(model, file);
+      if (!blob) return false;
+      files.push([file, await verify(file, blob)]);
+    }
+    for (const [file, blob] of files) await putAsset(model, file, blob);
+    await markInstalled(model);
+    return true;
+  }
+  /** Download and verify approved model assets before marking a model installed. */
+  async function install(id, { onProgress, signal } = {}) {
+    const model = definition(id);
+    let loaded = 0;
+    for (const file of model.files) {
+      signal?.throwIfAborted();
+      let blob = await asset(id, file.name);
+      if (!blob) blob = await legacyAsset(model, file);
+      if (!blob) {
+        onProgress?.({
+          file: file.name,
+          loaded,
+          total: model.files.reduce((s, f) => s + f.size, 0),
+        });
+        const response = await fetcher(urlFor(model, file), {
+          signal,
+          cache: "no-store",
+        });
+        if (!response.ok)
+          throw Error(
+            "Download failed: " + file.name + " (HTTP " + response.status + ")",
+          );
+        blob = await response.blob();
+      }
+      await verify(file, blob);
+      signal?.throwIfAborted();
+      await putAsset(model, file, blob);
+      loaded += blob.size;
+      onProgress?.({
+        file: file.name,
+        loaded,
+        total: model.files.reduce((s, f) => s + f.size, 0),
+      });
+    }
+    signal?.throwIfAborted();
+    await markInstalled(model);
+    return getInstalled(id);
+  }
+  /** Require an explicitly installed model before starting recognition. */
+  async function requireInstalled(id) {
+    if (id === "en") await adoptLegacyEnglish();
+    const state = await getInstalled(id);
+    if (!state)
+      throw Error(
+        "Install " +
+          definition(id).name +
+          " from Language models, then try recognition again.",
+      );
+    return state;
+  }
+  /** Remove only the chosen model’s assets while preserving notes and transcripts. */
+  async function remove(id) {
+    const model = definition(id),
+      storage = await db(),
+      keys = await request(
+        storage.transaction("assets").objectStore("assets").getAllKeys(),
+      ),
+      tx = storage.transaction(["assets", "models"], "readwrite"),
+      finished = done(tx);
+    for (const storedKey of keys)
+      if (String(storedKey).startsWith(id + "/"))
+        tx.objectStore("assets").delete(storedKey);
+    tx.objectStore("models").put({ id, installed: false, removed: true }, id);
+    await finished;
+    const cacheStorage = options.cacheStorage || globalThis.caches;
+    if (cacheStorage && id === "en")
+      for (const name of await cacheStorage.keys()) {
+        if (!name.includes("transformers")) continue;
+        const cache = await cacheStorage.open(name);
+        for (const file of model.files) {
+          await cache.delete(urlFor(model, file));
+          if (model.remoteBaseUrl)
+            await cache.delete(new URL(file.name, model.remoteBaseUrl).href);
+        }
+      }
+  }
+  /** Serve a stored Blob under a local URL or the recognizer’s pinned runtime alias. */
+  async function responseFor(url) {
+    const address = typeof url === "string" ? url : url.url;
+    for (const model of catalog)
+      for (const file of model.files)
+        if (
+          address === urlFor(model, file) ||
+          (model.remoteBaseUrl &&
+            address === new URL(file.name, model.remoteBaseUrl).href)
+        ) {
+          const blob = await asset(model.id, file.name);
+          if (!blob) return undefined;
+          return new Response(blob, {
+            headers: {
+              "Content-Type": file.name.endsWith(".json")
+                ? "application/json"
+                : "application/octet-stream",
+              "Content-Length": String(blob.size),
+            },
+          });
+        }
+    return undefined;
+  }
+  /** Count the stored bytes for the selected model. */
+  async function storedBytes(id) {
+    const model = definition(id);
+    let bytes = 0;
+    for (const file of model.files)
+      bytes += (await asset(id, file.name))?.size || 0;
+    return bytes;
+  }
+  return {
+    getInstalled,
+    install,
+    remove,
+    requireInstalled,
+    adoptLegacyEnglish,
+    asset,
+    responseFor,
+    storedBytes,
+    /** Close the model database connection. */
+    close: async () => {
+      (await db()).close();
+      opened = null;
+    },
+  };
 }
-export const modelStore=createModelStore();
+export const modelStore = createModelStore();

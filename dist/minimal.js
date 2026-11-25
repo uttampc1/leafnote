@@ -1,38 +1,381 @@
-(function(){
- 'use strict';
- function setup(){const app=$('.app'),mobile=()=>window.innerWidth<=760,key='leafnote-layout-v1';let focus=false,libraryHidden=true;try{const saved=JSON.parse(localStorage.getItem(key)||'{}');focus=saved.focus===true;libraryHidden=saved.libraryHidden!==false;}catch{}
-  const menus=['#notemenu','#toolsettings','#librarymore','#notebooks-menu'];
-  const inkOptions=$('#inkoptions'),inkButtons=$$('.modes [data-tool="text"],.modes [data-tool="pen"],.modes [data-tool="highlighter"]');let inkOwner=null,textTarget=null,textPointerCaptured=false;
-  try{const saved=localStorage.getItem('leafnote-text-color');if(/^#[a-f0-9]{6}$/i.test(saved||''))$('#textcolor').value=saved;}catch{}
-  function chooseSize(value){const field=$('#textsize');if(![...field.options].some(o=>Number(o.value)===value)){const option=document.createElement('option');option.value=String(value);option.textContent=value+' px';field.append(option);}field.value=String(value);}
-  try{const style=JSON.parse(localStorage.getItem('leafnote-text-format')||'{}');if(Number.isFinite(style.size)&&style.size>=8&&style.size<=72)chooseSize(style.size);if([1,1.5,2].includes(style.lineHeight))$('#textspacing').value=String(style.lineHeight);}catch{}
-  function textPreview(apply=false){const color=$('#textcolor').value,button=$('.modes [data-tool="text"]');$('#textcolorpreview').style.color=color;$('#textcolorpreview').style.fontSize=$('#textsize').value+'px';$('#textcolorpreview').style.lineHeight=$('#textspacing').value;button.style.setProperty('--text-color',color);button.title='Type · Text color '+color.toUpperCase();button.setAttribute('aria-label','Type text, color '+color.toUpperCase());if(apply){try{localStorage.setItem('leafnote-text-color',color);localStorage.setItem('leafnote-text-format',JSON.stringify({size:Number($('#textsize').value),lineHeight:Number($('#textspacing').value)}));}catch{}window.LeafnoteApp.setTextStyle({color,size:Number($('#textsize').value),lineHeight:Number($('#textspacing').value)},textTarget);}}
-  $('#textsize').addEventListener('change',()=>textPreview(true));$('#textspacing').addEventListener('change',()=>textPreview(true));
-  $('#textcolor').addEventListener('input',()=>textPreview(true));$('#textcolor').addEventListener('change',()=>textPreview(true));
-  document.addEventListener('click',e=>{if(e.target.closest('.modes [data-tool="text"]')&&!textPointerCaptured)textTarget=window.LeafnoteApp.textStyleTarget();},{capture:true});
-  function closeInk(restoreFocus=false){inkOptions.hidden=true;inkButtons.forEach(b=>b.setAttribute('aria-expanded','false'));if(restoreFocus)inkOwner?.focus();}
-  function inkPreview(){const color=$('#color').value,pen=$('.modes [data-tool="pen"]'),pencil=$('#writingkind').value==='pencil',grade=$('#pencilgrade').value,profile=LeafInk.pencilGrades[grade]||LeafInk.pencilGrades.HB;$('#inkpreview').style.borderTopColor=color;const highlighting=!inkOptions.hidden&&inkOwner?.dataset.tool==='highlighter';$('#inkpreview').style.borderTopWidth=(highlighting?Number($('#width').value)*5:pencil?profile.width:$('#width').value)+'px';$('#inkpreview').style.opacity=highlighting?'.3':pencil?String(profile.opacity):'1';pen.style.setProperty('--ink-color',color);const name=pencil?'Pencil ('+grade+')':'Pen';pen.title=name+' · Ink color '+color.toUpperCase();pen.setAttribute('aria-label',name+', ink color '+color.toUpperCase());$('#writingtoolname').textContent=pencil?'Pencil':'Pen';$('#writingtoolicon path').setAttribute('d',pencil?'M4 16 16 4l4 4L8 20l-5 1 1-5ZM14 6l4 4M4 16l4 4':'M12 3 5 14l4 4 10-7-7-8ZM5 14l-2 7 6-3M12 12h.01');inkOptions.dataset.writing=pencil?'pencil':'pen';if(!inkOptions.hidden&&inkOwner?.dataset.tool==='pen')$('#inkoptionstitle').textContent=pencil?'Pencil':'Pen';}
-  try{const saved=JSON.parse(localStorage.getItem('leafnote-writing')||'{}');if(['pencil','pen'].includes(saved.kind))$('#writingkind').value=saved.kind;if(LeafInk.pencilGrades[saved.grade])$('#pencilgrade').value=saved.grade;if(/^#[a-f0-9]{6}$/i.test(saved.color||''))$('#color').value=saved.color;}catch{}
-  function saveWriting(){try{localStorage.setItem('leafnote-writing',JSON.stringify({kind:$('#writingkind').value,grade:$('#pencilgrade').value,color:$('#color').value}));}catch{}}
-  $('#writingkind').addEventListener('change',()=>{inkPreview();saveWriting();});$('#pencilgrade').addEventListener('change',()=>{inkPreview();saveWriting();});$('#color').addEventListener('change',saveWriting);
-  $('#color').addEventListener('input',inkPreview);$('#color').addEventListener('change',inkPreview);$('#width').addEventListener('change',inkPreview);
-  $('#closeinkoptions').onclick=()=>closeInk(true);
-  document.addEventListener('pointerdown',e=>{if(e.target.closest?.('.modes [data-tool="text"]')){textTarget=window.LeafnoteApp.textStyleTarget();textPointerCaptured=true;}if(!inkOptions.contains(e.target)&&!e.target.closest?.('.modes [data-tool="text"],.modes [data-tool="pen"],.modes [data-tool="highlighter"]'))closeInk();},{capture:true});
-  function save(){try{localStorage.setItem(key,JSON.stringify({focus,libraryHidden}));}catch{}}
-  function finish(){window.LeafnoteApp?.finish();window.LeafBoard?.finish();}
-  function resize(){requestAnimationFrame(()=>window.LeafnoteApp?.resize());}
-  function render(){app.classList.toggle('focus-mode',focus);app.classList.toggle('library-hidden',libraryHidden&&!mobile());$('#focusmode').setAttribute('aria-pressed',String(focus));$('#focusmode').textContent=focus?'Exit focus':'Focus';$('#mobile').setAttribute('aria-expanded',String(!focus&&(mobile()?app.classList.contains('showlist'):!libraryHidden)));}
-  function showLibrary(){finish();focus=false;libraryHidden=false;if(mobile())app.classList.add('showlist');render();save();resize();}
-  $('#focusmode').onclick=()=>{finish();focus=!focus;app.classList.remove('showlist');render();save();resize();};
-  $('#mobile').onclick=()=>{if(focus){showLibrary();return;}finish();if(mobile())app.classList.toggle('showlist');else libraryHidden=!libraryHidden;render();save();resize();};
-  $('#libraryshade').onclick=()=>{app.classList.remove('showlist');render();$('#mobile').focus();};
-  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){closeInk();showLibrary();$('#search').focus();return;}if(e.key!=='Escape'||document.querySelector('dialog[open]'))return;if(!inkOptions.hidden){closeInk(true);e.preventDefault();return;}const open=menus.map(s=>$(s)).find(m=>m.open);if(open){open.open=false;open.querySelector('summary').focus();e.preventDefault();}else if(focus){focus=false;render();save();resize();}else if(app.classList.contains('showlist')){app.classList.remove('showlist');render();$('#mobile').focus();}});
-  document.addEventListener('click',e=>{const inkButton=e.target.closest('.modes [data-tool="text"],.modes [data-tool="pen"],.modes [data-tool="highlighter"]');if(inkButton){const shouldOpen=inkOptions.hidden||inkOwner!==inkButton;closeInk();inkOwner=inkButton;if(shouldOpen){inkOptions.hidden=false;inkButton.setAttribute('aria-expanded','true');const isText=inkButton.dataset.tool==='text';inkOptions.dataset.mode=isText?'text':inkButton.dataset.tool==='highlighter'?'highlighter':'ink';$('#inkoptionstitle').textContent=isText?'Type':inkButton.dataset.tool==='pen'?'Pen':'Highlighter';const targetColor=textTarget?.kind==='board'?textTarget.item.textColor:textTarget?.item?.color;if(isText&&/^#[a-f0-9]{6}$/i.test(targetColor||''))$('#textcolor').value=targetColor;if(isText&&textTarget){chooseSize(textTarget.item.size||18);$('#textspacing').value=String(textTarget.item.lineHeight||1.5);}textPreview();inkPreview();}}else if(!inkOptions.contains(e.target))closeInk();for(const s of ['#notemenu','#toolsettings']){const menu=$(s);if(menu.open&&!menu.contains(e.target))menu.open=false;}if(e.target.closest('#notemenu button')||e.target.closest('#librarymore button')){const menu=e.target.closest('details');if(menu){menu.open=false;if(menu.contains(document.activeElement))menu.querySelector('summary').focus();}}textPointerCaptured=false;if(e.target.closest('[data-id],[data-result-id]'))render();});
-  window.addEventListener('resize',render);
-  // Surface recognition failures even while the optional search tools are closed.
-  new MutationObserver(()=>{if(/incomplete|could not|install .+from language models/i.test($('#indexstatus').textContent))$('#searchoptions').open=true;}).observe($('#indexstatus'),{childList:true,subtree:true,characterData:true});
-  new MutationObserver(()=>{const row=$('.canvas-row'),open=!$('#recognitionreview').hidden;if(row.classList.contains('review-open')!==open){row.classList.toggle('review-open',open);resize();}}).observe($('#recognitionreview'),{attributes:true,attributeFilter:['hidden']});
-  inkPreview();textPreview();render();if(focus||libraryHidden)resize();
- }
- if(window.LeafnoteApp?.ready)setup();else document.addEventListener('leafnote-ready',setup,{once:true});
+/** @file Progressive-disclosure UI: library visibility, tool popups, text styling, pencil grades, keyboard access, and layout preferences. */
+(function () {
+  "use strict";
+  /** Attach this module’s event handlers after the application state is ready. */
+  function setup() {
+    /** Determine whether the compact mobile library layout is active. */
+    const app = $(".app"),
+      mobile = () => window.innerWidth <= 760,
+      key = "leafnote-layout-v1";
+    let focus = false,
+      libraryHidden = true;
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || "{}");
+      focus = saved.focus === true;
+      libraryHidden = saved.libraryHidden !== false;
+    } catch {}
+    const menus = [
+      "#notemenu",
+      "#toolsettings",
+      "#librarymore",
+      "#notebooks-menu",
+    ];
+    const inkOptions = $("#inkoptions"),
+      inkButtons = $$(
+        '.modes [data-tool="text"],.modes [data-tool="pen"],.modes [data-tool="highlighter"]',
+      );
+    let inkOwner = null,
+      textTarget = null,
+      textPointerCaptured = false;
+    try {
+      const saved = localStorage.getItem("leafnote-text-color");
+      if (/^#[a-f0-9]{6}$/i.test(saved || "")) $("#textcolor").value = saved;
+    } catch {}
+    /** Select a text size, adding an option for an imported non-preset value. */
+    function chooseSize(value) {
+      const field = $("#textsize");
+      if (![...field.options].some((o) => Number(o.value) === value)) {
+        const option = document.createElement("option");
+        option.value = String(value);
+        option.textContent = value + " px";
+        field.append(option);
+      }
+      field.value = String(value);
+    }
+    try {
+      const style = JSON.parse(
+        localStorage.getItem("leafnote-text-format") || "{}",
+      );
+      if (Number.isFinite(style.size) && style.size >= 8 && style.size <= 72)
+        chooseSize(style.size);
+      if ([1, 1.5, 2].includes(style.lineHeight))
+        $("#textspacing").value = String(style.lineHeight);
+    } catch {}
+    /** Update typing-color/size/spacing previews and optionally apply them to edited text. */
+    function textPreview(apply = false) {
+      const color = $("#textcolor").value,
+        button = $('.modes [data-tool="text"]');
+      $("#textcolorpreview").style.color = color;
+      $("#textcolorpreview").style.fontSize = $("#textsize").value + "px";
+      $("#textcolorpreview").style.lineHeight = $("#textspacing").value;
+      button.style.setProperty("--text-color", color);
+      button.title = "Type · Text color " + color.toUpperCase();
+      button.setAttribute(
+        "aria-label",
+        "Type text, color " + color.toUpperCase(),
+      );
+      if (apply) {
+        try {
+          localStorage.setItem("leafnote-text-color", color);
+          localStorage.setItem(
+            "leafnote-text-format",
+            JSON.stringify({
+              size: Number($("#textsize").value),
+              lineHeight: Number($("#textspacing").value),
+            }),
+          );
+        } catch {}
+        window.LeafnoteApp.setTextStyle(
+          {
+            color,
+            size: Number($("#textsize").value),
+            lineHeight: Number($("#textspacing").value),
+          },
+          textTarget,
+        );
+      }
+    }
+    $("#textsize").addEventListener("change", () => textPreview(true));
+    $("#textspacing").addEventListener("change", () => textPreview(true));
+    $("#textcolor").addEventListener("input", () => textPreview(true));
+    $("#textcolor").addEventListener("change", () => textPreview(true));
+    document.addEventListener(
+      "click",
+      (e) => {
+        if (
+          e.target.closest('.modes [data-tool="text"]') &&
+          !textPointerCaptured
+        )
+          textTarget = window.LeafnoteApp.textStyleTarget();
+      },
+      { capture: true },
+    );
+    /** Dismiss the contextual writing popup and optionally restore tool focus. */
+    function closeInk(restoreFocus = false) {
+      inkOptions.hidden = true;
+      inkButtons.forEach((b) => b.setAttribute("aria-expanded", "false"));
+      if (restoreFocus) inkOwner?.focus();
+    }
+    /** Refresh pencil/pen controls, stroke preview, tool icon, and visible color indicator. */
+    function inkPreview() {
+      const color = $("#color").value,
+        pen = $('.modes [data-tool="pen"]'),
+        pencil = $("#writingkind").value === "pencil",
+        grade = $("#pencilgrade").value,
+        profile = LeafInk.pencilGrades[grade] || LeafInk.pencilGrades.HB;
+      $("#inkpreview").style.borderTopColor = color;
+      const highlighting =
+        !inkOptions.hidden && inkOwner?.dataset.tool === "highlighter";
+      $("#inkpreview").style.borderTopWidth =
+        (highlighting
+          ? Number($("#width").value) * 5
+          : pencil
+            ? profile.width
+            : $("#width").value) + "px";
+      $("#inkpreview").style.opacity = highlighting
+        ? ".3"
+        : pencil
+          ? String(profile.opacity)
+          : "1";
+      pen.style.setProperty("--ink-color", color);
+      const name = pencil ? "Pencil (" + grade + ")" : "Pen";
+      pen.title = name + " · Ink color " + color.toUpperCase();
+      pen.setAttribute(
+        "aria-label",
+        name + ", ink color " + color.toUpperCase(),
+      );
+      $("#writingtoolname").textContent = pencil ? "Pencil" : "Pen";
+      $("#writingtoolicon path").setAttribute(
+        "d",
+        pencil
+          ? "M4 16 16 4l4 4L8 20l-5 1 1-5ZM14 6l4 4M4 16l4 4"
+          : "M12 3 5 14l4 4 10-7-7-8ZM5 14l-2 7 6-3M12 12h.01",
+      );
+      inkOptions.dataset.writing = pencil ? "pencil" : "pen";
+      if (!inkOptions.hidden && inkOwner?.dataset.tool === "pen")
+        $("#inkoptionstitle").textContent = pencil ? "Pencil" : "Pen";
+    }
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem("leafnote-writing") || "{}",
+      );
+      if (["pencil", "pen"].includes(saved.kind))
+        $("#writingkind").value = saved.kind;
+      if (LeafInk.pencilGrades[saved.grade])
+        $("#pencilgrade").value = saved.grade;
+      if (/^#[a-f0-9]{6}$/i.test(saved.color || ""))
+        $("#color").value = saved.color;
+    } catch {}
+    /** Remember the selected writing instrument, grade, and ink color. */
+    function saveWriting() {
+      try {
+        localStorage.setItem(
+          "leafnote-writing",
+          JSON.stringify({
+            kind: $("#writingkind").value,
+            grade: $("#pencilgrade").value,
+            color: $("#color").value,
+          }),
+        );
+      } catch {}
+    }
+    $("#writingkind").addEventListener("change", () => {
+      inkPreview();
+      saveWriting();
+    });
+    $("#pencilgrade").addEventListener("change", () => {
+      inkPreview();
+      saveWriting();
+    });
+    $("#color").addEventListener("change", saveWriting);
+    $("#color").addEventListener("input", inkPreview);
+    $("#color").addEventListener("change", inkPreview);
+    $("#width").addEventListener("change", inkPreview);
+    $("#closeinkoptions").onclick = () => closeInk(true);
+    document.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (e.target.closest?.('.modes [data-tool="text"]')) {
+          textTarget = window.LeafnoteApp.textStyleTarget();
+          textPointerCaptured = true;
+        }
+        if (
+          !inkOptions.contains(e.target) &&
+          !e.target.closest?.(
+            '.modes [data-tool="text"],.modes [data-tool="pen"],.modes [data-tool="highlighter"]',
+          )
+        )
+          closeInk();
+      },
+      { capture: true },
+    );
+    /** Persist layout visibility preferences separately from note content. */
+    function save() {
+      try {
+        localStorage.setItem(key, JSON.stringify({ focus, libraryHidden }));
+      } catch {}
+    }
+    /** Finish active note and board edits before a deliberate layout change. */
+    function finish() {
+      window.LeafnoteApp?.finish();
+      window.LeafBoard?.finish();
+    }
+    /** Schedule an editor resize without cancelling active ink samples. */
+    function resize() {
+      requestAnimationFrame(() => window.LeafnoteApp?.resize());
+    }
+    /** Render this module’s controls from the current note and UI state. */
+    function render() {
+      app.classList.toggle("focus-mode", focus);
+      app.classList.toggle("library-hidden", libraryHidden && !mobile());
+      $("#focusmode").setAttribute("aria-pressed", String(focus));
+      $("#focusmode").textContent = focus ? "Exit focus" : "Focus";
+      $("#mobile").setAttribute(
+        "aria-expanded",
+        String(
+          !focus &&
+            (mobile() ? app.classList.contains("showlist") : !libraryHidden),
+        ),
+      );
+    }
+    /** Reveal the note library and leave Focus mode. */
+    function showLibrary() {
+      finish();
+      focus = false;
+      libraryHidden = false;
+      if (mobile()) app.classList.add("showlist");
+      render();
+      save();
+      resize();
+    }
+    $("#focusmode").onclick = () => {
+      finish();
+      focus = !focus;
+      app.classList.remove("showlist");
+      render();
+      save();
+      resize();
+    };
+    $("#mobile").onclick = () => {
+      if (focus) {
+        showLibrary();
+        return;
+      }
+      finish();
+      if (mobile()) app.classList.toggle("showlist");
+      else libraryHidden = !libraryHidden;
+      render();
+      save();
+      resize();
+    };
+    $("#libraryshade").onclick = () => {
+      app.classList.remove("showlist");
+      render();
+      $("#mobile").focus();
+    };
+    document.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        closeInk();
+        showLibrary();
+        $("#search").focus();
+        return;
+      }
+      if (e.key !== "Escape" || document.querySelector("dialog[open]")) return;
+      if (!inkOptions.hidden) {
+        closeInk(true);
+        e.preventDefault();
+        return;
+      }
+      const open = menus.map((s) => $(s)).find((m) => m.open);
+      if (open) {
+        open.open = false;
+        open.querySelector("summary").focus();
+        e.preventDefault();
+      } else if (focus) {
+        focus = false;
+        render();
+        save();
+        resize();
+      } else if (app.classList.contains("showlist")) {
+        app.classList.remove("showlist");
+        render();
+        $("#mobile").focus();
+      }
+    });
+    document.addEventListener("click", (e) => {
+      const inkButton = e.target.closest(
+        '.modes [data-tool="text"],.modes [data-tool="pen"],.modes [data-tool="highlighter"]',
+      );
+      if (inkButton) {
+        const shouldOpen = inkOptions.hidden || inkOwner !== inkButton;
+        closeInk();
+        inkOwner = inkButton;
+        if (shouldOpen) {
+          inkOptions.hidden = false;
+          inkButton.setAttribute("aria-expanded", "true");
+          const isText = inkButton.dataset.tool === "text";
+          inkOptions.dataset.mode = isText
+            ? "text"
+            : inkButton.dataset.tool === "highlighter"
+              ? "highlighter"
+              : "ink";
+          $("#inkoptionstitle").textContent = isText
+            ? "Type"
+            : inkButton.dataset.tool === "pen"
+              ? "Pen"
+              : "Highlighter";
+          const targetColor =
+            textTarget?.kind === "board"
+              ? textTarget.item.textColor
+              : textTarget?.item?.color;
+          if (isText && /^#[a-f0-9]{6}$/i.test(targetColor || ""))
+            $("#textcolor").value = targetColor;
+          if (isText && textTarget) {
+            chooseSize(textTarget.item.size || 18);
+            $("#textspacing").value = String(textTarget.item.lineHeight || 1.5);
+          }
+          textPreview();
+          inkPreview();
+        }
+      } else if (!inkOptions.contains(e.target)) closeInk();
+      for (const s of ["#notemenu", "#toolsettings"]) {
+        const menu = $(s);
+        if (menu.open && !menu.contains(e.target)) menu.open = false;
+      }
+      if (
+        e.target.closest("#notemenu button") ||
+        e.target.closest("#librarymore button")
+      ) {
+        const menu = e.target.closest("details");
+        if (menu) {
+          menu.open = false;
+          if (menu.contains(document.activeElement))
+            menu.querySelector("summary").focus();
+        }
+      }
+      textPointerCaptured = false;
+      if (e.target.closest("[data-id],[data-result-id]")) render();
+    });
+    window.addEventListener("resize", render);
+    // Surface recognition failures even while the optional search tools are closed.
+    new MutationObserver(() => {
+      if (
+        /incomplete|could not|install .+from language models/i.test(
+          $("#indexstatus").textContent,
+        )
+      )
+        $("#searchoptions").open = true;
+    }).observe($("#indexstatus"), {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+    new MutationObserver(() => {
+      const row = $(".canvas-row"),
+        open = !$("#recognitionreview").hidden;
+      if (row.classList.contains("review-open") !== open) {
+        row.classList.toggle("review-open", open);
+        resize();
+      }
+    }).observe($("#recognitionreview"), {
+      attributes: true,
+      attributeFilter: ["hidden"],
+    });
+    inkPreview();
+    textPreview();
+    render();
+    if (focus || libraryHidden) resize();
+  }
+  if (window.LeafnoteApp?.ready) setup();
+  else document.addEventListener("leafnote-ready", setup, { once: true });
 })();

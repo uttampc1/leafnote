@@ -1,50 +1,76 @@
-# Leafnote
+# Leafnote — local notebook and installable PWA
 
-A notebook, a pencil, and room to think.
+This is the self-contained local deployment repository. It includes the app, both recognition models, a Docker image definition, Linux deployment scripts, tests, and review documentation. It has no cloud-sync backend. Notes stay in each client browser’s IndexedDB.
 
-Open [Leafnote](https://leafnote-upawar.workspace-561515.chatgpt.site/) in your browser. Your notes save automatically as you work.
+## Run on a Linux LAN server
 
-## Your first page
+Install Docker Engine with the Compose plugin. Give the server a stable LAN address, then run from this directory:
 
-1. Click **Notes**, then **New note**.
-2. Write on the blank paper with your mouse or stylus. **Pencil · HB** is the starting choice.
-3. Click the name at the top to give your note a title.
+```sh
+sh scripts/deploy.sh 192.168.1.50
+sh scripts/export-ca.sh
+```
 
-That's it. There is no Save button to remember.
+Use your server’s **actual assigned address**, not the example. The script binds HTTPS on that address at port **8443**. It does not assign an address to your network interface.
 
-## Choose your pencil
+Trust `certs/leafnote-root.crt` on each client, then open:
 
-Click the **Pencil** icon to open its options. Choose a color and a grade:
+```text
+https://192.168.1.50:8443/
+```
 
-- **H** — a light, fine line.
-- **HB** — an everyday pencil; the default.
-- **1B** — a softer, heavier line.
-- **2B** — a darker, bolder line.
+Choose **••• → Install app**, or use the browser’s **Install app / Add to Home Screen** command. Wait for **Offline notebook ready** before disconnecting. Install recognition models while connected to the local server.
 
-These are digital pencil styles. Choose **Pen** in the same popup for a solid ink line and Fine, Medium, or Thick strokes. Leafnote remembers your writing-tool choice on this device.
+See [Linux deployment and certificate setup](docs/DEPLOYMENT.md) for firewall, certificates, installation, updates, and backups.
 
-Click the paper to close the popup and keep writing. Use **Eraser** to remove a stroke, or **Undo** to take back your last change. **Highlighter** adds a translucent mark.
+## Bring your existing notes
 
-## Prefer to type?
+In the hosted app, choose **Notes → Library actions → Export backup**. At the new local HTTPS address, choose **Import backup**. Import replaces the notebook already stored at the destination.
 
-Click **Type (T)**, then click anywhere on the page and start typing. Its popup lets you choose **color**, **text size**, and **line spacing**.
+The hosted address, a LAN IP, HTTP, HTTPS, and different ports are separate browser origins. They have separate note stores. Keep one stable local address and use backups when moving between them. Sharing this server does not synchronize clients or provide accounts.
 
-Use Enter for a new line, spaces for spacing, and Tab to indent. To change an existing text box, click into it, open Type, and choose its formatting. Changes apply to that whole text box.
+## Use it like a notebook
 
-## Find your notes
+See [the simple user guide](USER_GUIDE.md), also available inside the app at **••• → Getting started**.
 
-Click **Notes** to see your pages and search them. Click the star beside a note's name to add it to **Favorites**. Open **Notebooks** to organize your notes.
+## Review the code
 
-Handwriting search needs a recognition model. Under **Search tools → Language models**, install English or experimental Marathi. Use **Review handwriting** to check the reading when needed.
+Start with [CODE_REVIEW.md](docs/CODE_REVIEW.md), then [the application flow](docs/ARCHITECTURE.md). Every first-party function and callback is indexed in [FUNCTIONS.md](docs/FUNCTIONS.md), with parameters, purpose, direct calls, mutations, return expressions, and source locations. Named helpers also have inline comments. Generated data is available in [functions.json](docs/functions.json).
 
-## Mark up a PDF or map an idea
+Third-party code remains vendored and unmodified; its upstream notices are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Open **••• → Import PDF** to bring in a document. Write, highlight, or type on its pages. Use **••• → Export** to save your annotated copy.
+## Development and checks
 
-Choose **••• → New brainstorm board** for a roomy canvas. Add **Idea cards**, use **Connect** to join them, and use **Select** to drag them around. Double-click a card to edit its text.
+Node.js 22 or newer is required for development tools. The production container needs no Node.js runtime or npm packages.
 
-## Keep your notebook safe
+```sh
+npm ci
+npm run prepare:app
+npm test
+npm run check:docs
+npm run serve
+```
 
-Notes are saved in this browser on this device. Use the same browser and app address to return to them.
+Open `http://127.0.0.1:8080` for development on that same machine. A plain `http://192.168.x.x` address does not provide the secure context needed for installation or service workers.
 
-For a copy you can keep, open **Notes → Library actions → Export backup**. Import that backup to restore your notebook later. Importing a backup replaces the notes currently on that device.
+After editing code:
+
+```sh
+npm run format
+npm run docs
+npm run prepare:app
+npm test
+npm run check:docs
+```
+
+Build the container with `docker compose build`, or use the deployment script. The Docker build regenerates the offline asset index. See [VERIFICATION.md](docs/VERIFICATION.md) for what was tested and what still requires a Linux Docker host.
+
+## Portable Git history
+
+The working directory is already a local Git repository with an imported baseline and a separate local-deployment commit. A companion `leafnote-local.git.bundle` can recreate that history elsewhere:
+
+```sh
+git clone leafnote-local.git.bundle leafnote-review
+```
+
+The Linux source archive includes everything needed to build the app image, including model files, but excludes `.git`, installed npm dependencies, private certificates, and machine-specific `.env` configuration.

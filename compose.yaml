@@ -1,0 +1,23 @@
+name: leafnote
+services:
+  leafnote:
+    build: .
+    image: leafnote-local:1.0.0
+    restart: unless-stopped
+    ports:
+      - "${LEAFNOTE_BIND_IP:-0.0.0.0}:${LEAFNOTE_HTTPS_PORT:-8443}:8443"
+    environment:
+      LEAFNOTE_HOST: "${LEAFNOTE_HOST:-localhost}"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+volumes:
+  caddy_data:
+  caddy_config:

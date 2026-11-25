@@ -2,7 +2,7 @@
 
 A notebook, a pencil, and room to think.
 
-Open [Leafnote](https://leafnote-upawar.workspace-561515.chatgpt.site/) in your browser. Your notes save automatically as you work.
+Open Leafnote at the local HTTPS address provided by your administrator. Your notes save automatically as you work.
 
 ## Your first page
 

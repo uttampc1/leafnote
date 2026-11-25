@@ -1,0 +1,25 @@
+{
+	admin off
+	skip_install_trust
+	auto_https disable_redirects
+}
+
+https://{$LEAFNOTE_HOST:localhost}:8443 {
+	tls internal
+	root * /srv
+	encode zstd gzip
+	@manifest path /manifest.webmanifest
+	header @manifest Content-Type application/manifest+json
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy same-origin
+		Cache-Control no-cache
+	}
+	file_server
+}
+
+# Internal container health endpoint; this port is not published by Compose.
+http://:8080 {
+	respond /healthz "ok" 200
+	respond 404
+}

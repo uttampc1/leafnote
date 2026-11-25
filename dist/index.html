@@ -1,19 +1,542 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#264c3d"><title>Leafnote — room for your thoughts</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="features.css"><link rel="stylesheet" href="paper.css"><link rel="stylesheet" href="search-board.css"><link rel="stylesheet" href="language-models.css"><link rel="stylesheet" href="minimal.css"></head>
-<body><div id="loading" role="status">Opening your notebook…</div><div class="app">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#264c3d" />
+    <title>Leafnote — room for your thoughts</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="features.css" />
+    <link rel="stylesheet" href="paper.css" />
+    <link rel="stylesheet" href="search-board.css" />
+    <link rel="stylesheet" href="language-models.css" />
+    <link rel="stylesheet" href="minimal.css" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+  </head>
+  <body>
+    <div id="loading" role="status">Opening your notebook…</div>
+    <div class="app">
+      <section class="notelist" id="library" aria-label="Note library">
+        <div class="library-top">
+          <a class="brand" href="./"><span class="logo">✳</span> leafnote</a
+          ><button class="primary" id="new">+ New note</button>
+        </div>
+        <nav class="library-nav">
+          <button class="nav active" data-filter="all">
+            ▤ <span>All notes</span><b id="count"></b></button
+          ><button class="nav" data-filter="star">
+            ☆ <span>Favorites</span><b id="favoritecount"></b>
+          </button>
+        </nav>
+        <details class="disclosure" id="notebooks-menu">
+          <summary>Notebooks</summary>
+          <div class="notebook-controls">
+            Organize notebooks<button
+              id="addbook"
+              title="Add notebook"
+              aria-label="Add notebook"
+            >
+              ＋
+            </button>
+          </div>
+          <div id="books"></div>
+        </details>
+        <header><h1 id="listtitle">All notes</h1></header>
+        <div class="searchpanel">
+          <label class="search"
+            >⌕
+            <input
+              id="search"
+              placeholder="Search your notes"
+              aria-label="Search notes" /></label
+          ><button id="clearsearch" aria-label="Clear search" hidden="">
+            ×</button
+          ><button id="searchallcontent" hidden=""></button>
+          <div id="searchcoverage" role="status"></div>
+          <details class="disclosure" id="searchoptions">
+            <summary>Search tools</summary>
+            <div id="searchscope">
+              Names · typed text · PDF text · handwriting
+            </div>
+            <div class="searchcontrols">
+              <select id="searchkind" aria-label="Search content type">
+                <option value="all">All content</option>
+                <option value="typed">Typed text &amp; ideas</option>
+                <option value="handwriting">Handwriting</option>
+                <option value="pdf">PDF text</option></select
+              ><button id="indexnotes">Index all notes</button>
+            </div>
+            <label class="autosearch"
+              ><input id="autohandwriting" type="checkbox" checked="" />
+              Recognize handwriting when searching</label
+            ><button id="reviewinksearch">Review handwriting</button
+            ><button id="languagemodels">Language models</button>
+            <p id="indexstatus" role="status">
+              Handwriting recognition runs on this device. Install English or
+              experimental Marathi from Language models, then review recognition
+              for mistakes.
+            </p>
+          </details>
+        </div>
+        <div class="listbar">
+          <span id="results"></span
+          ><select id="sort" aria-label="Sort notes">
+            <option value="updated">Last edited</option>
+            <option value="title">Title A–Z</option>
+          </select>
+        </div>
+        <div id="notes"></div>
+        <footer>
+          <details class="disclosure" id="librarymore">
+            <summary>Library actions</summary>
+            <button id="backup">Export backup</button
+            ><button id="restore">Import backup</button
+            ><input
+              type="file"
+              id="backupfile"
+              accept="application/json"
+              hidden=""
+            />
+          </details>
+        </footer>
+      </section>
+      <button
+        id="libraryshade"
+        aria-label="Close note library"
+        tabindex="-1"
+      ></button>
+      <main>
+        <div class="topbar">
+          <button
+            id="mobile"
+            title="Show or hide notes"
+            aria-label="Show or hide note library"
+            aria-controls="library"
+          >
+            Notes
+          </button>
+          <div class="crumb">
+            My workspace <span>/</span> <span id="crumb">Personal</span>
+          </div>
+          <input
+            id="title"
+            aria-label="Note title"
+            placeholder="Untitled note"
+          />
+          <div class="toolbar" aria-label="Writing tools">
+            <div class="toolgroup modes">
+              <button
+                data-tool="text"
+                class=""
+                title="Type text"
+                aria-label="Type text"
+                aria-controls="inkoptions"
+                aria-expanded="false"
+                aria-pressed="false"
+              >
+                T<span>Type</span></button
+              ><button
+                data-tool="pen"
+                title="Pencil"
+                aria-label="Pencil"
+                aria-expanded="false"
+                aria-controls="inkoptions"
+                class="selected"
+                aria-pressed="true"
+              >
+                <svg
+                  id="writingtoolicon"
+                  viewBox="0 0 24 24"
+                  width="21"
+                  height="21"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 16 16 4l4 4L8 20l-5 1 1-5ZM14 6l4 4M4 16l4 4"
+                  ></path></svg
+                ><span id="writingtoolname">Pencil</span></button
+              ><button
+                data-tool="highlighter"
+                title="Highlight"
+                aria-label="Highlight"
+                aria-expanded="false"
+                aria-controls="inkoptions"
+              >
+                ▰<span>Highlight</span></button
+              ><button
+                data-tool="eraser"
+                title="Erase a stroke"
+                aria-label="Erase a stroke"
+              >
+                ▱<span>Eraser</span>
+              </button>
+              <div
+                id="inkoptions"
+                hidden=""
+                role="group"
+                aria-labelledby="inkoptionstitle"
+              >
+                <div class="ink-options-heading">
+                  <strong id="inkoptionstitle">Pen</strong
+                  ><button
+                    id="closeinkoptions"
+                    aria-label="Close tool options"
+                    title="Close"
+                  >
+                    ×
+                  </button>
+                </div>
+                <label class="ink-option writing-option" for="writingkind"
+                  >Writing tool<select
+                    id="writingkind"
+                    aria-label="Writing tool"
+                  >
+                    <option value="pencil" selected="">Pencil</option>
+                    <option value="pen">Pen</option>
+                  </select></label
+                ><label
+                  class="ink-option writing-option"
+                  id="pencilgradechoice"
+                  for="pencilgrade"
+                  >Pencil grade<select
+                    id="pencilgrade"
+                    aria-label="Pencil grade"
+                  >
+                    <option value="H">H · light</option>
+                    <option value="HB" selected="">HB · everyday</option>
+                    <option value="1B">1B · soft</option>
+                    <option value="2B">2B · bold</option>
+                  </select></label
+                ><label class="ink-option" for="color"
+                  >Color<input
+                    id="color"
+                    type="color"
+                    value="#414141"
+                    title="Ink color"
+                    aria-label="Ink color" /></label
+                ><label class="ink-option" for="width" id="penwidthchoice"
+                  >Thickness<select
+                    id="width"
+                    title="Stroke width"
+                    aria-label="Stroke width"
+                  >
+                    <option value="2.5">Fine</option>
+                    <option value="5">Medium</option>
+                    <option value="9">Thick</option>
+                  </select></label
+                >
+                <div class="ink-preview" aria-hidden="true">
+                  <span id="inkpreview"></span>
+                </div>
+                <label class="ink-option" id="textcolorchoice" for="textcolor"
+                  >Text color<input
+                    id="textcolor"
+                    type="color"
+                    value="#264c3d"
+                    aria-label="Text color"
+                /></label>
+                <div class="type-format" id="format">
+                  <label class="ink-option"
+                    >Text size<select
+                      id="textsize"
+                      aria-label="New text size"
+                      title="New text size"
+                    >
+                      <option value="14">Small text</option>
+                      <option value="18" selected="">Medium text</option>
+                      <option value="24">Large text</option>
+                    </select></label
+                  ><label class="ink-option"
+                    >Line spacing<select
+                      id="textspacing"
+                      aria-label="New text line spacing"
+                      title="New text line spacing"
+                    >
+                      <option value="1">Single spacing</option>
+                      <option value="1.5" selected="">1.5 spacing</option>
+                      <option value="2">Double spacing</option>
+                    </select></label
+                  >
+                </div>
+                <div id="textcolorpreview" aria-hidden="true">Aa Aa</div>
+              </div>
+            </div>
+            <div class="toolgroup">
+              <button id="undo" title="Undo drawing" aria-label="Undo">↶</button
+              ><button id="redo" title="Redo drawing" aria-label="Redo">
+                ↷
+              </button>
+            </div>
+            <details class="disclosure" id="toolsettings">
+              <summary
+                aria-label="Writing tool settings"
+                title="Writing tool settings"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 7h16M4 17h16"></path>
+                  <circle cx="9" cy="7" r="3" fill="white"></circle>
+                  <circle cx="15" cy="17" r="3" fill="white"></circle>
+                </svg>
+              </summary>
+              <div class="settings-panel">
+                <label class="option-label"
+                  >Paper<select id="paper" aria-label="Paper style">
+                    <option value="lined">Lined paper</option>
+                    <option value="dots">Dotted paper</option>
+                    <option value="grid">Grid paper</option>
+                    <option value="plain" selected="">Plain paper</option>
+                  </select></label
+                >
+                <div class="inputbar">
+                  <label
+                    ><input type="checkbox" id="pressure" checked="" /> Pressure
+                    ink</label
+                  ><label
+                    >Draw with
+                    <select id="inputmode" aria-label="Drawing input">
+                      <option value="pen">Pen / mouse · fingers scroll</option>
+                      <option value="all">Pen / mouse / finger</option>
+                      <option value="stylus">
+                        Stylus only · fingers scroll
+                      </option>
+                    </select></label
+                  ><span id="inputhint">Choose Pen to write by hand</span>
+                </div>
+              </div>
+            </details>
+          </div>
+          <div class="actions">
+            <button
+              id="favorite"
+              title="Favorite note"
+              aria-label="Favorite note"
+            >
+              ☆
+            </button>
+            <details class="disclosure" id="notemenu">
+              <summary aria-label="More note actions" title="More note actions">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="21"
+                  height="21"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <circle cx="5" cy="12" r="1.6"></circle>
+                  <circle cx="12" cy="12" r="1.6"></circle>
+                  <circle cx="19" cy="12" r="1.6"></circle>
+                </svg>
+              </summary>
+              <div class="note-menu-panel">
+                <button
+                  id="focusmode"
+                  title="Hide the library to focus on the page"
+                  aria-pressed="false"
+                >
+                  Focus</button
+                ><button id="newboard" class="primary">
+                  New brainstorm board</button
+                ><span id="saved" role="status">Saved on device</span
+                ><button id="importpdf">Import PDF</button
+                ><input
+                  type="file"
+                  id="pdffile"
+                  accept="application/pdf,.pdf"
+                  hidden=""
+                /><button id="export">Export</button
+                ><button id="reviewhandwriting">Review handwriting</button>
+                <div class="noteinfo">
+                  <div class="page-meta">
+                    <select id="notebook" aria-label="Notebook"></select
+                    ><span id="date"></span>
+                  </div>
+                </div>
+                <button id="installapp">Install app</button
+                ><button id="updateapp" hidden="">Update app</button
+                ><small id="pwastatus" role="status"></small
+                ><a
+                  id="gettingstarted"
+                  href="guide.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Getting started</a
+                ><button
+                  id="delete"
+                  title="Delete note"
+                  aria-label="Delete note"
+                >
+                  Delete note
+                </button>
+              </div>
+            </details>
+          </div>
+        </div>
 
-<section class="notelist" id="library" aria-label="Note library"><div class="library-top"><a class="brand" href="./"><span class="logo">✳</span> leafnote</a><button class="primary" id="new">+ New note</button></div><nav class="library-nav"><button class="nav active" data-filter="all">▤ <span>All notes</span><b id="count"></b></button><button class="nav" data-filter="star">☆ <span>Favorites</span><b id="favoritecount"></b></button></nav><details class="disclosure" id="notebooks-menu"><summary>Notebooks</summary><div class="notebook-controls">Organize notebooks<button id="addbook" title="Add notebook" aria-label="Add notebook">＋</button></div><div id="books"></div></details><header><h1 id="listtitle">All notes</h1></header><div class="searchpanel"><label class="search">⌕ <input id="search" placeholder="Search your notes" aria-label="Search notes"></label><button id="clearsearch" aria-label="Clear search" hidden="">×</button><button id="searchallcontent" hidden=""></button><div id="searchcoverage" role="status"></div><details class="disclosure" id="searchoptions"><summary>Search tools</summary><div id="searchscope">Names · typed text · PDF text · handwriting</div><div class="searchcontrols"><select id="searchkind" aria-label="Search content type"><option value="all">All content</option><option value="typed">Typed text &amp; ideas</option><option value="handwriting">Handwriting</option><option value="pdf">PDF text</option></select><button id="indexnotes">Index all notes</button></div><label class="autosearch"><input id="autohandwriting" type="checkbox" checked=""> Recognize handwriting when searching</label><button id="reviewinksearch">Review handwriting</button><button id="languagemodels">Language models</button><p id="indexstatus" role="status">Handwriting recognition runs on this device. Install English or experimental Marathi from Language models, then review recognition for mistakes.</p></details></div><div class="listbar"><span id="results"></span><select id="sort" aria-label="Sort notes"><option value="updated">Last edited</option><option value="title">Title A–Z</option></select></div><div id="notes"></div><footer><details class="disclosure" id="librarymore"><summary>Library actions</summary><button id="backup">Export backup</button><button id="restore">Import backup</button><input type="file" id="backupfile" accept="application/json" hidden=""></details></footer></section>
-<button id="libraryshade" aria-label="Close note library" tabindex="-1"></button><main><div class="topbar"><button id="mobile" title="Show or hide notes" aria-label="Show or hide note library" aria-controls="library">Notes</button><div class="crumb">My workspace <span>/</span> <span id="crumb">Personal</span></div><input id="title" aria-label="Note title" placeholder="Untitled note"><div class="toolbar" aria-label="Writing tools"><div class="toolgroup modes"><button data-tool="text" class="" title="Type text" aria-label="Type text" aria-controls="inkoptions" aria-expanded="false" aria-pressed="false">T<span>Type</span></button><button data-tool="pen" title="Pencil" aria-label="Pencil" aria-expanded="false" aria-controls="inkoptions" class="selected" aria-pressed="true"><svg id="writingtoolicon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16 16 4l4 4L8 20l-5 1 1-5ZM14 6l4 4M4 16l4 4"></path></svg><span id="writingtoolname">Pencil</span></button><button data-tool="highlighter" title="Highlight" aria-label="Highlight" aria-expanded="false" aria-controls="inkoptions">▰<span>Highlight</span></button><button data-tool="eraser" title="Erase a stroke" aria-label="Erase a stroke">▱<span>Eraser</span></button><div id="inkoptions" hidden="" role="group" aria-labelledby="inkoptionstitle"><div class="ink-options-heading"><strong id="inkoptionstitle">Pen</strong><button id="closeinkoptions" aria-label="Close tool options" title="Close">×</button></div><label class="ink-option writing-option" for="writingkind">Writing tool<select id="writingkind" aria-label="Writing tool"><option value="pencil" selected="">Pencil</option><option value="pen">Pen</option></select></label><label class="ink-option writing-option" id="pencilgradechoice" for="pencilgrade">Pencil grade<select id="pencilgrade" aria-label="Pencil grade"><option value="H">H · light</option><option value="HB" selected="">HB · everyday</option><option value="1B">1B · soft</option><option value="2B">2B · bold</option></select></label><label class="ink-option" for="color">Color<input id="color" type="color" value="#414141" title="Ink color" aria-label="Ink color"></label><label class="ink-option" for="width" id="penwidthchoice">Thickness<select id="width" title="Stroke width" aria-label="Stroke width"><option value="2.5">Fine</option><option value="5">Medium</option><option value="9">Thick</option></select></label><div class="ink-preview" aria-hidden="true"><span id="inkpreview"></span></div><label class="ink-option" id="textcolorchoice" for="textcolor">Text color<input id="textcolor" type="color" value="#264c3d" aria-label="Text color"></label><div class="type-format" id="format"><label class="ink-option">Text size<select id="textsize" aria-label="New text size" title="New text size"><option value="14">Small text</option><option value="18" selected="">Medium text</option><option value="24">Large text</option></select></label><label class="ink-option">Line spacing<select id="textspacing" aria-label="New text line spacing" title="New text line spacing"><option value="1">Single spacing</option><option value="1.5" selected="">1.5 spacing</option><option value="2">Double spacing</option></select></label></div><div id="textcolorpreview" aria-hidden="true">Aa
-Aa</div></div></div><div class="toolgroup"><button id="undo" title="Undo drawing" aria-label="Undo">↶</button><button id="redo" title="Redo drawing" aria-label="Redo">↷</button></div><details class="disclosure" id="toolsettings"><summary aria-label="Writing tool settings" title="Writing tool settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 17h16"></path><circle cx="9" cy="7" r="3" fill="white"></circle><circle cx="15" cy="17" r="3" fill="white"></circle></svg></summary><div class="settings-panel"><label class="option-label">Paper<select id="paper" aria-label="Paper style"><option value="lined">Lined paper</option><option value="dots">Dotted paper</option><option value="grid">Grid paper</option><option value="plain" selected="">Plain paper</option></select></label><div class="inputbar"><label><input type="checkbox" id="pressure" checked=""> Pressure ink</label><label>Draw with <select id="inputmode" aria-label="Drawing input"><option value="pen">Pen / mouse · fingers scroll</option><option value="all">Pen / mouse / finger</option><option value="stylus">Stylus only · fingers scroll</option></select></label><span id="inputhint">Choose Pen to write by hand</span></div></div></details></div><div class="actions"><button id="favorite" title="Favorite note" aria-label="Favorite note">☆</button><details class="disclosure" id="notemenu"><summary aria-label="More note actions" title="More note actions"><svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="19" cy="12" r="1.6"></circle></svg></summary><div class="note-menu-panel"><button id="focusmode" title="Hide the library to focus on the page" aria-pressed="false">Focus</button><button id="newboard" class="primary">New brainstorm board</button><span id="saved" role="status">Saved on device</span><button id="importpdf">Import PDF</button><input type="file" id="pdffile" accept="application/pdf,.pdf" hidden=""><button id="export">Export</button><button id="reviewhandwriting">Review handwriting</button><div class="noteinfo"><div class="page-meta"><select id="notebook" aria-label="Notebook"></select><span id="date"></span></div></div><a id="gettingstarted" href="guide.html" target="_blank" rel="noopener noreferrer">Getting started</a><button id="delete" title="Delete note" aria-label="Delete note">Delete note</button></div></details></div></div>
+        <div class="pdfbar" id="pdfbar" hidden="">
+          <div>
+            <button id="prevpage" aria-label="Previous page">Previous</button
+            ><label
+              >Page
+              <input
+                id="pagenum"
+                type="number"
+                min="1"
+                value="1"
+                aria-label="PDF page number" /></label
+            ><span id="pagecount"></span
+            ><button id="nextpage" aria-label="Next page">Next</button>
+          </div>
+          <div>
+            <button id="zoomout" aria-label="Zoom out">−</button
+            ><span id="zoomvalue">Fit width</span
+            ><button id="zoomin" aria-label="Zoom in">＋</button
+            ><button id="zoomfit">Fit</button>
+          </div>
+          <span id="pdfstatus" role="status"></span>
+        </div>
+        <div class="boardbar" id="boardbar" hidden="">
+          <div>
+            <button data-tool="select" aria-label="Select">Select</button
+            ><button data-tool="idea" aria-label="Idea card">Idea card</button
+            ><button data-tool="link" aria-label="Connect">Connect</button
+            ><button data-tool="hand" aria-label="Pan">Pan</button>
+          </div>
+          <div>
+            <button id="boardout" aria-label="Zoom board out">−</button
+            ><span id="boardzoom">65%</span
+            ><button id="boardin" aria-label="Zoom board in">＋</button
+            ><button id="boardfit">Fit board</button
+            ><button id="extendboard">More space</button
+            ><button id="deleteidea" disabled="">Delete card</button>
+          </div>
+          <span id="boarddimensions"></span><span id="boardhint"></span>
+        </div>
+        <div class="canvas-row">
+          <div class="workspace">
+            <article id="sheet" class="plain">
+              <div class="page-rule"></div>
+              <div id="surface">
+                <canvas id="pdfpage" hidden="" aria-label="PDF page"></canvas>
+                <div
+                  id="editor"
+                  contenteditable="true"
+                  role="textbox"
+                  aria-label="Note content"
+                  aria-multiline="true"
+                  data-placeholder="Start with a thought…"
+                ></div>
+                <svg
+                  id="canvas"
+                  viewBox="0 0 800 1050"
+                  preserveAspectRatio="none"
+                  aria-label="Handwriting canvas"
+                ></svg>
+              </div>
+              <div class="page-bottom">
+                A little space for a big idea.<span>LEAFNOTE</span>
+              </div>
+            </article>
+            <div class="workspace-foot">
+              <span id="words">0 words</span
+              ><span id="hint">Click anywhere on the page to write</span>
+            </div>
+          </div>
+          <section id="recognitionreview" hidden="">
+            <label id="reviewtitle" for="inktranscript"
+              >Edit recognized text</label
+            >
+            <p id="reviewhint"></p>
+            <label class="recognition-language"
+              >Handwriting language for this page
+              <select id="recognitionlanguage">
+                <option value="en">English</option>
+                <option value="mr">Marathi / Devanagari (experimental)</option>
+              </select></label
+            >
+            <p id="languagehint"></p>
+            <textarea
+              id="inktranscript"
+              rows="4"
+              maxlength="100000"
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="off"
+              placeholder="Recognized handwriting appears here. You can correct it without changing the ink."
+            ></textarea>
+            <p id="reviewstatus" role="status"></p>
+            <button id="savetranscript" class="primary">Save corrections</button
+            ><button id="discardreview" disabled="">Discard edits</button
+            ><button id="retryrecognition">Try recognition again</button
+            ><button id="cancelreview" aria-label="Close handwriting review">
+              Close
+            </button>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div id="toast" role="status"></div>
+    <dialog id="modal">
+      <form method="dialog">
+        <h2 id="modal-title"></h2>
+        <p id="modal-text"></p>
+        <input id="modal-input" autocomplete="off" />
+        <div>
+          <button value="cancel">Cancel</button
+          ><button class="primary" id="modal-ok" value="ok">Create</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="modelsdialog" aria-labelledby="modelstitle">
+      <h2 id="modelstitle">Language models</h2>
+      <p>
+        Install recognition models on this device. Review the source and
+        limitations before installing.
+      </p>
+      <div id="modelcards"></div>
+      <p id="modelstatus" role="status"></p>
+      <button id="cancelmodeldownload" hidden="">Cancel download</button
+      ><button id="closemodels">Close</button>
+    </dialog>
+    <script src="vendor/pdf-lib.min.js"></script>
+    <script src="ink-engine.js"></script>
+    <script src="search-engine.js"></script>
+    <script src="board-engine.js"></script>
+    <script src="app.js"></script>
+    <script src="features.js"></script>
+    <script src="board.js"></script>
+    <script src="search.js"></script>
+    <script src="language-models.js"></script>
+    <script src="minimal.js"></script>
 
-<div class="pdfbar" id="pdfbar" hidden=""><div><button id="prevpage" aria-label="Previous page">Previous</button><label>Page <input id="pagenum" type="number" min="1" value="1" aria-label="PDF page number"></label><span id="pagecount"></span><button id="nextpage" aria-label="Next page">Next</button></div><div><button id="zoomout" aria-label="Zoom out">−</button><span id="zoomvalue">Fit width</span><button id="zoomin" aria-label="Zoom in">＋</button><button id="zoomfit">Fit</button></div><span id="pdfstatus" role="status"></span></div><div class="boardbar" id="boardbar" hidden=""><div><button data-tool="select" aria-label="Select">Select</button><button data-tool="idea" aria-label="Idea card">Idea card</button><button data-tool="link" aria-label="Connect">Connect</button><button data-tool="hand" aria-label="Pan">Pan</button></div><div><button id="boardout" aria-label="Zoom board out">−</button><span id="boardzoom">65%</span><button id="boardin" aria-label="Zoom board in">＋</button><button id="boardfit">Fit board</button><button id="extendboard">More space</button><button id="deleteidea" disabled="">Delete card</button></div><span id="boarddimensions"></span><span id="boardhint"></span></div>
-<div class="canvas-row"><div class="workspace"><article id="sheet" class="plain"><div class="page-rule"></div><div id="surface"><canvas id="pdfpage" hidden="" aria-label="PDF page"></canvas><div id="editor" contenteditable="true" role="textbox" aria-label="Note content" aria-multiline="true" data-placeholder="Start with a thought…"></div><svg id="canvas" viewBox="0 0 800 1050" preserveAspectRatio="none" aria-label="Handwriting canvas"></svg></div><div class="page-bottom">A little space for a big idea.<span>LEAFNOTE</span></div></article><div class="workspace-foot"><span id="words">0 words</span><span id="hint">Click anywhere on the page to write</span></div></div><section id="recognitionreview" hidden=""><label id="reviewtitle" for="inktranscript">Edit recognized text</label><p id="reviewhint"></p><label class="recognition-language">Handwriting language for this page <select id="recognitionlanguage"><option value="en">English</option><option value="mr">Marathi / Devanagari (experimental)</option></select></label><p id="languagehint"></p><textarea id="inktranscript" rows="4" maxlength="100000" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Recognized handwriting appears here. You can correct it without changing the ink."></textarea><p id="reviewstatus" role="status"></p><button id="savetranscript" class="primary">Save corrections</button><button id="discardreview" disabled="">Discard edits</button><button id="retryrecognition">Try recognition again</button><button id="cancelreview" aria-label="Close handwriting review">Close</button></section></div></main></div><div id="toast" role="status"></div><dialog id="modal"><form method="dialog"><h2 id="modal-title"></h2><p id="modal-text"></p><input id="modal-input" autocomplete="off"><div><button value="cancel">Cancel</button><button class="primary" id="modal-ok" value="ok">Create</button></div></form></dialog><dialog id="modelsdialog" aria-labelledby="modelstitle"><h2 id="modelstitle">Language models</h2><p>Install recognition models on this device. Review the source and limitations before installing.</p><div id="modelcards"></div><p id="modelstatus" role="status"></p><button id="cancelmodeldownload" hidden="">Cancel download</button><button id="closemodels">Close</button></dialog><script src="vendor/pdf-lib.min.js"></script><script src="ink-engine.js"></script><script src="search-engine.js"></script><script src="board-engine.js"></script><script src="app.js"></script><script src="features.js"></script><script src="board.js"></script><script src="search.js"></script><script src="language-models.js"></script>
-<script src="minimal.js"></script>
-
-
-
-
-
-
-
-</body></html>
+    <dialog id="pwainstall" aria-labelledby="pwainstalltitle">
+      <h2 id="pwainstalltitle">Install Leafnote</h2>
+      <p>
+        Open this app over trusted HTTPS. Use your browser’s Install app or Add
+        to Home Screen option. On iPhone or iPad, open the Share menu in Safari
+        and choose Add to Home Screen.
+      </p>
+      <p>
+        Wait for “Offline notebook ready” before disconnecting. Install
+        handwriting models while connected to your local server.
+      </p>
+      <button id="closepwainstall">Close</button>
+    </dialog>
+    <script src="pwa.js"></script>
+  </body>
+</html>

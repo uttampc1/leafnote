@@ -1,49 +1,594 @@
-(function(){
- 'use strict';
- const E=LeafBoardEngine,scales=new Map(),handledMoves=new WeakSet();let drag=null,editing=null,linkFrom=null,selected=null,space=false;
- const api=()=>window.LeafnoteApp;
- function scale(){return scales.get(current)||.65;}
- function element(tag,attrs={}){const el=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))el.setAttribute(k,v);return el;}
- function paint(svg,board){if(!board)return;const group=element('g',{'data-board':'true'});for(const l of board.links){const a=board.nodes.find(n=>n.id===l.from),b=board.nodes.find(n=>n.id===l.to);if(!a||!b)continue;const x1=a.x+a.width/2,y1=a.y+a.height/2,x2=b.x+b.width/2,y2=b.y+b.height/2;group.append(element('path',{d:`M${x1} ${y1} C${(x1+x2)/2} ${y1} ${(x1+x2)/2} ${y2} ${x2} ${y2}`,fill:'none',stroke:'#739067','stroke-width':3}));}
-  for(const n of board.nodes){const g=element('g');g.append(element('rect',{x:n.x,y:n.y,width:n.width,height:n.height,rx:10,fill:n.color,stroke:linkFrom===n.id||selected===n.id?'#264c3d':'#9daf8d','stroke-width':linkFrom===n.id||selected===n.id?3:1.5}));if(editing?.node!==n){const text=element('text',{'font-family':'monospace','font-size':n.size||18,fill:n.textColor||'#293e2d','xml:space':'preserve'});E.textLines(n).forEach((line,i)=>{const span=element('tspan',{x:n.x+14,y:n.y+(n.size||18)+12+i*(n.size||18)*(n.lineHeight||1.5)});span.textContent=line||' ';text.append(span);});g.append(text);}group.append(g);}svg.append(group);
- }
- function refresh(){const b=note()?.board;$('#boardbar').hidden=!b;$('#sheet').classList.toggle('board-sheet',!!b);$('#surface').dataset.boardTool=tool;$('#surface').dataset.boardDragging=String(!!drag);if(b){$('#boardzoom').textContent=Math.round(scale()*100)+'%';$('#boarddimensions').textContent=b.width+' × '+b.height;$('#deleteidea').disabled=!b.nodes.some(n=>n.id===selected);$('#boardhint').textContent=tool==='link'?(linkFrom?'Click another card to connect; repeat to disconnect':'Click two cards to connect them'):tool==='idea'?'Click empty space to add an idea card':'Select: drag cards · Double-click or Type: edit · Space: pan';}else{linkFrom=null;selected=null;}}
- function absorbDraft(node){if(node.text.trim())return;const drafts=(note().texts||[]).filter(t=>t.text&&t.x>=node.x&&t.x<node.x+node.width&&t.y>=node.y&&t.y<=node.y+node.height);if(!drafts.length)return;node.text=drafts.slice().sort((a,b)=>a.y-b.y||a.x-b.x).map(t=>t.text).join('\n');node.height=Math.max(node.height,E.textLines(node).length*(node.size||18)*(node.lineHeight||1.5)+34);note().texts=note().texts.filter(t=>!drafts.includes(t));}
- function finishEdit(){if(!editing)return;const old=editing;editing=null;const field=$('#nodeeditor');if(field){old.node.text=field.value.slice(0,20000);field.onblur=null;field.remove();}api().record(old.before);touch();api().redraw();}
- function edit(node,before){finishEdit();api().finish();const beforeEdit=before||api().snapshot();absorbDraft(node);editing={node,before:beforeEdit};const field=document.createElement('textarea');field.id='nodeeditor';field.setAttribute('aria-label','Idea card text');field.value=node.text;const s=scale();Object.assign(field.style,{left:node.x/note().board.width*100+'%',top:node.y/note().board.height*100+'%',width:node.width*s+'px',height:node.height*s+'px',fontSize:(node.size||18)*s+'px',color:node.textColor||'#293e2d',webkitTextFillColor:node.textColor||'#293e2d',lineHeight:String(node.lineHeight||1.5),padding:14*s+'px'});$('#surface').append(field);field.oninput=()=>{node.text=field.value.slice(0,20000);node.height=Math.max(100,E.textLines(node).length*(node.size||18)*(node.lineHeight||1.5)+34);field.style.height=node.height*scale()+'px';ensure(node.x+node.width,node.y+node.height);field.style.left=node.x/note().board.width*100+'%';field.style.top=node.y/note().board.height*100+'%';touch();};field.onblur=finishEdit;field.onkeydown=e=>{e.stopPropagation();if(e.key==='Escape'||(e.key==='Enter'&&(e.ctrlKey||e.metaKey))){e.preventDefault();finishEdit();}};field.focus({preventScroll:true});field.setSelectionRange(field.value.length,field.value.length);api().redraw();}
- function ensure(x,y){const b=note()?.board;if(!b)return;let changed=false;if(x>b.width-150&&b.width<100000){b.width=Math.min(100000,b.width+1600);changed=true;}if(y>b.height-150&&b.height<100000){b.height=Math.min(100000,b.height+1200);changed=true;}if(changed){api().resize();refresh();}}
- function coord(e){const r=$('#canvas').getBoundingClientRect(),v=$('#canvas').viewBox.baseVal;return [(e.clientX-r.left)/r.width*v.width,(e.clientY-r.top)/r.height*v.height];}
- function zoom(value){if(!note()?.board)return;finishEdit();api().finish();const ws=$('.workspace'),old=scale(),cx=(ws.scrollLeft+ws.clientWidth/2)/old,cy=(ws.scrollTop+ws.clientHeight/2)/old;scales.set(current,Math.max(.002,Math.min(2,value)));api().resize();ws.scrollLeft=cx*scale()-ws.clientWidth/2;ws.scrollTop=cy*scale()-ws.clientHeight/2;refresh();}
- function textStyleTarget(){return editing?{kind:'board',noteId:current,item:editing.node}:null;}
- function setTextStyle(style,target){if(target.noteId!==current||!note()?.board?.nodes.includes(target.item))return false;const before=api().snapshot(),node=target.item;if(style.color)node.textColor=style.color;if(style.size)node.size=style.size;if(style.lineHeight)node.lineHeight=style.lineHeight;node.height=Math.max(node.height,E.textLines(node).length*(node.size||18)*(node.lineHeight||1.5)+34);ensure(node.x+node.width,node.y+node.height);if(editing?.node===node){const field=$('#nodeeditor');if(field){field.style.color=node.textColor;field.style.webkitTextFillColor=node.textColor;field.style.fontSize=(node.size||18)*scale()+'px';field.style.lineHeight=String(node.lineHeight||1.5);field.style.height=node.height*scale()+'px';}}else api().record(before);touch();api().redraw();return true;}
- function setTextColor(color,target){return setTextStyle({color},target);}
- window.LeafBoard={scale,paint,refresh,finish:finishEdit,ensure,textStyleTarget,setTextColor,setTextStyle};
- function setup(){
-  const c=$('#canvas'),down=c.onpointerdown,move=c.onpointermove,up=c.onpointerup,cancel=c.onpointercancel;
-  c.onpointerdown=async e=>{if(!note()?.board)return down(e);if(drag&&drag.id!==e.pointerId)return;finishEdit();const p=coord(e),hit=E.hit(note().board,p);if(e.pointerType==='touch')return down(e);
-   if(space||tool==='hand'){api().finish();drag={pan:true,id:e.pointerId,x:e.clientX,y:e.clientY,left:$('.workspace').scrollLeft,top:$('.workspace').scrollTop};c.setPointerCapture(e.pointerId);e.preventDefault();return;}
-   if((tool==='text'||tool==='idea')&&hit){e.preventDefault();selected=hit.id;edit(hit);return;}
-   if(tool==='idea'){e.preventDefault();const before=api().snapshot(),n={id:uid(),x:Math.max(0,p[0]),y:Math.max(0,p[1]),width:260,height:120,text:'',color:'#f3f7ed',textColor:$('#textcolor').value,size:Number($('#textsize').value),lineHeight:Number($('#textspacing').value)};note().board.nodes.push(n);selected=n.id;ensure(n.x+n.width,n.y+n.height);edit(n,before);return;}
-   if(tool==='link'){if(!hit){linkFrom=null;refresh();api().redraw();return;}if(!linkFrom){linkFrom=hit.id;}else if(linkFrom!==hit.id){const before=api().snapshot(),index=note().board.links.findIndex(l=>(l.from===linkFrom&&l.to===hit.id)||(l.to===linkFrom&&l.from===hit.id));if(index<0)note().board.links.push({from:linkFrom,to:hit.id});else note().board.links.splice(index,1);linkFrom=null;api().record(before);touch();}refresh();api().redraw();return;}
-   if(tool==='select'){selected=hit?.id||null;if(hit){api().finish();const before=api().snapshot();absorbDraft(hit);drag={id:e.pointerId,node:hit,start:p,x:hit.x,y:hit.y,before,moved:false};c.setPointerCapture(e.pointerId);e.preventDefault();}refresh();return;}
-   await down(e);ensure(p[0],p[1]);
+/** @file Mind-map cards, connectors, drag/pan/zoom, and card editing layered on the note engine. */
+(function () {
+  "use strict";
+  const E = LeafBoardEngine,
+    scales = new Map(),
+    handledMoves = new WeakSet();
+  let drag = null,
+    editing = null,
+    linkFrom = null,
+    selected = null,
+    space = false;
+  /** Access the active LeafnoteApp bridge supplied by features.js. */
+  const api = () => window.LeafnoteApp;
+  /** Read the current board zoom, using the initial scale for a new board. */
+  function scale() {
+    return scales.get(current) || 0.65;
+  }
+  /** Create an SVG element and apply its attributes. */
+  function element(tag, attrs = {}) {
+    const el = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+    return el;
+  }
+  /** Render an active ink stroke or board layer into SVG. */
+  function paint(svg, board) {
+    if (!board) return;
+    const group = element("g", { "data-board": "true" });
+    for (const l of board.links) {
+      const a = board.nodes.find((n) => n.id === l.from),
+        b = board.nodes.find((n) => n.id === l.to);
+      if (!a || !b) continue;
+      const x1 = a.x + a.width / 2,
+        y1 = a.y + a.height / 2,
+        x2 = b.x + b.width / 2,
+        y2 = b.y + b.height / 2;
+      group.append(
+        element("path", {
+          d: `M${x1} ${y1} C${(x1 + x2) / 2} ${y1} ${(x1 + x2) / 2} ${y2} ${x2} ${y2}`,
+          fill: "none",
+          stroke: "#739067",
+          "stroke-width": 3,
+        }),
+      );
+    }
+    for (const n of board.nodes) {
+      const g = element("g");
+      g.append(
+        element("rect", {
+          x: n.x,
+          y: n.y,
+          width: n.width,
+          height: n.height,
+          rx: 10,
+          fill: n.color,
+          stroke:
+            linkFrom === n.id || selected === n.id ? "#264c3d" : "#9daf8d",
+          "stroke-width": linkFrom === n.id || selected === n.id ? 3 : 1.5,
+        }),
+      );
+      if (editing?.node !== n) {
+        const text = element("text", {
+          "font-family": "monospace",
+          "font-size": n.size || 18,
+          fill: n.textColor || "#293e2d",
+          "xml:space": "preserve",
+        });
+        E.textLines(n).forEach((line, i) => {
+          const span = element("tspan", {
+            x: n.x + 14,
+            y:
+              n.y +
+              (n.size || 18) +
+              12 +
+              i * (n.size || 18) * (n.lineHeight || 1.5),
+          });
+          span.textContent = line || " ";
+          text.append(span);
+        });
+        g.append(text);
+      }
+      group.append(g);
+    }
+    svg.append(group);
+  }
+  /** Synchronize board tool hints, zoom, selection, and contextual controls. */
+  function refresh() {
+    const b = note()?.board;
+    $("#boardbar").hidden = !b;
+    $("#sheet").classList.toggle("board-sheet", !!b);
+    $("#surface").dataset.boardTool = tool;
+    $("#surface").dataset.boardDragging = String(!!drag);
+    if (b) {
+      $("#boardzoom").textContent = Math.round(scale() * 100) + "%";
+      $("#boarddimensions").textContent = b.width + " × " + b.height;
+      $("#deleteidea").disabled = !b.nodes.some((n) => n.id === selected);
+      $("#boardhint").textContent =
+        tool === "link"
+          ? linkFrom
+            ? "Click another card to connect; repeat to disconnect"
+            : "Click two cards to connect them"
+          : tool === "idea"
+            ? "Click empty space to add an idea card"
+            : "Select: drag cards · Double-click or Type: edit · Space: pan";
+    } else {
+      linkFrom = null;
+      selected = null;
+    }
+  }
+  /** Recover a plain-text draft positioned inside an otherwise empty idea card. */
+  function absorbDraft(node) {
+    if (node.text.trim()) return;
+    const drafts = (note().texts || []).filter(
+      (t) =>
+        t.text &&
+        t.x >= node.x &&
+        t.x < node.x + node.width &&
+        t.y >= node.y &&
+        t.y <= node.y + node.height,
+    );
+    if (!drafts.length) return;
+    node.text = drafts
+      .slice()
+      .sort((a, b) => a.y - b.y || a.x - b.x)
+      .map((t) => t.text)
+      .join("\n");
+    node.height = Math.max(
+      node.height,
+      E.textLines(node).length * (node.size || 18) * (node.lineHeight || 1.5) +
+        34,
+    );
+    note().texts = note().texts.filter((t) => !drafts.includes(t));
+  }
+  /** Commit an idea-card editor to the undo history and persistent note data. */
+  function finishEdit() {
+    if (!editing) return;
+    const old = editing;
+    editing = null;
+    const field = $("#nodeeditor");
+    if (field) {
+      old.node.text = field.value.slice(0, 20000);
+      field.onblur = null;
+      field.remove();
+    }
+    api().record(old.before);
+    touch();
+    api().redraw();
+  }
+  /** Open a positioned plain-text editor for an idea card. */
+  function edit(node, before) {
+    finishEdit();
+    api().finish();
+    const beforeEdit = before || api().snapshot();
+    absorbDraft(node);
+    editing = { node, before: beforeEdit };
+    const field = document.createElement("textarea");
+    field.id = "nodeeditor";
+    field.setAttribute("aria-label", "Idea card text");
+    field.value = node.text;
+    const s = scale();
+    Object.assign(field.style, {
+      left: (node.x / note().board.width) * 100 + "%",
+      top: (node.y / note().board.height) * 100 + "%",
+      width: node.width * s + "px",
+      height: node.height * s + "px",
+      fontSize: (node.size || 18) * s + "px",
+      color: node.textColor || "#293e2d",
+      webkitTextFillColor: node.textColor || "#293e2d",
+      lineHeight: String(node.lineHeight || 1.5),
+      padding: 14 * s + "px",
+    });
+    $("#surface").append(field);
+    field.oninput = () => {
+      node.text = field.value.slice(0, 20000);
+      node.height = Math.max(
+        100,
+        E.textLines(node).length *
+          (node.size || 18) *
+          (node.lineHeight || 1.5) +
+          34,
+      );
+      field.style.height = node.height * scale() + "px";
+      ensure(node.x + node.width, node.y + node.height);
+      field.style.left = (node.x / note().board.width) * 100 + "%";
+      field.style.top = (node.y / note().board.height) * 100 + "%";
+      touch();
+    };
+    field.onblur = finishEdit;
+    field.onkeydown = (e) => {
+      e.stopPropagation();
+      if (
+        e.key === "Escape" ||
+        (e.key === "Enter" && (e.ctrlKey || e.metaKey))
+      ) {
+        e.preventDefault();
+        finishEdit();
+      }
+    };
+    field.focus({ preventScroll: true });
+    field.setSelectionRange(field.value.length, field.value.length);
+    api().redraw();
+  }
+  /** Expand a board near its edges while preserving existing coordinates. */
+  function ensure(x, y) {
+    const b = note()?.board;
+    if (!b) return;
+    let changed = false;
+    if (x > b.width - 150 && b.width < 100000) {
+      b.width = Math.min(100000, b.width + 1600);
+      changed = true;
+    }
+    if (y > b.height - 150 && b.height < 100000) {
+      b.height = Math.min(100000, b.height + 1200);
+      changed = true;
+    }
+    if (changed) {
+      api().resize();
+      refresh();
+    }
+  }
+  /** Convert a pointer position into document-space coordinates. */
+  function coord(e) {
+    const r = $("#canvas").getBoundingClientRect(),
+      v = $("#canvas").viewBox.baseVal;
+    return [
+      ((e.clientX - r.left) / r.width) * v.width,
+      ((e.clientY - r.top) / r.height) * v.height,
+    ];
+  }
+  /** Change board magnification while retaining the viewport center. */
+  function zoom(value) {
+    if (!note()?.board) return;
+    finishEdit();
+    api().finish();
+    const ws = $(".workspace"),
+      old = scale(),
+      cx = (ws.scrollLeft + ws.clientWidth / 2) / old,
+      cy = (ws.scrollTop + ws.clientHeight / 2) / old;
+    scales.set(current, Math.max(0.002, Math.min(2, value)));
+    api().resize();
+    ws.scrollLeft = cx * scale() - ws.clientWidth / 2;
+    ws.scrollTop = cy * scale() - ws.clientHeight / 2;
+    refresh();
+  }
+  /** Capture a stable reference to the currently edited text box or idea card. */
+  function textStyleTarget() {
+    return editing
+      ? { kind: "board", noteId: current, item: editing.node }
+      : null;
+  }
+  /** Apply validated text styling to the captured target and retain undo history. */
+  function setTextStyle(style, target) {
+    if (
+      target.noteId !== current ||
+      !note()?.board?.nodes.includes(target.item)
+    )
+      return false;
+    const before = api().snapshot(),
+      node = target.item;
+    if (style.color) node.textColor = style.color;
+    if (style.size) node.size = style.size;
+    if (style.lineHeight) node.lineHeight = style.lineHeight;
+    node.height = Math.max(
+      node.height,
+      E.textLines(node).length * (node.size || 18) * (node.lineHeight || 1.5) +
+        34,
+    );
+    ensure(node.x + node.width, node.y + node.height);
+    if (editing?.node === node) {
+      const field = $("#nodeeditor");
+      if (field) {
+        field.style.color = node.textColor;
+        field.style.webkitTextFillColor = node.textColor;
+        field.style.fontSize = (node.size || 18) * scale() + "px";
+        field.style.lineHeight = String(node.lineHeight || 1.5);
+        field.style.height = node.height * scale() + "px";
+      }
+    } else api().record(before);
+    touch();
+    api().redraw();
+    return true;
+  }
+  /** Apply a text-color-only style change through the shared styling API. */
+  function setTextColor(color, target) {
+    return setTextStyle({ color }, target);
+  }
+  window.LeafBoard = {
+    scale,
+    paint,
+    refresh,
+    finish: finishEdit,
+    ensure,
+    textStyleTarget,
+    setTextColor,
+    setTextStyle,
   };
-  c.onpointermove=e=>{if(drag?.id===e.pointerId){handledMoves.add(e);e.preventDefault();if(drag.pan){$('.workspace').scrollLeft=drag.left+drag.x-e.clientX;$('.workspace').scrollTop=drag.top+drag.y-e.clientY;return;}const p=coord(e),dx=p[0]-drag.start[0],dy=p[1]-drag.start[1];if(!drag.moved&&Math.hypot(dx,dy)<=4)return;drag.moved=true;drag.node.x=Math.max(0,drag.x+dx);drag.node.y=Math.max(0,drag.y+dy);ensure(drag.node.x+drag.node.width,drag.node.y+drag.node.height);api().redraw();return;}move(e);if(note()?.board&&e.buttons===1&&!['text','idea','select','link'].includes(tool)){const p=coord(e);ensure(p[0],p[1]);}};
-  c.onpointerup=e=>{if(drag?.id!==e.pointerId)return up(e);const old=drag;drag=null;try{c.releasePointerCapture(e.pointerId);}catch{}if(!old.pan&&(old.moved||JSON.stringify(old.before)!==JSON.stringify(api().snapshot()))){api().record(old.before);touch();}api().redraw();};
-  c.onpointercancel=e=>{if(drag?.id===e.pointerId){const old=drag;drag=null;if(old.node){note().board=structuredClone(old.before.board);note().texts=structuredClone(old.before.texts);api().resize();api().redraw();touch();}return;}cancel(e);};
-  c.ondblclick=e=>{if(!note()?.board||tool!=='select')return;const hit=E.hit(note().board,coord(e));if(hit){e.preventDefault();selected=hit.id;edit(hit);}};
-  window.addEventListener('pointermove',e=>{if(drag?.id===e.pointerId&&!handledMoves.has(e))c.onpointermove(e);},{passive:false});
-  window.addEventListener('pointerup',e=>{if(drag?.id===e.pointerId)c.onpointerup(e);});
-  window.addEventListener('pointercancel',e=>{if(drag?.id===e.pointerId)c.onpointercancel(e);});
-  const load=loadNote;loadNote=function(id){finishEdit();drag=null;linkFrom=null;load(id);if(note()?.board){api().resize();$('.workspace').scrollLeft=0;$('.workspace').scrollTop=0;}else if(['select','idea','link','hand'].includes(tool))$('[data-tool="text"]').click();refresh();};
-  const previousRender=redraw;redraw=function(){previousRender();refresh();};
-  $('#newboard').onclick=()=>{api().finish();createNote();note().board={width:3200,height:2400,nodes:[],links:[]};note().paper='dots';$('#paper').value='dots';$('#sheet').className='dots board-sheet';api().resize();refresh();touch();$('[data-tool="idea"]').click();};
-  $('#boardout').onclick=()=>zoom(scale()-.1);$('#boardin').onclick=()=>zoom(scale()+.1);$('#boardfit').onclick=()=>{const b=note().board,ws=$('.workspace');zoom(Math.min((ws.clientWidth-72)/b.width,(ws.clientHeight-40)/b.height));ws.scrollLeft=0;ws.scrollTop=0;};
-  $('#extendboard').onclick=()=>{finishEdit();const before=api().snapshot();note().board.width=Math.min(100000,note().board.width+1600);note().board.height=Math.min(100000,note().board.height+1200);api().record(before);api().resize();refresh();touch();};
-  $('#deleteidea').onclick=()=>{finishEdit();const b=note()?.board;if(!b||!selected)return;const before=api().snapshot();b.nodes=b.nodes.filter(n=>n.id!==selected);b.links=b.links.filter(l=>l.from!==selected&&l.to!==selected);selected=null;api().record(before);touch();api().redraw();};
-  document.addEventListener('click',e=>{if(e.target.closest('[data-tool]')){finishEdit();refresh();}});
-  document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,dialog'))return;if(e.code==='Space'&&note()?.board){space=true;e.preventDefault();}});document.addEventListener('keyup',e=>{if(e.code==='Space')space=false;});window.addEventListener('blur',()=>{space=false;finishEdit();if(drag)c.onpointerup({pointerId:drag.id});});
-  const ws=$('.workspace');ws.addEventListener('wheel',e=>{if(note()?.board&&(e.ctrlKey||e.metaKey)){e.preventDefault();zoom(scale()+(e.deltaY<0?.1:-.1));}},{passive:false});refresh();
- }
- if(window.LeafnoteApp?.ready)setup();else document.addEventListener('leafnote-ready',setup,{once:true});
+  /** Attach this module’s event handlers after the application state is ready. */
+  function setup() {
+    const c = $("#canvas"),
+      down = c.onpointerdown,
+      move = c.onpointermove,
+      up = c.onpointerup,
+      cancel = c.onpointercancel;
+    c.onpointerdown = async (e) => {
+      if (!note()?.board) return down(e);
+      if (drag && drag.id !== e.pointerId) return;
+      finishEdit();
+      const p = coord(e),
+        hit = E.hit(note().board, p);
+      if (e.pointerType === "touch") return down(e);
+      if (space || tool === "hand") {
+        api().finish();
+        drag = {
+          pan: true,
+          id: e.pointerId,
+          x: e.clientX,
+          y: e.clientY,
+          left: $(".workspace").scrollLeft,
+          top: $(".workspace").scrollTop,
+        };
+        c.setPointerCapture(e.pointerId);
+        e.preventDefault();
+        return;
+      }
+      if ((tool === "text" || tool === "idea") && hit) {
+        e.preventDefault();
+        selected = hit.id;
+        edit(hit);
+        return;
+      }
+      if (tool === "idea") {
+        e.preventDefault();
+        const before = api().snapshot(),
+          n = {
+            id: uid(),
+            x: Math.max(0, p[0]),
+            y: Math.max(0, p[1]),
+            width: 260,
+            height: 120,
+            text: "",
+            color: "#f3f7ed",
+            textColor: $("#textcolor").value,
+            size: Number($("#textsize").value),
+            lineHeight: Number($("#textspacing").value),
+          };
+        note().board.nodes.push(n);
+        selected = n.id;
+        ensure(n.x + n.width, n.y + n.height);
+        edit(n, before);
+        return;
+      }
+      if (tool === "link") {
+        if (!hit) {
+          linkFrom = null;
+          refresh();
+          api().redraw();
+          return;
+        }
+        if (!linkFrom) {
+          linkFrom = hit.id;
+        } else if (linkFrom !== hit.id) {
+          const before = api().snapshot(),
+            index = note().board.links.findIndex(
+              (l) =>
+                (l.from === linkFrom && l.to === hit.id) ||
+                (l.to === linkFrom && l.from === hit.id),
+            );
+          if (index < 0)
+            note().board.links.push({ from: linkFrom, to: hit.id });
+          else note().board.links.splice(index, 1);
+          linkFrom = null;
+          api().record(before);
+          touch();
+        }
+        refresh();
+        api().redraw();
+        return;
+      }
+      if (tool === "select") {
+        selected = hit?.id || null;
+        if (hit) {
+          api().finish();
+          const before = api().snapshot();
+          absorbDraft(hit);
+          drag = {
+            id: e.pointerId,
+            node: hit,
+            start: p,
+            x: hit.x,
+            y: hit.y,
+            before,
+            moved: false,
+          };
+          c.setPointerCapture(e.pointerId);
+          e.preventDefault();
+        }
+        refresh();
+        return;
+      }
+      await down(e);
+      ensure(p[0], p[1]);
+    };
+    c.onpointermove = (e) => {
+      if (drag?.id === e.pointerId) {
+        handledMoves.add(e);
+        e.preventDefault();
+        if (drag.pan) {
+          $(".workspace").scrollLeft = drag.left + drag.x - e.clientX;
+          $(".workspace").scrollTop = drag.top + drag.y - e.clientY;
+          return;
+        }
+        const p = coord(e),
+          dx = p[0] - drag.start[0],
+          dy = p[1] - drag.start[1];
+        if (!drag.moved && Math.hypot(dx, dy) <= 4) return;
+        drag.moved = true;
+        drag.node.x = Math.max(0, drag.x + dx);
+        drag.node.y = Math.max(0, drag.y + dy);
+        ensure(drag.node.x + drag.node.width, drag.node.y + drag.node.height);
+        api().redraw();
+        return;
+      }
+      move(e);
+      if (
+        note()?.board &&
+        e.buttons === 1 &&
+        !["text", "idea", "select", "link"].includes(tool)
+      ) {
+        const p = coord(e);
+        ensure(p[0], p[1]);
+      }
+    };
+    c.onpointerup = (e) => {
+      if (drag?.id !== e.pointerId) return up(e);
+      const old = drag;
+      drag = null;
+      try {
+        c.releasePointerCapture(e.pointerId);
+      } catch {}
+      if (
+        !old.pan &&
+        (old.moved ||
+          JSON.stringify(old.before) !== JSON.stringify(api().snapshot()))
+      ) {
+        api().record(old.before);
+        touch();
+      }
+      api().redraw();
+    };
+    c.onpointercancel = (e) => {
+      if (drag?.id === e.pointerId) {
+        const old = drag;
+        drag = null;
+        if (old.node) {
+          note().board = structuredClone(old.before.board);
+          note().texts = structuredClone(old.before.texts);
+          api().resize();
+          api().redraw();
+          touch();
+        }
+        return;
+      }
+      cancel(e);
+    };
+    c.ondblclick = (e) => {
+      if (!note()?.board || tool !== "select") return;
+      const hit = E.hit(note().board, coord(e));
+      if (hit) {
+        e.preventDefault();
+        selected = hit.id;
+        edit(hit);
+      }
+    };
+    window.addEventListener(
+      "pointermove",
+      (e) => {
+        if (drag?.id === e.pointerId && !handledMoves.has(e))
+          c.onpointermove(e);
+      },
+      { passive: false },
+    );
+    window.addEventListener("pointerup", (e) => {
+      if (drag?.id === e.pointerId) c.onpointerup(e);
+    });
+    window.addEventListener("pointercancel", (e) => {
+      if (drag?.id === e.pointerId) c.onpointercancel(e);
+    });
+    const load = loadNote;
+    loadNote =
+      /** Open a note, update its controls, and refresh its drawing surface. */
+      function (id) {
+        finishEdit();
+        drag = null;
+        linkFrom = null;
+        load(id);
+        if (note()?.board) {
+          api().resize();
+          $(".workspace").scrollLeft = 0;
+          $(".workspace").scrollTop = 0;
+        } else if (["select", "idea", "link", "hand"].includes(tool))
+          $('[data-tool="text"]').click();
+        refresh();
+      };
+    const previousRender = redraw;
+    redraw =
+      /** Refresh the rendered ink, typed text, and board layers. */
+      function () {
+        previousRender();
+        refresh();
+      };
+    $("#newboard").onclick = () => {
+      api().finish();
+      createNote();
+      note().board = { width: 3200, height: 2400, nodes: [], links: [] };
+      note().paper = "dots";
+      $("#paper").value = "dots";
+      $("#sheet").className = "dots board-sheet";
+      api().resize();
+      refresh();
+      touch();
+      $('[data-tool="idea"]').click();
+    };
+    $("#boardout").onclick = () => zoom(scale() - 0.1);
+    $("#boardin").onclick = () => zoom(scale() + 0.1);
+    $("#boardfit").onclick = () => {
+      const b = note().board,
+        ws = $(".workspace");
+      zoom(
+        Math.min(
+          (ws.clientWidth - 72) / b.width,
+          (ws.clientHeight - 40) / b.height,
+        ),
+      );
+      ws.scrollLeft = 0;
+      ws.scrollTop = 0;
+    };
+    $("#extendboard").onclick = () => {
+      finishEdit();
+      const before = api().snapshot();
+      note().board.width = Math.min(100000, note().board.width + 1600);
+      note().board.height = Math.min(100000, note().board.height + 1200);
+      api().record(before);
+      api().resize();
+      refresh();
+      touch();
+    };
+    $("#deleteidea").onclick = () => {
+      finishEdit();
+      const b = note()?.board;
+      if (!b || !selected) return;
+      const before = api().snapshot();
+      b.nodes = b.nodes.filter((n) => n.id !== selected);
+      b.links = b.links.filter((l) => l.from !== selected && l.to !== selected);
+      selected = null;
+      api().record(before);
+      touch();
+      api().redraw();
+    };
+    document.addEventListener("click", (e) => {
+      if (e.target.closest("[data-tool]")) {
+        finishEdit();
+        refresh();
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.target.closest("input,textarea,dialog")) return;
+      if (e.code === "Space" && note()?.board) {
+        space = true;
+        e.preventDefault();
+      }
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.code === "Space") space = false;
+    });
+    window.addEventListener("blur", () => {
+      space = false;
+      finishEdit();
+      if (drag) c.onpointerup({ pointerId: drag.id });
+    });
+    const ws = $(".workspace");
+    ws.addEventListener(
+      "wheel",
+      (e) => {
+        if (note()?.board && (e.ctrlKey || e.metaKey)) {
+          e.preventDefault();
+          zoom(scale() + (e.deltaY < 0 ? 0.1 : -0.1));
+        }
+      },
+      { passive: false },
+    );
+    refresh();
+  }
+  if (window.LeafnoteApp?.ready) setup();
+  else document.addEventListener("leafnote-ready", setup, { once: true });
 })();

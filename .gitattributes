@@ -1,0 +1,7 @@
+* text=auto eol=lf
+dist/vendor/** -text -whitespace
+*.onnx -text
+*.wasm -text
+*.ttf -text
+*.png -text
+*.dic -text

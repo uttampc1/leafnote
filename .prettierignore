@@ -1,0 +1,5 @@
+dist/vendor/
+dist/precache-manifest.js
+docs/FUNCTIONS.md
+docs/functions.json
+package-lock.json
