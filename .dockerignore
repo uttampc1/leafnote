@@ -13,3 +13,5 @@ server-data
 **/CURRENT
 **/snapshots
 **/blobs
+
+**/history/

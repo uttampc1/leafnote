@@ -153,7 +153,13 @@ export function mergeSnapshots(base, local, remote, deviceId) {
       if (l) add(l, lh, true);
       continue;
     }
-    if (l && r) {
+    if (l && r && !!l.deleted !== !!r.deleted) {
+      const tombstone = l.deleted ? l : r,
+        edited = l.deleted ? r : l,
+        hash = l.deleted ? rh : lh;
+      add(tombstone, l.deleted ? lh : rh, l.deleted);
+      conflictCopy(edited, hash, "edit-delete", !l.deleted);
+    } else if (l && r) {
       add(r, rh);
       conflictCopy(l, lh, "edit-edit");
     } else if (l) conflictCopy(l, lh, "edit-delete");

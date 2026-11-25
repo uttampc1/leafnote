@@ -1225,3 +1225,73 @@ main {
   border-radius: 7px;
   line-height: 1.6;
 }
+
+#maintenancedialog {
+  width: min(96vw, 960px);
+  max-width: 960px;
+  max-height: 90vh;
+  overflow: auto;
+}
+#maintenancedialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+#maintenancedialog nav {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#maintenancedialog button {
+  border: 1px solid #ccd7c5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 3px 0;
+}
+#maintenancedialog button[aria-pressed="true"] {
+  background: #e7efe2;
+  color: #264c3d;
+}
+#maintenancestatus {
+  padding: 10px;
+  background: #f1f5ed;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+.maintenance-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+}
+.maintenance-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #e1e8dc;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
+  overflow-wrap: anywhere;
+}
+.maintenance-row small {
+  color: #65715f;
+}
+#revisionpreview svg {
+  width: 100%;
+  max-height: 420px;
+  background: white;
+  border: 1px solid #d7dfd0;
+}
+#revisionnote {
+  max-width: 100%;
+}
+@media (max-width: 650px) {
+  .maintenance-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.maintenance-columns:has(#revisiondetails[hidden]) {
+  grid-template-columns: 1fr;
+}

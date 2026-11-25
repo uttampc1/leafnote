@@ -118,701 +118,741 @@ Provide the callback passed to x.books.some.
 - Assigned/updated targets: (none)
 - Return expressions: `b.id === n.book`
 
-### <anonymous callback> — line 108
+### <anonymous callback> — line 114
 
 Provide the callback passed to (Array.isArray(n.strokes) ? n.strokes : []) .filter.
 
-- Source: [`dist/app.js:108`](../dist/app.js#L108)
+- Source: [`dist/app.js:114`](../dist/app.js#L114)
 - Parameters: `s`; async: false
 - Direct calls: `Array.isArray`, `s.points.every`
 - Assigned/updated targets: (none)
 - Return expressions: `Array.isArray(s.points) && s.points.length && s.points.every( (p) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite), )`
 
-### <anonymous callback> — line 112
+### <anonymous callback> — line 118
 
 Provide the callback passed to s.points.every.
 
-- Source: [`dist/app.js:112`](../dist/app.js#L112)
+- Source: [`dist/app.js:118`](../dist/app.js#L118)
 - Parameters: `p`; async: false
 - Direct calls: `Array.isArray`, `p.every`
 - Assigned/updated targets: (none)
 - Return expressions: `Array.isArray(p) && p.length === 2 && p.every(Number.isFinite)`
 
-### <anonymous callback> — line 116
+### <anonymous callback> — line 122
 
 Provide the callback passed to (Array.isArray(n.strokes) ? n.strokes : []) .filter( (s) => Array.isArray(s.points) && s.points.leng.
 
-- Source: [`dist/app.js:116`](../dist/app.js#L116)
+- Source: [`dist/app.js:122`](../dist/app.js#L122)
 - Parameters: `s`; async: false
 - Direct calls: `/^#[0-9a-f]{6}$/i.test`, `Math.max`, `Math.min`, `Number`
 - Assigned/updated targets: (none)
 - Return expressions: `{ color: /^#[0-9a-f]{6}$/i.test(s.color) ? s.color : "#264c3d", width: Math.max(1, Math.min(40, Number(s.width) || 3)), opacity: s.opacity === 0.3 ? 0.3 : 1, points: s.points, }`
 
-### <anonymous callback> — line 123
+### <anonymous callback> — line 129
 
 Provide the callback passed to x.notes.map.
 
-- Source: [`dist/app.js:123`](../dist/app.js#L123)
+- Source: [`dist/app.js:129`](../dist/app.js#L129)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id`
 
-### note — line 130
+### note — line 136
 
 Resolve the currently open note from its stable ID.
 
-- Source: [`dist/app.js:130`](../dist/app.js#L130)
+- Source: [`dist/app.js:136`](../dist/app.js#L136)
 - Parameters: `(none)`; async: false
 - Direct calls: `data.notes.find`
 - Assigned/updated targets: (none)
-- Return expressions: `data.notes.find((n) => n.id === current)`
+- Return expressions: `data.notes.find((n) => n.id === current && !n.deleted)`
 
-### <anonymous callback> — line 131
+### <anonymous callback> — line 137
 
 Provide the callback passed to data.notes.find.
 
-- Source: [`dist/app.js:131`](../dist/app.js#L131)
+- Source: [`dist/app.js:137`](../dist/app.js#L137)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `n.id === current`
+- Return expressions: `n.id === current && !n.deleted`
 
-### book — line 134
+### book — line 140
 
 Resolve a note’s notebook, falling back to the first available notebook.
 
-- Source: [`dist/app.js:134`](../dist/app.js#L134)
+- Source: [`dist/app.js:140`](../dist/app.js#L140)
 - Parameters: `n`; async: false
 - Direct calls: `data.books.find`
 - Assigned/updated targets: (none)
 - Return expressions: `data.books.find((b) => b.id === n.book) || data.books[0]`
 
-### <anonymous callback> — line 135
+### <anonymous callback> — line 141
 
 Provide the callback passed to data.books.find.
 
-- Source: [`dist/app.js:135`](../dist/app.js#L135)
+- Source: [`dist/app.js:141`](../dist/app.js#L141)
 - Parameters: `b`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `b.id === n.book`
 
-### persist — line 138
+### persist — line 144
 
 Queue a snapshot for device storage; report storage errors without discarding the current note.
 
-- Source: [`dist/app.js:138`](../dist/app.js#L138)
+- Source: [`dist/app.js:144`](../dist/app.js#L144)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `JSON.stringify`, `localStorage.setItem`, `toast`
 - Assigned/updated targets: `$("#saved").textContent`
 - Return expressions: `true`, `false`
 
-### toast — line 152
+### toast — line 158
 
 Display a temporary status message without blocking editing.
 
-- Source: [`dist/app.js:152`](../dist/app.js#L152)
+- Source: [`dist/app.js:158`](../dist/app.js#L158)
 - Parameters: `t`; async: false
 - Direct calls: `$`, `$("#toast").classList.add`, `clearTimeout`, `setTimeout`
 - Assigned/updated targets: `$("#toast").textContent`, `toast.timer`
 - Return expressions: (none)
 
-### <anonymous callback> — line 156
+### <anonymous callback> — line 162
 
 Provide the callback passed to setTimeout.
 
-- Source: [`dist/app.js:156`](../dist/app.js#L156)
+- Source: [`dist/app.js:162`](../dist/app.js#L162)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#toast").classList.remove`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#toast").classList.remove("show")`
 
-### plain — line 159
+### plain — line 165
 
 Extract text from a legacy HTML note.
 
-- Source: [`dist/app.js:159`](../dist/app.js#L159)
+- Source: [`dist/app.js:165`](../dist/app.js#L165)
 - Parameters: `html`; async: false
 - Direct calls: `document.createElement`
 - Assigned/updated targets: `d.innerHTML`
 - Return expressions: `d.textContent || ""`
 
-### escapeText — line 165
+### escapeText — line 171
 
 Escape text before inserting it into generated HTML.
 
-- Source: [`dist/app.js:165`](../dist/app.js#L165)
+- Source: [`dist/app.js:171`](../dist/app.js#L171)
 - Parameters: `t`; async: false
 - Direct calls: `String`, `String(t).replace`
 - Assigned/updated targets: (none)
 - Return expressions: `String(t).replace( /[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ c ], )`
 
-### <anonymous callback> — line 168
+### <anonymous callback> — line 174
 
 Provide the callback passed to String(t).replace.
 
-- Source: [`dist/app.js:168`](../dist/app.js#L168)
+- Source: [`dist/app.js:174`](../dist/app.js#L174)
 - Parameters: `c`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ c ]`
 
-### renderNav — line 175
+### renderNav — line 181
 
 Refresh notebook navigation, total counts, favorite counts, and notebook choices.
 
-- Source: [`dist/app.js:175`](../dist/app.js#L175)
+- Source: [`dist/app.js:181`](../dist/app.js#L181)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$$`, `$$("nav .nav").forEach`, `data.books .map`, `data.books .map( (b) => ˋ<button class="nav ${filter === b.id ? "active" : ""}" data-filter="${escap`, `data.books .map( (b) => ˋ<option value="${escapeText(b.id)}">${escapeText(b.name)}</option>ˋ, ) .joi`, `data.notes.filter`
 - Assigned/updated targets: `$("#books").innerHTML`, `$("#count").textContent`, `$("#favoritecount").textContent`, `$("#notebook").innerHTML`
 - Return expressions: (none)
 
-### <anonymous callback> — line 177
+### <anonymous callback> — line 182
 
 Provide the callback passed to data.notes.filter.
 
-- Source: [`dist/app.js:177`](../dist/app.js#L177)
+- Source: [`dist/app.js:182`](../dist/app.js#L182)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `n.star`
+- Return expressions: `!n.deleted`
 
-### <anonymous callback> — line 180
+### <anonymous callback> — line 184
+
+Provide the callback passed to data.notes.filter.
+
+- Source: [`dist/app.js:184`](../dist/app.js#L184)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted && n.star`
+
+### <anonymous callback> — line 188
 
 Provide the callback passed to data.books .map.
 
-- Source: [`dist/app.js:180`](../dist/app.js#L180)
+- Source: [`dist/app.js:188`](../dist/app.js#L188)
 - Parameters: `b`; async: false
 - Direct calls: `data.notes.filter`, `escapeText`
 - Assigned/updated targets: (none)
 - Return expressions: `ˋ<button class="nav ${filter === b.id ? "active" : ""}" data-filter="${escapeText(b.id)}"><i class="bookdot" style="--bookcolor:${b.color}"></i><span>${escapeText(b.name)}</span><b`
 
-### <anonymous callback> — line 181
+### <anonymous callback> — line 189
 
 Provide the callback passed to data.notes.filter.
 
-- Source: [`dist/app.js:181`](../dist/app.js#L181)
+- Source: [`dist/app.js:189`](../dist/app.js#L189)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `n.book === b.id`
+- Return expressions: `!n.deleted && n.book === b.id`
 
-### <anonymous callback> — line 184
+### <anonymous callback> — line 192
 
 Provide the callback passed to $$("nav .nav").forEach.
 
-- Source: [`dist/app.js:184`](../dist/app.js#L184)
+- Source: [`dist/app.js:192`](../dist/app.js#L192)
 - Parameters: `b`; async: false
 - Direct calls: `b.classList.toggle`
 - Assigned/updated targets: (none)
 - Return expressions: `b.classList.toggle("active", b.dataset.filter === filter)`
 
-### <anonymous callback> — line 189
+### <anonymous callback> — line 197
 
 Provide the callback passed to data.books .map.
 
-- Source: [`dist/app.js:189`](../dist/app.js#L189)
+- Source: [`dist/app.js:197`](../dist/app.js#L197)
 - Parameters: `b`; async: false
 - Direct calls: `escapeText`
 - Assigned/updated targets: (none)
 - Return expressions: `ˋ<option value="${escapeText(b.id)}">${escapeText(b.name)}</option>ˋ`
 
-### renderList — line 195
+### renderList — line 203
 
 Render the current filtered note list; search.js later replaces this base implementation.
 
-- Source: [`dist/app.js:195`](../dist/app.js#L195)
+- Source: [`dist/app.js:203`](../dist/app.js#L203)
 - Parameters: `(none)`; async: false
-- Direct calls: `$`, `$("#search").value.toLowerCase`, `data.books.find`, `data.notes .filter`, `data.notes .filter( (n) => (filter === "all" || (filter === "star" && n.star) || n.book === filter) `, `notes .map`, `notes .map( (n) => ˋ<button class="note ${n.id === current ? "active" : ""}" data-id="${escapeText(n`
+- Direct calls: `$`, `$("#search").value.toLowerCase`, `data.books.find`, `data.notes .filter`, `data.notes .filter( (n) => !n.deleted && (filter === "all" || (filter === "star" && n.star) || n.boo`, `notes .map`, `notes .map( (n) => ˋ<button class="note ${n.id === current ? "active" : ""}" data-id="${escapeText(n`
 - Assigned/updated targets: `$("#listtitle").textContent`, `$("#notes").innerHTML`, `$("#results").textContent`
 - Return expressions: (none)
 
-### <anonymous callback> — line 199
+### <anonymous callback> — line 207
 
 Provide the callback passed to data.notes .filter.
 
-- Source: [`dist/app.js:199`](../dist/app.js#L199)
+- Source: [`dist/app.js:207`](../dist/app.js#L207)
 - Parameters: `n`; async: false
 - Direct calls: `(n.title + " " + plain(n.html)).toLowerCase`, `(n.title + " " + plain(n.html)).toLowerCase().includes`, `plain`
 - Assigned/updated targets: (none)
-- Return expressions: `(filter === "all" || (filter === "star" && n.star) || n.book === filter) && (!q || (n.title + " " + plain(n.html)).toLowerCase().includes(q))`
+- Return expressions: `!n.deleted && (filter === "all" || (filter === "star" && n.star) || n.book === filter) && (!q || (n.title + " " + plain(n.html)).toLowerCase().includes(q))`
 
-### <anonymous callback> — line 205
+### <anonymous callback> — line 214
 
-Provide the callback passed to data.notes .filter( (n) => (filter === "all" || (filter === "star" && n.star) || n.book === filter) .
+Provide the callback passed to data.notes .filter( (n) => !n.deleted && (filter === "all" || (filter === "star" && n.star) || n.boo.
 
-- Source: [`dist/app.js:205`](../dist/app.js#L205)
+- Source: [`dist/app.js:214`](../dist/app.js#L214)
 - Parameters: `a, b`; async: false
 - Direct calls: `$`, `a.title.localeCompare`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#sort").value === "title" ? a.title.localeCompare(b.title) : b.updated - a.updated`
 
-### <anonymous callback> — line 215
+### <anonymous callback> — line 224
 
 Provide the callback passed to data.books.find.
 
-- Source: [`dist/app.js:215`](../dist/app.js#L215)
+- Source: [`dist/app.js:224`](../dist/app.js#L224)
 - Parameters: `b`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `b.id === filter`
 
-### <anonymous callback> — line 221
+### <anonymous callback> — line 230
 
 Provide the callback passed to notes .map.
 
-- Source: [`dist/app.js:221`](../dist/app.js#L221)
+- Source: [`dist/app.js:230`](../dist/app.js#L230)
 - Parameters: `n`; async: false
 - Direct calls: `book`, `escapeText`, `new Date(n.updated).toLocaleDateString`, `plain`, `plain(n.html).slice`
 - Assigned/updated targets: (none)
 - Return expressions: `ˋ<button class="note ${n.id === current ? "active" : ""}" data-id="${escapeText(n.id)}"><span class="tag">${escapeText(book(n).name)}</span><h3>${escapeText(n.title || "Untitled no`
 
-### redraw — line 228
+### redraw — line 237
 
 Refresh the rendered ink, typed text, and board layers.
 
-- Source: [`dist/app.js:228`](../dist/app.js#L228)
+- Source: [`dist/app.js:237`](../dist/app.js#L237)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `c.append`, `c.replaceChildren`, `note`, `pathFor`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### pathFor — line 234
+### pathFor — line 243
 
 Build an SVG path representing one stored ink stroke.
 
-- Source: [`dist/app.js:234`](../dist/app.js#L234)
+- Source: [`dist/app.js:243`](../dist/app.js#L243)
 - Parameters: `s`; async: false
 - Direct calls: `document.createElementNS`, `p.setAttribute`, `s.points.map`, `s.points.map((p) => p.join(",")).join`
 - Assigned/updated targets: (none)
 - Return expressions: `p`
 
-### <anonymous callback> — line 239
+### <anonymous callback> — line 248
 
 Provide the callback passed to s.points.map.
 
-- Source: [`dist/app.js:239`](../dist/app.js#L239)
+- Source: [`dist/app.js:248`](../dist/app.js#L248)
 - Parameters: `p`; async: false
 - Direct calls: `p.join`
 - Assigned/updated targets: (none)
 - Return expressions: `p.join(",")`
 
-### resizePage — line 251
+### resizePage — line 260
 
 Recalculate the note surface dimensions without changing stored coordinates.
 
-- Source: [`dist/app.js:251`](../dist/app.js#L251)
+- Source: [`dist/app.js:260`](../dist/app.js#L260)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `Math.max`
 - Assigned/updated targets: `$("#surface").style.height`
 - Return expressions: (none)
 
-### loadNote — line 256
+### loadNote — line 265
 
 Open a note, update its controls, and refresh its drawing surface.
 
-- Source: [`dist/app.js:256`](../dist/app.js#L256)
+- Source: [`dist/app.js:265`](../dist/app.js#L265)
 - Parameters: `id`; async: false
-- Direct calls: `$`, `$("#favorite").setAttribute`, `$(".app").classList.remove`, `book`, `countWords`, `createNote`, `new Date(n.created).toLocaleDateString`, `note`, `redraw`, `renderList`, `resizePage`
+- Direct calls: `$`, `$("#favorite").setAttribute`, `$(".app").classList.remove`, `book`, `countWords`, `createNote`, `data.notes.find`, `new Date(n.created).toLocaleDateString`, `note`, `redraw`, `renderList`, `resizePage`
 - Assigned/updated targets: `$("#crumb").textContent`, `$("#date").textContent`, `$("#editor").innerHTML`, `$("#favorite").textContent`, `$("#notebook").value`, `$("#paper").value`, `$("#sheet").className`, `$("#title").value`, `current`, `redo`, `stroke`
 - Return expressions: `undefined`
 
-### countWords — line 285
+### <anonymous callback> — line 267
+
+Provide the callback passed to data.notes.find.
+
+- Source: [`dist/app.js:267`](../dist/app.js#L267)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === id && !n.deleted`
+
+### <anonymous callback> — line 268
+
+Provide the callback passed to data.notes.find.
+
+- Source: [`dist/app.js:268`](../dist/app.js#L268)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
+
+### countWords — line 296
 
 Count words in the original rich-text editor.
 
-- Source: [`dist/app.js:285`](../dist/app.js#L285)
+- Source: [`dist/app.js:296`](../dist/app.js#L296)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#editor").innerText.trim`, `t.split`
 - Assigned/updated targets: `$("#words").textContent`
 - Return expressions: (none)
 
-### touch — line 290
+### touch — line 301
 
 Update a note’s modified time, persist it, and refresh its list preview.
 
-- Source: [`dist/app.js:290`](../dist/app.js#L290)
+- Source: [`dist/app.js:301`](../dist/app.js#L301)
 - Parameters: `(none)`; async: false
 - Direct calls: `Date.now`, `note`, `persist`, `renderList`
 - Assigned/updated targets: `note().updated`
 - Return expressions: `undefined`
 
-### createNote — line 297
+### createNote — line 308
 
 Create a blank named-later page in the selected notebook.
 
-- Source: [`dist/app.js:297`](../dist/app.js#L297)
+- Source: [`dist/app.js:308`](../dist/app.js#L308)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#title").focus`, `Date.now`, `data.books.some`, `data.notes.unshift`, `loadNote`, `persist`, `renderNav`, `uid`
 - Assigned/updated targets: `current`
 - Return expressions: (none)
 
-### <anonymous callback> — line 300
+### <anonymous callback> — line 311
 
 Provide the callback passed to data.books.some.
 
-- Source: [`dist/app.js:300`](../dist/app.js#L300)
+- Source: [`dist/app.js:311`](../dist/app.js#L311)
 - Parameters: `b`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `b.id === filter`
 
-### modal — line 318
+### modal — line 329
 
 Open the shared confirmation/input dialog and resolve the user’s response.
 
-- Source: [`dist/app.js:318`](../dist/app.js#L318)
+- Source: [`dist/app.js:329`](../dist/app.js#L329)
 - Parameters: `title, text, input = false, ok = "Create"`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `new Promise((resolve) => { $("#modal-title").textContent = title; $("#modal-text").textContent = text; $("#modal-input").hidden = !input; $("#modal-input").value = ""; $("#modal-ok`
 
-### <anonymous callback> — line 319
+### <anonymous callback> — line 330
 
 Evaluate an inline callback in dist/app.js; its direct operations are listed below.
 
-- Source: [`dist/app.js:319`](../dist/app.js#L319)
+- Source: [`dist/app.js:330`](../dist/app.js#L330)
 - Parameters: `resolve`; async: false
 - Direct calls: `$`, `$("#modal").showModal`, `$("#modal-input").focus`
 - Assigned/updated targets: `$("#modal").returnValue`, `$("#modal-input").hidden`, `$("#modal-input").value`, `$("#modal-ok").textContent`, `$("#modal-text").textContent`, `$("#modal-title").textContent`, `pendingModal`
 - Return expressions: (none)
 
-### <anonymous callback> — line 331
+### <anonymous callback> — line 342
 
 Handle the "close" event registered by $("#modal").addEventListener.
 
-- Source: [`dist/app.js:331`](../dist/app.js#L331)
+- Source: [`dist/app.js:342`](../dist/app.js#L342)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#modal-input").value.trim`, `pendingModal`
 - Assigned/updated targets: `pendingModal`
 - Return expressions: (none)
 
-### <anonymous callback> — line 344
+### <anonymous callback> — line 355
 
 Handle the "click" event registered by document.addEventListener.
 
-- Source: [`dist/app.js:344`](../dist/app.js#L344)
+- Source: [`dist/app.js:355`](../dist/app.js#L355)
 - Parameters: `e`; async: false
 - Direct calls: `$`, `$$`, `$$("[data-tool]").forEach`, `$("#surface").classList.toggle`, `e.target.closest`, `loadNote`, `renderList`, `renderNav`
 - Assigned/updated targets: `$("#editor").contentEditable`, `$("#hint").textContent`, `filter`, `tool`
 - Return expressions: (none)
 
-### <anonymous callback> — line 356
+### <anonymous callback> — line 367
 
 Provide the callback passed to $$("[data-tool]").forEach.
 
-- Source: [`dist/app.js:356`](../dist/app.js#L356)
+- Source: [`dist/app.js:367`](../dist/app.js#L367)
 - Parameters: `b`; async: false
 - Direct calls: `b.classList.toggle`
 - Assigned/updated targets: (none)
 - Return expressions: `b.classList.toggle("selected", b === t)`
 
-### <anonymous callback> — line 367
+### <anonymous callback> — line 378
 
 Handle the callback assigned to $("#addbook").onclick.
 
-- Source: [`dist/app.js:367`](../dist/app.js#L367)
+- Source: [`dist/app.js:378`](../dist/app.js#L378)
 - Parameters: `(none)`; async: true
 - Direct calls: `$`, `data.books.push`, `modal`, `note`, `persist`, `r.value.slice`, `renderList`, `renderNav`, `uid`
 - Assigned/updated targets: `$("#notebook").value`, `filter`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 388
+### <anonymous callback> — line 399
 
 Handle the callback assigned to $("#mobile").onclick.
 
-- Source: [`dist/app.js:388`](../dist/app.js#L388)
+- Source: [`dist/app.js:399`](../dist/app.js#L399)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$(".app").classList.toggle`
 - Assigned/updated targets: (none)
 - Return expressions: `$(".app").classList.toggle("showlist")`
 
-### <anonymous callback> — line 389
+### <anonymous callback> — line 400
 
 Handle the callback assigned to $("#title").oninput.
 
-- Source: [`dist/app.js:389`](../dist/app.js#L389)
+- Source: [`dist/app.js:400`](../dist/app.js#L400)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#title").value.slice`, `note`, `touch`
 - Assigned/updated targets: `note().title`
 - Return expressions: (none)
 
-### <anonymous callback> — line 393
+### <anonymous callback> — line 404
 
 Handle the callback assigned to $("#editor").oninput.
 
-- Source: [`dist/app.js:393`](../dist/app.js#L393)
+- Source: [`dist/app.js:404`](../dist/app.js#L404)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `clean`, `countWords`, `note`, `resizePage`, `touch`
 - Assigned/updated targets: `note().html`
 - Return expressions: (none)
 
-### <anonymous callback> — line 399
+### <anonymous callback> — line 410
 
 Handle the "paste" event registered by $("#editor").addEventListener.
 
-- Source: [`dist/app.js:399`](../dist/app.js#L399)
+- Source: [`dist/app.js:410`](../dist/app.js#L410)
 - Parameters: `e`; async: false
 - Direct calls: `document.execCommand`, `e.clipboardData.getData`, `e.preventDefault`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 407
+### <anonymous callback> — line 418
 
 Handle the "drop" event registered by $("#editor").addEventListener.
 
-- Source: [`dist/app.js:407`](../dist/app.js#L407)
+- Source: [`dist/app.js:418`](../dist/app.js#L418)
 - Parameters: `e`; async: false
 - Direct calls: `e.preventDefault`
 - Assigned/updated targets: (none)
 - Return expressions: `e.preventDefault()`
 
-### <anonymous callback> — line 408
+### <anonymous callback> — line 419
 
 Provide the callback passed to $$("[data-cmd]").forEach.
 
-- Source: [`dist/app.js:408`](../dist/app.js#L408)
+- Source: [`dist/app.js:419`](../dist/app.js#L419)
 - Parameters: `b`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `b.onclick`, `b.onmousedown`
 - Return expressions: (none)
 
-### <anonymous callback> — line 409
+### <anonymous callback> — line 420
 
 Handle the callback assigned to b.onmousedown.
 
-- Source: [`dist/app.js:409`](../dist/app.js#L409)
+- Source: [`dist/app.js:420`](../dist/app.js#L420)
 - Parameters: `e`; async: false
 - Direct calls: `e.preventDefault`
 - Assigned/updated targets: (none)
 - Return expressions: `e.preventDefault()`
 
-### <anonymous callback> — line 410
+### <anonymous callback> — line 421
 
 Handle the callback assigned to b.onclick.
 
-- Source: [`dist/app.js:410`](../dist/app.js#L410)
+- Source: [`dist/app.js:421`](../dist/app.js#L421)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#editor").focus`, `$('[data-tool="text"]').click`, `clean`, `document.execCommand`, `note`, `touch`
 - Assigned/updated targets: `note().html`
 - Return expressions: (none)
 
-### <anonymous callback> — line 418
+### <anonymous callback> — line 429
 
 Handle the callback assigned to $("#notebook").onchange.
 
-- Source: [`dist/app.js:418`](../dist/app.js#L418)
+- Source: [`dist/app.js:429`](../dist/app.js#L429)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `book`, `note`, `renderNav`, `touch`
 - Assigned/updated targets: `$("#crumb").textContent`, `$("#notebook").value`, `note().book`
 - Return expressions: (none)
 
-### <anonymous callback> — line 425
+### <anonymous callback> — line 436
 
 Handle the callback assigned to $("#paper").onchange.
 
-- Source: [`dist/app.js:425`](../dist/app.js#L425)
+- Source: [`dist/app.js:436`](../dist/app.js#L436)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `note`, `touch`
 - Assigned/updated targets: `$("#sheet").className`, `note().paper`
 - Return expressions: (none)
 
-### <anonymous callback> — line 430
+### <anonymous callback> — line 441
 
 Handle the callback assigned to $("#favorite").onclick.
 
-- Source: [`dist/app.js:430`](../dist/app.js#L430)
+- Source: [`dist/app.js:441`](../dist/app.js#L441)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#favorite").setAttribute`, `note`, `renderNav`, `touch`
 - Assigned/updated targets: `$("#favorite").textContent`, `note().star`
 - Return expressions: (none)
 
-### <anonymous callback> — line 437
+### <anonymous callback> — line 448
 
 Handle the callback assigned to $("#delete").onclick.
 
-- Source: [`dist/app.js:437`](../dist/app.js#L437)
+- Source: [`dist/app.js:448`](../dist/app.js#L448)
 - Parameters: `(none)`; async: true
-- Direct calls: `createNote`, `data.notes.filter`, `loadNote`, `modal`, `note`, `persist`, `renderNav`, `toast`
-- Assigned/updated targets: `data.notes`
+- Direct calls: `Date.now`, `createNote`, `data.notes.find`, `data.notes.some`, `loadNote`, `modal`, `note`, `persist`, `renderNav`, `toast`
+- Assigned/updated targets: `note().deleted`, `note().deletedAt`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 445
+### <anonymous callback> — line 460
 
-Provide the callback passed to data.notes.filter.
+Provide the callback passed to data.notes.some.
 
-- Source: [`dist/app.js:445`](../dist/app.js#L445)
+- Source: [`dist/app.js:460`](../dist/app.js#L460)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `n.id !== current`
+- Return expressions: `!n.deleted`
 
-### point — line 453
+### <anonymous callback> — line 461
+
+Provide the callback passed to data.notes.find.
+
+- Source: [`dist/app.js:461`](../dist/app.js#L461)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
+
+### point — line 466
 
 Convert a pointer event to the original canvas coordinates.
 
-- Source: [`dist/app.js:453`](../dist/app.js#L453)
+- Source: [`dist/app.js:466`](../dist/app.js#L466)
 - Parameters: `e`; async: false
 - Direct calls: `$`, `$("#canvas").getBoundingClientRect`, `Math.round`
 - Assigned/updated targets: (none)
 - Return expressions: `[ Math.round(((e.clientX - r.left) / r.width) * 800 * 10) / 10, Math.round(((e.clientY - r.top) / r.height) * 1050 * 10) / 10, ]`
 
-### eraseAt — line 461
+### eraseAt — line 474
 
 Remove strokes intersecting the original eraser cursor.
 
-- Source: [`dist/app.js:461`](../dist/app.js#L461)
+- Source: [`dist/app.js:474`](../dist/app.js#L474)
 - Parameters: `p`; async: false
 - Direct calls: `n.strokes.filter`, `note`, `redraw`
 - Assigned/updated targets: `n.strokes`
 - Return expressions: (none)
 
-### <anonymous callback> — line 464
+### <anonymous callback> — line 477
 
 Provide the callback passed to n.strokes.filter.
 
-- Source: [`dist/app.js:464`](../dist/app.js#L464)
+- Source: [`dist/app.js:477`](../dist/app.js#L477)
 - Parameters: `s`; async: false
 - Direct calls: `s.points.some`
 - Assigned/updated targets: (none)
 - Return expressions: `!s.points.some((q, i) => { if (i === 0) return Math.hypot(p[0] - q[0], p[1] - q[1]) < 15 + s.width / 2; const a = s.points[i - 1], dx = q[0] - a[0], dy = q[1] - a[1], t = Math.max(`
 
-### <anonymous callback> — line 465
+### <anonymous callback> — line 478
 
 Provide the callback passed to s.points.some.
 
-- Source: [`dist/app.js:465`](../dist/app.js#L465)
+- Source: [`dist/app.js:478`](../dist/app.js#L478)
 - Parameters: `q, i`; async: false
 - Direct calls: `Math.hypot`, `Math.max`, `Math.min`
 - Assigned/updated targets: (none)
 - Return expressions: `Math.hypot(p[0] - q[0], p[1] - q[1]) < 15 + s.width / 2`, `Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy) < 15 + s.width / 2`
 
-### <anonymous callback> — line 487
+### <anonymous callback> — line 500
 
 Handle the callback assigned to $("#canvas").onpointerdown.
 
-- Source: [`dist/app.js:487`](../dist/app.js#L487)
+- Source: [`dist/app.js:500`](../dist/app.js#L500)
 - Parameters: `e`; async: false
 - Direct calls: `$`, `$("#canvas").setPointerCapture`, `Number`, `e.preventDefault`, `eraseAt`, `note`, `note().strokes.push`, `point`, `redraw`, `structuredClone`
 - Assigned/updated targets: `eraseBefore`, `stroke`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 505
+### <anonymous callback> — line 518
 
 Handle the callback assigned to $("#canvas").onpointermove.
 
-- Source: [`dist/app.js:505`](../dist/app.js#L505)
+- Source: [`dist/app.js:518`](../dist/app.js#L518)
 - Parameters: `e`; async: false
 - Direct calls: `$`, `$("#canvas").lastChild.replaceWith`, `eraseAt`, `pathFor`, `point`, `stroke.points.push`
 - Assigned/updated targets: (none)
 - Return expressions: `undefined`
 
-### finishStroke — line 515
+### finishStroke — line 528
 
 Commit the original pointer stroke and clear its active state.
 
-- Source: [`dist/app.js:515`](../dist/app.js#L515)
+- Source: [`dist/app.js:528`](../dist/app.js#L528)
 - Parameters: `(none)`; async: false
 - Direct calls: `history.push`, `note`, `note().strokes.slice`, `structuredClone`, `touch`
 - Assigned/updated targets: `eraseBefore`, `redo`, `stroke`
 - Return expressions: (none)
 
-### <anonymous callback> — line 540
+### <anonymous callback> — line 553
 
 Handle the callback assigned to $("#undo").onclick.
 
-- Source: [`dist/app.js:540`](../dist/app.js#L540)
+- Source: [`dist/app.js:553`](../dist/app.js#L553)
 - Parameters: `(none)`; async: false
 - Direct calls: `history.findLastIndex`, `history.splice`, `note`, `redo.push`, `redraw`, `structuredClone`, `toast`, `touch`
 - Assigned/updated targets: `note().strokes`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 541
+### <anonymous callback> — line 554
 
 Provide the callback passed to history.findLastIndex.
 
-- Source: [`dist/app.js:541`](../dist/app.js#L541)
+- Source: [`dist/app.js:554`](../dist/app.js#L554)
 - Parameters: `h`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `h.id === current`
 
-### <anonymous callback> — line 552
+### <anonymous callback> — line 565
 
 Handle the callback assigned to $("#redo").onclick.
 
-- Source: [`dist/app.js:552`](../dist/app.js#L552)
+- Source: [`dist/app.js:565`](../dist/app.js#L565)
 - Parameters: `(none)`; async: false
 - Direct calls: `history.push`, `note`, `redo.pop`, `redraw`, `structuredClone`, `toast`, `touch`
 - Assigned/updated targets: `note().strokes`
 - Return expressions: `undefined`
 
-### download — line 564
+### download — line 577
 
 Create a browser download for an exported note, PDF, or backup.
 
-- Source: [`dist/app.js:564`](../dist/app.js#L564)
+- Source: [`dist/app.js:577`](../dist/app.js#L577)
 - Parameters: `text, name, type`; async: false
 - Direct calls: `URL.createObjectURL`, `a.click`, `document.createElement`, `setTimeout`
 - Assigned/updated targets: `a.download`, `a.href`
 - Return expressions: (none)
 
-### <anonymous callback> — line 570
+### <anonymous callback> — line 583
 
 Provide the callback passed to setTimeout.
 
-- Source: [`dist/app.js:570`](../dist/app.js#L570)
+- Source: [`dist/app.js:583`](../dist/app.js#L583)
 - Parameters: `(none)`; async: false
 - Direct calls: `URL.revokeObjectURL`
 - Assigned/updated targets: (none)
 - Return expressions: `URL.revokeObjectURL(u)`
 
-### <anonymous callback> — line 572
+### <anonymous callback> — line 585
 
 Handle the callback assigned to $("#backup").onclick.
 
-- Source: [`dist/app.js:572`](../dist/app.js#L572)
+- Source: [`dist/app.js:585`](../dist/app.js#L585)
 - Parameters: `(none)`; async: false
 - Direct calls: `JSON.stringify`, `download`, `new Date().toISOString`, `new Date().toISOString().slice`
 - Assigned/updated targets: (none)
 - Return expressions: `download( JSON.stringify(data, null, 2), "leafnote-backup-" + new Date().toISOString().slice(0, 10) + ".json", "application/json", )`
 
-### <anonymous callback> — line 578
+### <anonymous callback> — line 591
 
 Handle the callback assigned to $("#restore").onclick.
 
-- Source: [`dist/app.js:578`](../dist/app.js#L578)
+- Source: [`dist/app.js:591`](../dist/app.js#L591)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#backupfile").click`
 - Assigned/updated targets: `$("#backupfile").value`
 - Return expressions: (none)
 
-### <anonymous callback> — line 582
+### <anonymous callback> — line 595
 
 Handle the callback assigned to $("#backupfile").onchange.
 
-- Source: [`dist/app.js:582`](../dist/app.js#L582)
+- Source: [`dist/app.js:595`](../dist/app.js#L595)
 - Parameters: `e`; async: true
 - Direct calls: `Error`, `JSON.parse`, `f.text`, `loadNote`, `modal`, `persist`, `renderNav`, `toast`, `validate`
 - Assigned/updated targets: `data`, `filter`, `history.length`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 606
+### <anonymous callback> — line 619
 
 Handle the callback assigned to $("#export").onclick.
 
-- Source: [`dist/app.js:606`](../dist/app.js#L606)
+- Source: [`dist/app.js:619`](../dist/app.js#L619)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `(n.title || "Untitled note").replace`, `(n.title || "Untitled note").replace(/[^a-z0-9 _-]/gi, "").slice`, `clean`, `download`, `escapeText`, `note`, `toast`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 618
+### <anonymous callback> — line 631
 
 Handle the "beforeunload" event registered by window.addEventListener.
 
-- Source: [`dist/app.js:618`](../dist/app.js#L618)
+- Source: [`dist/app.js:631`](../dist/app.js#L631)
 - Parameters: `(none)`; async: false
 - Direct calls: `persist`
 - Assigned/updated targets: (none)
@@ -1540,7 +1580,7 @@ Initialize dist/features.js inside an isolated scope.
 
 - Source: [`dist/features.js:2`](../dist/features.js#L2)
 - Parameters: `(none)`; async: true
-- Direct calls: `$`, `$("#loading").remove`, `JSON.parse`, `Promise.resolve`, `["pen", "all", "stylus"].includes`, `acquireWriter`, `console.error`, `db.transaction`, `db.transaction("state").objectStore`, `db.transaction("state").objectStore("state").get`, `document.addEventListener`, `document.createElement`, `document.createElement("canvas").getContext`, `document.dispatchEvent`, `fresh`, `loadNote`, `localStorage.getItem`, `openDB`, `persist`, `renderNav`, `request`, `toast`, `updateInput`, `validate`, `window.addEventListener`
+- Direct calls: `$`, `$("#loading").remove`, `JSON.parse`, `Promise.resolve`, `["pen", "all", "stylus"].includes`, `acquireWriter`, `console.error`, `data.notes.find`, `db.transaction`, `db.transaction("state").objectStore`, `db.transaction("state").objectStore("state").get`, `document.addEventListener`, `document.createElement`, `document.createElement("canvas").getContext`, `document.dispatchEvent`, `fresh`, `loadNote`, `localStorage.getItem`, `openDB`, `persist`, `renderNav`, `request`, `toast`, `updateInput`, `validate`, `window.addEventListener`
 - Assigned/updated targets: `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#delete").onclick`, `$("#export").onclick`, `$("#importpdf").onclick`, `$("#inputmode").onchange`, `$("#inputmode").value`, `$("#loading").textContent`, `$("#new").onclick`, `$("#nextpage").onclick`, `$("#notebook").onchange`, `$("#pagenum").onchange`, `$("#pdffile").onchange`, `$("#pressure").checked`, `$("#pressure").onchange`, `$("#prevpage").onclick`, `$("#redo").onclick`, `$("#saved").textContent`, `$("#undo").onclick`, `$("#zoomfit").onclick`, `$("#zoomin").onclick`, `$("#zoomout").onclick`, `$(".app").inert`, `$(".listbar button").onclick`, `canvas.oncontextmenu`, `canvas.ondragstart`, `canvas.onlostpointercapture`, `canvas.onpointercancel`, `canvas.onpointerdown`, `canvas.onpointermove`, `canvas.onpointerup`, `createNote`, `current`, `data`, `db`, `db.onversionchange`, `loadNote`, `pathFor`, `persist`, `preferences`, `redraw`, `renderList`, `resizePage`, `validate`, `window.LeafnoteApp`, `window.LeafnoteApp.ready`
 - Return expressions: `undefined`
 
@@ -2924,315 +2964,515 @@ Provide the callback passed to imported.notes.filter.
 - Assigned/updated targets: (none)
 - Return expressions: `n.pdf`
 
-### <anonymous callback> — line 1358
+### maintenanceChange — line 1359
 
-Handle the callback assigned to $("#delete").onclick.
+Atomically save a maintenance edit without pruning retained PDF originals.
 
-- Source: [`dist/features.js:1358`](../dist/features.js#L1358)
-- Parameters: `(none)`; async: true
-- Direct calls: `JSON.stringify`, `candidate.notes.filter`, `clone`, `complete`, `createNote`, `db.transaction`, `document.dispatchEvent`, `finishInput`, `loadNote`, `localStorage.setItem`, `modal`, `note`, `renderNav`, `toast`, `tx.objectStore`, `tx.objectStore("pdfs").delete`, `tx.objectStore("state").put`
-- Assigned/updated targets: `candidate.notes`, `data`, `saveVersion`
-- Return expressions: `undefined`
-
-### <anonymous callback> — line 1369
-
-Provide the callback passed to candidate.notes.filter.
-
-- Source: [`dist/features.js:1369`](../dist/features.js#L1369)
-- Parameters: `v`; async: false
-- Direct calls: (none)
-- Assigned/updated targets: (none)
-- Return expressions: `v.id !== n.id`
-
-### <anonymous callback> — line 1396
-
-Handle the callback assigned to $("#notebook").onchange.
-
-- Source: [`dist/features.js:1396`](../dist/features.js#L1396)
-- Parameters: `(none)`; async: false
-- Direct calls: `changeNotebook`, `finishInput`
-- Assigned/updated targets: (none)
-- Return expressions: (none)
-
-### createNote — line 1403
-
-Create a blank named-later page in the selected notebook.
-
-- Source: [`dist/features.js:1403`](../dist/features.js#L1403)
-- Parameters: `(none)`; async: false
-- Direct calls: `finishInput`, `newNote`
-- Assigned/updated targets: (none)
-- Return expressions: (none)
-
-### <anonymous callback> — line 1409
-
-Handle the "blur" event registered by window.addEventListener.
-
-- Source: [`dist/features.js:1409`](../dist/features.js#L1409)
-- Parameters: `(none)`; async: false
-- Direct calls: `finishInput`
-- Assigned/updated targets: (none)
-- Return expressions: `finishInput()`
-
-### <anonymous callback> — line 1410
-
-Handle the "visibilitychange" event registered by document.addEventListener.
-
-- Source: [`dist/features.js:1410`](../dist/features.js#L1410)
-- Parameters: `(none)`; async: false
-- Direct calls: `finishInput`
-- Assigned/updated targets: (none)
-- Return expressions: (none)
-
-### acquireWriter — line 1414
-
-Keep two app windows from saving stale full-notebook snapshots in the same browser profile.
-
-- Source: [`dist/features.js:1414`](../dist/features.js#L1414)
-- Parameters: `(none)`; async: true
-- Direct calls: (none)
-- Assigned/updated targets: (none)
-- Return expressions: `true`, `new Promise((resolve) => { navigator.locks .request( "leafnote-notebook-writer", { ifAvailable: true }, async (lock) => { if (!lock) { resolve(false); return; } writerLocked = true`
-
-### <anonymous callback> — line 1416
-
-Evaluate an inline callback in dist/features.js; its direct operations are listed below.
-
-- Source: [`dist/features.js:1416`](../dist/features.js#L1416)
-- Parameters: `resolve`; async: false
-- Direct calls: `navigator.locks .request`, `navigator.locks .request( "leafnote-notebook-writer", { ifAvailable: true }, async (lock) => { if (!`
-- Assigned/updated targets: (none)
-- Return expressions: (none)
-
-### <anonymous callback> — line 1421
-
-Provide the callback passed to navigator.locks .request.
-
-- Source: [`dist/features.js:1421`](../dist/features.js#L1421)
-- Parameters: `lock`; async: true
-- Direct calls: `resolve`
-- Assigned/updated targets: `writerLocked`
-- Return expressions: `undefined`
-
-### <anonymous callback> — line 1428
-
-Evaluate an inline callback in dist/features.js; its direct operations are listed below.
-
-- Source: [`dist/features.js:1428`](../dist/features.js#L1428)
-- Parameters: `release`; async: false
-- Direct calls: `window.addEventListener`
-- Assigned/updated targets: (none)
-- Return expressions: `window.addEventListener("pagehide", (event) => { if (!event.persisted) release(); })`
-
-### <anonymous callback> — line 1429
-
-Handle the "pagehide" event registered by window.addEventListener.
-
-- Source: [`dist/features.js:1429`](../dist/features.js#L1429)
-- Parameters: `event`; async: false
-- Direct calls: `release`
-- Assigned/updated targets: (none)
-- Return expressions: (none)
-
-### <anonymous callback> — line 1435
-
-Provide the callback passed to navigator.locks .request( "leafnote-notebook-writer", { ifAvailable: true }, async (lock) => { if (!.
-
-- Source: [`dist/features.js:1435`](../dist/features.js#L1435)
-- Parameters: `(none)`; async: false
-- Direct calls: `resolve`
-- Assigned/updated targets: (none)
-- Return expressions: `resolve(true)`
-
-### syncBusy — line 1439
-
-Defer remote replacement while a pen stroke, editor, review, or editing popup is active.
-
-- Source: [`dist/features.js:1439`](../dist/features.js#L1439)
-- Parameters: `(none)`; async: false
-- Direct calls: `$`, `document.activeElement?.closest`, `document.querySelector`, `window.LeafBoard?.isEditing`
-- Assigned/updated targets: (none)
-- Return expressions: `syncApplying || $(".app").inert || !!active || !!activeText || !!window.LeafBoard?.isEditing?.() || !!document.querySelector("dialog[open]:not(#syncdialog)") || !$("#recognitionrev`
-
-### applySyncedNotebook — line 1456
-
-Atomically adopt a merged server snapshot only if no local edit appeared during the request.
-
-- Source: [`dist/features.js:1456`](../dist/features.js#L1456)
-- Parameters: `snapshot, files, expected, { keepUndoIds = [], preferredId = current } = {}`; async: true
-- Direct calls: `$`, `clone`, `operation.then`, `saveQueue .catch`, `saveQueue .catch(() => {}) .then`, `saveQueue .catch(() => {}) .then(async () => { if ( expected !== saveVersion || active || activeText`, `syncBusy`, `validate`
+- Source: [`dist/features.js:1359`](../dist/features.js#L1359)
+- Parameters: `change, files = [], preferredId = current`; async: true
+- Direct calls: `$`, `Error`, `document.dispatchEvent`, `files.map`, `finishInput`, `operation.then`, `saveQueue .then`, `saveQueue .then(async () => { const candidate = clone(data); change(candidate); const validated = va`
 - Assigned/updated targets: `$(".app").inert`, `saveQueue`, `syncApplying`
-- Return expressions: `false`, `operation`
+- Return expressions: `result`
 
-### <anonymous callback> — line 1467
+### <anonymous callback> — line 1365
 
-Provide the callback passed to saveQueue .catch.
+Provide the callback passed to saveQueue .then.
 
-- Source: [`dist/features.js:1467`](../dist/features.js#L1467)
-- Parameters: `(none)`; async: false
-- Direct calls: (none)
-- Assigned/updated targets: (none)
-- Return expressions: (none)
-
-### <anonymous callback> — line 1468
-
-Provide the callback passed to saveQueue .catch(() => {}) .then.
-
-- Source: [`dist/features.js:1468`](../dist/features.js#L1468)
+- Source: [`dist/features.js:1365`](../dist/features.js#L1365)
 - Parameters: `(none)`; async: true
-- Direct calls: `$`, `data.notes.some`, `keep.has`, `loadNote`, `renderNav`, `stack.splice`, `window.LeafBoard?.isEditing`, `writeState`
-- Assigned/updated targets: `$("#saved").textContent`, `data`, `i`, `lastSaveOK`, `saveVersion`
-- Return expressions: `false`, `true`
+- Direct calls: `$`, `Error`, `JSON.stringify`, `change`, `clone`, `data.notes.find`, `loadNote`, `localStorage.setItem`, `renderNav`, `validate`, `writeState`
+- Assigned/updated targets: `$("#saved").textContent`, `data`, `lastSaveOK`, `redoStack.length`, `saveVersion`, `undoStack.length`
+- Return expressions: `true`
 
-### <anonymous callback> — line 1485
+### <anonymous callback> — line 1379
 
-Provide the callback passed to data.notes.some.
+Provide the callback passed to data.notes.find.
 
-- Source: [`dist/features.js:1485`](../dist/features.js#L1485)
+- Source: [`dist/features.js:1379`](../dist/features.js#L1379)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `n.id === preferredId`
+- Return expressions: `n.id === preferredId && !n.deleted`
 
-### <anonymous callback> — line 1493
+### <anonymous callback> — line 1380
 
-Provide the callback passed to saveQueue .catch(() => {}) .then(async () => { if ( expected !== saveVersion || active || activeText.
+Provide the callback passed to data.notes.find.
 
-- Source: [`dist/features.js:1493`](../dist/features.js#L1493)
+- Source: [`dist/features.js:1380`](../dist/features.js#L1380)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
+
+### <anonymous callback> — line 1386
+
+Provide the callback passed to saveQueue .then(async () => { const candidate = clone(data); change(candidate); const validated = va.
+
+- Source: [`dist/features.js:1386`](../dist/features.js#L1386)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: `$(".app").inert`, `syncApplying`
 - Return expressions: (none)
 
-### <anonymous callback> — line 1498
+### <anonymous callback> — line 1391
 
 Provide the callback passed to operation.then.
 
-- Source: [`dist/features.js:1498`](../dist/features.js#L1498)
+- Source: [`dist/features.js:1391`](../dist/features.js#L1391)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `true`
 
-### <anonymous callback> — line 1499
+### <anonymous callback> — line 1392
 
 Provide the callback passed to operation.then.
 
-- Source: [`dist/features.js:1499`](../dist/features.js#L1499)
+- Source: [`dist/features.js:1392`](../dist/features.js#L1392)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `lastSaveOK`
 - Return expressions: `false`
 
-### readSyncNotebook — line 1507
+### <anonymous callback> — line 1400
+
+Provide the callback passed to files.map.
+
+- Source: [`dist/features.js:1400`](../dist/features.js#L1400)
+- Parameters: `[id]`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `id`
+
+### trashNote — line 1406
+
+Move a note to Trash while keeping ink, text, metadata, and the original PDF.
+
+- Source: [`dist/features.js:1406`](../dist/features.js#L1406)
+- Parameters: `id`; async: true
+- Direct calls: `maintenanceChange`
+- Assigned/updated targets: (none)
+- Return expressions: `maintenanceChange((candidate) => { const n = candidate.notes.find((n) => n.id === id && !n.deleted); if (!n) throw Error("Note is unavailable"); n.deleted = true; n.deletedAt = Dat`
+
+### <anonymous callback> — line 1407
+
+Provide the callback passed to maintenanceChange.
+
+- Source: [`dist/features.js:1407`](../dist/features.js#L1407)
+- Parameters: `candidate`; async: false
+- Direct calls: `Date.now`, `Error`, `candidate.notes.find`
+- Assigned/updated targets: `n.deleted`, `n.deletedAt`, `n.updated`
+- Return expressions: (none)
+
+### <anonymous callback> — line 1408
+
+Provide the callback passed to candidate.notes.find.
+
+- Source: [`dist/features.js:1408`](../dist/features.js#L1408)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === id && !n.deleted`
+
+### restoreDeleted — line 1416
+
+Make a retained note visible again; restoration participates in ordinary synchronization.
+
+- Source: [`dist/features.js:1416`](../dist/features.js#L1416)
+- Parameters: `id`; async: true
+- Direct calls: `maintenanceChange`
+- Assigned/updated targets: (none)
+- Return expressions: `maintenanceChange( (candidate) => { const n = candidate.notes.find((n) => n.id === id && n.deleted); if (!n) throw Error("This note is no longer in Trash"); delete n.deleted; delet`
+
+### <anonymous callback> — line 1418
+
+Provide the callback passed to maintenanceChange.
+
+- Source: [`dist/features.js:1418`](../dist/features.js#L1418)
+- Parameters: `candidate`; async: false
+- Direct calls: `Date.now`, `Error`, `candidate.notes.find`
+- Assigned/updated targets: `n.updated`
+- Return expressions: (none)
+
+### <anonymous callback> — line 1419
+
+Provide the callback passed to candidate.notes.find.
+
+- Source: [`dist/features.js:1419`](../dist/features.js#L1419)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === id && n.deleted`
+
+### restoreRevision — line 1430
+
+Restore historical content as a separately named note, leaving current notes untouched.
+
+- Source: [`dist/features.js:1430`](../dist/features.js#L1430)
+- Parameters: `raw, blob`; async: true
+- Direct calls: `Date.now`, `Error`, `clone`, `maintenanceChange`, `uid`
+- Assigned/updated targets: `restored.created`, `restored.id`, `restored.title`, `restored.updated`
+- Return expressions: `maintenanceChange( (candidate) => { if (!candidate.books.some((b) => b.id === restored.book)) restored.book = candidate.books[0].id; candidate.notes.unshift(restored); }, restored.`
+
+### <anonymous callback> — line 1442
+
+Provide the callback passed to maintenanceChange.
+
+- Source: [`dist/features.js:1442`](../dist/features.js#L1442)
+- Parameters: `candidate`; async: false
+- Direct calls: `candidate.books.some`, `candidate.notes.unshift`
+- Assigned/updated targets: `restored.book`
+- Return expressions: (none)
+
+### <anonymous callback> — line 1443
+
+Provide the callback passed to candidate.books.some.
+
+- Source: [`dist/features.js:1443`](../dist/features.js#L1443)
+- Parameters: `b`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `b.id === restored.book`
+
+### <anonymous callback> — line 1451
+
+Handle the callback assigned to $("#delete").onclick.
+
+- Source: [`dist/features.js:1451`](../dist/features.js#L1451)
+- Parameters: `(none)`; async: true
+- Direct calls: `finishInput`, `modal`, `note`, `toast`, `trashNote`
+- Assigned/updated targets: (none)
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 1471
+
+Handle the callback assigned to $("#notebook").onchange.
+
+- Source: [`dist/features.js:1471`](../dist/features.js#L1471)
+- Parameters: `(none)`; async: false
+- Direct calls: `changeNotebook`, `finishInput`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### createNote — line 1478
+
+Create a blank named-later page in the selected notebook.
+
+- Source: [`dist/features.js:1478`](../dist/features.js#L1478)
+- Parameters: `(none)`; async: false
+- Direct calls: `finishInput`, `newNote`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 1484
+
+Handle the "blur" event registered by window.addEventListener.
+
+- Source: [`dist/features.js:1484`](../dist/features.js#L1484)
+- Parameters: `(none)`; async: false
+- Direct calls: `finishInput`
+- Assigned/updated targets: (none)
+- Return expressions: `finishInput()`
+
+### <anonymous callback> — line 1485
+
+Handle the "visibilitychange" event registered by document.addEventListener.
+
+- Source: [`dist/features.js:1485`](../dist/features.js#L1485)
+- Parameters: `(none)`; async: false
+- Direct calls: `finishInput`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### acquireWriter — line 1489
+
+Keep two app windows from saving stale full-notebook snapshots in the same browser profile.
+
+- Source: [`dist/features.js:1489`](../dist/features.js#L1489)
+- Parameters: `(none)`; async: true
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `true`, `new Promise((resolve) => { navigator.locks .request( "leafnote-notebook-writer", { ifAvailable: true }, async (lock) => { if (!lock) { resolve(false); return; } writerLocked = true`
+
+### <anonymous callback> — line 1491
+
+Evaluate an inline callback in dist/features.js; its direct operations are listed below.
+
+- Source: [`dist/features.js:1491`](../dist/features.js#L1491)
+- Parameters: `resolve`; async: false
+- Direct calls: `navigator.locks .request`, `navigator.locks .request( "leafnote-notebook-writer", { ifAvailable: true }, async (lock) => { if (!`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 1496
+
+Provide the callback passed to navigator.locks .request.
+
+- Source: [`dist/features.js:1496`](../dist/features.js#L1496)
+- Parameters: `lock`; async: true
+- Direct calls: `resolve`
+- Assigned/updated targets: `writerLocked`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 1503
+
+Evaluate an inline callback in dist/features.js; its direct operations are listed below.
+
+- Source: [`dist/features.js:1503`](../dist/features.js#L1503)
+- Parameters: `release`; async: false
+- Direct calls: `window.addEventListener`
+- Assigned/updated targets: (none)
+- Return expressions: `window.addEventListener("pagehide", (event) => { if (!event.persisted) release(); })`
+
+### <anonymous callback> — line 1504
+
+Handle the "pagehide" event registered by window.addEventListener.
+
+- Source: [`dist/features.js:1504`](../dist/features.js#L1504)
+- Parameters: `event`; async: false
+- Direct calls: `release`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 1510
+
+Provide the callback passed to navigator.locks .request( "leafnote-notebook-writer", { ifAvailable: true }, async (lock) => { if (!.
+
+- Source: [`dist/features.js:1510`](../dist/features.js#L1510)
+- Parameters: `(none)`; async: false
+- Direct calls: `resolve`
+- Assigned/updated targets: (none)
+- Return expressions: `resolve(true)`
+
+### syncBusy — line 1514
+
+Defer remote replacement while a pen stroke, editor, review, or editing popup is active.
+
+- Source: [`dist/features.js:1514`](../dist/features.js#L1514)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `document.activeElement?.closest`, `document.querySelector`, `window.LeafBoard?.isEditing`
+- Assigned/updated targets: (none)
+- Return expressions: `syncApplying || $(".app").inert || !!active || !!activeText || !!window.LeafBoard?.isEditing?.() || !!document.querySelector("dialog[open]:not(#syncdialog)") || !$("#recognitionrev`
+
+### applySyncedNotebook — line 1531
+
+Atomically adopt a merged server snapshot only if no local edit appeared during the request.
+
+- Source: [`dist/features.js:1531`](../dist/features.js#L1531)
+- Parameters: `snapshot, files, expected, { keepUndoIds = [], preferredId = current } = {}`; async: true
+- Direct calls: `$`, `clone`, `operation.then`, `saveQueue .catch`, `saveQueue .catch(() => {}) .then`, `saveQueue .catch(() => {}) .then(async () => { if ( expected !== saveVersion || active || activeText`, `syncBusy`, `validate`
+- Assigned/updated targets: `$(".app").inert`, `saveQueue`, `syncApplying`
+- Return expressions: `false`, `operation`
+
+### <anonymous callback> — line 1542
+
+Provide the callback passed to saveQueue .catch.
+
+- Source: [`dist/features.js:1542`](../dist/features.js#L1542)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 1543
+
+Provide the callback passed to saveQueue .catch(() => {}) .then.
+
+- Source: [`dist/features.js:1543`](../dist/features.js#L1543)
+- Parameters: `(none)`; async: true
+- Direct calls: `$`, `data.notes.find`, `data.notes.some`, `keep.has`, `loadNote`, `renderNav`, `stack.splice`, `window.LeafBoard?.isEditing`, `writeState`
+- Assigned/updated targets: `$("#saved").textContent`, `data`, `i`, `lastSaveOK`, `saveVersion`
+- Return expressions: `false`, `true`
+
+### <anonymous callback> — line 1560
+
+Provide the callback passed to data.notes.some.
+
+- Source: [`dist/features.js:1560`](../dist/features.js#L1560)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === preferredId && !n.deleted`
+
+### <anonymous callback> — line 1562
+
+Provide the callback passed to data.notes.find.
+
+- Source: [`dist/features.js:1562`](../dist/features.js#L1562)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
+
+### <anonymous callback> — line 1568
+
+Provide the callback passed to saveQueue .catch(() => {}) .then(async () => { if ( expected !== saveVersion || active || activeText.
+
+- Source: [`dist/features.js:1568`](../dist/features.js#L1568)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`
+- Assigned/updated targets: `$(".app").inert`, `syncApplying`
+- Return expressions: (none)
+
+### <anonymous callback> — line 1573
+
+Provide the callback passed to operation.then.
+
+- Source: [`dist/features.js:1573`](../dist/features.js#L1573)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `true`
+
+### <anonymous callback> — line 1574
+
+Provide the callback passed to operation.then.
+
+- Source: [`dist/features.js:1574`](../dist/features.js#L1574)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: `lastSaveOK`
+- Return expressions: `false`
+
+### readSyncNotebook — line 1582
 
 Capture the durable notebook without exporting or duplicating PDF bytes.
 
-- Source: [`dist/features.js:1507`](../dist/features.js#L1507)
+- Source: [`dist/features.js:1582`](../dist/features.js#L1582)
 - Parameters: `(none)`; async: true
 - Direct calls: `Error`, `clone`
 - Assigned/updated targets: (none)
 - Return expressions: `{ data: clone(data), version: saveVersion, currentId: current }`
 
-### supported — line 1517
+### trash — line 1592
+
+Implement the trash callback in this object.
+
+- Source: [`dist/features.js:1592`](../dist/features.js#L1592)
+- Parameters: `(none)`; async: false
+- Direct calls: `clone`, `data.notes.filter`
+- Assigned/updated targets: (none)
+- Return expressions: `clone(data.notes.filter((n) => n.deleted))`
+
+### <anonymous callback> — line 1592
+
+Provide the callback passed to data.notes.filter.
+
+- Source: [`dist/features.js:1592`](../dist/features.js#L1592)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.deleted`
+
+### supported — line 1599
 
 Implement the supported callback in this object.
 
-- Source: [`dist/features.js:1517`](../dist/features.js#L1517)
+- Source: [`dist/features.js:1599`](../dist/features.js#L1599)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `!!db && writerLocked`
 
-### version — line 1521
+### version — line 1603
 
 Implement the version callback in this object.
 
-- Source: [`dist/features.js:1521`](../dist/features.js#L1521)
+- Source: [`dist/features.js:1603`](../dist/features.js#L1603)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `saveVersion`
 
-### fileVersion — line 1525
+### fileVersion — line 1607
 
 Implement the fileVersion callback in this object.
 
-- Source: [`dist/features.js:1525`](../dist/features.js#L1525)
+- Source: [`dist/features.js:1607`](../dist/features.js#L1607)
 - Parameters: `id`; async: false
 - Direct calls: `fileVersions.get`
 - Assigned/updated targets: (none)
 - Return expressions: `fileVersions.get(id) || 0`
 
-### record — line 1533
+### record — line 1615
 
 Read a model’s installation metadata, or record an undoable public-API edit.
 
-- Source: [`dist/features.js:1533`](../dist/features.js#L1533)
+- Source: [`dist/features.js:1615`](../dist/features.js#L1615)
 - Parameters: `before`; async: false
 - Direct calls: `JSON.stringify`, `remember`, `snapshot`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### redraw — line 1538
+### redraw — line 1620
 
 Refresh the rendered ink, typed text, and board layers.
 
-- Source: [`dist/features.js:1538`](../dist/features.js#L1538)
+- Source: [`dist/features.js:1620`](../dist/features.js#L1620)
 - Parameters: `(none)`; async: false
 - Direct calls: `redraw`
 - Assigned/updated targets: (none)
 - Return expressions: `redraw()`
 
-### resize — line 1540
+### resize — line 1622
 
 Schedule an editor resize without cancelling active ink samples.
 
-- Source: [`dist/features.js:1540`](../dist/features.js#L1540)
+- Source: [`dist/features.js:1622`](../dist/features.js#L1622)
 - Parameters: `(none)`; async: false
 - Direct calls: `resizePage`
 - Assigned/updated targets: (none)
 - Return expressions: `resizePage()`
 
-### page — line 1545
+### page — line 1627
 
 Resolve the current PDF page, or the current note through the public bridge.
 
-- Source: [`dist/features.js:1545`](../dist/features.js#L1545)
+- Source: [`dist/features.js:1627`](../dist/features.js#L1627)
 - Parameters: `(none)`; async: false
 - Direct calls: `note`, `page`
 - Assigned/updated targets: (none)
 - Return expressions: `page() || note()`
 
-### pageIndex — line 1547
+### pageIndex — line 1629
 
 Implement the pageIndex callback in this object.
 
-- Source: [`dist/features.js:1547`](../dist/features.js#L1547)
+- Source: [`dist/features.js:1629`](../dist/features.js#L1629)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `pageIndex`
 
-### open — line 1549
+### open — line 1631
 
 Open a model dialog or note/page through the module’s public entry point.
 
-- Source: [`dist/features.js:1549`](../dist/features.js#L1549)
+- Source: [`dist/features.js:1631`](../dist/features.js#L1631)
 - Parameters: `id, index`; async: true
 - Direct calls: `goTo`, `loadNote`, `note`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 1563
+### <anonymous callback> — line 1645
 
 Handle the callback assigned to db.onversionchange.
 
-- Source: [`dist/features.js:1563`](../dist/features.js#L1563)
+- Source: [`dist/features.js:1645`](../dist/features.js#L1645)
 - Parameters: `(none)`; async: false
 - Direct calls: `db.close`, `toast`
 - Assigned/updated targets: `db`
 - Return expressions: (none)
+
+### <anonymous callback> — line 1664
+
+Provide the callback passed to data.notes.find.
+
+- Source: [`dist/features.js:1664`](../dist/features.js#L1664)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
 
 ## dist/ink-engine.js
 
@@ -3515,6 +3755,290 @@ Handle the callback assigned to $("#modelcards").onclick.
 - Direct calls: `$`, `$("#modelsdialog").close`, `document.dispatchEvent`, `e.target.closest`, `install`, `remove`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
+
+## dist/maintenance.js
+
+First-party development or verification code.
+
+### <anonymous callback> — line 2
+
+Initialize dist/maintenance.js inside an isolated scope.
+
+- Source: [`dist/maintenance.js:2`](../dist/maintenance.js#L2)
+- Parameters: `(none)`; async: false
+- Direct calls: `document.addEventListener`, `setup`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### setup — line 5
+
+Attach this module’s event handlers after the application state is ready.
+
+- Source: [`dist/maintenance.js:5`](../dist/maintenance.js#L5)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `dialog.addEventListener`
+- Assigned/updated targets: `$("#closemaintenance").onclick`, `$("#maintenance").onclick`, `$("#olderrevisions").onclick`, `$("#refreshmaintenance").onclick`, `$("#restorerevision").onclick`, `$("#showhistory").onclick`, `$("#showtrash").onclick`
+- Return expressions: (none)
+
+### maintenanceStatus — line 15
+
+Show a readable operation result without replacing notebook content.
+
+- Source: [`dist/maintenance.js:15`](../dist/maintenance.js#L15)
+- Parameters: `message`; async: false
+- Direct calls: `$`
+- Assigned/updated targets: `$("#maintenancestatus").textContent`
+- Return expressions: (none)
+
+### lock — line 19
+
+Fence controls while a restore is committing.
+
+- Source: [`dist/maintenance.js:19`](../dist/maintenance.js#L19)
+- Parameters: `value`; async: false
+- Direct calls: `$`, `dialog .querySelectorAll`, `dialog .querySelectorAll("button,select") .forEach`
+- Assigned/updated targets: `$("#closemaintenance").disabled`, `working`
+- Return expressions: (none)
+
+### <anonymous callback> — line 23
+
+Provide the callback passed to dialog .querySelectorAll("button,select") .forEach.
+
+- Source: [`dist/maintenance.js:23`](../dist/maintenance.js#L23)
+- Parameters: `el`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: `el.disabled`
+- Return expressions: `el.disabled = value`
+
+### element — line 27
+
+Create an SVG element and apply its attributes.
+
+- Source: [`dist/maintenance.js:27`](../dist/maintenance.js#L27)
+- Parameters: `tag, text`; async: false
+- Direct calls: `document.createElement`
+- Assigned/updated targets: `el.textContent`
+- Return expressions: `el`
+
+### trashRow — line 33
+
+Render a retained local note and its offline restore action.
+
+- Source: [`dist/maintenance.js:33`](../dist/maintenance.js#L33)
+- Parameters: `note`; async: false
+- Direct calls: `element`, `new Date(note.deletedAt).toLocaleString`, `row.append`
+- Assigned/updated targets: `button.onclick`, `button.type`, `row.className`
+- Return expressions: `row`
+
+### <anonymous callback> — line 47
+
+Handle the callback assigned to button.onclick.
+
+- Source: [`dist/maintenance.js:47`](../dist/maintenance.js#L47)
+- Parameters: `(none)`; async: true
+- Direct calls: `app.maintenance.restoreDeleted`, `lock`, `maintenanceStatus`, `renderTrash`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### renderTrash — line 65
+
+Show local Trash without needing a server or connection code.
+
+- Source: [`dist/maintenance.js:65`](../dist/maintenance.js#L65)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `$("#maintenancelist").append`, `$("#maintenancelist").replaceChildren`, `app.maintenance.trash`, `element`, `notes.map`
+- Assigned/updated targets: `$("#maintenancesummary").textContent`
+- Return expressions: (none)
+
+### connection — line 77
+
+Obtain authenticated history access only for an already-paired device.
+
+- Source: [`dist/maintenance.js:77`](../dist/maintenance.js#L77)
+- Parameters: `(none)`; async: true
+- Direct calls: `Error`, `createSyncSettings`, `createSyncSettings().load`, `createSyncTransport`
+- Assigned/updated targets: (none)
+- Return expressions: `createSyncTransport({ token: settings.token })`
+
+### preview — line 88
+
+Preview the first historical page as ink and safe plain text, without adopting it.
+
+- Source: [`dist/maintenance.js:88`](../dist/maintenance.js#L88)
+- Parameters: `note`; async: false
+- Direct calls: `$`, `/^#[a-f0-9]{6}$/i.test`, `LeafInk.outline`, `String`, `String(box.text || "") .split`, `String(box.text || "") .split("\n") .forEach`, `container.append`, `container.prepend`, `container.replaceChildren`, `document.createElementNS`, `element`, `path.setAttribute`, `svg.append`, `svg.setAttribute`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 112
+
+Provide the callback passed to String(box.text || "") .split("\n") .forEach.
+
+- Source: [`dist/maintenance.js:112`](../dist/maintenance.js#L112)
+- Parameters: `line, i`; async: false
+- Direct calls: `/^#[a-f0-9]{6}$/i.test`, `String`, `document.createElementNS`, `svg.append`, `text.setAttribute`
+- Assigned/updated targets: `text.textContent`
+- Return expressions: (none)
+
+### inspect — line 141
+
+Load a selected immutable revision; closing or changing views invalidates late responses.
+
+- Source: [`dist/maintenance.js:141`](../dist/maintenance.js#L141)
+- Parameters: `hash, button`; async: true
+- Direct calls: `$`, `hash.slice`, `lock`, `maintenanceStatus`, `select.onchange`, `select.replaceChildren`, `snapshot.data.notes.map`, `transport.revision`
+- Assigned/updated targets: `$("#restorerevision").hidden`, `$("#revisiondetails").hidden`, `generation`, `select.onchange`, `selected`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 152
+
+Provide the callback passed to snapshot.data.notes.map.
+
+- Source: [`dist/maintenance.js:152`](../dist/maintenance.js#L152)
+- Parameters: `note`; async: false
+- Direct calls: `element`
+- Assigned/updated targets: `option.value`
+- Return expressions: `option`
+
+### <anonymous callback> — line 164
+
+Handle the callback assigned to select.onchange.
+
+- Source: [`dist/maintenance.js:164`](../dist/maintenance.js#L164)
+- Parameters: `(none)`; async: false
+- Direct calls: `preview`, `snapshot.data.notes.find`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 165
+
+Provide the callback passed to snapshot.data.notes.find.
+
+- Source: [`dist/maintenance.js:165`](../dist/maintenance.js#L165)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === select.value`
+
+### historyPage — line 181
+
+Page through server Git metadata; no notes are changed by browsing history.
+
+- Source: [`dist/maintenance.js:181`](../dist/maintenance.js#L181)
+- Parameters: `append = false`; async: true
+- Direct calls: `$`, `commit.hash.slice`, `connection`, `element`, `list.append`, `list.replaceChildren`, `lock`, `maintenanceStatus`, `new Date(commit.at).toLocaleString`, `row.append`, `transport.history`
+- Assigned/updated targets: `$("#maintenancesummary").textContent`, `$("#olderrevisions").hidden`, `button.onclick`, `generation`, `offset`, `row.className`, `transport`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 200
+
+Handle the callback assigned to button.onclick.
+
+- Source: [`dist/maintenance.js:200`](../dist/maintenance.js#L200)
+- Parameters: `(none)`; async: false
+- Direct calls: `inspect`
+- Assigned/updated targets: (none)
+- Return expressions: `inspect(commit.hash, button)`
+
+### show — line 223
+
+Switch between offline Trash and authenticated server history.
+
+- Source: [`dist/maintenance.js:223`](../dist/maintenance.js#L223)
+- Parameters: `next`; async: false
+- Direct calls: `$`, `$("#maintenancelist").replaceChildren`, `$("#showhistory").setAttribute`, `$("#showtrash").setAttribute`, `String`, `historyPage`, `maintenanceStatus`, `renderTrash`
+- Assigned/updated targets: `$("#olderrevisions").hidden`, `$("#restorerevision").hidden`, `$("#revisiondetails").hidden`, `generation`, `mode`, `selected`
+- Return expressions: (none)
+
+### <anonymous callback> — line 245
+
+Handle the callback assigned to $("#maintenance").onclick.
+
+- Source: [`dist/maintenance.js:245`](../dist/maintenance.js#L245)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`, `app.finish`, `dialog.showModal`, `show`
+- Assigned/updated targets: `$("#notemenu").open`
+- Return expressions: (none)
+
+### <anonymous callback> — line 251
+
+Handle the callback assigned to $("#showtrash").onclick.
+
+- Source: [`dist/maintenance.js:251`](../dist/maintenance.js#L251)
+- Parameters: `(none)`; async: false
+- Direct calls: `show`
+- Assigned/updated targets: (none)
+- Return expressions: `show("trash")`
+
+### <anonymous callback> — line 252
+
+Handle the callback assigned to $("#showhistory").onclick.
+
+- Source: [`dist/maintenance.js:252`](../dist/maintenance.js#L252)
+- Parameters: `(none)`; async: false
+- Direct calls: `show`
+- Assigned/updated targets: (none)
+- Return expressions: `show("history")`
+
+### <anonymous callback> — line 253
+
+Handle the callback assigned to $("#refreshmaintenance").onclick.
+
+- Source: [`dist/maintenance.js:253`](../dist/maintenance.js#L253)
+- Parameters: `(none)`; async: false
+- Direct calls: `show`
+- Assigned/updated targets: (none)
+- Return expressions: `show(mode)`
+
+### <anonymous callback> — line 254
+
+Handle the callback assigned to $("#olderrevisions").onclick.
+
+- Source: [`dist/maintenance.js:254`](../dist/maintenance.js#L254)
+- Parameters: `(none)`; async: false
+- Direct calls: `historyPage`
+- Assigned/updated targets: (none)
+- Return expressions: `historyPage(true)`
+
+### <anonymous callback> — line 255
+
+Handle the callback assigned to $("#closemaintenance").onclick.
+
+- Source: [`dist/maintenance.js:255`](../dist/maintenance.js#L255)
+- Parameters: `(none)`; async: false
+- Direct calls: `dialog.close`
+- Assigned/updated targets: (none)
+- Return expressions: `dialog.close()`
+
+### <anonymous callback> — line 256
+
+Handle the "close" event registered by dialog.addEventListener.
+
+- Source: [`dist/maintenance.js:256`](../dist/maintenance.js#L256)
+- Parameters: `(none)`; async: false
+- Direct calls: `transport?.abort`
+- Assigned/updated targets: `generation`, `transport`
+- Return expressions: (none)
+
+### <anonymous callback> — line 261
+
+Handle the callback assigned to $("#restorerevision").onclick.
+
+- Source: [`dist/maintenance.js:261`](../dist/maintenance.js#L261)
+- Parameters: `(none)`; async: true
+- Direct calls: `Error`, `app.maintenance.restoreRevision`, `blobHash`, `lock`, `maintenanceStatus`, `selected.snapshot.data.notes.find`, `transport.getBlob`
+- Assigned/updated targets: `blob`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 264
+
+Provide the callback passed to selected.snapshot.data.notes.find.
+
+- Source: [`dist/maintenance.js:264`](../dist/maintenance.js#L264)
+- Parameters: `n`; async: false
+- Direct calls: `$`
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === $("#revisionnote").value`
 
 ## dist/marathi-candidates.mjs
 
@@ -4830,101 +5354,101 @@ Collect titles, typed text, card text, PDF text, and valid handwriting transcrip
 - Assigned/updated targets: (none)
 - Return expressions: `out`
 
-### <anonymous callback> — line 132
+### <anonymous callback> — line 133
 
 Provide the callback passed to pages.forEach.
 
-- Source: [`dist/search-engine.js:132`](../dist/search-engine.js#L132)
+- Source: [`dist/search-engine.js:133`](../dist/search-engine.js#L133)
 - Parameters: `p, i`; async: false
 - Direct calls: `Math.max`, `Math.min`, `add`, `currentIndex`, `t.text.split`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### add — line 135
+### add — line 136
 
 Append a searchable text record with optional document bounds.
 
-- Source: [`dist/search-engine.js:135`](../dist/search-engine.js#L135)
+- Source: [`dist/search-engine.js:136`](../dist/search-engine.js#L136)
 - Parameters: `kind, text, rect`; async: false
 - Direct calls: `out.push`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### search — line 172
+### search — line 173
 
 Match normalized query terms and group results by note and PDF page.
 
-- Source: [`dist/search-engine.js:172`](../dist/search-engine.js#L172)
+- Source: [`dist/search-engine.js:173`](../dist/search-engine.js#L173)
 - Parameters: `data, query, kind = "all"`; async: false
 - Direct calls: `[...grouped.values()].sort`, `grouped.get`, `grouped.set`, `grouped.values`, `hit.matches.push`, `hit.rects.push`, `norm`, `norm(query).split`, `norm(query).split(" ").filter`, `records`, `records(data).filter`
 - Assigned/updated targets: `hit`, `hit.kind`, `hit.text`
 - Return expressions: `[]`, `[...grouped.values()].sort( (a, b) => b.updated - a.updated || a.page - b.page, )`
 
-### <anonymous callback> — line 176
+### <anonymous callback> — line 177
 
 Provide the callback passed to records(data).filter.
 
-- Source: [`dist/search-engine.js:176`](../dist/search-engine.js#L176)
+- Source: [`dist/search-engine.js:177`](../dist/search-engine.js#L177)
 - Parameters: `r`; async: false
 - Direct calls: `terms.every`
 - Assigned/updated targets: (none)
 - Return expressions: `(kind === "all" || r.kind === kind) && terms.every((term) => norm(r.text).includes(term))`
 
-### <anonymous callback> — line 178
+### <anonymous callback> — line 179
 
 Provide the callback passed to terms.every.
 
-- Source: [`dist/search-engine.js:178`](../dist/search-engine.js#L178)
+- Source: [`dist/search-engine.js:179`](../dist/search-engine.js#L179)
 - Parameters: `term`; async: false
 - Direct calls: `norm`, `norm(r.text).includes`
 - Assigned/updated targets: (none)
 - Return expressions: `norm(r.text).includes(term)`
 
-### <anonymous callback> — line 196
+### <anonymous callback> — line 197
 
 Provide the callback passed to [...grouped.values()].sort.
 
-- Source: [`dist/search-engine.js:196`](../dist/search-engine.js#L196)
+- Source: [`dist/search-engine.js:197`](../dist/search-engine.js#L197)
 - Parameters: `a, b`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `b.updated - a.updated || a.page - b.page`
 
-### validIndex — line 200
+### validIndex — line 201
 
 Validate a restored handwriting transcript and its alternative readings.
 
-- Source: [`dist/search-engine.js:200`](../dist/search-engine.js#L200)
+- Source: [`dist/search-engine.js:201`](../dist/search-engine.js#L201)
 - Parameters: `v`; async: false
 - Direct calls: `(Array.isArray(v.lines) ? v.lines : []) .slice`, `(Array.isArray(v.lines) ? v.lines : []) .slice(0, 2000) .map`, `Array.isArray`, `Number`, `String`, `String(v.text || "").slice`, `v.signature.slice`
 - Assigned/updated targets: (none)
 - Return expressions: `undefined`, `{ version: Number(v.version) || 1, language: v.language === "mr" ? "mr" : "en", signature: v.signature.slice(0, 100), text: String(v.text || "").slice(0, 100000), reviewed: !!v.rev`
 
-### <anonymous callback> — line 211
+### <anonymous callback> — line 212
 
 Provide the callback passed to (Array.isArray(v.lines) ? v.lines : []) .slice(0, 2000) .map.
 
-- Source: [`dist/search-engine.js:211`](../dist/search-engine.js#L211)
+- Source: [`dist/search-engine.js:212`](../dist/search-engine.js#L212)
 - Parameters: `l`; async: false
 - Direct calls: `(Array.isArray(l.alternatives) ? l.alternatives : []) .slice`, `(Array.isArray(l.alternatives) ? l.alternatives : []) .slice(0, 2) .map`, `Array.isArray`, `String`, `String(l.text || "").slice`, `["x", "y", "width", "height"].every`
 - Assigned/updated targets: (none)
 - Return expressions: `{ text: String(l.text || "").slice(0, 5000), alternatives: (Array.isArray(l.alternatives) ? l.alternatives : []) .slice(0, 2) .map((t) => String(t).slice(0, 5000)), rect: l.rect &&`
 
-### <anonymous callback> — line 215
+### <anonymous callback> — line 216
 
 Provide the callback passed to (Array.isArray(l.alternatives) ? l.alternatives : []) .slice(0, 2) .map.
 
-- Source: [`dist/search-engine.js:215`](../dist/search-engine.js#L215)
+- Source: [`dist/search-engine.js:216`](../dist/search-engine.js#L216)
 - Parameters: `t`; async: false
 - Direct calls: `String`, `String(t).slice`
 - Assigned/updated targets: (none)
 - Return expressions: `String(t).slice(0, 5000)`
 
-### <anonymous callback> — line 218
+### <anonymous callback> — line 219
 
 Provide the callback passed to ["x", "y", "width", "height"].every.
 
-- Source: [`dist/search-engine.js:218`](../dist/search-engine.js#L218)
+- Source: [`dist/search-engine.js:219`](../dist/search-engine.js#L219)
 - Parameters: `k`; async: false
 - Direct calls: `Number.isFinite`
 - Assigned/updated targets: (none)
@@ -5012,633 +5536,663 @@ Apply the selected notebook/favorite filter to the note list.
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `filter === "all" || (filter === "star" && n.star) || n.book === filter`
+- Return expressions: `!n.deleted && (filter === "all" || (filter === "star" && n.star) || n.book === filter)`
 
-### workItems — line 53
+### workItems — line 54
 
 List pages with missing PDF text or outdated handwriting recognition.
 
-- Source: [`dist/search.js:53`](../dist/search.js#L53)
+- Source: [`dist/search.js:54`](../dist/search.js#L54)
 - Parameters: `includeInk = true, includePdf = true`; async: false
-- Direct calls: `(n.pdf ? n.pdf.pages : [n]).entries`, `S.currentIndex`, `S.language`, `S.signature`, `p.strokes?.some`, `result.push`
+- Direct calls: `(n.pdf ? n.pdf.pages : [n]).entries`, `S.currentIndex`, `S.language`, `S.signature`, `data.notes.filter`, `p.strokes?.some`, `result.push`
 - Assigned/updated targets: (none)
 - Return expressions: `result`
 
-### <anonymous callback> — line 61
+### <anonymous callback> — line 56
+
+Provide the callback passed to data.notes.filter.
+
+- Source: [`dist/search.js:56`](../dist/search.js#L56)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
+
+### <anonymous callback> — line 62
 
 Provide the callback passed to p.strokes?.some.
 
-- Source: [`dist/search.js:61`](../dist/search.js#L61)
+- Source: [`dist/search.js:62`](../dist/search.js#L62)
 - Parameters: `s`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `s.opacity !== 0.3`
 
-### scheduleIndex — line 77
+### scheduleIndex — line 78
 
 Debounce automatic indexing and avoid retries while review/editing is active.
 
-- Source: [`dist/search.js:77`](../dist/search.js#L77)
+- Source: [`dist/search.js:78`](../dist/search.js#L78)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#search").value.trim`, `clearTimeout`, `setTimeout`, `workItems`, `workItems(includeInk, includePdf).filter`
 - Assigned/updated targets: `autoTimer`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 90
+### <anonymous callback> — line 91
 
 Provide the callback passed to workItems(includeInk, includePdf).filter.
 
-- Source: [`dist/search.js:90`](../dist/search.js#L90)
+- Source: [`dist/search.js:91`](../dist/search.js#L91)
 - Parameters: `k`; async: false
 - Direct calls: `attempted.has`
 - Assigned/updated targets: (none)
 - Return expressions: `!attempted.has(k)`
 
-### <anonymous callback> — line 93
+### <anonymous callback> — line 94
 
 Provide the callback passed to setTimeout.
 
-- Source: [`dist/search.js:93`](../dist/search.js#L93)
+- Source: [`dist/search.js:94`](../dist/search.js#L94)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#search").value.trim`, `indexAll`, `items.forEach`
 - Assigned/updated targets: (none)
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 100
+### <anonymous callback> — line 101
 
 Provide the callback passed to items.forEach.
 
-- Source: [`dist/search.js:100`](../dist/search.js#L100)
+- Source: [`dist/search.js:101`](../dist/search.js#L101)
 - Parameters: `k`; async: false
 - Direct calls: `attempted.add`
 - Assigned/updated targets: (none)
 - Return expressions: `attempted.add(k)`
 
-### coverage — line 105
+### coverage — line 106
 
 Summarize searchable content and missing recognition for the current results.
 
-- Source: [`dist/search.js:105`](../dist/search.js#L105)
+- Source: [`dist/search.js:106`](../dist/search.js#L106)
 - Parameters: `(none)`; async: false
-- Direct calls: `$`, `S.currentIndex`, `index.text.trim`, `p.strokes?.some`
+- Direct calls: `$`, `S.currentIndex`, `data.notes.filter`, `index.text.trim`, `p.strokes?.some`
 - Assigned/updated targets: `$("#searchcoverage").textContent`, `boards`, `cards`, `empty`, `indexed`, `ink`
 - Return expressions: (none)
 
-### <anonymous callback> — line 117
+### <anonymous callback> — line 118
 
 Provide the callback passed to p.strokes?.some.
 
-- Source: [`dist/search.js:117`](../dist/search.js#L117)
+- Source: [`dist/search.js:118`](../dist/search.js#L118)
 - Parameters: `s`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `s.opacity !== 0.3`
 
-### render — line 140
+### <anonymous callback> — line 128
+
+Provide the callback passed to data.notes.filter.
+
+- Source: [`dist/search.js:128`](../dist/search.js#L128)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
+
+### render — line 141
 
 Render this module’s controls from the current note and UI state.
 
-- Source: [`dist/search.js:140`](../dist/search.js#L140)
+- Source: [`dist/search.js:141`](../dist/search.js#L141)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#notes").append`, `$("#search").value.trim`, `S.search`, `S.search(data, query, "all").filter`, `S.search(data, query, kind).map`, `coverage`, `data.books.find`, `data.notes .filter`, `data.notes .filter(eligible) .sort`, `document.createElement`, `notes .map`, `notes .map((n) => { const text = n.pdf ? n.pdf.name : (n.texts || []).map((t) => t.text).join(" ") |`, `results .map`, `results .map( (r) => ˋ<button class="note search-result ${r.id === current ? "active" : ""}" data-re`
 - Assigned/updated targets: `$("#clearsearch").hidden`, `$("#listtitle").textContent`, `$("#notes").innerHTML`, `$("#results").textContent`, `$("#searchallcontent").hidden`, `$("#searchallcontent").textContent`, `$("#searchscope").textContent`, `message.className`, `message.textContent`, `other`
 - Return expressions: (none)
 
-### <anonymous callback> — line 151
+### <anonymous callback> — line 152
 
 Provide the callback passed to results .map.
 
-- Source: [`dist/search.js:151`](../dist/search.js#L151)
+- Source: [`dist/search.js:152`](../dist/search.js#L152)
 - Parameters: `r`; async: false
 - Direct calls: `data.books.find`, `escapeText`, `mark`, `r.matches .map`, `r.matches .map( (m) => ({ title: "Name", typed: "Typed text", pdf: "PDF text", handwriting: "Handwri`, `snippets`
 - Assigned/updated targets: (none)
 - Return expressions: `ˋ<button class="note search-result ${r.id === current ? "active" : ""}" data-result-id="${escapeText(r.id)}" data-result-page="${r.page}"><span class="tag">${escapeText(data.books.`
 
-### <anonymous callback> — line 152
+### <anonymous callback> — line 153
 
 Provide the callback passed to data.books.find.
 
-- Source: [`dist/search.js:152`](../dist/search.js#L152)
+- Source: [`dist/search.js:153`](../dist/search.js#L153)
 - Parameters: `b`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `b.id === r.book`
 
-### <anonymous callback> — line 154
+### <anonymous callback> — line 155
 
 Provide the callback passed to r.matches .map.
 
-- Source: [`dist/search.js:154`](../dist/search.js#L154)
+- Source: [`dist/search.js:155`](../dist/search.js#L155)
 - Parameters: `m`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `({ title: "Name", typed: "Typed text", pdf: "PDF text", handwriting: "Handwriting", })[m.kind]`
 
-### <anonymous callback> — line 162
+### <anonymous callback> — line 163
 
 Provide the callback passed to r.matches .map( (m) => ({ title: "Name", typed: "Typed text", pdf: "PDF text", handwriting: "Handwri.
 
-- Source: [`dist/search.js:162`](../dist/search.js#L162)
+- Source: [`dist/search.js:163`](../dist/search.js#L163)
 - Parameters: `x, i, a`; async: false
 - Direct calls: `a.indexOf`
 - Assigned/updated targets: (none)
 - Return expressions: `a.indexOf(x) === i`
 
-### <anonymous callback> — line 171
+### <anonymous callback> — line 172
 
 Provide the callback passed to data.notes .filter(eligible) .sort.
 
-- Source: [`dist/search.js:171`](../dist/search.js#L171)
+- Source: [`dist/search.js:172`](../dist/search.js#L172)
 - Parameters: `a, b`; async: false
 - Direct calls: `$`, `a.title.localeCompare`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#sort").value === "title" ? a.title.localeCompare(b.title) : b.updated - a.updated`
 
-### <anonymous callback> — line 181
+### <anonymous callback> — line 182
 
 Provide the callback passed to data.books.find.
 
-- Source: [`dist/search.js:181`](../dist/search.js#L181)
+- Source: [`dist/search.js:182`](../dist/search.js#L182)
 - Parameters: `b`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `b.id === filter`
 
-### <anonymous callback> — line 185
+### <anonymous callback> — line 186
 
 Provide the callback passed to notes .map.
 
-- Source: [`dist/search.js:185`](../dist/search.js#L185)
+- Source: [`dist/search.js:186`](../dist/search.js#L186)
 - Parameters: `n`; async: false
 - Direct calls: `(n.pdf ? n.pdf.pages : [n]).every`, `(n.pdf ? n.pdf.pages : [n]).some`, `(n.texts || []).map`, `(n.texts || []).map((t) => t.text).join`, `book`, `escapeText`, `n.board?.nodes.map`, `n.board?.nodes.map((c) => c.text).join`, `plain`, `text.slice`
 - Assigned/updated targets: (none)
 - Return expressions: `ˋ<button class="note ${n.id === current ? "active" : ""}" data-id="${escapeText(n.id)}"><span class="tag">${escapeText(book(n).name)}</span><h3>${escapeText(n.title || "Untitled no`
 
-### <anonymous callback> — line 188
+### <anonymous callback> — line 189
 
 Provide the callback passed to (n.texts || []).map.
 
-- Source: [`dist/search.js:188`](../dist/search.js#L188)
+- Source: [`dist/search.js:189`](../dist/search.js#L189)
 - Parameters: `t`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `t.text`
 
-### <anonymous callback> — line 189
+### <anonymous callback> — line 190
 
 Provide the callback passed to n.board?.nodes.map.
 
-- Source: [`dist/search.js:189`](../dist/search.js#L189)
+- Source: [`dist/search.js:190`](../dist/search.js#L190)
 - Parameters: `c`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `c.text`
 
-### <anonymous callback> — line 191
+### <anonymous callback> — line 192
 
 Provide the callback passed to (n.pdf ? n.pdf.pages : [n]).some.
 
-- Source: [`dist/search.js:191`](../dist/search.js#L191)
+- Source: [`dist/search.js:192`](../dist/search.js#L192)
 - Parameters: `p`; async: false
 - Direct calls: `p.strokes?.some`
 - Assigned/updated targets: (none)
 - Return expressions: `p.strokes?.some((s) => s.opacity !== 0.3)`
 
-### <anonymous callback> — line 192
+### <anonymous callback> — line 193
 
 Provide the callback passed to p.strokes?.some.
 
-- Source: [`dist/search.js:192`](../dist/search.js#L192)
+- Source: [`dist/search.js:193`](../dist/search.js#L193)
 - Parameters: `s`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `s.opacity !== 0.3`
 
-### <anonymous callback> — line 195
+### <anonymous callback> — line 196
 
 Provide the callback passed to (n.pdf ? n.pdf.pages : [n]).every.
 
-- Source: [`dist/search.js:195`](../dist/search.js#L195)
+- Source: [`dist/search.js:196`](../dist/search.js#L196)
 - Parameters: `p`; async: false
 - Direct calls: `S.currentIndex`, `p.strokes?.some`
 - Assigned/updated targets: (none)
 - Return expressions: `!p.strokes?.some((s) => s.opacity !== 0.3) || S.currentIndex(p)`
 
-### <anonymous callback> — line 196
+### <anonymous callback> — line 197
 
 Provide the callback passed to p.strokes?.some.
 
-- Source: [`dist/search.js:196`](../dist/search.js#L196)
+- Source: [`dist/search.js:197`](../dist/search.js#L197)
 - Parameters: `s`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `s.opacity !== 0.3`
 
-### <anonymous callback> — line 208
+### <anonymous callback> — line 209
 
 Provide the callback passed to S.search(data, query, kind).map.
 
-- Source: [`dist/search.js:208`](../dist/search.js#L208)
+- Source: [`dist/search.js:209`](../dist/search.js#L209)
 - Parameters: `h`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `h.id + ":" + h.page`
 
-### <anonymous callback> — line 211
+### <anonymous callback> — line 212
 
 Provide the callback passed to S.search(data, query, "all").filter.
 
-- Source: [`dist/search.js:211`](../dist/search.js#L211)
+- Source: [`dist/search.js:212`](../dist/search.js#L212)
 - Parameters: `r`; async: false
 - Direct calls: `visible.has`
 - Assigned/updated targets: (none)
 - Return expressions: `!visible.has(r.id + ":" + r.page)`
 
-### setupWorker — line 241
+### setupWorker — line 242
 
 Create the recognition worker and bind progress, result, and error messages.
 
-- Source: [`dist/search.js:241`](../dist/search.js#L241)
+- Source: [`dist/search.js:242`](../dist/search.js#L242)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `worker`, `worker.onerror`, `worker.onmessage`
 - Return expressions: `worker`
 
-### <anonymous callback> — line 246
+### <anonymous callback> — line 247
 
 Handle the callback assigned to worker.onmessage.
 
-- Source: [`dist/search.js:246`](../dist/search.js#L246)
+- Source: [`dist/search.js:247`](../dist/search.js#L247)
 - Parameters: `{ data: m }`; async: false
 - Direct calls: `Error`, `Math.round`, `clearTimeout`, `job.reject`, `job.resolve`, `pending.delete`, `pending.get`, `status`
 - Assigned/updated targets: (none)
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 268
+### <anonymous callback> — line 269
 
 Handle the callback assigned to worker.onerror.
 
-- Source: [`dist/search.js:268`](../dist/search.js#L268)
+- Source: [`dist/search.js:269`](../dist/search.js#L269)
 - Parameters: `e`; async: false
 - Direct calls: `Error`, `clearTimeout`, `job.reject`, `pending.clear`, `pending.values`, `worker.terminate`
 - Assigned/updated targets: `worker`
 - Return expressions: (none)
 
-### recognize — line 280
+### recognize — line 281
 
 Submit one rasterized line to the worker with timeout and cancellation handling.
 
-- Source: [`dist/search.js:280`](../dist/search.js#L280)
+- Source: [`dist/search.js:281`](../dist/search.js#L281)
 - Parameters: `image, language = "en"`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `nextRequest`
 - Return expressions: `new Promise((resolve, reject) => { const timer = setTimeout(() => { pending.delete(id); reject(Error("Recognition timed out. Try fewer words or retry.")); if (worker) { worker.term`
 
-### <anonymous callback> — line 282
+### <anonymous callback> — line 283
 
 Evaluate an inline callback in dist/search.js; its direct operations are listed below.
 
-- Source: [`dist/search.js:282`](../dist/search.js#L282)
+- Source: [`dist/search.js:283`](../dist/search.js#L283)
 - Parameters: `resolve, reject`; async: false
 - Direct calls: `clearTimeout`, `pending.delete`, `pending.set`, `reject`, `setTimeout`, `setupWorker`, `setupWorker().postMessage`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 283
+### <anonymous callback> — line 284
 
 Provide the callback passed to setTimeout.
 
-- Source: [`dist/search.js:283`](../dist/search.js#L283)
+- Source: [`dist/search.js:284`](../dist/search.js#L284)
 - Parameters: `(none)`; async: false
 - Direct calls: `Error`, `pending.delete`, `reject`, `worker.terminate`
 - Assigned/updated targets: `worker`
 - Return expressions: (none)
 
-### raster — line 311
+### raster — line 312
 
 Render a grouped ink line as a normalized black-on-white image.
 
-- Source: [`dist/search.js:311`](../dist/search.js#L311)
+- Source: [`dist/search.js:312`](../dist/search.js#L312)
 - Parameters: `line`; async: true
 - Direct calls: `Math.ceil`, `Math.max`, `Math.min`, `Number`, `Object.entries`, `URL.createObjectURL`, `URL.revokeObjectURL`, `bg.setAttribute`, `c.getContext`, `ctx.drawImage`, `ctx.getImageData`, `document.createElement`, `document.createElementNS`, `image.decode`, `new XMLSerializer().serializeToString`, `pathFor`, `svg.append`, `svg.getAttribute`, `svg.setAttribute`
 - Assigned/updated targets: `c.height`, `c.width`, `image.src`
 - Return expressions: `ctx.getImageData(0, 0, c.width, c.height)`
 
-### indexAll — line 366
+### indexAll — line 367
 
 Index PDF text and unreviewed handwriting while preserving user corrections.
 
-- Source: [`dist/search.js:366`](../dist/search.js#L366)
+- Source: [`dist/search.js:367`](../dist/search.js#L367)
 - Parameters: `options = {}`; async: true
-- Direct calls: `$`, `Date.now`, `Error`, `S.currentIndex`, `S.language`, `S.lines`, `S.signature`, `app`, `app().file`, `app().finish`, `app().pdfLibrary`, `app().pdfOptions`, `attempted.clear`, `clearTimeout`, `data.notes.includes`, `data.notes.slice`, `file.arrayBuffer`, `lib.getDocument`, `n.pdf.pages.some`, `output.map`, `output.map((l) => l.text).join`, `output.push`, `page.getTextContent`, `pdf.getPage`, `pdf.loadingTask.destroy`, `persist`, `pg.handwriting.text.trim`, `pg.pdfText.trim`, `pg.strokes?.some`, `raster`, `recognize`, `recognized.text.trim`, `render`, `scheduleIndex`, `status`, `text.items .map`, `text.items .map((t) => t.str + (t.hasEOL ? "\n" : " ")) .join`, `text.items .map((t) => t.str + (t.hasEOL ? "\n" : " ")) .join("") .slice`, `window.LeafBoard?.finish`, `workItems`, `workItems(includeInk, includePdf).forEach`
+- Direct calls: `$`, `Date.now`, `Error`, `S.currentIndex`, `S.language`, `S.lines`, `S.signature`, `app`, `app().file`, `app().finish`, `app().pdfLibrary`, `app().pdfOptions`, `attempted.clear`, `clearTimeout`, `data.notes.filter`, `data.notes.includes`, `file.arrayBuffer`, `lib.getDocument`, `n.pdf.pages.some`, `output.map`, `output.map((l) => l.text).join`, `output.push`, `page.getTextContent`, `pdf.getPage`, `pdf.loadingTask.destroy`, `persist`, `pg.handwriting.text.trim`, `pg.pdfText.trim`, `pg.strokes?.some`, `raster`, `recognize`, `recognized.text.trim`, `render`, `scheduleIndex`, `status`, `text.items .map`, `text.items .map((t) => t.str + (t.hasEOL ? "\n" : " ")) .join`, `text.items .map((t) => t.str + (t.hasEOL ? "\n" : " ")) .join("") .slice`, `window.LeafBoard?.finish`, `workItems`, `workItems(includeInk, includePdf).forEach`
 - Assigned/updated targets: `$("#indexnotes").textContent`, `busy`, `cancelled`, `failures`, `i`, `indexed`, `j`, `jobError`, `pdf`, `pg.handwriting`, `pg.pdfText`, `scans`, `unreadable`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 378
+### <anonymous callback> — line 379
 
 Provide the callback passed to workItems(includeInk, includePdf).forEach.
 
-- Source: [`dist/search.js:378`](../dist/search.js#L378)
+- Source: [`dist/search.js:379`](../dist/search.js#L379)
 - Parameters: `k`; async: false
 - Direct calls: `attempted.add`
 - Assigned/updated targets: (none)
 - Return expressions: `attempted.add(k)`
 
-### <anonymous callback> — line 400
+### <anonymous callback> — line 392
+
+Provide the callback passed to data.notes.filter.
+
+- Source: [`dist/search.js:392`](../dist/search.js#L392)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted`
+
+### <anonymous callback> — line 401
 
 Provide the callback passed to n.pdf.pages.some.
 
-- Source: [`dist/search.js:400`](../dist/search.js#L400)
+- Source: [`dist/search.js:401`](../dist/search.js#L401)
 - Parameters: `p`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `p.pdfText === undefined`
 
-### <anonymous callback> — line 418
+### <anonymous callback> — line 419
 
 Provide the callback passed to text.items .map.
 
-- Source: [`dist/search.js:418`](../dist/search.js#L418)
+- Source: [`dist/search.js:419`](../dist/search.js#L419)
 - Parameters: `t`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `t.str + (t.hasEOL ? "\n" : " ")`
 
-### <anonymous callback> — line 428
+### <anonymous callback> — line 429
 
 Provide the callback passed to pg.strokes?.some.
 
-- Source: [`dist/search.js:428`](../dist/search.js#L428)
+- Source: [`dist/search.js:429`](../dist/search.js#L429)
 - Parameters: `s`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `s.opacity !== 0.3`
 
-### <anonymous callback> — line 469
+### <anonymous callback> — line 470
 
 Provide the callback passed to output.map.
 
-- Source: [`dist/search.js:469`](../dist/search.js#L469)
+- Source: [`dist/search.js:470`](../dist/search.js#L470)
 - Parameters: `l`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `l.text`
 
-### keepReviewDraft — line 523
+### keepReviewDraft — line 524
 
 Retain unsaved transcript edits for the active note/page/signature.
 
-- Source: [`dist/search.js:523`](../dist/search.js#L523)
+- Source: [`dist/search.js:524`](../dist/search.js#L524)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `reviewDrafts.delete`, `reviewDrafts.set`
 - Assigned/updated targets: (none)
 - Return expressions: `undefined`
 
-### reviewChanged — line 531
+### reviewChanged — line 532
 
 Refresh transcript save/discard controls and unsaved-edit status.
 
-- Source: [`dist/search.js:531`](../dist/search.js#L531)
+- Source: [`dist/search.js:532`](../dist/search.js#L532)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `keepReviewDraft`
 - Assigned/updated targets: `$("#discardreview").disabled`, `$("#reviewstatus").textContent`, `$("#savetranscript").disabled`
 - Return expressions: `undefined`
 
-### review — line 544
+### review — line 545
 
 Open the current page’s handwriting review while retaining prior drafts.
 
-- Source: [`dist/search.js:544`](../dist/search.js#L544)
+- Source: [`dist/search.js:545`](../dist/search.js#L545)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#inktranscript").focus`, `$("#inktranscript").setSelectionRange`, `S.language`, `S.signature`, `app`, `app().finish`, `app().page`, `app().pageIndex`, `keepReviewDraft`, `note`, `reviewChanged`, `reviewDrafts.get`, `reviewDrafts.has`, `window.LeafBoard?.finish`
 - Assigned/updated targets: `$("#inktranscript").value`, `$("#languagehint").textContent`, `$("#recognitionlanguage").value`, `$("#recognitionreview").hidden`, `$("#reviewhint").textContent`, `$("#reviewtitle").textContent`, `reviewTarget`
 - Return expressions: (none)
 
-### saveReview — line 586
+### saveReview — line 587
 
 Persist reviewed transcript corrections without changing the underlying ink.
 
-- Source: [`dist/search.js:586`](../dist/search.js#L586)
+- Source: [`dist/search.js:587`](../dist/search.js#L587)
 - Parameters: `(none)`; async: true
 - Direct calls: `$`, `$("#inktranscript").value.slice`, `Date.now`, `S.language`, `S.signature`, `data.notes.find`, `persist`, `render`, `reviewChanged`, `reviewDrafts.delete`, `toast`
 - Assigned/updated targets: `$("#reviewstatus").textContent`, `$("#savetranscript").disabled`, `pg.handwriting`, `target.baseReviewed`, `target.baseText`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 589
+### <anonymous callback> — line 590
 
 Provide the callback passed to data.notes.find.
 
-- Source: [`dist/search.js:589`](../dist/search.js#L589)
+- Source: [`dist/search.js:590`](../dist/search.js#L590)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id === target.id`
 
-### retryReview — line 629
+### retryReview — line 630
 
 Create a new recognition draft without overwriting the saved transcript.
 
-- Source: [`dist/search.js:629`](../dist/search.js#L629)
+- Source: [`dist/search.js:630`](../dist/search.js#L630)
 - Parameters: `(none)`; async: true
 - Direct calls: `$`, `(await recognize(await raster(rows[i]), target.language)).text.trim`, `Error`, `S.language`, `S.lines`, `S.signature`, `attempted.add`, `data.notes.find`, `output.join`, `output.push`, `raster`, `recognize`, `render`, `reviewChanged`, `reviewDrafts.set`, `scheduleIndex`
 - Assigned/updated targets: `$("#indexnotes").disabled`, `$("#inktranscript").value`, `$("#retryrecognition").disabled`, `$("#reviewstatus").textContent`, `busy`, `i`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 642
+### <anonymous callback> — line 643
 
 Provide the callback passed to data.notes.find.
 
-- Source: [`dist/search.js:642`](../dist/search.js#L642)
+- Source: [`dist/search.js:643`](../dist/search.js#L643)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id === target.id`
 
-### clearHits — line 702
+### clearHits — line 703
 
 Remove temporary search highlights from the note surface.
 
-- Source: [`dist/search.js:702`](../dist/search.js#L702)
+- Source: [`dist/search.js:703`](../dist/search.js#L703)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#searchoverlay")?.remove`
 - Assigned/updated targets: `currentHits`
 - Return expressions: (none)
 
-### showHits — line 707
+### showHits — line 708
 
 Render result bounds and scroll the matching content into view.
 
-- Source: [`dist/search.js:707`](../dist/search.js#L707)
+- Source: [`dist/search.js:708`](../dist/search.js#L708)
 - Parameters: `hit`; async: false
 - Direct calls: `$`, `$("#canvas").getAttribute`, `$("#surface").append`, `$("#surface").getBoundingClientRect`, `Math.max`, `Object.entries`, `clearHits`, `document.createElementNS`, `note`, `rect.setAttribute`, `svg.append`, `svg.setAttribute`
 - Assigned/updated targets: `$(".workspace").scrollLeft`, `$(".workspace").scrollTop`, `currentHits`, `svg.id`
 - Return expressions: `undefined`
 
-### setup — line 740
+### setup — line 741
 
 Attach this module’s event handlers after the application state is ready.
 
-- Source: [`dist/search.js:740`](../dist/search.js#L740)
+- Source: [`dist/search.js:741`](../dist/search.js#L741)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#search").setAttribute`, `document.addEventListener`, `render`
 - Assigned/updated targets: `$("#autohandwriting").onchange`, `$("#cancelreview").onclick`, `$("#clearsearch").onclick`, `$("#discardreview").onclick`, `$("#indexnotes").onclick`, `$("#inktranscript").oninput`, `$("#recognitionlanguage").onchange`, `$("#retryrecognition").onclick`, `$("#reviewhandwriting").onclick`, `$("#reviewinksearch").onclick`, `$("#savetranscript").onclick`, `$("#search").oninput`, `$("#search").placeholder`, `$("#searchallcontent").onclick`, `$("#searchkind").onchange`, `$("#sort").onchange`, `loadNote`, `persist`, `renderList`
 - Return expressions: (none)
 
-### <anonymous callback> — line 744
+### <anonymous callback> — line 745
 
 Handle the callback assigned to $("#search").oninput.
 
-- Source: [`dist/search.js:744`](../dist/search.js#L744)
+- Source: [`dist/search.js:745`](../dist/search.js#L745)
 - Parameters: `(none)`; async: false
 - Direct calls: `clearHits`, `render`, `scheduleIndex`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 750
+### <anonymous callback> — line 751
 
 Handle the callback assigned to $("#searchkind").onchange.
 
-- Source: [`dist/search.js:750`](../dist/search.js#L750)
+- Source: [`dist/search.js:751`](../dist/search.js#L751)
 - Parameters: `(none)`; async: false
 - Direct calls: `render`, `scheduleIndex`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 754
+### <anonymous callback> — line 755
 
 Handle the callback assigned to $("#searchallcontent").onclick.
 
-- Source: [`dist/search.js:754`](../dist/search.js#L754)
+- Source: [`dist/search.js:755`](../dist/search.js#L755)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `render`, `scheduleIndex`
 - Assigned/updated targets: `$("#searchkind").value`
 - Return expressions: (none)
 
-### <anonymous callback> — line 759
+### <anonymous callback> — line 760
 
 Handle the callback assigned to $("#autohandwriting").onchange.
 
-- Source: [`dist/search.js:759`](../dist/search.js#L759)
+- Source: [`dist/search.js:760`](../dist/search.js#L760)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `clearTimeout`, `scheduleIndex`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 763
+### <anonymous callback> — line 764
 
 Handle the callback assigned to $("#clearsearch").onclick.
 
-- Source: [`dist/search.js:763`](../dist/search.js#L763)
+- Source: [`dist/search.js:764`](../dist/search.js#L764)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#search").focus`, `clearHits`, `clearTimeout`, `render`
 - Assigned/updated targets: `$("#search").value`
 - Return expressions: (none)
 
-### <anonymous callback> — line 772
+### <anonymous callback> — line 773
 
 Handle the "click" event registered by document.addEventListener.
 
-- Source: [`dist/search.js:772`](../dist/search.js#L772)
+- Source: [`dist/search.js:773`](../dist/search.js#L773)
 - Parameters: `e`; async: true
 - Direct calls: `$`, `S.search`, `app`, `app().open`, `e.target.closest`, `hits.find`, `render`, `showHits`
 - Assigned/updated targets: (none)
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 777
+### <anonymous callback> — line 778
 
 Provide the callback passed to hits.find.
 
-- Source: [`dist/search.js:777`](../dist/search.js#L777)
+- Source: [`dist/search.js:778`](../dist/search.js#L778)
 - Parameters: `h`; async: false
 - Direct calls: `Number`
 - Assigned/updated targets: (none)
 - Return expressions: `h.id === result.dataset.resultId && h.page === Number(result.dataset.resultPage)`
 
-### <anonymous callback> — line 787
+### <anonymous callback> — line 788
 
 Handle the callback assigned to $("#recognitionlanguage").onchange.
 
-- Source: [`dist/search.js:787`](../dist/search.js#L787)
+- Source: [`dist/search.js:788`](../dist/search.js#L788)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `app`, `app().page`, `keepReviewDraft`, `persist`, `review`
 - Assigned/updated targets: `$("#reviewstatus").textContent`, `app().page().recognitionLanguage`
 - Return expressions: (none)
 
-### <anonymous callback> — line 795
+### <anonymous callback> — line 796
 
 Handle the "leafnote-language-selected" event registered by document.addEventListener.
 
-- Source: [`dist/search.js:795`](../dist/search.js#L795)
+- Source: [`dist/search.js:796`](../dist/search.js#L796)
 - Parameters: `e`; async: false
 - Direct calls: `$`, `$("#recognitionlanguage").onchange`, `["en", "mr"].includes`
 - Assigned/updated targets: `$("#recognitionlanguage").value`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 800
+### <anonymous callback> — line 801
 
 Handle the "leafnote-model-installed" event registered by document.addEventListener.
 
-- Source: [`dist/search.js:800`](../dist/search.js#L800)
+- Source: [`dist/search.js:801`](../dist/search.js#L801)
 - Parameters: `(none)`; async: false
 - Direct calls: `attempted.clear`, `scheduleIndex`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 804
+### <anonymous callback> — line 805
 
 Handle the "leafnote-model-removed" event registered by document.addEventListener.
 
-- Source: [`dist/search.js:804`](../dist/search.js#L804)
+- Source: [`dist/search.js:805`](../dist/search.js#L805)
 - Parameters: `(none)`; async: false
 - Direct calls: `Error`, `clearTimeout`, `job.reject`, `pending.clear`, `pending.values`, `worker.terminate`
 - Assigned/updated targets: `worker`
 - Return expressions: (none)
 
-### <anonymous callback> — line 821
+### <anonymous callback> — line 822
 
 Handle the callback assigned to $("#discardreview").onclick.
 
-- Source: [`dist/search.js:821`](../dist/search.js#L821)
+- Source: [`dist/search.js:822`](../dist/search.js#L822)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#inktranscript").focus`, `reviewChanged`, `reviewDrafts.delete`
 - Assigned/updated targets: `$("#inktranscript").value`
 - Return expressions: `undefined`
 
-### <anonymous callback> — line 828
+### <anonymous callback> — line 829
 
 Handle the callback assigned to $("#cancelreview").onclick.
 
-- Source: [`dist/search.js:828`](../dist/search.js#L828)
+- Source: [`dist/search.js:829`](../dist/search.js#L829)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `keepReviewDraft`
 - Assigned/updated targets: `$("#recognitionreview").hidden`, `reviewTarget`
 - Return expressions: (none)
 
-### loadNote — line 836
+### loadNote — line 837
 
 Open a note, update its controls, and refresh its drawing surface.
 
-- Source: [`dist/search.js:836`](../dist/search.js#L836)
+- Source: [`dist/search.js:837`](../dist/search.js#L837)
 - Parameters: `id`; async: false
 - Direct calls: `$`, `clearHits`, `keepReviewDraft`, `load`
 - Assigned/updated targets: `$("#recognitionreview").hidden`, `reviewTarget`
 - Return expressions: (none)
 
-### persist — line 846
+### persist — line 847
 
 Queue a snapshot for device storage; report storage errors without discarding the current note.
 
-- Source: [`dist/search.js:846`](../dist/search.js#L846)
+- Source: [`dist/search.js:847`](../dist/search.js#L847)
 - Parameters: `(none)`; async: false
 - Direct calls: `basePersist`, `clearHits`, `scheduleIndex`
 - Assigned/updated targets: (none)
 - Return expressions: `result`
 
-### <anonymous callback> — line 852
+### <anonymous callback> — line 853
 
 Handle the "keydown" event registered by document.addEventListener.
 
-- Source: [`dist/search.js:852`](../dist/search.js#L852)
+- Source: [`dist/search.js:853`](../dist/search.js#L853)
 - Parameters: `e`; async: false
 - Direct calls: `$`, `$("#search").focus`, `$("#search").select`, `$(".app").classList.add`, `e.key.toLowerCase`, `e.preventDefault`
 - Assigned/updated targets: (none)
@@ -5812,321 +6366,361 @@ Provide the callback passed to setTimeout.
 - Assigned/updated targets: (none)
 - Return expressions: `controller.abort()`
 
-### abort — line 60
+### abort — line 64
 
 Implement the abort callback in this object.
 
-- Source: [`dist/sync-engine.mjs:60`](../dist/sync-engine.mjs#L60)
+- Source: [`dist/sync-engine.mjs:64`](../dist/sync-engine.mjs#L64)
 - Parameters: `(none)`; async: false
 - Direct calls: `controller.abort`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### getState — line 64
+### getState — line 68
 
 Fetch a snapshot only when its revision differs from the durable ancestor.
 
-- Source: [`dist/sync-engine.mjs:64`](../dist/sync-engine.mjs#L64)
+- Source: [`dist/sync-engine.mjs:68`](../dist/sync-engine.mjs#L68)
 - Parameters: `known`; async: true
 - Direct calls: `request`
 - Assigned/updated targets: (none)
 - Return expressions: `request( "state", { headers: known ? { "If-None-Match": '"' + known.workspaceId + ":" + known.revision + '"', } : {}, }, async (response) => response.status === 304 ? { state: stru`
 
-### <anonymous callback> — line 75
+### <anonymous callback> — line 79
 
 Provide the callback passed to request.
 
-- Source: [`dist/sync-engine.mjs:75`](../dist/sync-engine.mjs#L75)
+- Source: [`dist/sync-engine.mjs:79`](../dist/sync-engine.mjs#L79)
 - Parameters: `response`; async: true
 - Direct calls: `response.json`, `structuredClone`
 - Assigned/updated targets: (none)
 - Return expressions: `response.status === 304 ? { state: structuredClone(known), unchanged: true } : { state: await response.json(), unchanged: false }`
 
-### putState — line 82
+### putState — line 86
 
 Implement the putState callback in this object.
 
-- Source: [`dist/sync-engine.mjs:82`](../dist/sync-engine.mjs#L82)
+- Source: [`dist/sync-engine.mjs:86`](../dist/sync-engine.mjs#L86)
 - Parameters: `input`; async: true
 - Direct calls: `JSON.stringify`, `request`
 - Assigned/updated targets: (none)
 - Return expressions: `request( "state", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(input), }, (response) => response.json(), )`
 
-### <anonymous callback> — line 90
+### <anonymous callback> — line 94
 
 Provide the callback passed to request.
 
-- Source: [`dist/sync-engine.mjs:90`](../dist/sync-engine.mjs#L90)
+- Source: [`dist/sync-engine.mjs:94`](../dist/sync-engine.mjs#L94)
 - Parameters: `response`; async: false
 - Direct calls: `response.json`
 - Assigned/updated targets: (none)
 - Return expressions: `response.json()`
 
-### hasBlob — line 93
+### history — line 97
+
+Fetch one page of private Git revision metadata.
+
+- Source: [`dist/sync-engine.mjs:97`](../dist/sync-engine.mjs#L97)
+- Parameters: `offset = 0`; async: false
+- Direct calls: `request`
+- Assigned/updated targets: (none)
+- Return expressions: `request("history?offset=" + offset, {}, (r) => r.json())`
+
+### <anonymous callback> — line 98
+
+Provide the callback passed to request.
+
+- Source: [`dist/sync-engine.mjs:98`](../dist/sync-engine.mjs#L98)
+- Parameters: `r`; async: false
+- Direct calls: `r.json`
+- Assigned/updated targets: (none)
+- Return expressions: `r.json()`
+
+### revision — line 100
+
+Fetch a prior immutable notebook snapshot by full commit ID.
+
+- Source: [`dist/sync-engine.mjs:100`](../dist/sync-engine.mjs#L100)
+- Parameters: `hash`; async: false
+- Direct calls: `request`
+- Assigned/updated targets: (none)
+- Return expressions: `request("history/" + hash, {}, (r) => r.json())`
+
+### <anonymous callback> — line 100
+
+Provide the callback passed to request.
+
+- Source: [`dist/sync-engine.mjs:100`](../dist/sync-engine.mjs#L100)
+- Parameters: `r`; async: false
+- Direct calls: `r.json`
+- Assigned/updated targets: (none)
+- Return expressions: `r.json()`
+
+### hasBlob — line 102
 
 Implement the hasBlob callback in this object.
 
-- Source: [`dist/sync-engine.mjs:93`](../dist/sync-engine.mjs#L93)
+- Source: [`dist/sync-engine.mjs:102`](../dist/sync-engine.mjs#L102)
 - Parameters: `hash`; async: true
 - Direct calls: `request`
 - Assigned/updated targets: (none)
 - Return expressions: `request( "blobs/" + hash, { method: "HEAD" }, (response) => response.status === 200, )`
 
-### <anonymous callback> — line 97
+### <anonymous callback> — line 106
 
 Provide the callback passed to request.
 
-- Source: [`dist/sync-engine.mjs:97`](../dist/sync-engine.mjs#L97)
+- Source: [`dist/sync-engine.mjs:106`](../dist/sync-engine.mjs#L106)
 - Parameters: `response`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `response.status === 200`
 
-### putBlob — line 100
+### putBlob — line 109
 
 Implement the putBlob callback in this object.
 
-- Source: [`dist/sync-engine.mjs:100`](../dist/sync-engine.mjs#L100)
+- Source: [`dist/sync-engine.mjs:109`](../dist/sync-engine.mjs#L109)
 - Parameters: `hash, blob`; async: true
 - Direct calls: `request`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 108
+### <anonymous callback> — line 117
 
 Provide the callback passed to request.
 
-- Source: [`dist/sync-engine.mjs:108`](../dist/sync-engine.mjs#L108)
+- Source: [`dist/sync-engine.mjs:117`](../dist/sync-engine.mjs#L117)
 - Parameters: `response`; async: false
 - Direct calls: `response.json`
 - Assigned/updated targets: (none)
 - Return expressions: `response.json()`
 
-### getBlob — line 112
+### getBlob — line 121
 
 Implement the getBlob callback in this object.
 
-- Source: [`dist/sync-engine.mjs:112`](../dist/sync-engine.mjs#L112)
+- Source: [`dist/sync-engine.mjs:121`](../dist/sync-engine.mjs#L121)
 - Parameters: `hash`; async: true
 - Direct calls: `request`
 - Assigned/updated targets: (none)
 - Return expressions: `request("blobs/" + hash, {}, (response) => response.blob())`
 
-### <anonymous callback> — line 113
+### <anonymous callback> — line 122
 
 Provide the callback passed to request.
 
-- Source: [`dist/sync-engine.mjs:113`](../dist/sync-engine.mjs#L113)
+- Source: [`dist/sync-engine.mjs:122`](../dist/sync-engine.mjs#L122)
 - Parameters: `response`; async: false
 - Direct calls: `response.blob`
 - Assigned/updated targets: (none)
 - Return expressions: `response.blob()`
 
-### createSyncEngine — line 117
+### createSyncEngine — line 126
 
 Synchronize one device; the application bridge owns local atomic writes and edit guards.
 
-- Source: [`dist/sync-engine.mjs:117`](../dist/sync-engine.mjs#L117)
+- Source: [`dist/sync-engine.mjs:126`](../dist/sync-engine.mjs#L126)
 - Parameters: `{ app, storage, transport, deviceId, onStatus = () => {}, }`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `{ run, invalidateFiles, /** Implement the stop callback in this object. */ stop: () => { stopped = true; transport.abort?.(); }, }`
 
-### <anonymous callback> — line 122
+### <anonymous callback> — line 131
 
 Evaluate an inline callback in dist/sync-engine.mjs; its direct operations are listed below.
 
-- Source: [`dist/sync-engine.mjs:122`](../dist/sync-engine.mjs#L122)
+- Source: [`dist/sync-engine.mjs:131`](../dist/sync-engine.mjs#L131)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### guard — line 129
+### guard — line 138
 
 Stop issuing requests or adopting data after this device disconnects sync.
 
-- Source: [`dist/sync-engine.mjs:129`](../dist/sync-engine.mjs#L129)
+- Source: [`dist/sync-engine.mjs:138`](../dist/sync-engine.mjs#L138)
 - Parameters: `(none)`; async: false
 - Direct calls: `Error`
 - Assigned/updated targets: `error.name`
 - Return expressions: (none)
 
-### report — line 137
+### report — line 146
 
 Report state only while this pairing is still active.
 
-- Source: [`dist/sync-engine.mjs:137`](../dist/sync-engine.mjs#L137)
+- Source: [`dist/sync-engine.mjs:146`](../dist/sync-engine.mjs#L146)
 - Parameters: `state`; async: false
 - Direct calls: `onStatus`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### io — line 141
+### io — line 150
 
 Fence each network operation against a disabled or replaced pairing.
 
-- Source: [`dist/sync-engine.mjs:141`](../dist/sync-engine.mjs#L141)
+- Source: [`dist/sync-engine.mjs:150`](../dist/sync-engine.mjs#L150)
 - Parameters: `method, ...args`; async: true
 - Direct calls: `guard`, `transport[method]`
 - Assigned/updated targets: (none)
 - Return expressions: `value`
 
-### invalidateFiles — line 148
+### invalidateFiles — line 157
 
 Retain PDF hashes until an import/restore changes that note’s original file.
 
-- Source: [`dist/sync-engine.mjs:148`](../dist/sync-engine.mjs#L148)
+- Source: [`dist/sync-engine.mjs:157`](../dist/sync-engine.mjs#L157)
 - Parameters: `ids`; async: false
 - Direct calls: `hashes.delete`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### localSnapshot — line 152
+### localSnapshot — line 161
 
 Capture durable local note metadata and hashes, retaining originals for uploads/copies.
 
-- Source: [`dist/sync-engine.mjs:152`](../dist/sync-engine.mjs#L152)
+- Source: [`dist/sync-engine.mjs:161`](../dist/sync-engine.mjs#L161)
 - Parameters: `(none)`; async: true
 - Direct calls: `Error`, `app.file`, `app.fileVersion`, `app.read`, `blobHash`, `blobs.set`, `captured.data.notes.filter`, `hashes.get`, `hashes.set`
 - Assigned/updated targets: `cached`, `files[note.id]`
 - Return expressions: `{ ...captured, files, blobs }`
 
-### <anonymous callback> — line 156
+### <anonymous callback> — line 165
 
 Provide the callback passed to captured.data.notes.filter.
 
-- Source: [`dist/sync-engine.mjs:156`](../dist/sync-engine.mjs#L156)
+- Source: [`dist/sync-engine.mjs:165`](../dist/sync-engine.mjs#L165)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.pdf`
 
-### removeStarter — line 171
+### removeStarter — line 180
 
 Avoid uploading the automatic empty page of a newly paired, otherwise unused device.
 
-- Source: [`dist/sync-engine.mjs:171`](../dist/sync-engine.mjs#L171)
+- Source: [`dist/sync-engine.mjs:180`](../dist/sync-engine.mjs#L180)
 - Parameters: `local, remote, hasAncestor`; async: false
 - Direct calls: `(n.texts || []).some`
 - Assigned/updated targets: (none)
 - Return expressions: `local`, `{ ...local, data: { ...local.data, notes: [] } }`
 
-### <anonymous callback> — line 185
+### <anonymous callback> — line 194
 
 Provide the callback passed to (n.texts || []).some.
 
-- Source: [`dist/sync-engine.mjs:185`](../dist/sync-engine.mjs#L185)
+- Source: [`dist/sync-engine.mjs:194`](../dist/sync-engine.mjs#L194)
 - Parameters: `t`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `t.text`
 
-### synchronize — line 191
+### synchronize — line 200
 
 Execute one retryable synchronization transaction, retaining local edits on every failure.
 
-- Source: [`dist/sync-engine.mjs:191`](../dist/sync-engine.mjs#L191)
+- Source: [`dist/sync-engine.mjs:200`](../dist/sync-engine.mjs#L200)
 - Parameters: `(none)`; async: true
 - Direct calls: `Date.now`, `Error`, `Object.values`, `Object.values(remote.files).includes`, `actual.blobs.get`, `actual.blobs.set`, `app.apply`, `app.busy`, `app.version`, `blobHash`, `emptySnapshot`, `filesToWrite.map`, `filesToWrite.push`, `guard`, `invalidateFiles`, `io`, `localSnapshot`, `mergeSnapshots`, `merged.conflicts.find`, `removeStarter`, `report`, `result.data.notes .filter`, `result.data.notes .filter( (n) => noteKey(n, result.files[n.id]) === noteKey( actual.data.notes.find`, `result.data.notes.filter`, `sameSnapshot`, `storage.load`, `storage.save`
 - Assigned/updated targets: `attempt`, `base`, `blob`, `committed`, `lastVersion`, `local`, `merged`, `remote`, `response`
 - Return expressions: `false`, `true`
 
-### <anonymous callback> — line 294
+### <anonymous callback> — line 303
 
 Provide the callback passed to result.data.notes.filter.
 
-- Source: [`dist/sync-engine.mjs:294`](../dist/sync-engine.mjs#L294)
+- Source: [`dist/sync-engine.mjs:303`](../dist/sync-engine.mjs#L303)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.pdf`
 
-### <anonymous callback> — line 321
+### <anonymous callback> — line 330
 
 Provide the callback passed to merged.conflicts.find.
 
-- Source: [`dist/sync-engine.mjs:321`](../dist/sync-engine.mjs#L321)
+- Source: [`dist/sync-engine.mjs:330`](../dist/sync-engine.mjs#L330)
 - Parameters: `c`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `c.noteId === currentId`
 
-### <anonymous callback> — line 325
+### <anonymous callback> — line 334
 
 Provide the callback passed to result.data.notes .filter.
 
-- Source: [`dist/sync-engine.mjs:325`](../dist/sync-engine.mjs#L325)
+- Source: [`dist/sync-engine.mjs:334`](../dist/sync-engine.mjs#L334)
 - Parameters: `n`; async: false
 - Direct calls: `actual.data.notes.find`, `noteKey`
 - Assigned/updated targets: (none)
 - Return expressions: `noteKey(n, result.files[n.id]) === noteKey( actual.data.notes.find((x) => x.id === n.id), actual.files[n.id], )`
 
-### <anonymous callback> — line 328
+### <anonymous callback> — line 337
 
 Provide the callback passed to actual.data.notes.find.
 
-- Source: [`dist/sync-engine.mjs:328`](../dist/sync-engine.mjs#L328)
+- Source: [`dist/sync-engine.mjs:337`](../dist/sync-engine.mjs#L337)
 - Parameters: `x`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `x.id === n.id`
 
-### <anonymous callback> — line 332
+### <anonymous callback> — line 341
 
 Provide the callback passed to result.data.notes .filter( (n) => noteKey(n, result.files[n.id]) === noteKey( actual.data.notes.find.
 
-- Source: [`dist/sync-engine.mjs:332`](../dist/sync-engine.mjs#L332)
+- Source: [`dist/sync-engine.mjs:341`](../dist/sync-engine.mjs#L341)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id`
 
-### <anonymous callback> — line 349
+### <anonymous callback> — line 358
 
 Provide the callback passed to filesToWrite.map.
 
-- Source: [`dist/sync-engine.mjs:349`](../dist/sync-engine.mjs#L349)
+- Source: [`dist/sync-engine.mjs:358`](../dist/sync-engine.mjs#L358)
 - Parameters: `[id]`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `id`
 
-### run — line 369
+### run — line 378
 
 Coalesce simultaneous local/online/timer triggers into a single sync attempt.
 
-- Source: [`dist/sync-engine.mjs:369`](../dist/sync-engine.mjs#L369)
+- Source: [`dist/sync-engine.mjs:378`](../dist/sync-engine.mjs#L378)
 - Parameters: `(none)`; async: false
 - Direct calls: `synchronize`, `synchronize() .catch`, `synchronize() .catch((error) => { if (stopped) return false; report({ phase: "error", message: error`
 - Assigned/updated targets: `running`
 - Return expressions: `running`
 
-### <anonymous callback> — line 372
+### <anonymous callback> — line 381
 
 Provide the callback passed to synchronize() .catch.
 
-- Source: [`dist/sync-engine.mjs:372`](../dist/sync-engine.mjs#L372)
+- Source: [`dist/sync-engine.mjs:381`](../dist/sync-engine.mjs#L381)
 - Parameters: `error`; async: false
 - Direct calls: `report`
 - Assigned/updated targets: (none)
 - Return expressions: `false`
 
-### <anonymous callback> — line 384
+### <anonymous callback> — line 393
 
 Provide the callback passed to synchronize() .catch((error) => { if (stopped) return false; report({ phase: "error", message: error.
 
-- Source: [`dist/sync-engine.mjs:384`](../dist/sync-engine.mjs#L384)
+- Source: [`dist/sync-engine.mjs:393`](../dist/sync-engine.mjs#L393)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `running`
 - Return expressions: (none)
 
-### stop — line 393
+### stop — line 402
 
 Implement the stop callback in this object.
 
-- Source: [`dist/sync-engine.mjs:393`](../dist/sync-engine.mjs#L393)
+- Source: [`dist/sync-engine.mjs:402`](../dist/sync-engine.mjs#L402)
 - Parameters: `(none)`; async: false
 - Direct calls: `transport.abort`
 - Assigned/updated targets: `stopped`
@@ -6306,51 +6900,51 @@ Retain a divergent edit under a stable new note ID.
 - Assigned/updated targets: `copy.id`, `copyId`
 - Return expressions: (none)
 
-### sameSnapshot — line 184
+### sameSnapshot — line 190
 
 Compare durable user content while allowing local derived recognition caches to differ.
 
-- Source: [`dist/sync-merge.mjs:184`](../dist/sync-merge.mjs#L184)
+- Source: [`dist/sync-merge.mjs:190`](../dist/sync-merge.mjs#L190)
 - Parameters: `a, b`; async: false
 - Direct calls: `canonical`, `normalize`
 - Assigned/updated targets: (none)
 - Return expressions: `canonical(normalize(a)) === canonical(normalize(b))`
 
-### normalize — line 186
+### normalize — line 192
 
 Evaluate an inline callback in dist/sync-merge.mjs; its direct operations are listed below.
 
-- Source: [`dist/sync-merge.mjs:186`](../dist/sync-merge.mjs#L186)
+- Source: [`dist/sync-merge.mjs:192`](../dist/sync-merge.mjs#L192)
 - Parameters: `s`; async: false
 - Direct calls: `[...s.data.books].sort`, `s.data.notes .map`, `s.data.notes .map((n) => ({ id: n.id, key: noteKey(n, s.files[n.id]) })) .sort`
 - Assigned/updated targets: (none)
 - Return expressions: `{ books: [...s.data.books].sort((x, y) => x.id.localeCompare(y.id)), notes: s.data.notes .map((n) => ({ id: n.id, key: noteKey(n, s.files[n.id]) })) .sort((x, y) => x.id.localeComp`
 
-### <anonymous callback> — line 187
+### <anonymous callback> — line 193
 
 Provide the callback passed to [...s.data.books].sort.
 
-- Source: [`dist/sync-merge.mjs:187`](../dist/sync-merge.mjs#L187)
+- Source: [`dist/sync-merge.mjs:193`](../dist/sync-merge.mjs#L193)
 - Parameters: `x, y`; async: false
 - Direct calls: `x.id.localeCompare`
 - Assigned/updated targets: (none)
 - Return expressions: `x.id.localeCompare(y.id)`
 
-### <anonymous callback> — line 189
+### <anonymous callback> — line 195
 
 Provide the callback passed to s.data.notes .map.
 
-- Source: [`dist/sync-merge.mjs:189`](../dist/sync-merge.mjs#L189)
+- Source: [`dist/sync-merge.mjs:195`](../dist/sync-merge.mjs#L195)
 - Parameters: `n`; async: false
 - Direct calls: `noteKey`
 - Assigned/updated targets: (none)
 - Return expressions: `{ id: n.id, key: noteKey(n, s.files[n.id]) }`
 
-### <anonymous callback> — line 190
+### <anonymous callback> — line 196
 
 Provide the callback passed to s.data.notes .map((n) => ({ id: n.id, key: noteKey(n, s.files[n.id]) })) .sort.
 
-- Source: [`dist/sync-merge.mjs:190`](../dist/sync-merge.mjs#L190)
+- Source: [`dist/sync-merge.mjs:196`](../dist/sync-merge.mjs#L196)
 - Parameters: `x, y`; async: false
 - Direct calls: `x.id.localeCompare`
 - Assigned/updated targets: (none)
@@ -7154,275 +7748,399 @@ Provide the callback passed to server.listen.
 - Assigned/updated targets: (none)
 - Return expressions: `resolve(server)`
 
-## server/sync-server.mjs
+## server/git-history.mjs
 
 First-party development or verification code.
 
-### <anonymous callback> — line 13
+### createGitHistory — line 8
 
-Evaluate an inline callback in server/sync-server.mjs; its direct operations are listed below.
+Open an isolated local repository. No remote, credentials, global hooks, or shell commands are used.
 
-- Source: [`server/sync-server.mjs:13`](../server/sync-server.mjs#L13)
-- Parameters: `status, message`; async: false
-- Direct calls: `super`
-- Assigned/updated targets: `this.status`
-- Return expressions: (none)
+- Source: [`server/git-history.mjs:8`](../server/git-history.mjs#L8)
+- Parameters: `root`; async: true
+- Direct calls: `fs.mkdir`, `fs.writeFile`, `git`, `path.join`
+- Assigned/updated targets: (none)
+- Return expressions: `{ head, commit, list, read }`
 
-### atomicWrite — line 19
+### git — line 14
 
-Write a complete file through an exclusive temporary file and atomic rename.
+Execute fixed Git arguments with bounded output and no interactive credential prompts.
 
-- Source: [`server/sync-server.mjs:19`](../server/sync-server.mjs#L19)
-- Parameters: `file, bytes`; async: true
-- Direct calls: `crypto.randomUUID`, `directory.close`, `directory.sync`, `fs.open`, `fs.rename`, `fs.rm`, `handle.close`, `handle.sync`, `handle.writeFile`, `handle?.close`, `path.dirname`
-- Assigned/updated targets: `handle`
-- Return expressions: (none)
+- Source: [`server/git-history.mjs:14`](../server/git-history.mjs#L14)
+- Parameters: `...args`; async: true
+- Direct calls: `execute`, `path.join`
+- Assigned/updated targets: (none)
+- Return expressions: `stdout`
 
-### readBody — line 43
+### read — line 55
 
-Read a limited request without retaining bytes beyond the advertised limit.
+Read only a reachable, full-length revision ID; never interpolate paths or revision expressions.
 
-- Source: [`server/sync-server.mjs:43`](../server/sync-server.mjs#L43)
-- Parameters: `request, limit`; async: false
+- Source: [`server/git-history.mjs:55`](../server/git-history.mjs#L55)
+- Parameters: `hash`; async: true
+- Direct calls: `/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test`, `Error`, `JSON.parse`, `git`
+- Assigned/updated targets: (none)
+- Return expressions: `JSON.parse(await git("show", hash + ":notebook.json"))`
+
+### head — line 62
+
+Return the latest committed snapshot, or null for a newly initialized repository.
+
+- Source: [`server/git-history.mjs:62`](../server/git-history.mjs#L62)
+- Parameters: `(none)`; async: true
+- Direct calls: `(await git("rev-parse", "--verify", "HEAD")).trim`, `Error`, `fs .stat`, `fs .stat(path.join(directory, ".git", "logs", "HEAD")) .then`, `git`, `path.join`, `read`
+- Assigned/updated targets: `hash`
+- Return expressions: `null`, `{ hash, snapshot: await read(hash) }`
+
+### <anonymous callback> — line 71
+
+Provide the callback passed to fs .stat(path.join(directory, ".git", "logs", "HEAD")) .then.
+
+- Source: [`server/git-history.mjs:71`](../server/git-history.mjs#L71)
+- Parameters: `stat`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `new Promise((resolve, reject) => { let bytes = 0, settled = false; const chunks = []; request.on("data", (chunk) => { if (settled) return; bytes += chunk.length; if (bytes > limit)`
+- Return expressions: `stat.size > 0`
 
-### <anonymous callback> — line 44
+### <anonymous callback> — line 72
 
-Evaluate an inline callback in server/sync-server.mjs; its direct operations are listed below.
+Provide the callback passed to fs .stat(path.join(directory, ".git", "logs", "HEAD")) .then.
 
-- Source: [`server/sync-server.mjs:44`](../server/sync-server.mjs#L44)
-- Parameters: `resolve, reject`; async: false
-- Direct calls: `request.on`
-- Assigned/updated targets: (none)
-- Return expressions: (none)
-
-### <anonymous callback> — line 48
-
-Provide the callback passed to request.on.
-
-- Source: [`server/sync-server.mjs:48`](../server/sync-server.mjs#L48)
-- Parameters: `chunk`; async: false
-- Direct calls: `chunks.push`, `reject`
-- Assigned/updated targets: `bytes`, `chunks.length`, `settled`
-- Return expressions: `undefined`
-
-### <anonymous callback> — line 59
-
-Provide the callback passed to request.on.
-
-- Source: [`server/sync-server.mjs:59`](../server/sync-server.mjs#L59)
-- Parameters: `(none)`; async: false
-- Direct calls: `Buffer.concat`, `resolve`
-- Assigned/updated targets: `settled`
-- Return expressions: (none)
-
-### <anonymous callback> — line 65
-
-Provide the callback passed to request.on.
-
-- Source: [`server/sync-server.mjs:65`](../server/sync-server.mjs#L65)
-- Parameters: `(none)`; async: false
-- Direct calls: `reject`
-- Assigned/updated targets: `settled`
-- Return expressions: (none)
-
-### validId — line 74
-
-Validate record IDs without using them as filesystem paths.
-
-- Source: [`server/sync-server.mjs:74`](../server/sync-server.mjs#L74)
-- Parameters: `value`; async: false
-- Direct calls: `ID.test`, `RESERVED.has`
-- Assigned/updated targets: (none)
-- Return expressions: `typeof value === "string" && ID.test(value) && !RESERVED.has(value)`
-
-### validateNotebook — line 78
-
-Validate notebook membership and PDF references before accepting a snapshot.
-
-- Source: [`server/sync-server.mjs:78`](../server/sync-server.mjs#L78)
-- Parameters: `data, files`; async: false
-- Direct calls: `Array.isArray`, `HASH.test`, `Object.entries`, `books.add`, `books.has`, `notes.add`, `notes.has`, `pdfs.add`, `pdfs.has`, `validId`
-- Assigned/updated targets: (none)
-- Return expressions: `{ books: data.books, notes: data.notes }`
-
-### createSyncStore — line 126
-
-Open an immutable snapshot/PDF store rooted only in the configured server folder.
-
-- Source: [`server/sync-server.mjs:126`](../server/sync-server.mjs#L126)
-- Parameters: `{ root, keepSnapshots = 50 }`; async: true
-- Direct calls: `(await fs.readFile(path.join(root, "CURRENT"), "utf8")).trim`, `/^\d{16}-[a-f0-9-]+\.json$/.test`, `Error`, `JSON.parse`, `JSON.stringify`, `Number.isSafeInteger`, `Promise.resolve`, `atomicWrite`, `crypto.randomUUID`, `fs.mkdir`, `fs.readFile`, `fs.stat`, `fs.stat(path.join(root, "CURRENT")).then`, `path.join`, `path.resolve`, `validateNotebook`
-- Assigned/updated targets: `current`, `identity`, `root`
-- Return expressions: `{ /** Implement the state callback in this object. */ state: () => structuredClone(current), /** Implement the version callback in this object. */ version: () => ({ workspaceId: id`
-
-### <anonymous callback> — line 167
-
-Provide the callback passed to fs.stat(path.join(root, "CURRENT")).then.
-
-- Source: [`server/sync-server.mjs:167`](../server/sync-server.mjs#L167)
-- Parameters: `(none)`; async: false
-- Direct calls: (none)
-- Assigned/updated targets: (none)
-- Return expressions: `true`
-
-### <anonymous callback> — line 168
-
-Provide the callback passed to fs.stat(path.join(root, "CURRENT")).then.
-
-- Source: [`server/sync-server.mjs:168`](../server/sync-server.mjs#L168)
+- Source: [`server/git-history.mjs:72`](../server/git-history.mjs#L72)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `false`
 
-### blobPath — line 177
+### commit — line 85
+
+Create one commit per accepted autosave; publish HEAD only after the complete snapshot is staged.
+
+- Source: [`server/git-history.mjs:85`](../server/git-history.mjs#L85)
+- Parameters: `snapshot`; async: true
+- Direct calls: `(await git("rev-parse", "HEAD")).trim`, `JSON.stringify`, `fs.writeFile`, `git`, `path.join`
+- Assigned/updated targets: (none)
+- Return expressions: `(await git("rev-parse", "HEAD")).trim()`
+
+### list — line 103
+
+Page through commit metadata without reading note bodies or running caller-supplied Git options.
+
+- Source: [`server/git-history.mjs:103`](../server/git-history.mjs#L103)
+- Parameters: `offset = 0`; async: true
+- Direct calls: `( await git( "log", "--format=%H%x09%ct%x09%s", "--max-count=30", "--skip=" + offset, ) ) .trim`, `( await git( "log", "--format=%H%x09%ct%x09%s", "--max-count=30", "--skip=" + offset, ) ) .trim() .s`, `git`, `head`
+- Assigned/updated targets: (none)
+- Return expressions: `[]`, `( await git( "log", "--format=%H%x09%ct%x09%s", "--max-count=30", "--skip=" + offset, ) ) .trim() .split("\n") .filter(Boolean) .map((line) => { const [hash, time, ...message] = li`
+
+### <anonymous callback> — line 116
+
+Provide the callback passed to ( await git( "log", "--format=%H%x09%ct%x09%s", "--max-count=30", "--skip=" + offset, ) ) .trim() .s.
+
+- Source: [`server/git-history.mjs:116`](../server/git-history.mjs#L116)
+- Parameters: `line`; async: false
+- Direct calls: `Number`, `line.split`, `message.join`
+- Assigned/updated targets: (none)
+- Return expressions: `{ hash, at: Number(time) * 1000, message: message.join("\t") }`
+
+## server/sync-server.mjs
+
+First-party development or verification code.
+
+### <anonymous callback> — line 14
+
+Evaluate an inline callback in server/sync-server.mjs; its direct operations are listed below.
+
+- Source: [`server/sync-server.mjs:14`](../server/sync-server.mjs#L14)
+- Parameters: `status, message`; async: false
+- Direct calls: `super`
+- Assigned/updated targets: `this.status`
+- Return expressions: (none)
+
+### atomicWrite — line 20
+
+Write a complete file through an exclusive temporary file and atomic rename.
+
+- Source: [`server/sync-server.mjs:20`](../server/sync-server.mjs#L20)
+- Parameters: `file, bytes`; async: true
+- Direct calls: `crypto.randomUUID`, `directory.close`, `directory.sync`, `fs.open`, `fs.rename`, `fs.rm`, `handle.close`, `handle.sync`, `handle.writeFile`, `handle?.close`, `path.dirname`
+- Assigned/updated targets: `handle`
+- Return expressions: (none)
+
+### readBody — line 44
+
+Read a limited request without retaining bytes beyond the advertised limit.
+
+- Source: [`server/sync-server.mjs:44`](../server/sync-server.mjs#L44)
+- Parameters: `request, limit`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `new Promise((resolve, reject) => { let bytes = 0, settled = false; const chunks = []; request.on("data", (chunk) => { if (settled) return; bytes += chunk.length; if (bytes > limit)`
+
+### <anonymous callback> — line 45
+
+Evaluate an inline callback in server/sync-server.mjs; its direct operations are listed below.
+
+- Source: [`server/sync-server.mjs:45`](../server/sync-server.mjs#L45)
+- Parameters: `resolve, reject`; async: false
+- Direct calls: `request.on`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 49
+
+Provide the callback passed to request.on.
+
+- Source: [`server/sync-server.mjs:49`](../server/sync-server.mjs#L49)
+- Parameters: `chunk`; async: false
+- Direct calls: `chunks.push`, `reject`
+- Assigned/updated targets: `bytes`, `chunks.length`, `settled`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 60
+
+Provide the callback passed to request.on.
+
+- Source: [`server/sync-server.mjs:60`](../server/sync-server.mjs#L60)
+- Parameters: `(none)`; async: false
+- Direct calls: `Buffer.concat`, `resolve`
+- Assigned/updated targets: `settled`
+- Return expressions: (none)
+
+### <anonymous callback> — line 66
+
+Provide the callback passed to request.on.
+
+- Source: [`server/sync-server.mjs:66`](../server/sync-server.mjs#L66)
+- Parameters: `(none)`; async: false
+- Direct calls: `reject`
+- Assigned/updated targets: `settled`
+- Return expressions: (none)
+
+### validId — line 75
+
+Validate record IDs without using them as filesystem paths.
+
+- Source: [`server/sync-server.mjs:75`](../server/sync-server.mjs#L75)
+- Parameters: `value`; async: false
+- Direct calls: `ID.test`, `RESERVED.has`
+- Assigned/updated targets: (none)
+- Return expressions: `typeof value === "string" && ID.test(value) && !RESERVED.has(value)`
+
+### validateNotebook — line 79
+
+Validate notebook membership and PDF references before accepting a snapshot.
+
+- Source: [`server/sync-server.mjs:79`](../server/sync-server.mjs#L79)
+- Parameters: `data, files`; async: false
+- Direct calls: `Array.isArray`, `HASH.test`, `Object.entries`, `books.add`, `books.has`, `notes.add`, `notes.has`, `pdfs.add`, `pdfs.has`, `validId`
+- Assigned/updated targets: (none)
+- Return expressions: `{ books: data.books, notes: data.notes }`
+
+### createSyncStore — line 127
+
+Open an immutable snapshot/PDF store rooted only in the configured server folder.
+
+- Source: [`server/sync-server.mjs:127`](../server/sync-server.mjs#L127)
+- Parameters: `{ root, keepSnapshots = 50 }`; async: true
+- Direct calls: `(await fs.readFile(path.join(root, "CURRENT"), "utf8")).trim`, `/^\d{16}-[a-f0-9-]+\.json$/.test`, `Error`, `JSON.parse`, `JSON.stringify`, `Number.isSafeInteger`, `Promise.resolve`, `String`, `String(saved.revision).padStart`, `atomicWrite`, `createGitHistory`, `crypto.randomUUID`, `fs.mkdir`, `fs.readFile`, `fs.stat`, `fs.stat(path.join(root, "CURRENT")).then`, `history.commit`, `history.head`, `path.join`, `path.resolve`, `validateNotebook`
+- Assigned/updated targets: `current`, `identity`, `needsRepair`, `root`
+- Return expressions: `{ /** Implement the state callback in this object. */ state: () => structuredClone(current), /** Implement the version callback in this object. */ version: () => ({ workspaceId: id`
+
+### <anonymous callback> — line 175
+
+Provide the callback passed to fs.stat(path.join(root, "CURRENT")).then.
+
+- Source: [`server/sync-server.mjs:175`](../server/sync-server.mjs#L175)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `true`
+
+### <anonymous callback> — line 176
+
+Provide the callback passed to fs.stat(path.join(root, "CURRENT")).then.
+
+- Source: [`server/sync-server.mjs:176`](../server/sync-server.mjs#L176)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `false`
+
+### blobPath — line 216
 
 Resolve only a verified SHA-256 name inside the immutable PDF directory.
 
-- Source: [`server/sync-server.mjs:177`](../server/sync-server.mjs#L177)
+- Source: [`server/sync-server.mjs:216`](../server/sync-server.mjs#L216)
 - Parameters: `hash`; async: false
 - Direct calls: `HASH.test`, `path.join`
 - Assigned/updated targets: (none)
 - Return expressions: `path.join(root, "blobs", hash + ".pdf")`
 
-### hasBlob — line 182
+### hasBlob — line 221
 
 Report whether an immutable PDF original is already on the server.
 
-- Source: [`server/sync-server.mjs:182`](../server/sync-server.mjs#L182)
+- Source: [`server/sync-server.mjs:221`](../server/sync-server.mjs#L221)
 - Parameters: `hash`; async: true
 - Direct calls: `(await fs.stat(blobPath(hash))).isFile`, `blobPath`, `fs.stat`
 - Assigned/updated targets: (none)
 - Return expressions: `(await fs.stat(blobPath(hash))).isFile()`, `false`
 
-### putBlob — line 191
+### putBlob — line 230
 
 Verify and persist a PDF by content hash; repeat uploads are idempotent.
 
-- Source: [`server/sync-server.mjs:191`](../server/sync-server.mjs#L191)
+- Source: [`server/sync-server.mjs:230`](../server/sync-server.mjs#L230)
 - Parameters: `hash, bytes`; async: true
 - Direct calls: `Buffer.from`, `atomicWrite`, `blobPath`, `bytes.subarray`, `bytes.subarray(0, 1024).includes`, `crypto.createHash`, `crypto.createHash("sha256").update`, `crypto.createHash("sha256").update(bytes).digest`, `hasBlob`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### commit — line 201
+### commit — line 240
 
 Commit against a known revision, serialize writers, and publish CURRENT last.
 
-- Source: [`server/sync-server.mjs:201`](../server/sync-server.mjs#L201)
+- Source: [`server/sync-server.mjs:240`](../server/sync-server.mjs#L240)
 - Parameters: `input`; async: false
 - Direct calls: `operation.catch`, `queue.then`
 - Assigned/updated targets: `queue`
 - Return expressions: `operation`
 
-### <anonymous callback> — line 202
+### <anonymous callback> — line 241
 
 Provide the callback passed to queue.then.
 
-- Source: [`server/sync-server.mjs:202`](../server/sync-server.mjs#L202)
+- Source: [`server/sync-server.mjs:241`](../server/sync-server.mjs#L241)
 - Parameters: `(none)`; async: true
-- Direct calls: `(await fs.readdir(path.join(root, "snapshots"))) .filter`, `(await fs.readdir(path.join(root, "snapshots"))) .filter((n) => /^\d{16}-[a-f0-9-]+\.json$/.test(n))`, `JSON.stringify`, `Math.max`, `Object.values`, `String`, `String(next.revision).padStart`, `atomicWrite`, `crypto.randomUUID`, `fs.readdir`, `fs.unlink`, `hasBlob`, `names.slice`, `new Date().toISOString`, `path.join`, `structuredClone`, `validateNotebook`
-- Assigned/updated targets: `current`
+- Direct calls: `(await fs.readdir(path.join(root, "snapshots"))) .filter`, `(await fs.readdir(path.join(root, "snapshots"))) .filter((n) => /^\d{16}-[a-f0-9-]+\.json$/.test(n))`, `Array.isArray`, `Date.now`, `JSON.stringify`, `Math.max`, `Object.values`, `String`, `String(next.revision).padStart`, `atomicWrite`, `crypto.randomUUID`, `current.data.books.find`, `fs.readdir`, `fs.unlink`, `hasBlob`, `history.commit`, `ids.has`, `incoming.books.push`, `incoming.books.some`, `incoming.notes.map`, `incoming.notes.push`, `names.slice`, `new Date().toISOString`, `path.join`, `structuredClone`, `validateNotebook`
+- Assigned/updated targets: `current`, `files[previous.id]`
 - Return expressions: `structuredClone(next)`
 
-### <anonymous callback> — line 241
+### <anonymous callback> — line 262
+
+Provide the callback passed to incoming.notes.map.
+
+- Source: [`server/sync-server.mjs:262`](../server/sync-server.mjs#L262)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id`
+
+### <anonymous callback> — line 272
+
+Provide the callback passed to incoming.books.some.
+
+- Source: [`server/sync-server.mjs:272`](../server/sync-server.mjs#L272)
+- Parameters: `b`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `b.id === previous.book`
+
+### <anonymous callback> — line 274
+
+Provide the callback passed to current.data.books.find.
+
+- Source: [`server/sync-server.mjs:274`](../server/sync-server.mjs#L274)
+- Parameters: `b`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `b.id === previous.book`
+
+### <anonymous callback> — line 311
 
 Provide the callback passed to (await fs.readdir(path.join(root, "snapshots"))) .filter.
 
-- Source: [`server/sync-server.mjs:241`](../server/sync-server.mjs#L241)
+- Source: [`server/sync-server.mjs:311`](../server/sync-server.mjs#L311)
 - Parameters: `n`; async: false
 - Direct calls: `/^\d{16}-[a-f0-9-]+\.json$/.test`
 - Assigned/updated targets: (none)
 - Return expressions: `/^\d{16}-[a-f0-9-]+\.json$/.test(n)`
 
-### <anonymous callback> — line 251
+### <anonymous callback> — line 321
 
 Provide the callback passed to operation.catch.
 
-- Source: [`server/sync-server.mjs:251`](../server/sync-server.mjs#L251)
+- Source: [`server/sync-server.mjs:321`](../server/sync-server.mjs#L321)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### state — line 256
+### state — line 326
 
 Implement the state callback in this object.
 
-- Source: [`server/sync-server.mjs:256`](../server/sync-server.mjs#L256)
+- Source: [`server/sync-server.mjs:326`](../server/sync-server.mjs#L326)
 - Parameters: `(none)`; async: false
 - Direct calls: `structuredClone`
 - Assigned/updated targets: (none)
 - Return expressions: `structuredClone(current)`
 
-### version — line 258
+### version — line 328
 
 Implement the version callback in this object.
 
-- Source: [`server/sync-server.mjs:258`](../server/sync-server.mjs#L258)
+- Source: [`server/sync-server.mjs:328`](../server/sync-server.mjs#L328)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `{ workspaceId: identity.id, revision: current.revision }`
 
-### readBlob — line 263
+### readBlob — line 334
 
 Implement the readBlob callback in this object.
 
-- Source: [`server/sync-server.mjs:263`](../server/sync-server.mjs#L263)
+- Source: [`server/sync-server.mjs:334`](../server/sync-server.mjs#L334)
 - Parameters: `hash`; async: false
 - Direct calls: `blobPath`, `fs.readFile`
 - Assigned/updated targets: (none)
 - Return expressions: `fs.readFile(blobPath(hash))`
 
-### startSyncServer — line 267
+### startSyncServer — line 338
 
 Serve the authenticated sync protocol; only one process may write a storage folder.
 
-- Source: [`server/sync-server.mjs:267`](../server/sync-server.mjs#L267)
+- Source: [`server/sync-server.mjs:338`](../server/sync-server.mjs#L338)
 - Parameters: `{ root, key, host = "127.0.0.1", port = 3000, maxStateBytes = 64 * 1024 * 1024, maxPdfBytes = 25 * 1024 * 1024, keepSnapshots = 50, }`; async: true
 - Direct calls: `/^[a-f0-9]{64}$/.test`, `Buffer.from`, `Error`, `createSyncStore`, `http.createServer`
 - Assigned/updated targets: `server.headersTimeout`, `server.requestTimeout`
 - Return expressions: `new Promise((resolve, reject) => { server.once("error", reject); server.listen(port, host, () => resolve({ server, store })); })`
 
-### <anonymous callback> — line 281
+### <anonymous callback> — line 352
 
 Provide the callback passed to http.createServer.
 
-- Source: [`server/sync-server.mjs:281`](../server/sync-server.mjs#L281)
+- Source: [`server/sync-server.mjs:352`](../server/sync-server.mjs#L352)
 - Parameters: `req, res`; async: true
-- Direct calls: `(await readBody(req, maxStateBytes)).toString`, `(req.headers.authorization || "").replace`, `Buffer.from`, `JSON.parse`, `crypto.timingSafeEqual`, `json`, `readBody`, `res.end`, `res.setHeader`, `res.writeHead`, `store.commit`, `store.hasBlob`, `store.putBlob`, `store.readBlob`, `store.state`, `store.version`, `url.pathname.match`
+- Direct calls: `(await readBody(req, maxStateBytes)).toString`, `(req.headers.authorization || "").replace`, `Buffer.from`, `JSON.parse`, `Number`, `Number.isSafeInteger`, `crypto.timingSafeEqual`, `json`, `readBody`, `res.end`, `res.setHeader`, `res.writeHead`, `store.commit`, `store.hasBlob`, `store.history.list`, `store.history.read`, `store.putBlob`, `store.readBlob`, `store.state`, `store.version`, `url.pathname.match`, `url.searchParams.get`
 - Assigned/updated targets: `counted`, `inFlight`, `input`, `origin`
 - Return expressions: `undefined`
 
-### json — line 283
+### json — line 354
 
 Return JSON without caching authenticated notebook responses.
 
-- Source: [`server/sync-server.mjs:283`](../server/sync-server.mjs#L283)
+- Source: [`server/sync-server.mjs:354`](../server/sync-server.mjs#L354)
 - Parameters: `status, value`; async: false
 - Direct calls: `Buffer.from`, `JSON.stringify`, `res.end`, `res.writeHead`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 401
+### <anonymous callback> — line 495
 
 Evaluate an inline callback in server/sync-server.mjs; its direct operations are listed below.
 
-- Source: [`server/sync-server.mjs:401`](../server/sync-server.mjs#L401)
+- Source: [`server/sync-server.mjs:495`](../server/sync-server.mjs#L495)
 - Parameters: `resolve, reject`; async: false
 - Direct calls: `server.listen`, `server.once`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 403
+### <anonymous callback> — line 497
 
 Provide the callback passed to server.listen.
 
-- Source: [`server/sync-server.mjs:403`](../server/sync-server.mjs#L403)
+- Source: [`server/sync-server.mjs:497`](../server/sync-server.mjs#L497)
 - Parameters: `(none)`; async: false
 - Direct calls: `resolve`
 - Assigned/updated targets: (none)
@@ -7752,455 +8470,759 @@ Provide the callback passed to modelModule.link.
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### importModuleDynamically — line 223
+### importModuleDynamically — line 224
 
 Implement the importModuleDynamically callback in this object.
 
-- Source: [`test/app.integration.cjs:223`](../test/app.integration.cjs#L223)
+- Source: [`test/app.integration.cjs:224`](../test/app.integration.cjs#L224)
 - Parameters: `specifier`; async: true
 - Direct calls: `specifier.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `specifier.includes("model-storage") ? modelModule : mockModule`
 
-### <anonymous callback> — line 229
+### <anonymous callback> — line 230
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:229`](../test/app.integration.cjs#L229)
+- Source: [`test/app.integration.cjs:230`](../test/app.integration.cjs#L230)
 - Parameters: `(none)`; async: false
 - Direct calls: `w.document .querySelector`, `w.document .querySelector("#loading") ?.textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `w.document .querySelector("#loading") ?.textContent.includes("already open")`
 
-### <anonymous callback> — line 235
+### <anonymous callback> — line 236
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:235`](../test/app.integration.cjs#L235)
+- Source: [`test/app.integration.cjs:236`](../test/app.integration.cjs#L236)
 - Parameters: `(none)`; async: false
 - Direct calls: `w.document.querySelector`
 - Assigned/updated targets: (none)
 - Return expressions: `!w.document.querySelector("#loading")`
 
-### evaluate — line 237
+### evaluate — line 238
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:237`](../test/app.integration.cjs#L237)
+- Source: [`test/app.integration.cjs:238`](../test/app.integration.cjs#L238)
 - Parameters: `code`; async: false
 - Direct calls: `vm.runInContext`
 - Assigned/updated targets: (none)
 - Return expressions: `vm.runInContext(code, ctx)`
 
-### event — line 241
+### event — line 242
 
 Create a synthetic pointer sample for pressure/input integration tests.
 
-- Source: [`test/app.integration.cjs:241`](../test/app.integration.cjs#L241)
+- Source: [`test/app.integration.cjs:242`](../test/app.integration.cjs#L242)
 - Parameters: `w, id, x, y, type = "pen", extra = {}`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `{ pointerId: id, clientX: x, clientY: y, pointerType: type, pressure: 0.5, button: 0, buttons: 1, /** Implement the preventDefault callback in this object. */ preventDefault() {}, `
 
-### preventDefault — line 251
+### preventDefault — line 252
 
 Implement the preventDefault callback in this object.
 
-- Source: [`test/app.integration.cjs:251`](../test/app.integration.cjs#L251)
+- Source: [`test/app.integration.cjs:252`](../test/app.integration.cjs#L252)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### main — line 256
+### main — line 257
 
 Run the full existing notebook, PDF, board, search, formatting, and pencil regression suite.
 
-- Source: [`test/app.integration.cjs:256`](../test/app.integration.cjs#L256)
+- Source: [`test/app.integration.cjs:257`](../test/app.integration.cjs#L257)
 - Parameters: `(none)`; async: true
-- Direct calls: `$`, `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#boardin").click`, `$("#cancelreview").click`, `$("#clearsearch").click`, `$("#closemodels").click`, `$("#color").dispatchEvent`, `$("#deleteidea").click`, `$("#discardreview").click`, `$("#export").onclick`, `$("#extendboard").click`, `$("#favorite").click`, `$("#focusmode").click`, `$("#focusmode").getAttribute`, `$("#indexnotes").onclick`, `$("#indexstatus").textContent.includes`, `$("#inkoptions").contains`, `$("#inktranscript").dispatchEvent`, `$("#inputmode").onchange`, `$("#languagemodels").onclick`, `$("#libraryshade").click`, `$("#mobile").click`, `$("#mobile").getAttribute`, `$("#modal").close`, `$("#modelcards").querySelectorAll`, `$("#modelcards").textContent.includes`, `$("#modelstatus").textContent.includes`, `$("#newboard").click`, `$("#nextpage").onclick`, `$("#notemenu summary").click`, `$("#notemenu").contains`, `$("#pdffile").onchange`, `$("#pencilgrade").dispatchEvent`, `$("#prevpage").onclick`, `$("#recognitionlanguage").onchange`, `$("#redo").click`, `$("#retryrecognition").onclick`, `$("#reviewhandwriting").click`, `$("#reviewinksearch").click`, `$("#reviewstatus").textContent.includes`, `$("#savetranscript").click`, `$("#savetranscript").onclick`, `$("#search").oninput`, `$("#searchallcontent").click`, `$("#searchkind").onchange`, `$("#searchscope").textContent.includes`, `$("#sheet").querySelector`, `$("#syncdialog").removeAttribute`, `$("#syncdialog").setAttribute`, `$("#textcolor").dispatchEvent`, `$("#textsize").dispatchEvent`, `$("#textspacing").dispatchEvent`, `$("#title").focus`, `$("#toast").textContent.includes`, `$("#toolsettings summary").click`, `$("#toolsettings").contains`, `$("#undo").click`, `$("#width").dispatchEvent`, `$("#writingkind").dispatchEvent`, `$("#zoomfit").click`, `$("#zoomin").click`, `$(".app").classList.contains`, `$(".app").classList.remove`, `$(".canvas-row").contains`, `$(".topbar").contains`, `$('#modelcards [data-install-model="mr"]').click`, `$('#modelcards [data-remove-model="mr"]').click`, `$('#modelcards [data-use-model="mr"]').click`, `$('#notes [data-result-id="' + plainId + '"]').click`, `$('[data-filter="all"]').click`, `$('[data-filter="star"]').click`, `$('[data-tool="highlighter"]').click`, `$('[data-tool="idea"]').click`, `$('[data-tool="link"]').click`, `$('[data-tool="pen"]').click`, `$('[data-tool="select"]').click`, `$('[data-tool="text"]').click`, `Buffer.from`, `Ink.hits`, `Ink.imagePlacement`, `Ink.widthAt`, `JSON.parse`, `JSON.stringify`, `Number`, `Object.defineProperty`, `Object.keys`, `PDFLib.PDFDocument.create`, `PDFLib.PDFDocument.load`, `PDFLib.degrees`, `PDFLib.rgb`, `Search.lines`, `Search.norm`, `Search.signature`, `["H", "HB", "1B", "2B"].entries`, `again.dom.window.close`, `again.evaluate`, `again.w.document .querySelector`, `again.w.document .querySelector(".app") .classList.contains`, `again.w.document.querySelector`, `app.dom.window.close`, `app.lib.getDocument`, `backup.notes.find`, `blocked.dom.window.close`, `blocked.w.document .querySelector`, `blocked.w.document .querySelector("#loading") .textContent.includes`, `c.cloneNode`, `c.ondblclick`, `c.onpointercancel`, `c.onpointerdown`, `c.onpointermove`, `c.onpointerup`, `c.querySelector`, `c.querySelector("[data-board]").textContent.includes`, `c.querySelector("text").getAttribute`, `c.querySelectorAll`, `cardContext.drawImage`, `cardContext.getImageData`, `cardSurface.getContext`, `check`, `console.log`, `context.getImageData`, `db.close`, `doc.addPage`, `doc.save`, `ev`, `event`, `exportedDoc.getPage`, `exportedDoc.loadingTask.destroy`, `field.onblur`, `field.oninput`, `field.onkeydown`, `field.setSelectionRange`, `field.value.includes`, `formattedSpans[0].getAttribute`, `formattedSpans[1].getAttribute`, `granted.dom.window.close`, `granted.evaluate`, `granted.w.LeafnoteApp.sync.supported`, `incoming.notes.find`, `incoming.notes.push`, `latestSync.data.notes.map`, `makeApp`, `native.createCanvas`, `native.loadImage`, `new w.XMLSerializer().serializeToString`, `nodeField.onblur`, `nodeField.oninput`, `output.getPages`, `p.drawRectangle`, `p.drawText`, `p.getViewport`, `p.render`, `p.setCropBox`, `p.setRotation`, `penButton.click`, `penButton.getAttribute`, `pencilSamples.every`, `pencilSamples.push`, `plainExport.window.close`, `plainExport.window.document.querySelector`, `plainExport.window.document.querySelectorAll`, `point`, `saved.notes.find`, `structuredClone`, `surface.getContext`, `syncEvents.some`, `transcript.dispatchEvent`, `transcript.setRangeText`, `transcript.setSelectionRange`, `transcript.value.indexOf`, `typeButton.click`, `typeButton.dispatchEvent`, `typeButton.focus`, `until`, `visibilitySVG.setAttribute`, `w.LeafnoteApp.finish`, `w.LeafnoteApp.sync.apply`, `w.LeafnoteApp.sync.busy`, `w.LeafnoteApp.sync.read`, `w.dispatchEvent`, `w.document.activeElement?.blur`, `w.document.addEventListener`, `w.document.body.dispatchEvent`, `w.document.dispatchEvent`, `w.document.querySelector`, `w.localStorage.getItem`
+- Direct calls: `$`, `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#boardin").click`, `$("#cancelreview").click`, `$("#clearsearch").click`, `$("#closemaintenance").click`, `$("#closemodels").click`, `$("#color").dispatchEvent`, `$("#delete").onclick`, `$("#deleteidea").click`, `$("#discardreview").click`, `$("#export").onclick`, `$("#extendboard").click`, `$("#favorite").click`, `$("#focusmode").click`, `$("#focusmode").getAttribute`, `$("#indexnotes").onclick`, `$("#indexstatus").textContent.includes`, `$("#inkoptions").contains`, `$("#inktranscript").dispatchEvent`, `$("#inputmode").onchange`, `$("#languagemodels").onclick`, `$("#libraryshade").click`, `$("#maintenance").click`, `$("#maintenancelist button").onclick`, `$("#maintenancelist").textContent.includes`, `$("#mobile").click`, `$("#mobile").getAttribute`, `$("#modal").close`, `$("#modelcards").querySelectorAll`, `$("#modelcards").textContent.includes`, `$("#modelstatus").textContent.includes`, `$("#newboard").click`, `$("#nextpage").onclick`, `$("#notemenu summary").click`, `$("#notemenu").contains`, `$("#pdffile").onchange`, `$("#pencilgrade").dispatchEvent`, `$("#prevpage").onclick`, `$("#recognitionlanguage").onchange`, `$("#redo").click`, `$("#retryrecognition").onclick`, `$("#reviewhandwriting").click`, `$("#reviewinksearch").click`, `$("#reviewstatus").textContent.includes`, `$("#savetranscript").click`, `$("#savetranscript").onclick`, `$("#search").oninput`, `$("#searchallcontent").click`, `$("#searchkind").onchange`, `$("#searchscope").textContent.includes`, `$("#sheet").querySelector`, `$("#syncdialog").removeAttribute`, `$("#syncdialog").setAttribute`, `$("#textcolor").dispatchEvent`, `$("#textsize").dispatchEvent`, `$("#textspacing").dispatchEvent`, `$("#title").focus`, `$("#toast").textContent.includes`, `$("#toolsettings summary").click`, `$("#toolsettings").contains`, `$("#undo").click`, `$("#width").dispatchEvent`, `$("#writingkind").dispatchEvent`, `$("#zoomfit").click`, `$("#zoomin").click`, `$(".app").classList.contains`, `$(".app").classList.remove`, `$(".canvas-row").contains`, `$(".topbar").contains`, `$('#modelcards [data-install-model="mr"]').click`, `$('#modelcards [data-remove-model="mr"]').click`, `$('#modelcards [data-use-model="mr"]').click`, `$('#notes [data-result-id="' + plainId + '"]').click`, `$('[data-filter="all"]').click`, `$('[data-filter="star"]').click`, `$('[data-tool="highlighter"]').click`, `$('[data-tool="idea"]').click`, `$('[data-tool="link"]').click`, `$('[data-tool="pen"]').click`, `$('[data-tool="select"]').click`, `$('[data-tool="text"]').click`, `(await w.LeafnoteApp.file(retainedId)).text`, `Buffer.from`, `Ink.hits`, `Ink.imagePlacement`, `Ink.widthAt`, `JSON.parse`, `JSON.stringify`, `Number`, `Object.defineProperty`, `Object.keys`, `PDFLib.PDFDocument.create`, `PDFLib.PDFDocument.load`, `PDFLib.degrees`, `PDFLib.rgb`, `Search.lines`, `Search.norm`, `Search.search`, `Search.signature`, `["H", "HB", "1B", "2B"].entries`, `again.dom.window.close`, `again.evaluate`, `again.w.LeafnoteApp.file`, `again.w.document .querySelector`, `again.w.document .querySelector(".app") .classList.contains`, `again.w.document.querySelector`, `app.dom.window.close`, `app.lib.getDocument`, `backup.notes.find`, `blocked.dom.window.close`, `blocked.w.document .querySelector`, `blocked.w.document .querySelector("#loading") .textContent.includes`, `c.cloneNode`, `c.ondblclick`, `c.onpointercancel`, `c.onpointerdown`, `c.onpointermove`, `c.onpointerup`, `c.querySelector`, `c.querySelector("[data-board]").textContent.includes`, `c.querySelector("text").getAttribute`, `c.querySelectorAll`, `cardContext.drawImage`, `cardContext.getImageData`, `cardSurface.getContext`, `check`, `console.log`, `context.getImageData`, `db.close`, `doc.addPage`, `doc.save`, `ev`, `event`, `exportedDoc.getPage`, `exportedDoc.loadingTask.destroy`, `field.onblur`, `field.oninput`, `field.onkeydown`, `field.setSelectionRange`, `field.value.includes`, `formattedSpans[0].getAttribute`, `formattedSpans[1].getAttribute`, `granted.dom.window.close`, `granted.evaluate`, `granted.w.LeafnoteApp.sync.supported`, `incoming.notes.find`, `incoming.notes.push`, `latestSync.data.notes.map`, `makeApp`, `native.createCanvas`, `native.loadImage`, `new w.XMLSerializer().serializeToString`, `nodeField.onblur`, `nodeField.oninput`, `output.getPages`, `p.drawRectangle`, `p.drawText`, `p.getViewport`, `p.render`, `p.setCropBox`, `p.setRotation`, `penButton.click`, `penButton.getAttribute`, `pencilSamples.every`, `pencilSamples.push`, `plainExport.window.close`, `plainExport.window.document.querySelector`, `plainExport.window.document.querySelectorAll`, `point`, `retainedBytes.text`, `saved.notes.find`, `structuredClone`, `surface.getContext`, `syncEvents.some`, `transcript.dispatchEvent`, `transcript.setRangeText`, `transcript.setSelectionRange`, `transcript.value.indexOf`, `typeButton.click`, `typeButton.dispatchEvent`, `typeButton.focus`, `until`, `visibilitySVG.setAttribute`, `w.LeafnoteApp.file`, `w.LeafnoteApp.finish`, `w.LeafnoteApp.maintenance.restoreRevision`, `w.LeafnoteApp.maintenance.trashNote`, `w.LeafnoteApp.sync.apply`, `w.LeafnoteApp.sync.busy`, `w.LeafnoteApp.sync.read`, `w.dispatchEvent`, `w.document.activeElement?.blur`, `w.document.addEventListener`, `w.document.body.dispatchEvent`, `w.document.dispatchEvent`, `w.document.querySelector`, `w.localStorage.getItem`
 - Assigned/updated targets: `$("#color").value`, `$("#inkoptions").hidden`, `$("#inktranscript").value`, `$("#inputmode").value`, `$("#notemenu").open`, `$("#pencilgrade").value`, `$("#recognitionlanguage").value`, `$("#recognitionreview").hidden`, `$("#search").value`, `$("#searchkind").value`, `$("#textcolor").value`, `$("#textsize").value`, `$("#textspacing").value`, `$("#toolsettings").open`, `$("#width").value`, `$("#writingkind").value`, `arrival.id`, `arrival.title`, `createPointer.preventDefault`, `editPointer.preventDefault`, `exported`, `field`, `field.value`, `i`, `nodeField`, `nodeField.value`, `raw.files`, `raw.version`, `transcript.value`, `visibleGlyphs`, `w.Worker`, `w.__ocrDelay`, `w.__ocrError`, `w.__ocrResponse`, `w.innerWidth`
 - Return expressions: (none)
 
-### $ — line 402
+### $ — line 403
 
 Select the first DOM element matching a CSS selector.
 
-- Source: [`test/app.integration.cjs:402`](../test/app.integration.cjs#L402)
+- Source: [`test/app.integration.cjs:403`](../test/app.integration.cjs#L403)
 - Parameters: `s`; async: false
 - Direct calls: `w.document.querySelector`
 - Assigned/updated targets: (none)
 - Return expressions: `w.document.querySelector(s)`
 
-### <anonymous callback> — line 459
+### <anonymous callback> — line 460
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:459`](../test/app.integration.cjs#L459)
+- Source: [`test/app.integration.cjs:460`](../test/app.integration.cjs#L460)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$(".canvas-row").classList.contains`
 - Assigned/updated targets: (none)
 - Return expressions: `$(".canvas-row").classList.contains("review-open")`
 
-### <anonymous callback> — line 469
+### <anonymous callback> — line 470
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:469`](../test/app.integration.cjs#L469)
+- Source: [`test/app.integration.cjs:470`](../test/app.integration.cjs#L470)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$(".canvas-row").classList.contains`
 - Assigned/updated targets: (none)
 - Return expressions: `!$(".canvas-row").classList.contains("review-open")`
 
-### <anonymous callback> — line 531
+### <anonymous callback> — line 532
 
 Provide the callback passed to pencilSamples.every.
 
-- Source: [`test/app.integration.cjs:531`](../test/app.integration.cjs#L531)
+- Source: [`test/app.integration.cjs:532`](../test/app.integration.cjs#L532)
 - Parameters: `stroke, i`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `stroke.brush === "pencil" && stroke.grade === ["H", "HB", "1B", "2B"][i]`
 
-### preventDefault — line 635
+### preventDefault — line 636
 
 Implement the preventDefault callback in this object.
 
-- Source: [`test/app.integration.cjs:635`](../test/app.integration.cjs#L635)
+- Source: [`test/app.integration.cjs:636`](../test/app.integration.cjs#L636)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### stopPropagation — line 637
+### stopPropagation — line 638
 
 Implement the stopPropagation callback in this object.
 
-- Source: [`test/app.integration.cjs:637`](../test/app.integration.cjs#L637)
+- Source: [`test/app.integration.cjs:638`](../test/app.integration.cjs#L638)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 685
+### <anonymous callback> — line 686
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:685`](../test/app.integration.cjs#L685)
+- Source: [`test/app.integration.cjs:686`](../test/app.integration.cjs#L686)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `ev`
 - Assigned/updated targets: (none)
 - Return expressions: `ev("current") === plainId && !!$("#searchoverlay")`
 
-### point — line 786
+### point — line 787
 
 Convert a pointer event to the original canvas coordinates.
 
-- Source: [`test/app.integration.cjs:786`](../test/app.integration.cjs#L786)
+- Source: [`test/app.integration.cjs:787`](../test/app.integration.cjs#L787)
 - Parameters: `id, x, y`; async: false
 - Direct calls: `c.getBoundingClientRect`, `event`
 - Assigned/updated targets: (none)
 - Return expressions: `event( w, id, r.left + (x / v.width) * r.width, r.top + (y / v.height) * r.height, "mouse", )`
 
-### <anonymous callback> — line 841
+### <anonymous callback> — line 842
 
 Handle the callback assigned to editPointer.preventDefault.
 
-- Source: [`test/app.integration.cjs:841`](../test/app.integration.cjs#L841)
+- Source: [`test/app.integration.cjs:842`](../test/app.integration.cjs#L842)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `defaultPrevented`
 - Return expressions: (none)
 
-### <anonymous callback> — line 884
+### <anonymous callback> — line 885
 
 Handle the callback assigned to createPointer.preventDefault.
 
-- Source: [`test/app.integration.cjs:884`](../test/app.integration.cjs#L884)
+- Source: [`test/app.integration.cjs:885`](../test/app.integration.cjs#L885)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `creationPrevented`
 - Return expressions: (none)
 
-### getCoalescedEvents — line 1046
+### getCoalescedEvents — line 1047
 
 Implement the getCoalescedEvents callback in this object.
 
-- Source: [`test/app.integration.cjs:1046`](../test/app.integration.cjs#L1046)
+- Source: [`test/app.integration.cjs:1047`](../test/app.integration.cjs#L1047)
 - Parameters: `(none)`; async: false
 - Direct calls: `event`
 - Assigned/updated targets: (none)
 - Return expressions: `[ event(w, 7, 30, 40, "pen", { pressure: 0.2 }), event(w, 7, 40, 50, "pen", { pressure: 0.8 }), ]`
 
-### <anonymous callback> — line 1092
+### <anonymous callback> — line 1093
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1092`](../test/app.integration.cjs#L1092)
+- Source: [`test/app.integration.cjs:1093`](../test/app.integration.cjs#L1093)
 - Parameters: `resolve, reject`; async: false
 - Direct calls: `indexedDB.open`
 - Assigned/updated targets: `r.onerror`, `r.onsuccess`
 - Return expressions: (none)
 
-### <anonymous callback> — line 1094
+### <anonymous callback> — line 1095
 
 Handle the callback assigned to r.onsuccess.
 
-- Source: [`test/app.integration.cjs:1094`](../test/app.integration.cjs#L1094)
+- Source: [`test/app.integration.cjs:1095`](../test/app.integration.cjs#L1095)
 - Parameters: `(none)`; async: false
 - Direct calls: `resolve`
 - Assigned/updated targets: (none)
 - Return expressions: `resolve(r.result)`
 
-### <anonymous callback> — line 1097
+### <anonymous callback> — line 1098
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1097`](../test/app.integration.cjs#L1097)
+- Source: [`test/app.integration.cjs:1098`](../test/app.integration.cjs#L1098)
 - Parameters: `resolve`; async: false
 - Direct calls: `db.transaction`, `db.transaction("state").objectStore`, `db.transaction("state").objectStore("state").get`
 - Assigned/updated targets: `r.onsuccess`
 - Return expressions: (none)
 
-### <anonymous callback> — line 1099
+### <anonymous callback> — line 1100
 
 Handle the callback assigned to r.onsuccess.
 
-- Source: [`test/app.integration.cjs:1099`](../test/app.integration.cjs#L1099)
+- Source: [`test/app.integration.cjs:1100`](../test/app.integration.cjs#L1100)
 - Parameters: `(none)`; async: false
 - Direct calls: `resolve`
 - Assigned/updated targets: (none)
 - Return expressions: `resolve(r.result)`
 
-### <anonymous callback> — line 1102
+### <anonymous callback> — line 1103
 
 Provide the callback passed to saved.notes.find.
 
-- Source: [`test/app.integration.cjs:1102`](../test/app.integration.cjs#L1102)
+- Source: [`test/app.integration.cjs:1103`](../test/app.integration.cjs#L1103)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id === "legacy-note"`
 
-### <anonymous callback> — line 1172
+### <anonymous callback> — line 1173
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1172`](../test/app.integration.cjs#L1172)
+- Source: [`test/app.integration.cjs:1173`](../test/app.integration.cjs#L1173)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1227
+### <anonymous callback> — line 1228
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1227`](../test/app.integration.cjs#L1227)
+- Source: [`test/app.integration.cjs:1228`](../test/app.integration.cjs#L1228)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1237
+### <anonymous callback> — line 1238
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1237`](../test/app.integration.cjs#L1237)
+- Source: [`test/app.integration.cjs:1238`](../test/app.integration.cjs#L1238)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1252
+### <anonymous callback> — line 1253
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1252`](../test/app.integration.cjs#L1252)
+- Source: [`test/app.integration.cjs:1253`](../test/app.integration.cjs#L1253)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#pdfstatus").textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#pdfstatus").textContent.includes("Saved locally")`
 
-### <anonymous callback> — line 1348
+### <anonymous callback> — line 1349
 
 Provide the callback passed to backup.notes.find.
 
-- Source: [`test/app.integration.cjs:1348`](../test/app.integration.cjs#L1348)
+- Source: [`test/app.integration.cjs:1349`](../test/app.integration.cjs#L1349)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.pdf`
 
-### <anonymous callback> — line 1359
+### <anonymous callback> — line 1360
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1359`](../test/app.integration.cjs#L1359)
+- Source: [`test/app.integration.cjs:1360`](../test/app.integration.cjs#L1360)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#modal").open`
 
-### <anonymous callback> — line 1381
+### <anonymous callback> — line 1382
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1381`](../test/app.integration.cjs#L1381)
+- Source: [`test/app.integration.cjs:1382`](../test/app.integration.cjs#L1382)
 - Parameters: `m`; async: false
 - Direct calls: `setTimeout`
 - Assigned/updated targets: `w.__ocrJobs`, `w.__ocrLanguage`
 - Return expressions: (none)
 
-### <anonymous callback> — line 1385
+### <anonymous callback> — line 1386
 
 Provide the callback passed to setTimeout.
 
-- Source: [`test/app.integration.cjs:1385`](../test/app.integration.cjs#L1385)
+- Source: [`test/app.integration.cjs:1386`](../test/app.integration.cjs#L1386)
 - Parameters: `(none)`; async: false
 - Direct calls: `this.onmessage`
 - Assigned/updated targets: (none)
 - Return expressions: `this.onmessage({ data: w.__ocrError ? { type: "error", id: m.id, error: w.__ocrError } : { type: "result", id: m.id, ...w.__ocrResponse }, })`
 
-### <anonymous callback> — line 1394
+### <anonymous callback> — line 1395
 
 Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below.
 
-- Source: [`test/app.integration.cjs:1394`](../test/app.integration.cjs#L1394)
+- Source: [`test/app.integration.cjs:1395`](../test/app.integration.cjs#L1395)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 1421
+### <anonymous callback> — line 1422
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1421`](../test/app.integration.cjs#L1421)
+- Source: [`test/app.integration.cjs:1422`](../test/app.integration.cjs#L1422)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `!!$('#notes [data-result-id="' + handId + '"]')`
 
-### <anonymous callback> — line 1425
+### <anonymous callback> — line 1426
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1425`](../test/app.integration.cjs#L1425)
+- Source: [`test/app.integration.cjs:1426`](../test/app.integration.cjs#L1426)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#indexnotes").textContent === "Index all notes"`
 
-### <anonymous callback> — line 1559
+### <anonymous callback> — line 1560
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1559`](../test/app.integration.cjs#L1559)
+- Source: [`test/app.integration.cjs:1560`](../test/app.integration.cjs#L1560)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `(w.__ocrJobs || 0) > jobsBefore`
 
-### <anonymous callback> — line 1602
+### <anonymous callback> — line 1603
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1602`](../test/app.integration.cjs#L1602)
+- Source: [`test/app.integration.cjs:1603`](../test/app.integration.cjs#L1603)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `!$('#modelcards [data-use-model="mr"]').disabled`
 
-### <anonymous callback> — line 1634
+### <anonymous callback> — line 1635
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1634`](../test/app.integration.cjs#L1634)
+- Source: [`test/app.integration.cjs:1635`](../test/app.integration.cjs#L1635)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$('#modelcards [data-use-model="mr"]').disabled`
 
-### <anonymous callback> — line 1689
+### <anonymous callback> — line 1707
+
+Provide the callback passed to until.
+
+- Source: [`test/app.integration.cjs:1707`](../test/app.integration.cjs#L1707)
+- Parameters: `(none)`; async: false
+- Direct calls: `$`
+- Assigned/updated targets: (none)
+- Return expressions: `$("#modal").open`
+
+### <anonymous callback> — line 1740
 
 Handle the "leafnote-local-saved" event registered by w.document.addEventListener.
 
-- Source: [`test/app.integration.cjs:1689`](../test/app.integration.cjs#L1689)
+- Source: [`test/app.integration.cjs:1740`](../test/app.integration.cjs#L1740)
 - Parameters: `e`; async: false
 - Direct calls: `syncEvents.push`
 - Assigned/updated targets: (none)
 - Return expressions: `syncEvents.push(e.detail)`
 
-### <anonymous callback> — line 1694
+### <anonymous callback> — line 1745
 
 Provide the callback passed to incoming.notes.find.
 
-- Source: [`test/app.integration.cjs:1694`](../test/app.integration.cjs#L1694)
+- Source: [`test/app.integration.cjs:1745`](../test/app.integration.cjs#L1745)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `!n.pdf && !n.board`
 
-### <anonymous callback> — line 1711
+### <anonymous callback> — line 1762
 
 Provide the callback passed to latestSync.data.notes.map.
 
-- Source: [`test/app.integration.cjs:1711`](../test/app.integration.cjs#L1711)
+- Source: [`test/app.integration.cjs:1762`](../test/app.integration.cjs#L1762)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id`
 
-### <anonymous callback> — line 1730
+### <anonymous callback> — line 1781
 
 Provide the callback passed to syncEvents.some.
 
-- Source: [`test/app.integration.cjs:1730`](../test/app.integration.cjs#L1730)
+- Source: [`test/app.integration.cjs:1781`](../test/app.integration.cjs#L1781)
 - Parameters: `e`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `e.remote`
 
-### request — line 1874
+### request — line 1931
 
 Convert an IndexedDB request to a promise.
 
-- Source: [`test/app.integration.cjs:1874`](../test/app.integration.cjs#L1874)
+- Source: [`test/app.integration.cjs:1931`](../test/app.integration.cjs#L1931)
 - Parameters: `name, options, callback`; async: true
 - Direct calls: `callback`
 - Assigned/updated targets: (none)
 - Return expressions: `callback(null)`
 
-### request — line 1893
+### request — line 1950
 
 Convert an IndexedDB request to a promise.
 
-- Source: [`test/app.integration.cjs:1893`](../test/app.integration.cjs#L1893)
+- Source: [`test/app.integration.cjs:1950`](../test/app.integration.cjs#L1950)
 - Parameters: `name, options, callback`; async: true
 - Direct calls: `callback`
 - Assigned/updated targets: (none)
 - Return expressions: `callback({ name })`
 
-### <anonymous callback> — line 1913
+### <anonymous callback> — line 1970
 
 Provide the callback passed to main() .then.
 
-- Source: [`test/app.integration.cjs:1913`](../test/app.integration.cjs#L1913)
+- Source: [`test/app.integration.cjs:1970`](../test/app.integration.cjs#L1970)
 - Parameters: `(none)`; async: false
 - Direct calls: `process.exit`
 - Assigned/updated targets: (none)
 - Return expressions: `process.exit(0)`
 
-### <anonymous callback> — line 1914
+### <anonymous callback> — line 1971
 
 Provide the callback passed to main() .then(() => process.exit(0)) .catch.
 
-- Source: [`test/app.integration.cjs:1914`](../test/app.integration.cjs#L1914)
+- Source: [`test/app.integration.cjs:1971`](../test/app.integration.cjs#L1971)
 - Parameters: `e`; async: false
 - Direct calls: `console.error`, `process.exit`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
+
+## test/maintenance-ui.test.cjs
+
+First-party development or verification code.
+
+### dashboard — line 8
+
+Exercise the real maintenance controls with isolated pairing and observable restore boundaries.
+
+- Source: [`test/maintenance-ui.test.cjs:8`](../test/maintenance-ui.test.cjs#L8)
+- Parameters: `paired = true`; async: true
+- Direct calls: `"a".repeat`, `Object.values`, `dom.getInternalVMContext`, `fs .readFileSync`, `fs .readFileSync(path.join(__dirname, "../dist/index.html"), "utf8") .replace`, `fs.readFileSync`, `module.evaluate`, `module.link`, `new vm.Script( fs.readFileSync(path.join(__dirname, "../dist/maintenance.js"), "utf8"), { /** Implem`, `path.join`
+- Assigned/updated targets: `modules["./sync-engine.mjs"]`, `modules["./sync-settings.mjs"]`, `w.$`, `w.HTMLDialogElement.prototype.close`, `w.HTMLDialogElement.prototype.showModal`, `w.LeafInk`, `w.LeafnoteApp`
+- Return expressions: `{ w, dom, snapshot, /** Implement the restored callback in this object. */ get restored() { return restored; }, /** Implement the requests callback in this object. */ get requests(`
+
+### <anonymous callback> — line 29
+
+Handle the callback assigned to w.$.
+
+- Source: [`test/maintenance-ui.test.cjs:29`](../test/maintenance-ui.test.cjs#L29)
+- Parameters: `s`; async: false
+- Direct calls: `w.document.querySelector`
+- Assigned/updated targets: (none)
+- Return expressions: `w.document.querySelector(s)`
+
+### outline — line 32
+
+Create a filled SVG outline for a complete pressure-aware stroke.
+
+- Source: [`test/maintenance-ui.test.cjs:32`](../test/maintenance-ui.test.cjs#L32)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `""`
+
+### <anonymous callback> — line 34
+
+Handle the callback assigned to w.HTMLDialogElement.prototype.showModal.
+
+- Source: [`test/maintenance-ui.test.cjs:34`](../test/maintenance-ui.test.cjs#L34)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: `this.open`
+- Return expressions: (none)
+
+### <anonymous callback> — line 37
+
+Handle the callback assigned to w.HTMLDialogElement.prototype.close.
+
+- Source: [`test/maintenance-ui.test.cjs:37`](../test/maintenance-ui.test.cjs#L37)
+- Parameters: `(none)`; async: false
+- Direct calls: `this.dispatchEvent`
+- Assigned/updated targets: `this.open`
+- Return expressions: (none)
+
+### finish — line 44
+
+Finish active note and board edits before a deliberate layout change.
+
+- Source: [`test/maintenance-ui.test.cjs:44`](../test/maintenance-ui.test.cjs#L44)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### trash — line 47
+
+Implement the trash callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:47`](../test/maintenance-ui.test.cjs#L47)
+- Parameters: `(none)`; async: false
+- Direct calls: `structuredClone`
+- Assigned/updated targets: (none)
+- Return expressions: `structuredClone(trash)`
+
+### restoreDeleted — line 49
+
+Implement the restoreDeleted callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:49`](../test/maintenance-ui.test.cjs#L49)
+- Parameters: `id`; async: true
+- Direct calls: `trash.filter`
+- Assigned/updated targets: `trash`
+- Return expressions: (none)
+
+### <anonymous callback> — line 50
+
+Provide the callback passed to trash.filter.
+
+- Source: [`test/maintenance-ui.test.cjs:50`](../test/maintenance-ui.test.cjs#L50)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id !== id`
+
+### restoreRevision — line 53
+
+Implement the restoreRevision callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:53`](../test/maintenance-ui.test.cjs#L53)
+- Parameters: `note, blob`; async: true
+- Direct calls: (none)
+- Assigned/updated targets: `restored`
+- Return expressions: (none)
+
+### <anonymous callback> — line 76
+
+Evaluate an inline callback in test/maintenance-ui.test.cjs; its direct operations are listed below.
+
+- Source: [`test/maintenance-ui.test.cjs:76`](../test/maintenance-ui.test.cjs#L76)
+- Parameters: `(none)`; async: false
+- Direct calls: `this.setExport`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 77
+
+Provide the callback passed to this.setExport.
+
+- Source: [`test/maintenance-ui.test.cjs:77`](../test/maintenance-ui.test.cjs#L77)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `{ /** Implement the load callback in this object. */ load: async () => ({ enabled: paired, token: paired ? "b".repeat(64) : null, }), }`
+
+### load — line 79
+
+Implement the load callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:79`](../test/maintenance-ui.test.cjs#L79)
+- Parameters: `(none)`; async: true
+- Direct calls: `"b".repeat`
+- Assigned/updated targets: (none)
+- Return expressions: `{ enabled: paired, token: paired ? "b".repeat(64) : null, }`
+
+### <anonymous callback> — line 89
+
+Evaluate an inline callback in test/maintenance-ui.test.cjs; its direct operations are listed below.
+
+- Source: [`test/maintenance-ui.test.cjs:89`](../test/maintenance-ui.test.cjs#L89)
+- Parameters: `(none)`; async: false
+- Direct calls: `this.setExport`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 90
+
+Provide the callback passed to this.setExport.
+
+- Source: [`test/maintenance-ui.test.cjs:90`](../test/maintenance-ui.test.cjs#L90)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `{ /** Implement the history callback in this object. */ history: async () => { requests++; return { commits: [{ hash, at: 1, message: "Autosave revision 1" }] }; }, /** Implement t`
+
+### history — line 92
+
+Implement the history callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:92`](../test/maintenance-ui.test.cjs#L92)
+- Parameters: `(none)`; async: true
+- Direct calls: (none)
+- Assigned/updated targets: `requests`
+- Return expressions: `{ commits: [{ hash, at: 1, message: "Autosave revision 1" }] }`
+
+### revision — line 97
+
+Implement the revision callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:97`](../test/maintenance-ui.test.cjs#L97)
+- Parameters: `(none)`; async: true
+- Direct calls: `structuredClone`
+- Assigned/updated targets: (none)
+- Return expressions: `structuredClone(snapshot)`
+
+### abort — line 99
+
+Implement the abort callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:99`](../test/maintenance-ui.test.cjs#L99)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 101
+
+Provide the callback passed to this.setExport.
+
+- Source: [`test/maintenance-ui.test.cjs:101`](../test/maintenance-ui.test.cjs#L101)
+- Parameters: `(none)`; async: true
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `null`
+
+### <anonymous callback> — line 106
+
+Provide the callback passed to module.link.
+
+- Source: [`test/maintenance-ui.test.cjs:106`](../test/maintenance-ui.test.cjs#L106)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### importModuleDynamically — line 113
+
+Implement the importModuleDynamically callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:113`](../test/maintenance-ui.test.cjs#L113)
+- Parameters: `s`; async: true
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `modules[s]`
+
+### restored — line 121
+
+Implement the restored callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:121`](../test/maintenance-ui.test.cjs#L121)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `restored`
+
+### requests — line 125
+
+Implement the requests callback in this object.
+
+- Source: [`test/maintenance-ui.test.cjs:125`](../test/maintenance-ui.test.cjs#L125)
+- Parameters: `(none)`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `requests`
+
+### until — line 132
+
+Wait for a required UI condition with a bounded test timeout.
+
+- Source: [`test/maintenance-ui.test.cjs:132`](../test/maintenance-ui.test.cjs#L132)
+- Parameters: `predicate`; async: true
+- Direct calls: `Error`, `predicate`
+- Assigned/updated targets: `i`
+- Return expressions: `undefined`
+
+### <anonymous callback> — line 135
+
+Evaluate an inline callback in test/maintenance-ui.test.cjs; its direct operations are listed below.
+
+- Source: [`test/maintenance-ui.test.cjs:135`](../test/maintenance-ui.test.cjs#L135)
+- Parameters: `r`; async: false
+- Direct calls: `setTimeout`
+- Assigned/updated targets: (none)
+- Return expressions: `setTimeout(r, 5)`
+
+### <anonymous callback> — line 139
+
+Provide the callback passed to test.
+
+- Source: [`test/maintenance-ui.test.cjs:139`](../test/maintenance-ui.test.cjs#L139)
+- Parameters: `(none)`; async: true
+- Direct calls: `assert.equal`, `assert.match`, `assert.ok`, `dashboard`, `h.$`, `h.$("#maintenance").click`, `h.$("#maintenancelist button").onclick`, `h.$("#showhistory").click`, `h.dom.window.close`, `until`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 150
+
+Provide the callback passed to until.
+
+- Source: [`test/maintenance-ui.test.cjs:150`](../test/maintenance-ui.test.cjs#L150)
+- Parameters: `(none)`; async: false
+- Direct calls: `h.$`, `h.$("#maintenancestatus").textContent.includes`
+- Assigned/updated targets: (none)
+- Return expressions: `h.$("#maintenancestatus").textContent.includes("Enable Server sync")`
+
+### <anonymous callback> — line 158
+
+Provide the callback passed to test.
+
+- Source: [`test/maintenance-ui.test.cjs:158`](../test/maintenance-ui.test.cjs#L158)
+- Parameters: `(none)`; async: true
+- Direct calls: `assert.equal`, `assert.match`, `dashboard`, `h.$`, `h.$("#maintenance").click`, `h.$("#maintenancelist button").onclick`, `h.$("#restorerevision").onclick`, `h.$("#showhistory").click`, `h.dom.window.close`, `until`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 163
+
+Provide the callback passed to until.
+
+- Source: [`test/maintenance-ui.test.cjs:163`](../test/maintenance-ui.test.cjs#L163)
+- Parameters: `(none)`; async: false
+- Direct calls: `h.$`
+- Assigned/updated targets: (none)
+- Return expressions: `h.$("#maintenancelist button")`
 
 ## test/package.test.cjs
 
@@ -8776,7 +9798,7 @@ Handle the callback assigned to w.fetch.
 - Parameters: `url`; async: true
 - Direct calls: `String`, `assert.equal`
 - Assigned/updated targets: (none)
-- Return expressions: `{ ok: true /** Implement the json callback in this object. */, /** Implement the json callback in this object. */ json: async () => ({ enabled: true, protocol: 1 }), }`
+- Return expressions: `{ ok: true /** Implement the json callback in this object. */, /** Implement the json callback in this object. */ json: async () => ({ enabled: true, protocol: 2 }), }`
 
 ### json — line 43
 
@@ -8786,7 +9808,7 @@ Implement the json callback in this object.
 - Parameters: `(none)`; async: true
 - Direct calls: (none)
 - Assigned/updated targets: (none)
-- Return expressions: `{ enabled: true, protocol: 1 }`
+- Return expressions: `{ enabled: true, protocol: 2 }`
 
 ### <anonymous callback> — line 48
 
@@ -9658,66 +10680,226 @@ Provide the callback passed to test.
 
 - Source: [`test/sync.test.cjs:612`](../test/sync.test.cjs#L612)
 - Parameters: `t`; async: true
-- Direct calls: `( await fs.readFile(path.join(server.directory, "CURRENT"), "utf8") ).trim`, `JSON.parse`, `api`, `assert.equal`, `assert.rejects`, `createSyncStore`, `fs.readFile`, `fs.writeFile`, `modules`, `note`, `path.join`, `server.store.commit`, `server.store.state`, `snap`
+- Direct calls: `( await fs.readFile(path.join(server.directory, "CURRENT"), "utf8") ).trim`, `JSON.parse`, `api`, `assert.equal`, `createSyncStore`, `fs.readFile`, `fs.writeFile`, `modules`, `note`, `path.join`, `repaired.state`, `server.store.commit`, `server.store.state`, `snap`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 640
+### <anonymous callback> — line 639
 
 Provide the callback passed to test.
 
-- Source: [`test/sync.test.cjs:640`](../test/sync.test.cjs#L640)
+- Source: [`test/sync.test.cjs:639`](../test/sync.test.cjs#L639)
 - Parameters: `(none)`; async: true
 - Direct calls: `assert.deepEqual`, `emptySnapshot`, `first.data.notes.find`, `mergeSnapshots`, `modules`, `next.data.notes.map`, `note`, `snap`
 - Assigned/updated targets: `oldCopy.texts[0].text`
 - Return expressions: (none)
 
-### <anonymous callback> — line 646
+### <anonymous callback> — line 645
 
 Provide the callback passed to first.data.notes.find.
 
-- Source: [`test/sync.test.cjs:646`](../test/sync.test.cjs#L646)
+- Source: [`test/sync.test.cjs:645`](../test/sync.test.cjs#L645)
 - Parameters: `n`; async: false
 - Direct calls: `n.id.startsWith`
 - Assigned/updated targets: (none)
 - Return expressions: `n.id.startsWith("conflict_")`
 
-### <anonymous callback> — line 650
+### <anonymous callback> — line 649
 
 Provide the callback passed to next.data.notes.map.
 
-- Source: [`test/sync.test.cjs:650`](../test/sync.test.cjs#L650)
+- Source: [`test/sync.test.cjs:649`](../test/sync.test.cjs#L649)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.texts[0].text`
 
-### <anonymous callback> — line 655
+### <anonymous callback> — line 654
 
 Provide the callback passed to test.
 
-- Source: [`test/sync.test.cjs:655`](../test/sync.test.cjs#L655)
+- Source: [`test/sync.test.cjs:654`](../test/sync.test.cjs#L654)
 - Parameters: `t`; async: true
 - Direct calls: `api`, `assert.equal`, `createSyncEngine`, `createSyncTransport`, `device`, `engine.run`, `modules`, `note`, `settings`, `snap`, `storage.save.bind`, `transport.getState`
 - Assigned/updated targets: `storage.save`
 - Return expressions: (none)
 
-### <anonymous callback> — line 663
+### <anonymous callback> — line 662
 
 Handle the callback assigned to storage.save.
 
-- Source: [`test/sync.test.cjs:663`](../test/sync.test.cjs#L663)
+- Source: [`test/sync.test.cjs:662`](../test/sync.test.cjs#L662)
 - Parameters: `patch`; async: true
 - Direct calls: `app.edit`, `save`
 - Assigned/updated targets: `inject`
 - Return expressions: `save(patch)`
 
-### <anonymous callback> — line 666
+### <anonymous callback> — line 665
 
 Provide the callback passed to app.edit.
 
-- Source: [`test/sync.test.cjs:666`](../test/sync.test.cjs#L666)
+- Source: [`test/sync.test.cjs:665`](../test/sync.test.cjs#L665)
 - Parameters: `d`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: `d.notes[0].texts[0].text`
+- Return expressions: (none)
+
+### <anonymous callback> — line 680
+
+Provide the callback passed to test.
+
+- Source: [`test/sync.test.cjs:680`](../test/sync.test.cjs#L680)
+- Parameters: `t`; async: true
+- Direct calls: `"f".repeat`, `api`, `assert.equal`, `assert.match`, `assert.rejects`, `createSyncStore`, `createSyncTransport`, `fetch`, `fs.readFile`, `fs.writeFile`, `modules`, `note`, `path.join`, `recovered.state`, `snap`, `transport.getState`, `transport.history`, `transport.putState`, `transport.revision`
+- Assigned/updated targets: `state`, `state.data.notes[0].texts[0].text`
+- Return expressions: (none)
+
+### <anonymous callback> — line 721
+
+Provide the callback passed to assert.rejects.
+
+- Source: [`test/sync.test.cjs:721`](../test/sync.test.cjs#L721)
+- Parameters: `e`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `e.status === 404`
+
+### <anonymous callback> — line 735
+
+Provide the callback passed to test.
+
+- Source: [`test/sync.test.cjs:735`](../test/sync.test.cjs#L735)
+- Parameters: `t`; async: true
+- Direct calls: `api`, `assert.equal`, `assert.rejects`, `createSyncTransport`, `modules`, `note`, `server.store.state`, `snap`, `transport.getState`, `transport.history`, `transport.putState`
+- Assigned/updated targets: `server.store.history.commit`
+- Return expressions: (none)
+
+### <anonymous callback> — line 741
+
+Handle the callback assigned to server.store.history.commit.
+
+- Source: [`test/sync.test.cjs:741`](../test/sync.test.cjs#L741)
+- Parameters: `(none)`; async: true
+- Direct calls: `Error`
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 750
+
+Provide the callback passed to assert.rejects.
+
+- Source: [`test/sync.test.cjs:750`](../test/sync.test.cjs#L750)
+- Parameters: `e`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `e.status === 500`
+
+### <anonymous callback> — line 762
+
+Provide the callback passed to test.
+
+- Source: [`test/sync.test.cjs:762`](../test/sync.test.cjs#L762)
+- Parameters: `t`; async: true
+- Direct calls: `(await b.file("pdf")).text`, `Object.entries`, `Object.entries(state.files).filter`, `Object.fromEntries`, `a.data.notes.find`, `a.data.notes.some`, `a.edit`, `a.putFile`, `api`, `assert.equal`, `assert.ok`, `b.edit`, `b.file`, `createSyncEngine`, `createSyncTransport`, `device`, `ea.run`, `eb.run`, `modules`, `note`, `saved.data.notes.find`, `settings`, `snap`, `state.data.notes.filter`, `transport.getState`, `transport.putState`
+- Assigned/updated targets: `n.pdf`
+- Return expressions: (none)
+
+### <anonymous callback> — line 788
+
+Provide the callback passed to a.edit.
+
+- Source: [`test/sync.test.cjs:788`](../test/sync.test.cjs#L788)
+- Parameters: `d`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: `d.notes[0].deleted`, `d.notes[0].deletedAt`
+- Return expressions: (none)
+
+### <anonymous callback> — line 796
+
+Provide the callback passed to b.edit.
+
+- Source: [`test/sync.test.cjs:796`](../test/sync.test.cjs#L796)
+- Parameters: `d`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: (none)
+
+### <anonymous callback> — line 803
+
+Provide the callback passed to a.edit.
+
+- Source: [`test/sync.test.cjs:803`](../test/sync.test.cjs#L803)
+- Parameters: `d`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: `d.notes[0].deleted`, `d.notes[0].deletedAt`
+- Return expressions: (none)
+
+### <anonymous callback> — line 807
+
+Provide the callback passed to b.edit.
+
+- Source: [`test/sync.test.cjs:807`](../test/sync.test.cjs#L807)
+- Parameters: `d`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: `d.notes[0].texts[0].text`
+- Return expressions: (none)
+
+### <anonymous callback> — line 813
+
+Provide the callback passed to a.data.notes.find.
+
+- Source: [`test/sync.test.cjs:813`](../test/sync.test.cjs#L813)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === "pdf"`
+
+### <anonymous callback> — line 816
+
+Provide the callback passed to a.data.notes.some.
+
+- Source: [`test/sync.test.cjs:816`](../test/sync.test.cjs#L816)
+- Parameters: `n`; async: false
+- Direct calls: `n.title.includes`
+- Assigned/updated targets: (none)
+- Return expressions: `!n.deleted && n.texts[0].text === "edited offline" && n.title.includes("recovered edit")`
+
+### <anonymous callback> — line 825
+
+Provide the callback passed to state.data.notes.filter.
+
+- Source: [`test/sync.test.cjs:825`](../test/sync.test.cjs#L825)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id !== "pdf"`
+
+### <anonymous callback> — line 832
+
+Provide the callback passed to Object.entries(state.files).filter.
+
+- Source: [`test/sync.test.cjs:832`](../test/sync.test.cjs#L832)
+- Parameters: `[id]`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `id !== "pdf"`
+
+### <anonymous callback> — line 836
+
+Provide the callback passed to saved.data.notes.find.
+
+- Source: [`test/sync.test.cjs:836`](../test/sync.test.cjs#L836)
+- Parameters: `n`; async: false
+- Direct calls: (none)
+- Assigned/updated targets: (none)
+- Return expressions: `n.id === "pdf"`
+
+### <anonymous callback> — line 842
+
+Provide the callback passed to test.
+
+- Source: [`test/sync.test.cjs:842`](../test/sync.test.cjs#L842)
+- Parameters: `t`; async: true
+- Direct calls: `api`, `assert.equal`, `assert.rejects`, `createSyncStore`, `createSyncTransport`, `fs.unlink`, `modules`, `note`, `path.join`, `server.store.state`, `snap`, `transport.getState`, `transport.putState`
+- Assigned/updated targets: (none)
 - Return expressions: (none)

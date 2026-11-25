@@ -609,7 +609,7 @@ test("disconnecting aborts a pending sync before it can adopt or upload anything
   assert.equal(aborted, true);
   assert.equal(read, false);
 });
-test("a corrupt CURRENT pointer fails closed without resetting stored notes", async (t) => {
+test("a valid Git HEAD repairs a corrupt CURRENT pointer without resetting stored notes", async (t) => {
   const server = await api(t),
     { createSyncStore } = await modules(),
     state = server.store.state();
@@ -625,10 +625,9 @@ test("a corrupt CURRENT pointer fails closed without resetting stored notes", as
     path.join(server.directory, "CURRENT"),
     "../not-a-snapshot",
   );
-  await assert.rejects(
-    createSyncStore({ root: server.directory }),
-    /Invalid CURRENT/,
-  );
+  const repaired = await createSyncStore({ root: server.directory });
+  assert.equal(repaired.state().data.notes[0].id, "saved");
+  assert.equal(repaired.state().revision, 1);
   const stored = JSON.parse(
     await fs.readFile(
       path.join(server.directory, "snapshots", pointer),
@@ -676,4 +675,186 @@ test("an edit during baseline persistence remains pending for the next sync", as
     (await transport.getState(null)).state.data.notes[0].texts[0].text,
     "edited while recording baseline",
   );
+});
+
+test("server autosaves create real Git revisions and history reads never overwrite current notes", async (t) => {
+  const server = await api(t),
+    { createSyncTransport, createSyncStore } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base });
+  let state = (await transport.getState(null)).state;
+  state = await transport.putState({
+    workspaceId: state.workspaceId,
+    baseRevision: state.revision,
+    ...snap([note("n", "first revision")]),
+  });
+  const firstPointer = await fs.readFile(
+    path.join(server.directory, "CURRENT"),
+    "utf8",
+  );
+  state.data.notes[0].texts[0].text = "second revision";
+  state = await transport.putState({
+    workspaceId: state.workspaceId,
+    baseRevision: state.revision,
+    data: state.data,
+    files: state.files,
+  });
+  const history = await transport.history();
+  assert.equal(history.commits.length, 2);
+  assert.match(history.commits[0].hash, /^[a-f0-9]{40,64}$/);
+  const earlier = await transport.revision(history.commits[1].hash);
+  assert.equal(earlier.data.notes[0].texts[0].text, "first revision");
+  assert.equal(
+    (await transport.getState(null)).state.data.notes[0].texts[0].text,
+    "second revision",
+  );
+  assert.equal((await fetch(server.base + "history")).status, 401);
+  assert.equal(
+    (
+      await fetch(server.base + "state", {
+        headers: { Authorization: "Bearer " + key },
+      })
+    ).status,
+    426,
+  );
+  await assert.rejects(
+    transport.revision("f".repeat(40)),
+    (e) => e.status === 404,
+  );
+  await fs.writeFile(path.join(server.directory, "CURRENT"), firstPointer);
+  const recovered = await createSyncStore({ root: server.directory });
+  assert.equal(
+    recovered.state().revision,
+    2,
+    "Git HEAD repairs a lagging snapshot pointer",
+  );
+  assert.equal(
+    recovered.state().data.notes[0].texts[0].text,
+    "second revision",
+  );
+});
+test("a failed Git commit cannot publish an untracked autosave", async (t) => {
+  const server = await api(t),
+    { createSyncTransport } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base });
+  const state = (await transport.getState(null)).state,
+    commit = server.store.history.commit;
+  server.store.history.commit = async () => {
+    throw Error("simulated disk failure");
+  };
+  await assert.rejects(
+    transport.putState({
+      workspaceId: state.workspaceId,
+      baseRevision: 0,
+      ...snap([note("n")]),
+    }),
+    (e) => e.status === 500,
+  );
+  assert.equal(server.store.state().revision, 0);
+  assert.equal((await transport.history()).commits.length, 0);
+  server.store.history.commit = commit;
+  await transport.putState({
+    workspaceId: state.workspaceId,
+    baseRevision: 0,
+    ...snap([note("n")]),
+  });
+  assert.equal((await transport.history()).commits.length, 1);
+});
+test("soft deletion syncs with retained PDF bytes, supports restore, and recovers a competing offline edit", async (t) => {
+  const server = await api(t),
+    { createSyncEngine, createSyncTransport } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base }),
+    n = note("pdf");
+  n.pdf = {
+    name: "keep.pdf",
+    pages: [{ width: 400, height: 600, strokes: [], texts: [] }],
+  };
+  const a = device(snap([n]).data),
+    b = device(snap([]).data);
+  a.putFile("pdf", new Blob(["%PDF-1.7\nretained"]));
+  const ea = createSyncEngine({
+      app: a,
+      storage: settings(),
+      transport,
+      deviceId: "a",
+    }),
+    eb = createSyncEngine({
+      app: b,
+      storage: settings(),
+      transport,
+      deviceId: "b",
+    });
+  await ea.run();
+  await eb.run();
+  a.edit((d) => {
+    d.notes[0].deleted = true;
+    d.notes[0].deletedAt = 100;
+  });
+  await ea.run();
+  await eb.run();
+  assert.equal(b.data.notes[0].deleted, true);
+  assert.equal(await (await b.file("pdf")).text(), "%PDF-1.7\nretained");
+  b.edit((d) => {
+    delete d.notes[0].deleted;
+    delete d.notes[0].deletedAt;
+  });
+  await eb.run();
+  await ea.run();
+  assert.ok(!a.data.notes[0].deleted);
+  a.edit((d) => {
+    d.notes[0].deleted = true;
+    d.notes[0].deletedAt = 200;
+  });
+  b.edit((d) => {
+    d.notes[0].texts[0].text = "edited offline";
+  });
+  await ea.run();
+  await eb.run();
+  await ea.run();
+  assert.ok(a.data.notes.find((n) => n.id === "pdf").deleted);
+  assert.ok(
+    a.data.notes.some(
+      (n) =>
+        !n.deleted &&
+        n.texts[0].text === "edited offline" &&
+        n.title.includes("recovered edit"),
+    ),
+  );
+  const state = (await transport.getState(null)).state;
+  const without = {
+    ...state.data,
+    notes: state.data.notes.filter((n) => n.id !== "pdf"),
+  };
+  const saved = await transport.putState({
+    workspaceId: state.workspaceId,
+    baseRevision: state.revision,
+    data: without,
+    files: Object.fromEntries(
+      Object.entries(state.files).filter(([id]) => id !== "pdf"),
+    ),
+  });
+  assert.ok(
+    saved.data.notes.find((n) => n.id === "pdf").deleted,
+    "omitted records are retained",
+  );
+  assert.ok(saved.files.pdf);
+});
+
+test("missing Git HEAD cannot silently reset an existing revision history", async (t) => {
+  const server = await api(t),
+    { createSyncTransport, createSyncStore } = await modules(),
+    transport = createSyncTransport({ token: key, base: server.base }),
+    state = (await transport.getState(null)).state;
+  await transport.putState({
+    workspaceId: state.workspaceId,
+    baseRevision: 0,
+    ...snap([note("retained")]),
+  });
+  await fs.unlink(
+    path.join(server.directory, "history", ".git", "refs", "heads", "main"),
+  );
+  await assert.rejects(
+    createSyncStore({ root: server.directory }),
+    /Git HEAD is missing/,
+  );
+  assert.equal(server.store.state().data.notes[0].id, "retained");
 });

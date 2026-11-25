@@ -1,5 +1,6 @@
 /** @file Authenticated, single-writer sync API with atomic JSON snapshots and immutable PDF blobs. */
 import http from "node:http";
+import { createGitHistory } from "./git-history.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -141,6 +142,9 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
       JSON.stringify(identity),
     );
   }
+  const history = await createGitHistory(root),
+    tip = await history.head();
+  let needsRepair = false;
   let current = {
     schema: 1,
     workspaceId: identity.id,
@@ -162,16 +166,51 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
       throw Error("Invalid workspace snapshot");
     validateNotebook(current.data, current.files);
   } catch (e) {
-    if (e.code !== "ENOENT") throw e;
-    const pointerExists = await fs.stat(path.join(root, "CURRENT")).then(
-      () => true,
-      () => false,
-    );
-    if (pointerExists)
-      throw Error(
-        "Current snapshot is missing; restore server backup before starting",
+    if (tip) {
+      current = tip.snapshot;
+      needsRepair = true;
+    } else {
+      if (e.code !== "ENOENT") throw e;
+      const pointerExists = await fs.stat(path.join(root, "CURRENT")).then(
+        () => true,
+        () => false,
       );
+      if (pointerExists)
+        throw Error(
+          "Current snapshot is missing; restore server backup before starting",
+        );
+    }
   }
+  if (tip) {
+    const saved = tip.snapshot;
+    if (
+      saved.workspaceId !== identity.id ||
+      !Number.isSafeInteger(saved.revision) ||
+      saved.revision < current.revision
+    )
+      throw Error(
+        "Git history does not match the server notebook; restore a complete backup",
+      );
+    validateNotebook(saved.data, saved.files);
+    if (
+      saved.revision === current.revision &&
+      JSON.stringify(saved) !== JSON.stringify(current)
+    )
+      throw Error("Git history and current snapshot disagree");
+    if (saved.revision > current.revision || needsRepair) {
+      const name =
+        String(saved.revision).padStart(16, "0") +
+        "-" +
+        crypto.randomUUID() +
+        ".json";
+      await atomicWrite(
+        path.join(root, "snapshots", name),
+        JSON.stringify(saved),
+      );
+      await atomicWrite(path.join(root, "CURRENT"), name + "\n");
+      current = saved;
+    }
+  } else if (current.revision > 0) await history.commit(current);
   let queue = Promise.resolve();
   /** Resolve only a verified SHA-256 name inside the immutable PDF directory. */
   function blobPath(hash) {
@@ -210,8 +249,34 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
           409,
           "Server notebook changed; fetch and merge again",
         );
-      const data = validateNotebook(input.data, input.files);
-      for (const hash of new Set(Object.values(input.files)))
+      // Older clients/imported backups may omit notes. Retain those records as tombstones.
+      const incoming = structuredClone(
+          validateNotebook(input.data, input.files),
+        ),
+        files = structuredClone(input.files);
+      if (
+        incoming &&
+        Array.isArray(incoming.notes) &&
+        Array.isArray(incoming.books)
+      ) {
+        const ids = new Set(incoming.notes.map((n) => n.id));
+        for (const previous of current.data.notes)
+          if (!ids.has(previous.id)) {
+            incoming.notes.push({
+              ...previous,
+              deleted: true,
+              deletedAt: previous.deletedAt || Date.now(),
+            });
+            if (current.files[previous.id])
+              files[previous.id] = current.files[previous.id];
+            if (!incoming.books.some((b) => b.id === previous.book))
+              incoming.books.push(
+                current.data.books.find((b) => b.id === previous.book),
+              );
+          }
+      }
+      const data = validateNotebook(incoming, files);
+      for (const hash of new Set(Object.values(files)))
         if (!(await hasBlob(hash)))
           throw new HttpError(
             422,
@@ -223,7 +288,7 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
           revision: current.revision + 1,
           updatedAt: new Date().toISOString(),
           data,
-          files: input.files,
+          files,
         },
         name =
           String(next.revision).padStart(16, "0") +
@@ -234,8 +299,13 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
         path.join(root, "snapshots", name),
         JSON.stringify(next),
       );
-      await atomicWrite(path.join(root, "CURRENT"), name + "\n");
+      await history.commit(next);
       current = next;
+      try {
+        await atomicWrite(path.join(root, "CURRENT"), name + "\n");
+      } catch {
+        /* Git HEAD already durably committed; startup repairs a lagging pointer. */
+      }
       try {
         const names = (await fs.readdir(path.join(root, "snapshots")))
           .filter((n) => /^\d{16}-[a-f0-9-]+\.json$/.test(n))
@@ -257,6 +327,7 @@ export async function createSyncStore({ root, keepSnapshots = 50 }) {
     /** Implement the version callback in this object. */
     version: () => ({ workspaceId: identity.id, revision: current.revision }),
     commit,
+    history,
     hasBlob,
     putBlob,
     /** Implement the readBlob callback in this object. */
@@ -308,7 +379,7 @@ export async function startSyncServer({
         return;
       }
       if (url.pathname === "/api/sync/config" && req.method === "GET") {
-        json(200, { enabled: true, protocol: 1, requiresKey: true });
+        json(200, { enabled: true, protocol: 2, requiresKey: true });
         return;
       }
       const supplied = Buffer.from(
@@ -323,7 +394,30 @@ export async function startSyncServer({
         throw new HttpError(503, "Sync server is busy; retry shortly");
       inFlight++;
       counted = true;
+      if (url.pathname === "/api/sync/history" && req.method === "GET") {
+        const offset = Number(url.searchParams.get("offset") || 0);
+        if (!Number.isSafeInteger(offset) || offset < 0 || offset > 1000000)
+          throw new HttpError(400, "Invalid history offset");
+        json(200, { commits: await store.history.list(offset) });
+        return;
+      }
+      const revision = url.pathname.match(
+        /^\/api\/sync\/history\/([a-f0-9]{40}|[a-f0-9]{64})$/,
+      );
+      if (revision && req.method === "GET") {
+        try {
+          json(200, await store.history.read(revision[1]));
+        } catch {
+          throw new HttpError(404, "Revision is unavailable");
+        }
+        return;
+      }
       if (url.pathname === "/api/sync/state") {
+        if (req.headers["x-leafnote-protocol"] !== "2")
+          throw new HttpError(
+            426,
+            "Update Leafnote and close older app windows before syncing recoverable notes",
+          );
         if (req.method === "GET") {
           const version = store.version(),
             etag = '\"' + version.workspaceId + ":" + version.revision + '\"';

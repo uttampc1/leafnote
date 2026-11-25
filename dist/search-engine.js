@@ -120,6 +120,7 @@
   function records(data) {
     const out = [];
     for (const n of data.notes) {
+      if (n.deleted) continue;
       const base = {
         id: n.id,
         title: n.title || "Untitled note",

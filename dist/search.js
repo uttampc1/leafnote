@@ -46,13 +46,14 @@
   /** Apply the selected notebook/favorite filter to the note list. */
   function eligible(n) {
     return (
-      filter === "all" || (filter === "star" && n.star) || n.book === filter
+      !n.deleted &&
+      (filter === "all" || (filter === "star" && n.star) || n.book === filter)
     );
   }
   /** List pages with missing PDF text or outdated handwriting recognition. */
   function workItems(includeInk = true, includePdf = true) {
     const result = [];
-    for (const n of data.notes)
+    for (const n of data.notes.filter((n) => !n.deleted))
       for (const [i, p] of (n.pdf ? n.pdf.pages : [n]).entries()) {
         if (includePdf && n.pdf && p.pdfText === undefined)
           result.push(n.id + ":pdf:" + i);
@@ -124,7 +125,7 @@
         }
     }
     $("#searchcoverage").textContent =
-      data.notes.length +
+      data.notes.filter((n) => !n.deleted).length +
       " notes · " +
       boards +
       " boards · " +
@@ -388,7 +389,7 @@
       unreadable = 0;
     render();
     try {
-      const targets = data.notes.slice();
+      const targets = data.notes.filter((n) => !n.deleted);
       for (const n of targets) {
         if (cancelled) break;
         if (!data.notes.includes(n)) continue;

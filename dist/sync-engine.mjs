@@ -33,7 +33,11 @@ export function createSyncTransport({
           ...options,
           signal: controller.signal,
           cache: "no-store",
-          headers: { ...options.headers, Authorization: "Bearer " + token },
+          headers: {
+            ...options.headers,
+            Authorization: "Bearer " + token,
+            "X-Leafnote-Protocol": "2",
+          },
         },
       );
       if (
@@ -89,6 +93,11 @@ export function createSyncTransport({
         },
         (response) => response.json(),
       ),
+    /** Fetch one page of private Git revision metadata. */
+    history: (offset = 0) =>
+      request("history?offset=" + offset, {}, (r) => r.json()),
+    /** Fetch a prior immutable notebook snapshot by full commit ID. */
+    revision: (hash) => request("history/" + hash, {}, (r) => r.json()),
     /** Implement the hasBlob callback in this object. */
     hasBlob: async (hash) =>
       request(

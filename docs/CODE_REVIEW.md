@@ -26,3 +26,7 @@ The local Git history separates the imported app snapshot from the packaging/PWA
 ## Sync review additions (1.1)
 
 Read [SYNC.md](SYNC.md) and inspect `server/sync-server.mjs`, `dist/sync-merge.mjs`, `dist/sync-engine.mjs`, `dist/sync-settings.mjs`, and `dist/sync.js`. Verify opt-in before notebook requests, bearer authentication and same-origin guards, blob hashes, atomic CURRENT publication, CAS rejection, deletion/edit recovery, retry receipts, disconnect cancellation, and the guarded IndexedDB adoption bridge. `features.js` acquires a browser writer lock before opening notebook storage. The sync API is internal to Docker; Caddy is its only published route. Client/server tests cover offline/reconnect and two-device conflicts.
+
+## Revision and recovery review (1.2)
+
+Review `server/git-history.mjs` (fixed CLI arguments, no shell/remote/hooks, Git commit durability), Git-before-publication and startup recovery in `sync-server.mjs`, deleted flags in validation/backup/search/counts, delete/edit conflict recovery in `sync-merge.mjs`, atomic local restoration in `features.js`, and read-only browsing/new-copy restoration in `maintenance.js`. Test coverage includes a failed Git commit, revision reads, protocol fencing, pointer recovery, offline Trash, retained PDFs, synchronized restoration, and user-title HTML escaping.

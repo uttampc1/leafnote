@@ -33,7 +33,7 @@ sudo ufw allow from 192.168.1.0/24 to any port 8443 proto tcp
 
 Change the subnet to match your network. The host port can change through `.env`; the container always listens on unprivileged HTTPS port 8443. Its HTTP health endpoint at 8080 is internal and is not published.
 
-The first build needs internet access to pull the Node and Caddy base images. All app/model assets are in this package; runtime model installation does not contact Hugging Face. For an air-gapped host, build on another machine of the same target architecture, use `docker save`, transfer the image, and `docker load` it before running Compose with `--no-build`.
+The first build needs internet access to pull the Node and Caddy base images and install Git in the sync image. All app/model assets are in this package; runtime model installation does not contact Hugging Face. For an air-gapped host, build on another machine of the same target architecture, use `docker save`, transfer the image, and `docker load` it before running Compose with `--no-build`.
 
 ## 2. Trust local HTTPS on each client
 
@@ -82,7 +82,7 @@ docker compose up -d --build --wait
 
 An installed app can continue running its old offline shell while a new version is downloaded. **••• → Update app** saves current edits before asking the waiting worker to activate and reloading. Closing all old app windows also lets a fully downloaded version activate naturally. Failed shell installation leaves the current version available.
 
-Keep an old image tag if you want a rollback: `docker tag leafnote-local:1.1.0 leafnote-local:previous` before rebuilding. To roll back, retag the previous image as `leafnote-local:1.1.0`, then run `docker compose up -d --no-build`. A browser may still have a newer offline shell; close its windows, reconnect, and allow the older server version to install as another complete shell. Do not clear site storage to force an update without first exporting the notebook.
+Keep an old image tag if you want a rollback: `docker tag leafnote-local:1.2.0 leafnote-local:previous` before rebuilding. To roll back, retag the previous image as `leafnote-local:1.2.0`, then run `docker compose up -d --no-build`. A browser may still have a newer offline shell; close its windows, reconnect, and allow the older server version to install as another complete shell. Do not clear site storage to force an update without first exporting the notebook.
 
 Export notebooks from every client. Synchronization propagates deletions; backups are still needed for recovery. Back up the complete server sync folder as well as client exports; Caddy/CA volumes alone do not contain the synchronized notebook. Clearing browser site data removes that client’s notes. A new IP, port, or HTTP/HTTPS scheme is a new origin and a different notebook store. **Import backup replaces destination notes.**
 
@@ -101,4 +101,6 @@ Logs: `docker compose logs --tail=100 leafnote`. Service health: `docker compose
 
 ## Server notebook storage and pairing
 
-Version 1.1 asks for a server folder during setup and asks each client to enable sync. Run `sh scripts/show-sync-code.sh` on Linux and paste that private code into **••• → Server sync** on the client. See [SYNC.md](SYNC.md) for upgrades, backups, conflicts, one-writer-per-profile behavior, and the on-disk snapshot format. The sync container is private to the Docker network; only Caddy’s HTTPS port is published.
+Version 1.2 asks for a server folder during setup and asks each client to enable sync. Run `sh scripts/show-sync-code.sh` on Linux and paste that private code into **••• → Server sync** on the client. See [SYNC.md](SYNC.md) for upgrades, backups, conflicts, one-writer-per-profile behavior, and the on-disk snapshot format. The sync container is private to the Docker network; only Caddy’s HTTPS port is published.
+
+For an existing sync deployment, follow the 1.2 upgrade section in SYNC.md. Preserve the private history folder in backups. Use matching app and sync image versions; older clients are rejected by sync protocol 2 to protect recoverable deletions.

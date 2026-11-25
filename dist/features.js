@@ -1354,41 +1354,116 @@
       $(".app").inert = false;
     }
   };
-  // Delete the local original only after the note deletion has saved successfully.
+
+  /** Atomically save a maintenance edit without pruning retained PDF originals. */
+  async function maintenanceChange(change, files = [], preferredId = current) {
+    if (syncApplying) throw Error("Wait for the current save to finish");
+    finishInput();
+    syncApplying = true;
+    $(".app").inert = true;
+    const operation = saveQueue
+      .then(async () => {
+        const candidate = clone(data);
+        change(candidate);
+        const validated = validate(candidate);
+        if (db) await writeState(validated, files);
+        else {
+          if (files.length) throw Error("PDF storage is unavailable");
+          localStorage.setItem(KEY, JSON.stringify(validated));
+        }
+        data = validated;
+        ++saveVersion;
+        undoStack.length = redoStack.length = 0;
+        renderNav();
+        loadNote(
+          data.notes.find((n) => n.id === preferredId && !n.deleted)?.id ||
+            data.notes.find((n) => !n.deleted)?.id,
+        );
+        lastSaveOK = true;
+        $("#saved").textContent = "Saved on device";
+        return true;
+      })
+      .finally(() => {
+        syncApplying = false;
+        $(".app").inert = false;
+      });
+    saveQueue = operation.then(
+      () => true,
+      () => {
+        lastSaveOK = false;
+        return false;
+      },
+    );
+    const result = await operation;
+    document.dispatchEvent(
+      new CustomEvent("leafnote-local-saved", {
+        detail: { remote: false, files: files.map(([id]) => id) },
+      }),
+    );
+    return result;
+  }
+  /** Move a note to Trash while keeping ink, text, metadata, and the original PDF. */
+  async function trashNote(id) {
+    return maintenanceChange((candidate) => {
+      const n = candidate.notes.find((n) => n.id === id && !n.deleted);
+      if (!n) throw Error("Note is unavailable");
+      n.deleted = true;
+      n.deletedAt = Date.now();
+      n.updated = Date.now();
+    });
+  }
+  /** Make a retained note visible again; restoration participates in ordinary synchronization. */
+  async function restoreDeleted(id) {
+    return maintenanceChange(
+      (candidate) => {
+        const n = candidate.notes.find((n) => n.id === id && n.deleted);
+        if (!n) throw Error("This note is no longer in Trash");
+        delete n.deleted;
+        delete n.deletedAt;
+        n.updated = Date.now();
+      },
+      [],
+      id,
+    );
+  }
+  /** Restore historical content as a separately named note, leaving current notes untouched. */
+  async function restoreRevision(raw, blob) {
+    const restored = clone(raw),
+      id = uid();
+    restored.id = id;
+    restored.title =
+      (restored.title || "Untitled note") + " (restored revision)";
+    delete restored.deleted;
+    delete restored.deletedAt;
+    restored.created = restored.updated = Date.now();
+    if (restored.pdf && !blob)
+      throw Error("The historical PDF original is unavailable");
+    return maintenanceChange(
+      (candidate) => {
+        if (!candidate.books.some((b) => b.id === restored.book))
+          restored.book = candidate.books[0].id;
+        candidate.notes.unshift(restored);
+      },
+      restored.pdf ? [[id, blob]] : [],
+      id,
+    );
+  }
   $("#delete").onclick = async () => {
     finishInput();
-    const n = note(),
-      r = await modal(
-        "Delete this note?",
-        `“${n.title || "Untitled note"}” and its local document will be permanently removed.`,
-        false,
-        "Delete",
-      );
-    if (!r.ok) return;
-    const candidate = clone(data);
-    candidate.notes = candidate.notes.filter((v) => v.id !== n.id);
+    const n = note();
+    if (!n) return;
+    const answer = await modal(
+      "Move this note to Trash?",
+      "You can restore it later from Maintenance. Its original PDF is kept.",
+      false,
+      "Move to Trash",
+    );
+    if (!answer.ok) return;
     try {
-      await saveQueue;
-      if (db) {
-        const tx = db.transaction(["state", "pdfs"], "readwrite"),
-          done = complete(tx);
-        tx.objectStore("state").put(candidate, "notebook");
-        tx.objectStore("pdfs").delete(n.id);
-        await done;
-      } else localStorage.setItem(KEY, JSON.stringify(candidate));
-      data = candidate;
-      ++saveVersion;
-      document.dispatchEvent(
-        new CustomEvent("leafnote-local-saved", {
-          detail: { remote: false, files: [n.id] },
-        }),
-      );
-      renderNav();
-      if (data.notes.length) loadNote(data.notes[0].id);
-      else createNote();
-      toast("Note deleted");
-    } catch (e) {
-      toast("Could not delete: " + e.message);
+      await trashNote(n.id);
+      toast("Moved to Trash");
+    } catch (error) {
+      toast("Could not move to Trash: " + error.message);
     }
   };
   // Keep notebook changes and ink transformations separate from PDF page sizing.
@@ -1482,9 +1557,9 @@
             if (!keep.has(stack[i].id)) stack.splice(i, 1);
         renderNav();
         loadNote(
-          data.notes.some((n) => n.id === preferredId)
+          data.notes.some((n) => n.id === preferredId && !n.deleted)
             ? preferredId
-            : data.notes[0]?.id,
+            : data.notes.find((n) => !n.deleted)?.id,
         );
         lastSaveOK = true;
         $("#saved").textContent = "Saved on device";
@@ -1512,6 +1587,13 @@
   }
   window.LeafnoteApp = {
     ready: false,
+    maintenance: {
+      /** Implement the trash callback in this object. */
+      trash: () => clone(data.notes.filter((n) => n.deleted)),
+      restoreDeleted,
+      restoreRevision,
+      trashNote,
+    },
     sync: {
       /** Implement the supported callback in this object. */
       supported: () => !!db && writerLocked,
@@ -1579,7 +1661,7 @@
       : legacy
         ? validate(JSON.parse(legacy))
         : fresh();
-    current = data.notes[0]?.id;
+    current = data.notes.find((n) => !n.deleted)?.id;
     renderNav();
     loadNote(current);
     await persist();

@@ -1,5 +1,5 @@
 {
-  "functionCount": 959,
+  "functionCount": 1076,
   "functions": [
     {
       "file": "dist/app.js",
@@ -120,7 +120,7 @@
       "file": "dist/app.js",
       "line": 79,
       "column": 1,
-      "endLine": 126,
+      "endLine": 132,
       "name": "validate",
       "async": false,
       "parameters": [
@@ -183,7 +183,7 @@
       "file": "dist/app.js",
       "line": 95,
       "column": 25,
-      "endLine": 122,
+      "endLine": 128,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -226,9 +226,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 108,
+      "line": 114,
       "column": 9,
-      "endLine": 114,
+      "endLine": 120,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -246,9 +246,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 112,
+      "line": 118,
       "column": 13,
-      "endLine": 113,
+      "endLine": 119,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -266,9 +266,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 116,
+      "line": 122,
       "column": 12,
-      "endLine": 121,
+      "endLine": 127,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -288,9 +288,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 123,
+      "line": 129,
       "column": 27,
-      "endLine": 123,
+      "endLine": 129,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -305,9 +305,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 130,
+      "line": 136,
       "column": 1,
-      "endLine": 132,
+      "endLine": 138,
       "name": "note",
       "async": false,
       "parameters": [],
@@ -317,14 +317,14 @@
       ],
       "writes": [],
       "returns": [
-        "data.notes.find((n) => n.id === current)"
+        "data.notes.find((n) => n.id === current && !n.deleted)"
       ]
     },
     {
       "file": "dist/app.js",
-      "line": 131,
+      "line": 137,
       "column": 26,
-      "endLine": 131,
+      "endLine": 137,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -334,14 +334,14 @@
       "calls": [],
       "writes": [],
       "returns": [
-        "n.id === current"
+        "n.id === current && !n.deleted"
       ]
     },
     {
       "file": "dist/app.js",
-      "line": 134,
+      "line": 140,
       "column": 1,
-      "endLine": 136,
+      "endLine": 142,
       "name": "book",
       "async": false,
       "parameters": [
@@ -358,9 +358,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 135,
+      "line": 141,
       "column": 26,
-      "endLine": 135,
+      "endLine": 141,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -375,9 +375,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 138,
+      "line": 144,
       "column": 1,
-      "endLine": 150,
+      "endLine": 156,
       "name": "persist",
       "async": false,
       "parameters": [],
@@ -398,9 +398,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 152,
+      "line": 158,
       "column": 1,
-      "endLine": 157,
+      "endLine": 163,
       "name": "toast",
       "async": false,
       "parameters": [
@@ -421,9 +421,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 156,
+      "line": 162,
       "column": 28,
-      "endLine": 156,
+      "endLine": 162,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -439,9 +439,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 159,
+      "line": 165,
       "column": 1,
-      "endLine": 163,
+      "endLine": 169,
       "name": "plain",
       "async": false,
       "parameters": [
@@ -460,9 +460,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 165,
+      "line": 171,
       "column": 1,
-      "endLine": 173,
+      "endLine": 179,
       "name": "escapeText",
       "async": false,
       "parameters": [
@@ -480,9 +480,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 168,
+      "line": 174,
       "column": 5,
-      "endLine": 171,
+      "endLine": 177,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -497,9 +497,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 175,
+      "line": 181,
       "column": 1,
-      "endLine": 193,
+      "endLine": 201,
       "name": "renderNav",
       "async": false,
       "parameters": [],
@@ -523,9 +523,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 177,
-      "column": 55,
-      "endLine": 177,
+      "line": 182,
+      "column": 47,
+      "endLine": 182,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -535,14 +535,31 @@
       "calls": [],
       "writes": [],
       "returns": [
-        "n.star"
+        "!n.deleted"
       ]
     },
     {
       "file": "dist/app.js",
-      "line": 180,
+      "line": 184,
+      "column": 5,
+      "endLine": 184,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted && n.star"
+      ]
+    },
+    {
+      "file": "dist/app.js",
+      "line": 188,
       "column": 7,
-      "endLine": 181,
+      "endLine": 189,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -560,9 +577,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 181,
+      "line": 189,
       "column": 210,
-      "endLine": 181,
+      "endLine": 189,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -572,14 +589,14 @@
       "calls": [],
       "writes": [],
       "returns": [
-        "n.book === b.id"
+        "!n.deleted && n.book === b.id"
       ]
     },
     {
       "file": "dist/app.js",
-      "line": 184,
+      "line": 192,
       "column": 26,
-      "endLine": 185,
+      "endLine": 193,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -596,9 +613,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 189,
+      "line": 197,
       "column": 7,
-      "endLine": 190,
+      "endLine": 198,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -615,9 +632,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 195,
+      "line": 203,
       "column": 1,
-      "endLine": 226,
+      "endLine": 235,
       "name": "renderList",
       "async": false,
       "parameters": [],
@@ -627,7 +644,7 @@
         "$(\"#search\").value.toLowerCase",
         "data.books.find",
         "data.notes .filter",
-        "data.notes .filter( (n) => (filter === \"all\" || (filter === \"star\" && n.star) || n.book === filter) ",
+        "data.notes .filter( (n) => !n.deleted && (filter === \"all\" || (filter === \"star\" && n.star) || n.boo",
         "notes .map",
         "notes .map( (n) => `<button class=\"note ${n.id === current ? \"active\" : \"\"}\" data-id=\"${escapeText(n"
       ],
@@ -640,9 +657,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 199,
+      "line": 207,
       "column": 7,
-      "endLine": 203,
+      "endLine": 212,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -656,21 +673,21 @@
       ],
       "writes": [],
       "returns": [
-        "(filter === \"all\" || (filter === \"star\" && n.star) || n.book === filter) && (!q || (n.title + \" \" + plain(n.html)).toLowerCase().includes(q))"
+        "!n.deleted && (filter === \"all\" || (filter === \"star\" && n.star) || n.book === filter) && (!q || (n.title + \" \" + plain(n.html)).toLowerCase().includes(q))"
       ]
     },
     {
       "file": "dist/app.js",
-      "line": 205,
+      "line": 214,
       "column": 11,
-      "endLine": 208,
+      "endLine": 217,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
         "a",
         "b"
       ],
-      "purpose": "Provide the callback passed to data.notes .filter( (n) => (filter === \"all\" || (filter === \"star\" && n.star) || n.book === filter) .",
+      "purpose": "Provide the callback passed to data.notes .filter( (n) => !n.deleted && (filter === \"all\" || (filter === \"star\" && n.star) || n.boo.",
       "calls": [
         "$",
         "a.title.localeCompare"
@@ -682,9 +699,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 215,
+      "line": 224,
       "column": 27,
-      "endLine": 215,
+      "endLine": 224,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -699,9 +716,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 221,
+      "line": 230,
       "column": 11,
-      "endLine": 222,
+      "endLine": 231,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -722,9 +739,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 228,
+      "line": 237,
       "column": 1,
-      "endLine": 232,
+      "endLine": 241,
       "name": "redraw",
       "async": false,
       "parameters": [],
@@ -741,9 +758,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 234,
+      "line": 243,
       "column": 1,
-      "endLine": 249,
+      "endLine": 258,
       "name": "pathFor",
       "async": false,
       "parameters": [
@@ -763,9 +780,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 239,
+      "line": 248,
       "column": 20,
-      "endLine": 239,
+      "endLine": 248,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -782,9 +799,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 251,
+      "line": 260,
       "column": 1,
-      "endLine": 254,
+      "endLine": 263,
       "name": "resizePage",
       "async": false,
       "parameters": [],
@@ -800,9 +817,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 256,
+      "line": 265,
       "column": 1,
-      "endLine": 283,
+      "endLine": 294,
       "name": "loadNote",
       "async": false,
       "parameters": [
@@ -816,6 +833,7 @@
         "book",
         "countWords",
         "createNote",
+        "data.notes.find",
         "new Date(n.created).toLocaleDateString",
         "note",
         "redraw",
@@ -841,9 +859,43 @@
     },
     {
       "file": "dist/app.js",
-      "line": 285,
+      "line": 267,
+      "column": 21,
+      "endLine": 267,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === id && !n.deleted"
+      ]
+    },
+    {
+      "file": "dist/app.js",
+      "line": 268,
+      "column": 21,
+      "endLine": 268,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
+    },
+    {
+      "file": "dist/app.js",
+      "line": 296,
       "column": 1,
-      "endLine": 288,
+      "endLine": 299,
       "name": "countWords",
       "async": false,
       "parameters": [],
@@ -860,9 +912,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 290,
+      "line": 301,
       "column": 1,
-      "endLine": 295,
+      "endLine": 306,
       "name": "touch",
       "async": false,
       "parameters": [],
@@ -882,9 +934,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 297,
+      "line": 308,
       "column": 1,
-      "endLine": 316,
+      "endLine": 327,
       "name": "createNote",
       "async": false,
       "parameters": [],
@@ -907,9 +959,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 300,
+      "line": 311,
       "column": 27,
-      "endLine": 300,
+      "endLine": 311,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -924,9 +976,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 318,
+      "line": 329,
       "column": 1,
-      "endLine": 330,
+      "endLine": 341,
       "name": "modal",
       "async": false,
       "parameters": [
@@ -944,9 +996,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 319,
+      "line": 330,
       "column": 22,
-      "endLine": 329,
+      "endLine": 340,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -971,9 +1023,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 331,
+      "line": 342,
       "column": 39,
-      "endLine": 337,
+      "endLine": 348,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -990,9 +1042,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 344,
+      "line": 355,
       "column": 36,
-      "endLine": 366,
+      "endLine": 377,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1019,9 +1071,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 356,
+      "line": 367,
       "column": 31,
-      "endLine": 356,
+      "endLine": 367,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1038,9 +1090,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 367,
+      "line": 378,
       "column": 25,
-      "endLine": 385,
+      "endLine": 396,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
@@ -1066,9 +1118,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 388,
+      "line": 399,
       "column": 24,
-      "endLine": 388,
+      "endLine": 399,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1084,9 +1136,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 389,
+      "line": 400,
       "column": 23,
-      "endLine": 392,
+      "endLine": 403,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1104,9 +1156,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 393,
+      "line": 404,
       "column": 24,
-      "endLine": 398,
+      "endLine": 409,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1126,9 +1178,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 399,
+      "line": 410,
       "column": 40,
-      "endLine": 406,
+      "endLine": 417,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1145,9 +1197,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 407,
+      "line": 418,
       "column": 39,
-      "endLine": 407,
+      "endLine": 418,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1164,9 +1216,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 408,
+      "line": 419,
       "column": 26,
-      "endLine": 417,
+      "endLine": 428,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1182,9 +1234,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 409,
+      "line": 420,
       "column": 19,
-      "endLine": 409,
+      "endLine": 420,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1201,9 +1253,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 410,
+      "line": 421,
       "column": 15,
-      "endLine": 416,
+      "endLine": 427,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1224,9 +1276,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 418,
+      "line": 429,
       "column": 27,
-      "endLine": 424,
+      "endLine": 435,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1247,9 +1299,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 425,
+      "line": 436,
       "column": 24,
-      "endLine": 429,
+      "endLine": 440,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1267,9 +1319,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 430,
+      "line": 441,
       "column": 26,
-      "endLine": 436,
+      "endLine": 447,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1289,16 +1341,18 @@
     },
     {
       "file": "dist/app.js",
-      "line": 437,
+      "line": 448,
       "column": 24,
-      "endLine": 451,
+      "endLine": 464,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
       "purpose": "Handle the callback assigned to $(\"#delete\").onclick.",
       "calls": [
+        "Date.now",
         "createNote",
-        "data.notes.filter",
+        "data.notes.find",
+        "data.notes.some",
         "loadNote",
         "modal",
         "note",
@@ -1307,7 +1361,8 @@
         "toast"
       ],
       "writes": [
-        "data.notes"
+        "note().deleted",
+        "note().deletedAt"
       ],
       "returns": [
         "undefined"
@@ -1315,26 +1370,43 @@
     },
     {
       "file": "dist/app.js",
-      "line": 445,
-      "column": 34,
-      "endLine": 445,
+      "line": 460,
+      "column": 23,
+      "endLine": 460,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
         "n"
       ],
-      "purpose": "Provide the callback passed to data.notes.filter.",
+      "purpose": "Provide the callback passed to data.notes.some.",
       "calls": [],
       "writes": [],
       "returns": [
-        "n.id !== current"
+        "!n.deleted"
       ]
     },
     {
       "file": "dist/app.js",
-      "line": 453,
+      "line": 461,
+      "column": 30,
+      "endLine": 461,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
+    },
+    {
+      "file": "dist/app.js",
+      "line": 466,
       "column": 1,
-      "endLine": 459,
+      "endLine": 472,
       "name": "point",
       "async": false,
       "parameters": [
@@ -1353,9 +1425,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 461,
+      "line": 474,
       "column": 1,
-      "endLine": 486,
+      "endLine": 499,
       "name": "eraseAt",
       "async": false,
       "parameters": [
@@ -1374,9 +1446,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 464,
+      "line": 477,
       "column": 5,
-      "endLine": 483,
+      "endLine": 496,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1393,9 +1465,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 465,
+      "line": 478,
       "column": 22,
-      "endLine": 483,
+      "endLine": 496,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1416,9 +1488,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 487,
+      "line": 500,
       "column": 30,
-      "endLine": 504,
+      "endLine": 517,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1447,9 +1519,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 505,
+      "line": 518,
       "column": 30,
-      "endLine": 513,
+      "endLine": 526,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1471,9 +1543,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 515,
+      "line": 528,
       "column": 1,
-      "endLine": 536,
+      "endLine": 549,
       "name": "finishStroke",
       "async": false,
       "parameters": [],
@@ -1494,9 +1566,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 540,
+      "line": 553,
       "column": 22,
-      "endLine": 551,
+      "endLine": 564,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1520,9 +1592,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 541,
+      "line": 554,
       "column": 35,
-      "endLine": 541,
+      "endLine": 554,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -1537,9 +1609,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 552,
+      "line": 565,
       "column": 22,
-      "endLine": 562,
+      "endLine": 575,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1562,9 +1634,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 564,
+      "line": 577,
       "column": 1,
-      "endLine": 571,
+      "endLine": 584,
       "name": "download",
       "async": false,
       "parameters": [
@@ -1587,9 +1659,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 570,
+      "line": 583,
       "column": 14,
-      "endLine": 570,
+      "endLine": 583,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1604,9 +1676,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 572,
+      "line": 585,
       "column": 24,
-      "endLine": 577,
+      "endLine": 590,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1624,9 +1696,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 578,
+      "line": 591,
       "column": 25,
-      "endLine": 581,
+      "endLine": 594,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1642,9 +1714,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 582,
+      "line": 595,
       "column": 29,
-      "endLine": 605,
+      "endLine": 618,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -1673,9 +1745,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 606,
+      "line": 619,
       "column": 24,
-      "endLine": 617,
+      "endLine": 630,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -1695,9 +1767,9 @@
     },
     {
       "file": "dist/app.js",
-      "line": 618,
+      "line": 631,
       "column": 41,
-      "endLine": 618,
+      "endLine": 631,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -3322,7 +3394,7 @@
       "file": "dist/features.js",
       "line": 2,
       "column": 2,
-      "endLine": 1599,
+      "endLine": 1681,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
@@ -3335,6 +3407,7 @@
         "[\"pen\", \"all\", \"stylus\"].includes",
         "acquireWriter",
         "console.error",
+        "data.notes.find",
         "db.transaction",
         "db.transaction(\"state\").objectStore",
         "db.transaction(\"state\").objectStore(\"state\").get",
@@ -6466,63 +6539,379 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1358,
+      "line": 1359,
+      "column": 3,
+      "endLine": 1404,
+      "name": "maintenanceChange",
+      "async": true,
+      "parameters": [
+        "change",
+        "files = []",
+        "preferredId = current"
+      ],
+      "purpose": "Atomically save a maintenance edit without pruning retained PDF originals.",
+      "calls": [
+        "$",
+        "Error",
+        "document.dispatchEvent",
+        "files.map",
+        "finishInput",
+        "operation.then",
+        "saveQueue .then",
+        "saveQueue .then(async () => { const candidate = clone(data); change(candidate); const validated = va"
+      ],
+      "writes": [
+        "$(\".app\").inert",
+        "saveQueue",
+        "syncApplying"
+      ],
+      "returns": [
+        "result"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1365,
+      "column": 13,
+      "endLine": 1385,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Provide the callback passed to saveQueue .then.",
+      "calls": [
+        "$",
+        "Error",
+        "JSON.stringify",
+        "change",
+        "clone",
+        "data.notes.find",
+        "loadNote",
+        "localStorage.setItem",
+        "renderNav",
+        "validate",
+        "writeState"
+      ],
+      "writes": [
+        "$(\"#saved\").textContent",
+        "data",
+        "lastSaveOK",
+        "redoStack.length",
+        "saveVersion",
+        "undoStack.length"
+      ],
+      "returns": [
+        "true"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1379,
+      "column": 27,
+      "endLine": 1379,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === preferredId && !n.deleted"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1380,
+      "column": 29,
+      "endLine": 1380,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1386,
+      "column": 16,
+      "endLine": 1389,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to saveQueue .then(async () => { const candidate = clone(data); change(candidate); const validated = va.",
+      "calls": [
+        "$"
+      ],
+      "writes": [
+        "$(\".app\").inert",
+        "syncApplying"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1391,
+      "column": 7,
+      "endLine": 1391,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to operation.then.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "true"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1392,
+      "column": 7,
+      "endLine": 1395,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to operation.then.",
+      "calls": [],
+      "writes": [
+        "lastSaveOK"
+      ],
+      "returns": [
+        "false"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1400,
+      "column": 51,
+      "endLine": 1400,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "[id]"
+      ],
+      "purpose": "Provide the callback passed to files.map.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "id"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1406,
+      "column": 3,
+      "endLine": 1414,
+      "name": "trashNote",
+      "async": true,
+      "parameters": [
+        "id"
+      ],
+      "purpose": "Move a note to Trash while keeping ink, text, metadata, and the original PDF.",
+      "calls": [
+        "maintenanceChange"
+      ],
+      "writes": [],
+      "returns": [
+        "maintenanceChange((candidate) => { const n = candidate.notes.find((n) => n.id === id && !n.deleted); if (!n) throw Error(\"Note is unavailable\"); n.deleted = true; n.deletedAt = Dat"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1407,
+      "column": 30,
+      "endLine": 1413,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "candidate"
+      ],
+      "purpose": "Provide the callback passed to maintenanceChange.",
+      "calls": [
+        "Date.now",
+        "Error",
+        "candidate.notes.find"
+      ],
+      "writes": [
+        "n.deleted",
+        "n.deletedAt",
+        "n.updated"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1408,
+      "column": 38,
+      "endLine": 1408,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to candidate.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === id && !n.deleted"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1416,
+      "column": 3,
+      "endLine": 1428,
+      "name": "restoreDeleted",
+      "async": true,
+      "parameters": [
+        "id"
+      ],
+      "purpose": "Make a retained note visible again; restoration participates in ordinary synchronization.",
+      "calls": [
+        "maintenanceChange"
+      ],
+      "writes": [],
+      "returns": [
+        "maintenanceChange( (candidate) => { const n = candidate.notes.find((n) => n.id === id && n.deleted); if (!n) throw Error(\"This note is no longer in Trash\"); delete n.deleted; delet"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1418,
+      "column": 7,
+      "endLine": 1424,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "candidate"
+      ],
+      "purpose": "Provide the callback passed to maintenanceChange.",
+      "calls": [
+        "Date.now",
+        "Error",
+        "candidate.notes.find"
+      ],
+      "writes": [
+        "n.updated"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1419,
+      "column": 40,
+      "endLine": 1419,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to candidate.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === id && n.deleted"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1430,
+      "column": 3,
+      "endLine": 1450,
+      "name": "restoreRevision",
+      "async": true,
+      "parameters": [
+        "raw",
+        "blob"
+      ],
+      "purpose": "Restore historical content as a separately named note, leaving current notes untouched.",
+      "calls": [
+        "Date.now",
+        "Error",
+        "clone",
+        "maintenanceChange",
+        "uid"
+      ],
+      "writes": [
+        "restored.created",
+        "restored.id",
+        "restored.title",
+        "restored.updated"
+      ],
+      "returns": [
+        "maintenanceChange( (candidate) => { if (!candidate.books.some((b) => b.id === restored.book)) restored.book = candidate.books[0].id; candidate.notes.unshift(restored); }, restored."
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1442,
+      "column": 7,
+      "endLine": 1446,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "candidate"
+      ],
+      "purpose": "Provide the callback passed to maintenanceChange.",
+      "calls": [
+        "candidate.books.some",
+        "candidate.notes.unshift"
+      ],
+      "writes": [
+        "restored.book"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1443,
+      "column": 35,
+      "endLine": 1443,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "b"
+      ],
+      "purpose": "Provide the callback passed to candidate.books.some.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "b.id === restored.book"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1451,
       "column": 26,
-      "endLine": 1393,
+      "endLine": 1468,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
       "purpose": "Handle the callback assigned to $(\"#delete\").onclick.",
       "calls": [
-        "JSON.stringify",
-        "candidate.notes.filter",
-        "clone",
-        "complete",
-        "createNote",
-        "db.transaction",
-        "document.dispatchEvent",
         "finishInput",
-        "loadNote",
-        "localStorage.setItem",
         "modal",
         "note",
-        "renderNav",
         "toast",
-        "tx.objectStore",
-        "tx.objectStore(\"pdfs\").delete",
-        "tx.objectStore(\"state\").put"
+        "trashNote"
       ],
-      "writes": [
-        "candidate.notes",
-        "data",
-        "saveVersion"
-      ],
+      "writes": [],
       "returns": [
         "undefined"
       ]
     },
     {
       "file": "dist/features.js",
-      "line": 1369,
-      "column": 46,
-      "endLine": 1369,
-      "name": "<anonymous callback>",
-      "async": false,
-      "parameters": [
-        "v"
-      ],
-      "purpose": "Provide the callback passed to candidate.notes.filter.",
-      "calls": [],
-      "writes": [],
-      "returns": [
-        "v.id !== n.id"
-      ]
-    },
-    {
-      "file": "dist/features.js",
-      "line": 1396,
+      "line": 1471,
       "column": 29,
-      "endLine": 1399,
+      "endLine": 1474,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6536,9 +6925,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1403,
+      "line": 1478,
       "column": 5,
-      "endLine": 1406,
+      "endLine": 1481,
       "name": "createNote",
       "async": false,
       "parameters": [],
@@ -6552,9 +6941,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1409,
+      "line": 1484,
       "column": 35,
-      "endLine": 1409,
+      "endLine": 1484,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6569,9 +6958,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1410,
+      "line": 1485,
       "column": 49,
-      "endLine": 1412,
+      "endLine": 1487,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6584,9 +6973,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1414,
+      "line": 1489,
       "column": 3,
-      "endLine": 1437,
+      "endLine": 1512,
       "name": "acquireWriter",
       "async": true,
       "parameters": [],
@@ -6600,9 +6989,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1416,
+      "line": 1491,
       "column": 24,
-      "endLine": 1436,
+      "endLine": 1511,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -6618,9 +7007,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1421,
+      "line": 1496,
       "column": 11,
-      "endLine": 1433,
+      "endLine": 1508,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -6639,9 +7028,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1428,
+      "line": 1503,
       "column": 31,
-      "endLine": 1431,
+      "endLine": 1506,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -6658,9 +7047,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1429,
+      "line": 1504,
       "column": 51,
-      "endLine": 1431,
+      "endLine": 1506,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -6675,9 +7064,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1435,
+      "line": 1510,
       "column": 16,
-      "endLine": 1435,
+      "endLine": 1510,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6692,9 +7081,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1439,
+      "line": 1514,
       "column": 3,
-      "endLine": 1454,
+      "endLine": 1529,
       "name": "syncBusy",
       "async": false,
       "parameters": [],
@@ -6712,9 +7101,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1456,
+      "line": 1531,
       "column": 3,
-      "endLine": 1505,
+      "endLine": 1580,
       "name": "applySyncedNotebook",
       "async": true,
       "parameters": [
@@ -6746,9 +7135,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1467,
+      "line": 1542,
       "column": 14,
-      "endLine": 1467,
+      "endLine": 1542,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6759,15 +7148,16 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1468,
+      "line": 1543,
       "column": 13,
-      "endLine": 1492,
+      "endLine": 1567,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
       "purpose": "Provide the callback passed to saveQueue .catch(() => {}) .then.",
       "calls": [
         "$",
+        "data.notes.find",
         "data.notes.some",
         "keep.has",
         "loadNote",
@@ -6790,9 +7180,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1485,
+      "line": 1560,
       "column": 27,
-      "endLine": 1485,
+      "endLine": 1560,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -6802,14 +7192,31 @@
       "calls": [],
       "writes": [],
       "returns": [
-        "n.id === preferredId"
+        "n.id === preferredId && !n.deleted"
       ]
     },
     {
       "file": "dist/features.js",
-      "line": 1493,
+      "line": 1562,
+      "column": 31,
+      "endLine": 1562,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1568,
       "column": 16,
-      "endLine": 1496,
+      "endLine": 1571,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6825,9 +7232,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1498,
+      "line": 1573,
       "column": 7,
-      "endLine": 1498,
+      "endLine": 1573,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6840,9 +7247,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1499,
+      "line": 1574,
       "column": 7,
-      "endLine": 1502,
+      "endLine": 1577,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -6857,9 +7264,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1507,
+      "line": 1582,
       "column": 3,
-      "endLine": 1512,
+      "endLine": 1587,
       "name": "readSyncNotebook",
       "async": true,
       "parameters": [],
@@ -6875,9 +7282,44 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1517,
+      "line": 1592,
+      "column": 14,
+      "endLine": 1592,
+      "name": "trash",
+      "async": false,
+      "parameters": [],
+      "purpose": "Implement the trash callback in this object.",
+      "calls": [
+        "clone",
+        "data.notes.filter"
+      ],
+      "writes": [],
+      "returns": [
+        "clone(data.notes.filter((n) => n.deleted))"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1592,
+      "column": 44,
+      "endLine": 1592,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.deleted"
+      ]
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1599,
       "column": 18,
-      "endLine": 1517,
+      "endLine": 1599,
       "name": "supported",
       "async": false,
       "parameters": [],
@@ -6890,9 +7332,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1521,
+      "line": 1603,
       "column": 16,
-      "endLine": 1521,
+      "endLine": 1603,
       "name": "version",
       "async": false,
       "parameters": [],
@@ -6905,9 +7347,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1525,
+      "line": 1607,
       "column": 20,
-      "endLine": 1525,
+      "endLine": 1607,
       "name": "fileVersion",
       "async": false,
       "parameters": [
@@ -6924,9 +7366,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1533,
+      "line": 1615,
       "column": 13,
-      "endLine": 1536,
+      "endLine": 1618,
       "name": "record",
       "async": false,
       "parameters": [
@@ -6943,9 +7385,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1538,
+      "line": 1620,
       "column": 13,
-      "endLine": 1538,
+      "endLine": 1620,
       "name": "redraw",
       "async": false,
       "parameters": [],
@@ -6960,9 +7402,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1540,
+      "line": 1622,
       "column": 13,
-      "endLine": 1540,
+      "endLine": 1622,
       "name": "resize",
       "async": false,
       "parameters": [],
@@ -6977,9 +7419,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1545,
+      "line": 1627,
       "column": 11,
-      "endLine": 1545,
+      "endLine": 1627,
       "name": "page",
       "async": false,
       "parameters": [],
@@ -6995,9 +7437,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1547,
+      "line": 1629,
       "column": 16,
-      "endLine": 1547,
+      "endLine": 1629,
       "name": "pageIndex",
       "async": false,
       "parameters": [],
@@ -7010,9 +7452,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1549,
+      "line": 1631,
       "column": 11,
-      "endLine": 1552,
+      "endLine": 1634,
       "name": "open",
       "async": true,
       "parameters": [
@@ -7030,9 +7472,9 @@
     },
     {
       "file": "dist/features.js",
-      "line": 1563,
+      "line": 1645,
       "column": 28,
-      "endLine": 1567,
+      "endLine": 1649,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -7045,6 +7487,23 @@
         "db"
       ],
       "returns": []
+    },
+    {
+      "file": "dist/features.js",
+      "line": 1664,
+      "column": 31,
+      "endLine": 1664,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
     },
     {
       "file": "dist/ink-engine.js",
@@ -7600,6 +8059,606 @@
       ],
       "writes": [],
       "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 2,
+      "column": 2,
+      "endLine": 290,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Initialize dist/maintenance.js inside an isolated scope.",
+      "calls": [
+        "document.addEventListener",
+        "setup"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 5,
+      "column": 3,
+      "endLine": 287,
+      "name": "setup",
+      "async": false,
+      "parameters": [],
+      "purpose": "Attach this module’s event handlers after the application state is ready.",
+      "calls": [
+        "$",
+        "dialog.addEventListener"
+      ],
+      "writes": [
+        "$(\"#closemaintenance\").onclick",
+        "$(\"#maintenance\").onclick",
+        "$(\"#olderrevisions\").onclick",
+        "$(\"#refreshmaintenance\").onclick",
+        "$(\"#restorerevision\").onclick",
+        "$(\"#showhistory\").onclick",
+        "$(\"#showtrash\").onclick"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 15,
+      "column": 5,
+      "endLine": 17,
+      "name": "maintenanceStatus",
+      "async": false,
+      "parameters": [
+        "message"
+      ],
+      "purpose": "Show a readable operation result without replacing notebook content.",
+      "calls": [
+        "$"
+      ],
+      "writes": [
+        "$(\"#maintenancestatus\").textContent"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 19,
+      "column": 5,
+      "endLine": 25,
+      "name": "lock",
+      "async": false,
+      "parameters": [
+        "value"
+      ],
+      "purpose": "Fence controls while a restore is committing.",
+      "calls": [
+        "$",
+        "dialog .querySelectorAll",
+        "dialog .querySelectorAll(\"button,select\") .forEach"
+      ],
+      "writes": [
+        "$(\"#closemaintenance\").disabled",
+        "working"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 23,
+      "column": 18,
+      "endLine": 23,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "el"
+      ],
+      "purpose": "Provide the callback passed to dialog .querySelectorAll(\"button,select\") .forEach.",
+      "calls": [],
+      "writes": [
+        "el.disabled"
+      ],
+      "returns": [
+        "el.disabled = value"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 27,
+      "column": 5,
+      "endLine": 31,
+      "name": "element",
+      "async": false,
+      "parameters": [
+        "tag",
+        "text"
+      ],
+      "purpose": "Create an SVG element and apply its attributes.",
+      "calls": [
+        "document.createElement"
+      ],
+      "writes": [
+        "el.textContent"
+      ],
+      "returns": [
+        "el"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 33,
+      "column": 5,
+      "endLine": 63,
+      "name": "trashRow",
+      "async": false,
+      "parameters": [
+        "note"
+      ],
+      "purpose": "Render a retained local note and its offline restore action.",
+      "calls": [
+        "element",
+        "new Date(note.deletedAt).toLocaleString",
+        "row.append"
+      ],
+      "writes": [
+        "button.onclick",
+        "button.type",
+        "row.className"
+      ],
+      "returns": [
+        "row"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 47,
+      "column": 24,
+      "endLine": 60,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to button.onclick.",
+      "calls": [
+        "app.maintenance.restoreDeleted",
+        "lock",
+        "maintenanceStatus",
+        "renderTrash"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 65,
+      "column": 5,
+      "endLine": 75,
+      "name": "renderTrash",
+      "async": false,
+      "parameters": [],
+      "purpose": "Show local Trash without needing a server or connection code.",
+      "calls": [
+        "$",
+        "$(\"#maintenancelist\").append",
+        "$(\"#maintenancelist\").replaceChildren",
+        "app.maintenance.trash",
+        "element",
+        "notes.map"
+      ],
+      "writes": [
+        "$(\"#maintenancesummary\").textContent"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 77,
+      "column": 5,
+      "endLine": 86,
+      "name": "connection",
+      "async": true,
+      "parameters": [],
+      "purpose": "Obtain authenticated history access only for an already-paired device.",
+      "calls": [
+        "Error",
+        "createSyncSettings",
+        "createSyncSettings().load",
+        "createSyncTransport"
+      ],
+      "writes": [],
+      "returns": [
+        "createSyncTransport({ token: settings.token })"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 88,
+      "column": 5,
+      "endLine": 139,
+      "name": "preview",
+      "async": false,
+      "parameters": [
+        "note"
+      ],
+      "purpose": "Preview the first historical page as ink and safe plain text, without adopting it.",
+      "calls": [
+        "$",
+        "/^#[a-f0-9]{6}$/i.test",
+        "LeafInk.outline",
+        "String",
+        "String(box.text || \"\") .split",
+        "String(box.text || \"\") .split(\"\\n\") .forEach",
+        "container.append",
+        "container.prepend",
+        "container.replaceChildren",
+        "document.createElementNS",
+        "element",
+        "path.setAttribute",
+        "svg.append",
+        "svg.setAttribute"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 112,
+      "column": 20,
+      "endLine": 126,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "line",
+        "i"
+      ],
+      "purpose": "Provide the callback passed to String(box.text || \"\") .split(\"\\n\") .forEach.",
+      "calls": [
+        "/^#[a-f0-9]{6}$/i.test",
+        "String",
+        "document.createElementNS",
+        "svg.append",
+        "text.setAttribute"
+      ],
+      "writes": [
+        "text.textContent"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 141,
+      "column": 5,
+      "endLine": 179,
+      "name": "inspect",
+      "async": true,
+      "parameters": [
+        "hash",
+        "button"
+      ],
+      "purpose": "Load a selected immutable revision; closing or changing views invalidates late responses.",
+      "calls": [
+        "$",
+        "hash.slice",
+        "lock",
+        "maintenanceStatus",
+        "select.onchange",
+        "select.replaceChildren",
+        "snapshot.data.notes.map",
+        "transport.revision"
+      ],
+      "writes": [
+        "$(\"#restorerevision\").hidden",
+        "$(\"#revisiondetails\").hidden",
+        "generation",
+        "select.onchange",
+        "selected"
+      ],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 152,
+      "column": 38,
+      "endLine": 160,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "note"
+      ],
+      "purpose": "Provide the callback passed to snapshot.data.notes.map.",
+      "calls": [
+        "element"
+      ],
+      "writes": [
+        "option.value"
+      ],
+      "returns": [
+        "option"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 164,
+      "column": 27,
+      "endLine": 167,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to select.onchange.",
+      "calls": [
+        "preview",
+        "snapshot.data.notes.find"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 165,
+      "column": 49,
+      "endLine": 165,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to snapshot.data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === select.value"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 181,
+      "column": 5,
+      "endLine": 221,
+      "name": "historyPage",
+      "async": true,
+      "parameters": [
+        "append = false"
+      ],
+      "purpose": "Page through server Git metadata; no notes are changed by browsing history.",
+      "calls": [
+        "$",
+        "commit.hash.slice",
+        "connection",
+        "element",
+        "list.append",
+        "list.replaceChildren",
+        "lock",
+        "maintenanceStatus",
+        "new Date(commit.at).toLocaleString",
+        "row.append",
+        "transport.history"
+      ],
+      "writes": [
+        "$(\"#maintenancesummary\").textContent",
+        "$(\"#olderrevisions\").hidden",
+        "button.onclick",
+        "generation",
+        "offset",
+        "row.className",
+        "transport"
+      ],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 200,
+      "column": 28,
+      "endLine": 200,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to button.onclick.",
+      "calls": [
+        "inspect"
+      ],
+      "writes": [],
+      "returns": [
+        "inspect(commit.hash, button)"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 223,
+      "column": 5,
+      "endLine": 244,
+      "name": "show",
+      "async": false,
+      "parameters": [
+        "next"
+      ],
+      "purpose": "Switch between offline Trash and authenticated server history.",
+      "calls": [
+        "$",
+        "$(\"#maintenancelist\").replaceChildren",
+        "$(\"#showhistory\").setAttribute",
+        "$(\"#showtrash\").setAttribute",
+        "String",
+        "historyPage",
+        "maintenanceStatus",
+        "renderTrash"
+      ],
+      "writes": [
+        "$(\"#olderrevisions\").hidden",
+        "$(\"#restorerevision\").hidden",
+        "$(\"#revisiondetails\").hidden",
+        "generation",
+        "mode",
+        "selected"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 245,
+      "column": 33,
+      "endLine": 250,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#maintenance\").onclick.",
+      "calls": [
+        "$",
+        "app.finish",
+        "dialog.showModal",
+        "show"
+      ],
+      "writes": [
+        "$(\"#notemenu\").open"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 251,
+      "column": 31,
+      "endLine": 251,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#showtrash\").onclick.",
+      "calls": [
+        "show"
+      ],
+      "writes": [],
+      "returns": [
+        "show(\"trash\")"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 252,
+      "column": 33,
+      "endLine": 252,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#showhistory\").onclick.",
+      "calls": [
+        "show"
+      ],
+      "writes": [],
+      "returns": [
+        "show(\"history\")"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 253,
+      "column": 40,
+      "endLine": 253,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#refreshmaintenance\").onclick.",
+      "calls": [
+        "show"
+      ],
+      "writes": [],
+      "returns": [
+        "show(mode)"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 254,
+      "column": 36,
+      "endLine": 254,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#olderrevisions\").onclick.",
+      "calls": [
+        "historyPage"
+      ],
+      "writes": [],
+      "returns": [
+        "historyPage(true)"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 255,
+      "column": 38,
+      "endLine": 255,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#closemaintenance\").onclick.",
+      "calls": [
+        "dialog.close"
+      ],
+      "writes": [],
+      "returns": [
+        "dialog.close()"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 256,
+      "column": 38,
+      "endLine": 260,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the \"close\" event registered by dialog.addEventListener.",
+      "calls": [
+        "transport?.abort"
+      ],
+      "writes": [
+        "generation",
+        "transport"
+      ],
+      "returns": []
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 261,
+      "column": 37,
+      "endLine": 286,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to $(\"#restorerevision\").onclick.",
+      "calls": [
+        "Error",
+        "app.maintenance.restoreRevision",
+        "blobHash",
+        "lock",
+        "maintenanceStatus",
+        "selected.snapshot.data.notes.find",
+        "transport.getBlob"
+      ],
+      "writes": [
+        "blob"
+      ],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "dist/maintenance.js",
+      "line": 264,
+      "column": 9,
+      "endLine": 264,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to selected.snapshot.data.notes.find.",
+      "calls": [
+        "$"
+      ],
+      "writes": [],
+      "returns": [
+        "n.id === $(\"#revisionnote\").value"
+      ]
     },
     {
       "file": "dist/marathi-candidates.mjs",
@@ -9795,7 +10854,7 @@
       "file": "dist/search-engine.js",
       "line": 2,
       "column": 2,
-      "endLine": 238,
+      "endLine": 239,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10221,7 +11280,7 @@
       "file": "dist/search-engine.js",
       "line": 120,
       "column": 3,
-      "endLine": 170,
+      "endLine": 171,
       "name": "records",
       "async": false,
       "parameters": [
@@ -10239,9 +11298,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 132,
+      "line": 133,
       "column": 21,
-      "endLine": 167,
+      "endLine": 168,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10261,9 +11320,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 135,
+      "line": 136,
       "column": 17,
-      "endLine": 138,
+      "endLine": 139,
       "name": "add",
       "async": false,
       "parameters": [
@@ -10280,9 +11339,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 172,
+      "line": 173,
       "column": 3,
-      "endLine": 198,
+      "endLine": 199,
       "name": "search",
       "async": false,
       "parameters": [
@@ -10316,9 +11375,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 176,
+      "line": 177,
       "column": 7,
-      "endLine": 178,
+      "endLine": 179,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10335,9 +11394,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 178,
+      "line": 179,
       "column": 21,
-      "endLine": 178,
+      "endLine": 179,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10355,9 +11414,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 196,
+      "line": 197,
       "column": 7,
-      "endLine": 196,
+      "endLine": 197,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10373,9 +11432,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 200,
+      "line": 201,
       "column": 3,
-      "endLine": 225,
+      "endLine": 226,
       "name": "validIndex",
       "async": false,
       "parameters": [
@@ -10399,9 +11458,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 211,
+      "line": 212,
       "column": 14,
-      "endLine": 223,
+      "endLine": 224,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10423,9 +11482,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 215,
+      "line": 216,
       "column": 18,
-      "endLine": 215,
+      "endLine": 216,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10443,9 +11502,9 @@
     },
     {
       "file": "dist/search-engine.js",
-      "line": 218,
+      "line": 219,
       "column": 49,
-      "endLine": 219,
+      "endLine": 220,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10464,7 +11523,7 @@
       "file": "dist/search.js",
       "line": 2,
       "column": 2,
-      "endLine": 864,
+      "endLine": 865,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -10605,7 +11664,7 @@
       "file": "dist/search.js",
       "line": 47,
       "column": 3,
-      "endLine": 51,
+      "endLine": 52,
       "name": "eligible",
       "async": false,
       "parameters": [
@@ -10615,14 +11674,14 @@
       "calls": [],
       "writes": [],
       "returns": [
-        "filter === \"all\" || (filter === \"star\" && n.star) || n.book === filter"
+        "!n.deleted && (filter === \"all\" || (filter === \"star\" && n.star) || n.book === filter)"
       ]
     },
     {
       "file": "dist/search.js",
-      "line": 53,
+      "line": 54,
       "column": 3,
-      "endLine": 75,
+      "endLine": 76,
       "name": "workItems",
       "async": false,
       "parameters": [
@@ -10635,6 +11694,7 @@
         "S.currentIndex",
         "S.language",
         "S.signature",
+        "data.notes.filter",
         "p.strokes?.some",
         "result.push"
       ],
@@ -10645,9 +11705,26 @@
     },
     {
       "file": "dist/search.js",
-      "line": 61,
+      "line": 56,
+      "column": 39,
+      "endLine": 56,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
+    },
+    {
+      "file": "dist/search.js",
+      "line": 62,
       "column": 27,
-      "endLine": 61,
+      "endLine": 62,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10662,9 +11739,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 77,
+      "line": 78,
       "column": 3,
-      "endLine": 103,
+      "endLine": 104,
       "name": "scheduleIndex",
       "async": false,
       "parameters": [],
@@ -10686,9 +11763,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 90,
+      "line": 91,
       "column": 7,
-      "endLine": 90,
+      "endLine": 91,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10705,9 +11782,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 93,
+      "line": 94,
       "column": 28,
-      "endLine": 102,
+      "endLine": 103,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -10725,9 +11802,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 100,
+      "line": 101,
       "column": 21,
-      "endLine": 100,
+      "endLine": 101,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10744,9 +11821,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 105,
+      "line": 106,
       "column": 3,
-      "endLine": 138,
+      "endLine": 139,
       "name": "coverage",
       "async": false,
       "parameters": [],
@@ -10754,6 +11831,7 @@
       "calls": [
         "$",
         "S.currentIndex",
+        "data.notes.filter",
         "index.text.trim",
         "p.strokes?.some"
       ],
@@ -10769,9 +11847,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 117,
+      "line": 118,
       "column": 29,
-      "endLine": 117,
+      "endLine": 118,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10786,9 +11864,26 @@
     },
     {
       "file": "dist/search.js",
-      "line": 140,
+      "line": 128,
+      "column": 25,
+      "endLine": 128,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
+    },
+    {
+      "file": "dist/search.js",
+      "line": 141,
       "column": 3,
-      "endLine": 239,
+      "endLine": 240,
       "name": "render",
       "async": false,
       "parameters": [],
@@ -10826,9 +11921,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 151,
+      "line": 152,
       "column": 15,
-      "endLine": 163,
+      "endLine": 164,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10850,9 +11945,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 152,
+      "line": 153,
       "column": 202,
-      "endLine": 152,
+      "endLine": 153,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10867,9 +11962,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 154,
+      "line": 155,
       "column": 21,
-      "endLine": 160,
+      "endLine": 161,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10884,9 +11979,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 162,
+      "line": 163,
       "column": 27,
-      "endLine": 162,
+      "endLine": 163,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10905,9 +12000,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 171,
+      "line": 172,
       "column": 15,
-      "endLine": 174,
+      "endLine": 175,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10926,9 +12021,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 181,
+      "line": 182,
       "column": 31,
-      "endLine": 181,
+      "endLine": 182,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10943,9 +12038,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 185,
+      "line": 186,
       "column": 16,
-      "endLine": 200,
+      "endLine": 201,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10971,9 +12066,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 188,
+      "line": 189,
       "column": 39,
-      "endLine": 188,
+      "endLine": 189,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -10988,9 +12083,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 189,
+      "line": 190,
       "column": 38,
-      "endLine": 189,
+      "endLine": 190,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11005,9 +12100,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 191,
+      "line": 192,
       "column": 57,
-      "endLine": 192,
+      "endLine": 193,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11024,9 +12119,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 192,
+      "line": 193,
       "column": 33,
-      "endLine": 192,
+      "endLine": 193,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11041,9 +12136,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 195,
+      "line": 196,
       "column": 17,
-      "endLine": 197,
+      "endLine": 198,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11061,9 +12156,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 196,
+      "line": 197,
       "column": 36,
-      "endLine": 196,
+      "endLine": 197,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11078,9 +12173,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 208,
+      "line": 209,
       "column": 41,
-      "endLine": 208,
+      "endLine": 209,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11095,9 +12190,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 211,
+      "line": 212,
       "column": 9,
-      "endLine": 211,
+      "endLine": 212,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11114,9 +12209,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 241,
+      "line": 242,
       "column": 3,
-      "endLine": 278,
+      "endLine": 279,
       "name": "setupWorker",
       "async": false,
       "parameters": [],
@@ -11133,9 +12228,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 246,
+      "line": 247,
       "column": 24,
-      "endLine": 267,
+      "endLine": 268,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11159,9 +12254,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 268,
+      "line": 269,
       "column": 22,
-      "endLine": 276,
+      "endLine": 277,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11183,9 +12278,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 280,
+      "line": 281,
       "column": 3,
-      "endLine": 309,
+      "endLine": 310,
       "name": "recognize",
       "async": false,
       "parameters": [
@@ -11203,9 +12298,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 282,
+      "line": 283,
       "column": 24,
-      "endLine": 308,
+      "endLine": 309,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11227,9 +12322,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 283,
+      "line": 284,
       "column": 32,
-      "endLine": 290,
+      "endLine": 291,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11247,9 +12342,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 311,
+      "line": 312,
       "column": 3,
-      "endLine": 364,
+      "endLine": 365,
       "name": "raster",
       "async": true,
       "parameters": [
@@ -11288,9 +12383,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 366,
+      "line": 367,
       "column": 3,
-      "endLine": 521,
+      "endLine": 522,
       "name": "indexAll",
       "async": true,
       "parameters": [
@@ -11312,8 +12407,8 @@
         "app().pdfOptions",
         "attempted.clear",
         "clearTimeout",
+        "data.notes.filter",
         "data.notes.includes",
-        "data.notes.slice",
         "file.arrayBuffer",
         "lib.getDocument",
         "n.pdf.pages.some",
@@ -11361,9 +12456,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 378,
+      "line": 379,
       "column": 47,
-      "endLine": 378,
+      "endLine": 379,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11380,9 +12475,26 @@
     },
     {
       "file": "dist/search.js",
-      "line": 400,
+      "line": 392,
+      "column": 41,
+      "endLine": 392,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to data.notes.filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "!n.deleted"
+      ]
+    },
+    {
+      "file": "dist/search.js",
+      "line": 401,
       "column": 30,
-      "endLine": 400,
+      "endLine": 401,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11397,9 +12509,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 418,
+      "line": 419,
       "column": 22,
-      "endLine": 418,
+      "endLine": 419,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11414,9 +12526,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 428,
+      "line": 429,
       "column": 33,
-      "endLine": 428,
+      "endLine": 429,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11431,9 +12543,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 469,
+      "line": 470,
       "column": 34,
-      "endLine": 469,
+      "endLine": 470,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11448,9 +12560,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 523,
+      "line": 524,
       "column": 3,
-      "endLine": 529,
+      "endLine": 530,
       "name": "keepReviewDraft",
       "async": false,
       "parameters": [],
@@ -11467,9 +12579,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 531,
+      "line": 532,
       "column": 3,
-      "endLine": 542,
+      "endLine": 543,
       "name": "reviewChanged",
       "async": false,
       "parameters": [],
@@ -11489,9 +12601,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 544,
+      "line": 545,
       "column": 3,
-      "endLine": 584,
+      "endLine": 585,
       "name": "review",
       "async": false,
       "parameters": [],
@@ -11526,9 +12638,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 586,
+      "line": 587,
       "column": 3,
-      "endLine": 627,
+      "endLine": 628,
       "name": "saveReview",
       "async": true,
       "parameters": [],
@@ -11559,9 +12671,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 589,
+      "line": 590,
       "column": 27,
-      "endLine": 589,
+      "endLine": 590,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11576,9 +12688,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 629,
+      "line": 630,
       "column": 3,
-      "endLine": 700,
+      "endLine": 701,
       "name": "retryReview",
       "async": true,
       "parameters": [],
@@ -11615,9 +12727,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 642,
+      "line": 643,
       "column": 27,
-      "endLine": 642,
+      "endLine": 643,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11632,9 +12744,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 702,
+      "line": 703,
       "column": 3,
-      "endLine": 705,
+      "endLine": 706,
       "name": "clearHits",
       "async": false,
       "parameters": [],
@@ -11650,9 +12762,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 707,
+      "line": 708,
       "column": 3,
-      "endLine": 738,
+      "endLine": 739,
       "name": "showHits",
       "async": false,
       "parameters": [
@@ -11685,9 +12797,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 740,
+      "line": 741,
       "column": 3,
-      "endLine": 861,
+      "endLine": 862,
       "name": "setup",
       "async": false,
       "parameters": [],
@@ -11723,9 +12835,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 744,
+      "line": 745,
       "column": 28,
-      "endLine": 748,
+      "endLine": 749,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11740,9 +12852,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 750,
+      "line": 751,
       "column": 33,
-      "endLine": 753,
+      "endLine": 754,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11756,9 +12868,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 754,
+      "line": 755,
       "column": 38,
-      "endLine": 758,
+      "endLine": 759,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11775,9 +12887,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 759,
+      "line": 760,
       "column": 38,
-      "endLine": 762,
+      "endLine": 763,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11792,9 +12904,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 763,
+      "line": 764,
       "column": 33,
-      "endLine": 769,
+      "endLine": 770,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11813,9 +12925,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 772,
+      "line": 773,
       "column": 40,
-      "endLine": 786,
+      "endLine": 787,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -11839,9 +12951,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 777,
+      "line": 778,
       "column": 13,
-      "endLine": 779,
+      "endLine": 780,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11858,9 +12970,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 787,
+      "line": 788,
       "column": 42,
-      "endLine": 794,
+      "endLine": 795,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11881,9 +12993,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 795,
+      "line": 796,
       "column": 61,
-      "endLine": 799,
+      "endLine": 800,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -11904,9 +13016,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 800,
+      "line": 801,
       "column": 59,
-      "endLine": 803,
+      "endLine": 804,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11920,9 +13032,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 804,
+      "line": 805,
       "column": 57,
-      "endLine": 816,
+      "endLine": 817,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11942,9 +13054,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 821,
+      "line": 822,
       "column": 35,
-      "endLine": 827,
+      "endLine": 828,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11964,9 +13076,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 828,
+      "line": 829,
       "column": 34,
-      "endLine": 832,
+      "endLine": 833,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -11983,9 +13095,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 836,
+      "line": 837,
       "column": 7,
-      "endLine": 842,
+      "endLine": 843,
       "name": "loadNote",
       "async": false,
       "parameters": [
@@ -12006,9 +13118,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 846,
+      "line": 847,
       "column": 7,
-      "endLine": 851,
+      "endLine": 852,
       "name": "persist",
       "async": false,
       "parameters": [],
@@ -12025,9 +13137,9 @@
     },
     {
       "file": "dist/search.js",
-      "line": 852,
+      "line": 853,
       "column": 42,
-      "endLine": 859,
+      "endLine": 860,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12283,7 +13395,7 @@
       "file": "dist/sync-engine.mjs",
       "line": 15,
       "column": 8,
-      "endLine": 115,
+      "endLine": 124,
       "name": "createSyncTransport",
       "async": false,
       "parameters": [
@@ -12300,7 +13412,7 @@
       "file": "dist/sync-engine.mjs",
       "line": 22,
       "column": 3,
-      "endLine": 57,
+      "endLine": 61,
       "name": "request",
       "async": true,
       "parameters": [
@@ -12363,9 +13475,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 60,
+      "line": 64,
       "column": 12,
-      "endLine": 62,
+      "endLine": 66,
       "name": "abort",
       "async": false,
       "parameters": [],
@@ -12378,9 +13490,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 64,
+      "line": 68,
       "column": 15,
-      "endLine": 80,
+      "endLine": 84,
       "name": "getState",
       "async": true,
       "parameters": [
@@ -12397,9 +13509,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 75,
+      "line": 79,
       "column": 9,
-      "endLine": 78,
+      "endLine": 82,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -12417,9 +13529,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 82,
+      "line": 86,
       "column": 15,
-      "endLine": 91,
+      "endLine": 95,
       "name": "putState",
       "async": true,
       "parameters": [
@@ -12437,9 +13549,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 90,
+      "line": 94,
       "column": 9,
-      "endLine": 90,
+      "endLine": 94,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12456,9 +13568,85 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 93,
+      "line": 97,
       "column": 14,
       "endLine": 98,
+      "name": "history",
+      "async": false,
+      "parameters": [
+        "offset = 0"
+      ],
+      "purpose": "Fetch one page of private Git revision metadata.",
+      "calls": [
+        "request"
+      ],
+      "writes": [],
+      "returns": [
+        "request(\"history?offset=\" + offset, {}, (r) => r.json())"
+      ]
+    },
+    {
+      "file": "dist/sync-engine.mjs",
+      "line": 98,
+      "column": 47,
+      "endLine": 98,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "r"
+      ],
+      "purpose": "Provide the callback passed to request.",
+      "calls": [
+        "r.json"
+      ],
+      "writes": [],
+      "returns": [
+        "r.json()"
+      ]
+    },
+    {
+      "file": "dist/sync-engine.mjs",
+      "line": 100,
+      "column": 15,
+      "endLine": 100,
+      "name": "revision",
+      "async": false,
+      "parameters": [
+        "hash"
+      ],
+      "purpose": "Fetch a prior immutable notebook snapshot by full commit ID.",
+      "calls": [
+        "request"
+      ],
+      "writes": [],
+      "returns": [
+        "request(\"history/\" + hash, {}, (r) => r.json())"
+      ]
+    },
+    {
+      "file": "dist/sync-engine.mjs",
+      "line": 100,
+      "column": 56,
+      "endLine": 100,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "r"
+      ],
+      "purpose": "Provide the callback passed to request.",
+      "calls": [
+        "r.json"
+      ],
+      "writes": [],
+      "returns": [
+        "r.json()"
+      ]
+    },
+    {
+      "file": "dist/sync-engine.mjs",
+      "line": 102,
+      "column": 14,
+      "endLine": 107,
       "name": "hasBlob",
       "async": true,
       "parameters": [
@@ -12475,9 +13663,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 97,
+      "line": 106,
       "column": 9,
-      "endLine": 97,
+      "endLine": 106,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12492,9 +13680,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 100,
+      "line": 109,
       "column": 14,
-      "endLine": 110,
+      "endLine": 119,
       "name": "putBlob",
       "async": true,
       "parameters": [
@@ -12510,9 +13698,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 108,
+      "line": 117,
       "column": 9,
-      "endLine": 108,
+      "endLine": 117,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12529,9 +13717,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 112,
+      "line": 121,
       "column": 14,
-      "endLine": 113,
+      "endLine": 122,
       "name": "getBlob",
       "async": true,
       "parameters": [
@@ -12548,9 +13736,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 113,
+      "line": 122,
       "column": 36,
-      "endLine": 113,
+      "endLine": 122,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12567,9 +13755,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 117,
+      "line": 126,
       "column": 8,
-      "endLine": 398,
+      "endLine": 407,
       "name": "createSyncEngine",
       "async": false,
       "parameters": [
@@ -12584,9 +13772,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 122,
+      "line": 131,
       "column": 14,
-      "endLine": 122,
+      "endLine": 131,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -12597,9 +13785,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 129,
+      "line": 138,
       "column": 3,
-      "endLine": 135,
+      "endLine": 144,
       "name": "guard",
       "async": false,
       "parameters": [],
@@ -12614,9 +13802,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 137,
+      "line": 146,
       "column": 3,
-      "endLine": 139,
+      "endLine": 148,
       "name": "report",
       "async": false,
       "parameters": [
@@ -12631,9 +13819,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 141,
+      "line": 150,
       "column": 3,
-      "endLine": 146,
+      "endLine": 155,
       "name": "io",
       "async": true,
       "parameters": [
@@ -12652,9 +13840,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 148,
+      "line": 157,
       "column": 3,
-      "endLine": 150,
+      "endLine": 159,
       "name": "invalidateFiles",
       "async": false,
       "parameters": [
@@ -12669,9 +13857,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 152,
+      "line": 161,
       "column": 3,
-      "endLine": 169,
+      "endLine": 178,
       "name": "localSnapshot",
       "async": true,
       "parameters": [],
@@ -12697,9 +13885,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 156,
+      "line": 165,
       "column": 51,
-      "endLine": 156,
+      "endLine": 165,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12714,9 +13902,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 171,
+      "line": 180,
       "column": 3,
-      "endLine": 189,
+      "endLine": 198,
       "name": "removeStarter",
       "async": false,
       "parameters": [
@@ -12736,9 +13924,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 185,
+      "line": 194,
       "column": 29,
-      "endLine": 185,
+      "endLine": 194,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12753,9 +13941,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 191,
+      "line": 200,
       "column": 3,
-      "endLine": 367,
+      "endLine": 376,
       "name": "synchronize",
       "async": true,
       "parameters": [],
@@ -12807,9 +13995,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 294,
+      "line": 303,
       "column": 49,
-      "endLine": 294,
+      "endLine": 303,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12824,9 +14012,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 321,
+      "line": 330,
       "column": 31,
-      "endLine": 321,
+      "endLine": 330,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12841,9 +14029,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 325,
+      "line": 334,
       "column": 9,
-      "endLine": 330,
+      "endLine": 339,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12861,9 +14049,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 328,
+      "line": 337,
       "column": 36,
-      "endLine": 328,
+      "endLine": 337,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12878,9 +14066,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 332,
+      "line": 341,
       "column": 12,
-      "endLine": 332,
+      "endLine": 341,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12895,9 +14083,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 349,
+      "line": 358,
       "column": 40,
-      "endLine": 349,
+      "endLine": 358,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12912,9 +14100,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 369,
+      "line": 378,
       "column": 3,
-      "endLine": 388,
+      "endLine": 397,
       "name": "run",
       "async": false,
       "parameters": [],
@@ -12933,9 +14121,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 372,
+      "line": 381,
       "column": 16,
-      "endLine": 383,
+      "endLine": 392,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -12952,9 +14140,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 384,
+      "line": 393,
       "column": 18,
-      "endLine": 386,
+      "endLine": 395,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -12967,9 +14155,9 @@
     },
     {
       "file": "dist/sync-engine.mjs",
-      "line": 393,
+      "line": 402,
       "column": 11,
-      "endLine": 396,
+      "endLine": 405,
       "name": "stop",
       "async": false,
       "parameters": [],
@@ -13160,7 +14348,7 @@
       "file": "dist/sync-merge.mjs",
       "line": 63,
       "column": 8,
-      "endLine": 182,
+      "endLine": 188,
       "name": "mergeSnapshots",
       "async": false,
       "parameters": [
@@ -13376,9 +14564,9 @@
     },
     {
       "file": "dist/sync-merge.mjs",
-      "line": 184,
+      "line": 190,
       "column": 8,
-      "endLine": 193,
+      "endLine": 199,
       "name": "sameSnapshot",
       "async": false,
       "parameters": [
@@ -13397,9 +14585,9 @@
     },
     {
       "file": "dist/sync-merge.mjs",
-      "line": 186,
+      "line": 192,
       "column": 21,
-      "endLine": 191,
+      "endLine": 197,
       "name": "normalize",
       "async": false,
       "parameters": [
@@ -13418,9 +14606,9 @@
     },
     {
       "file": "dist/sync-merge.mjs",
-      "line": 187,
+      "line": 193,
       "column": 35,
-      "endLine": 187,
+      "endLine": 193,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -13438,9 +14626,9 @@
     },
     {
       "file": "dist/sync-merge.mjs",
-      "line": 189,
+      "line": 195,
       "column": 12,
-      "endLine": 189,
+      "endLine": 195,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -13457,9 +14645,9 @@
     },
     {
       "file": "dist/sync-merge.mjs",
-      "line": 190,
+      "line": 196,
       "column": 13,
-      "endLine": 190,
+      "endLine": 196,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -15026,10 +16214,199 @@
       ]
     },
     {
+      "file": "server/git-history.mjs",
+      "line": 8,
+      "column": 8,
+      "endLine": 122,
+      "name": "createGitHistory",
+      "async": true,
+      "parameters": [
+        "root"
+      ],
+      "purpose": "Open an isolated local repository. No remote, credentials, global hooks, or shell commands are used.",
+      "calls": [
+        "fs.mkdir",
+        "fs.writeFile",
+        "git",
+        "path.join"
+      ],
+      "writes": [],
+      "returns": [
+        "{ head, commit, list, read }"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 14,
+      "column": 3,
+      "endLine": 52,
+      "name": "git",
+      "async": true,
+      "parameters": [
+        "...args"
+      ],
+      "purpose": "Execute fixed Git arguments with bounded output and no interactive credential prompts.",
+      "calls": [
+        "execute",
+        "path.join"
+      ],
+      "writes": [],
+      "returns": [
+        "stdout"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 55,
+      "column": 3,
+      "endLine": 60,
+      "name": "read",
+      "async": true,
+      "parameters": [
+        "hash"
+      ],
+      "purpose": "Read only a reachable, full-length revision ID; never interpolate paths or revision expressions.",
+      "calls": [
+        "/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test",
+        "Error",
+        "JSON.parse",
+        "git"
+      ],
+      "writes": [],
+      "returns": [
+        "JSON.parse(await git(\"show\", hash + \":notebook.json\"))"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 62,
+      "column": 3,
+      "endLine": 83,
+      "name": "head",
+      "async": true,
+      "parameters": [],
+      "purpose": "Return the latest committed snapshot, or null for a newly initialized repository.",
+      "calls": [
+        "(await git(\"rev-parse\", \"--verify\", \"HEAD\")).trim",
+        "Error",
+        "fs .stat",
+        "fs .stat(path.join(directory, \".git\", \"logs\", \"HEAD\")) .then",
+        "git",
+        "path.join",
+        "read"
+      ],
+      "writes": [
+        "hash"
+      ],
+      "returns": [
+        "null",
+        "{ hash, snapshot: await read(hash) }"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 71,
+      "column": 13,
+      "endLine": 71,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "stat"
+      ],
+      "purpose": "Provide the callback passed to fs .stat(path.join(directory, \".git\", \"logs\", \"HEAD\")) .then.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "stat.size > 0"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 72,
+      "column": 13,
+      "endLine": 72,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to fs .stat(path.join(directory, \".git\", \"logs\", \"HEAD\")) .then.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "false"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 85,
+      "column": 3,
+      "endLine": 101,
+      "name": "commit",
+      "async": true,
+      "parameters": [
+        "snapshot"
+      ],
+      "purpose": "Create one commit per accepted autosave; publish HEAD only after the complete snapshot is staged.",
+      "calls": [
+        "(await git(\"rev-parse\", \"HEAD\")).trim",
+        "JSON.stringify",
+        "fs.writeFile",
+        "git",
+        "path.join"
+      ],
+      "writes": [],
+      "returns": [
+        "(await git(\"rev-parse\", \"HEAD\")).trim()"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 103,
+      "column": 3,
+      "endLine": 120,
+      "name": "list",
+      "async": true,
+      "parameters": [
+        "offset = 0"
+      ],
+      "purpose": "Page through commit metadata without reading note bodies or running caller-supplied Git options.",
+      "calls": [
+        "( await git( \"log\", \"--format=%H%x09%ct%x09%s\", \"--max-count=30\", \"--skip=\" + offset, ) ) .trim",
+        "( await git( \"log\", \"--format=%H%x09%ct%x09%s\", \"--max-count=30\", \"--skip=\" + offset, ) ) .trim() .s",
+        "git",
+        "head"
+      ],
+      "writes": [],
+      "returns": [
+        "[]",
+        "( await git( \"log\", \"--format=%H%x09%ct%x09%s\", \"--max-count=30\", \"--skip=\" + offset, ) ) .trim() .split(\"\\n\") .filter(Boolean) .map((line) => { const [hash, time, ...message] = li"
+      ]
+    },
+    {
+      "file": "server/git-history.mjs",
+      "line": 116,
+      "column": 12,
+      "endLine": 119,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "line"
+      ],
+      "purpose": "Provide the callback passed to ( await git( \"log\", \"--format=%H%x09%ct%x09%s\", \"--max-count=30\", \"--skip=\" + offset, ) ) .trim() .s.",
+      "calls": [
+        "Number",
+        "line.split",
+        "message.join"
+      ],
+      "writes": [],
+      "returns": [
+        "{ hash, at: Number(time) * 1000, message: message.join(\"\\t\") }"
+      ]
+    },
+    {
       "file": "server/sync-server.mjs",
-      "line": 13,
+      "line": 14,
       "column": 14,
-      "endLine": 16,
+      "endLine": 17,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -15047,9 +16424,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 19,
+      "line": 20,
       "column": 1,
-      "endLine": 41,
+      "endLine": 42,
       "name": "atomicWrite",
       "async": true,
       "parameters": [
@@ -15077,9 +16454,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 43,
+      "line": 44,
       "column": 1,
-      "endLine": 72,
+      "endLine": 73,
       "name": "readBody",
       "async": false,
       "parameters": [
@@ -15095,9 +16472,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 44,
+      "line": 45,
       "column": 22,
-      "endLine": 71,
+      "endLine": 72,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -15113,9 +16490,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 48,
+      "line": 49,
       "column": 24,
-      "endLine": 58,
+      "endLine": 59,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -15137,9 +16514,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 59,
+      "line": 60,
       "column": 23,
-      "endLine": 64,
+      "endLine": 65,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -15155,9 +16532,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 65,
+      "line": 66,
       "column": 25,
-      "endLine": 70,
+      "endLine": 71,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -15172,9 +16549,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 74,
+      "line": 75,
       "column": 1,
-      "endLine": 76,
+      "endLine": 77,
       "name": "validId",
       "async": false,
       "parameters": [
@@ -15192,9 +16569,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 78,
+      "line": 79,
       "column": 1,
-      "endLine": 124,
+      "endLine": 125,
       "name": "validateNotebook",
       "async": false,
       "parameters": [
@@ -15221,9 +16598,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 126,
+      "line": 127,
       "column": 8,
-      "endLine": 265,
+      "endLine": 336,
       "name": "createSyncStore",
       "async": true,
       "parameters": [
@@ -15238,12 +16615,17 @@
         "JSON.stringify",
         "Number.isSafeInteger",
         "Promise.resolve",
+        "String",
+        "String(saved.revision).padStart",
         "atomicWrite",
+        "createGitHistory",
         "crypto.randomUUID",
         "fs.mkdir",
         "fs.readFile",
         "fs.stat",
         "fs.stat(path.join(root, \"CURRENT\")).then",
+        "history.commit",
+        "history.head",
         "path.join",
         "path.resolve",
         "validateNotebook"
@@ -15251,6 +16633,7 @@
       "writes": [
         "current",
         "identity",
+        "needsRepair",
         "root"
       ],
       "returns": [
@@ -15259,9 +16642,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 167,
-      "column": 7,
-      "endLine": 167,
+      "line": 175,
+      "column": 9,
+      "endLine": 175,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -15274,9 +16657,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 168,
-      "column": 7,
-      "endLine": 168,
+      "line": 176,
+      "column": 9,
+      "endLine": 176,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -15289,9 +16672,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 177,
+      "line": 216,
       "column": 3,
-      "endLine": 180,
+      "endLine": 219,
       "name": "blobPath",
       "async": false,
       "parameters": [
@@ -15309,9 +16692,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 182,
+      "line": 221,
       "column": 3,
-      "endLine": 189,
+      "endLine": 228,
       "name": "hasBlob",
       "async": true,
       "parameters": [
@@ -15331,9 +16714,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 191,
+      "line": 230,
       "column": 3,
-      "endLine": 199,
+      "endLine": 238,
       "name": "putBlob",
       "async": true,
       "parameters": [
@@ -15357,9 +16740,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 201,
+      "line": 240,
       "column": 3,
-      "endLine": 253,
+      "endLine": 323,
       "name": "commit",
       "async": false,
       "parameters": [
@@ -15379,9 +16762,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 202,
+      "line": 241,
       "column": 34,
-      "endLine": 250,
+      "endLine": 320,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
@@ -15389,6 +16772,8 @@
       "calls": [
         "(await fs.readdir(path.join(root, \"snapshots\"))) .filter",
         "(await fs.readdir(path.join(root, \"snapshots\"))) .filter((n) => /^\\d{16}-[a-f0-9-]+\\.json$/.test(n))",
+        "Array.isArray",
+        "Date.now",
         "JSON.stringify",
         "Math.max",
         "Object.values",
@@ -15396,9 +16781,16 @@
         "String(next.revision).padStart",
         "atomicWrite",
         "crypto.randomUUID",
+        "current.data.books.find",
         "fs.readdir",
         "fs.unlink",
         "hasBlob",
+        "history.commit",
+        "ids.has",
+        "incoming.books.push",
+        "incoming.books.some",
+        "incoming.notes.map",
+        "incoming.notes.push",
         "names.slice",
         "new Date().toISOString",
         "path.join",
@@ -15406,7 +16798,8 @@
         "validateNotebook"
       ],
       "writes": [
-        "current"
+        "current",
+        "files[previous.id]"
       ],
       "returns": [
         "structuredClone(next)"
@@ -15414,9 +16807,60 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 241,
+      "line": 262,
+      "column": 48,
+      "endLine": 262,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to incoming.notes.map.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id"
+      ]
+    },
+    {
+      "file": "server/sync-server.mjs",
+      "line": 272,
+      "column": 38,
+      "endLine": 272,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "b"
+      ],
+      "purpose": "Provide the callback passed to incoming.books.some.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "b.id === previous.book"
+      ]
+    },
+    {
+      "file": "server/sync-server.mjs",
+      "line": 274,
+      "column": 41,
+      "endLine": 274,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "b"
+      ],
+      "purpose": "Provide the callback passed to current.data.books.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "b.id === previous.book"
+      ]
+    },
+    {
+      "file": "server/sync-server.mjs",
+      "line": 311,
       "column": 19,
-      "endLine": 241,
+      "endLine": 311,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -15433,9 +16877,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 251,
+      "line": 321,
       "column": 29,
-      "endLine": 251,
+      "endLine": 321,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -15446,9 +16890,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 256,
+      "line": 326,
       "column": 12,
-      "endLine": 256,
+      "endLine": 326,
       "name": "state",
       "async": false,
       "parameters": [],
@@ -15463,9 +16907,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 258,
+      "line": 328,
       "column": 14,
-      "endLine": 258,
+      "endLine": 328,
       "name": "version",
       "async": false,
       "parameters": [],
@@ -15478,9 +16922,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 263,
+      "line": 334,
       "column": 15,
-      "endLine": 263,
+      "endLine": 334,
       "name": "readBlob",
       "async": false,
       "parameters": [
@@ -15498,9 +16942,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 267,
+      "line": 338,
       "column": 8,
-      "endLine": 405,
+      "endLine": 499,
       "name": "startSyncServer",
       "async": true,
       "parameters": [
@@ -15524,9 +16968,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 281,
+      "line": 352,
       "column": 36,
-      "endLine": 398,
+      "endLine": 492,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -15539,6 +16983,8 @@
         "(req.headers.authorization || \"\").replace",
         "Buffer.from",
         "JSON.parse",
+        "Number",
+        "Number.isSafeInteger",
         "crypto.timingSafeEqual",
         "json",
         "readBody",
@@ -15547,11 +16993,14 @@
         "res.writeHead",
         "store.commit",
         "store.hasBlob",
+        "store.history.list",
+        "store.history.read",
         "store.putBlob",
         "store.readBlob",
         "store.state",
         "store.version",
-        "url.pathname.match"
+        "url.pathname.match",
+        "url.searchParams.get"
       ],
       "writes": [
         "counted",
@@ -15565,9 +17014,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 283,
+      "line": 354,
       "column": 5,
-      "endLine": 292,
+      "endLine": 363,
       "name": "json",
       "async": false,
       "parameters": [
@@ -15586,9 +17035,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 401,
+      "line": 495,
       "column": 22,
-      "endLine": 404,
+      "endLine": 498,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -15605,9 +17054,9 @@
     },
     {
       "file": "server/sync-server.mjs",
-      "line": 403,
+      "line": 497,
       "column": 31,
-      "endLine": 403,
+      "endLine": 497,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -15705,7 +17154,7 @@
       "file": "test/app.integration.cjs",
       "line": 33,
       "column": 1,
-      "endLine": 239,
+      "endLine": 240,
       "name": "makeApp",
       "async": true,
       "parameters": [
@@ -16237,9 +17686,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 223,
+      "line": 224,
       "column": 32,
-      "endLine": 224,
+      "endLine": 225,
       "name": "importModuleDynamically",
       "async": true,
       "parameters": [
@@ -16256,9 +17705,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 229,
+      "line": 230,
       "column": 7,
-      "endLine": 232,
+      "endLine": 233,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16274,9 +17723,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 235,
+      "line": 236,
       "column": 20,
-      "endLine": 235,
+      "endLine": 236,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16291,9 +17740,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 237,
+      "line": 238,
       "column": 20,
-      "endLine": 237,
+      "endLine": 238,
       "name": "evaluate",
       "async": false,
       "parameters": [
@@ -16310,9 +17759,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 241,
+      "line": 242,
       "column": 1,
-      "endLine": 254,
+      "endLine": 255,
       "name": "event",
       "async": false,
       "parameters": [
@@ -16332,9 +17781,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 251,
+      "line": 252,
       "column": 19,
-      "endLine": 251,
+      "endLine": 252,
       "name": "preventDefault",
       "async": false,
       "parameters": [],
@@ -16345,9 +17794,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 256,
+      "line": 257,
       "column": 1,
-      "endLine": 1911,
+      "endLine": 1968,
       "name": "main",
       "async": true,
       "parameters": [],
@@ -16359,8 +17808,10 @@
         "$(\"#boardin\").click",
         "$(\"#cancelreview\").click",
         "$(\"#clearsearch\").click",
+        "$(\"#closemaintenance\").click",
         "$(\"#closemodels\").click",
         "$(\"#color\").dispatchEvent",
+        "$(\"#delete\").onclick",
         "$(\"#deleteidea\").click",
         "$(\"#discardreview\").click",
         "$(\"#export\").onclick",
@@ -16375,6 +17826,9 @@
         "$(\"#inputmode\").onchange",
         "$(\"#languagemodels\").onclick",
         "$(\"#libraryshade\").click",
+        "$(\"#maintenance\").click",
+        "$(\"#maintenancelist button\").onclick",
+        "$(\"#maintenancelist\").textContent.includes",
         "$(\"#mobile\").click",
         "$(\"#mobile\").getAttribute",
         "$(\"#modal\").close",
@@ -16431,6 +17885,7 @@
         "$('[data-tool=\"pen\"]').click",
         "$('[data-tool=\"select\"]').click",
         "$('[data-tool=\"text\"]').click",
+        "(await w.LeafnoteApp.file(retainedId)).text",
         "Buffer.from",
         "Ink.hits",
         "Ink.imagePlacement",
@@ -16446,10 +17901,12 @@
         "PDFLib.rgb",
         "Search.lines",
         "Search.norm",
+        "Search.search",
         "Search.signature",
         "[\"H\", \"HB\", \"1B\", \"2B\"].entries",
         "again.dom.window.close",
         "again.evaluate",
+        "again.w.LeafnoteApp.file",
         "again.w.document .querySelector",
         "again.w.document .querySelector(\".app\") .classList.contains",
         "again.w.document.querySelector",
@@ -16516,6 +17973,7 @@
         "plainExport.window.document.querySelector",
         "plainExport.window.document.querySelectorAll",
         "point",
+        "retainedBytes.text",
         "saved.notes.find",
         "structuredClone",
         "surface.getContext",
@@ -16529,7 +17987,10 @@
         "typeButton.focus",
         "until",
         "visibilitySVG.setAttribute",
+        "w.LeafnoteApp.file",
         "w.LeafnoteApp.finish",
+        "w.LeafnoteApp.maintenance.restoreRevision",
+        "w.LeafnoteApp.maintenance.trashNote",
         "w.LeafnoteApp.sync.apply",
         "w.LeafnoteApp.sync.busy",
         "w.LeafnoteApp.sync.read",
@@ -16582,9 +18043,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 402,
+      "line": 403,
       "column": 13,
-      "endLine": 402,
+      "endLine": 403,
       "name": "$",
       "async": false,
       "parameters": [
@@ -16601,9 +18062,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 459,
+      "line": 460,
       "column": 5,
-      "endLine": 459,
+      "endLine": 460,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16619,9 +18080,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 469,
+      "line": 470,
       "column": 5,
-      "endLine": 469,
+      "endLine": 470,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16637,9 +18098,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 531,
+      "line": 532,
       "column": 7,
-      "endLine": 533,
+      "endLine": 534,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -16655,9 +18116,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 635,
+      "line": 636,
       "column": 19,
-      "endLine": 635,
+      "endLine": 636,
       "name": "preventDefault",
       "async": false,
       "parameters": [],
@@ -16668,9 +18129,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 637,
+      "line": 638,
       "column": 20,
-      "endLine": 637,
+      "endLine": 638,
       "name": "stopPropagation",
       "async": false,
       "parameters": [],
@@ -16681,9 +18142,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 685,
+      "line": 686,
       "column": 5,
-      "endLine": 685,
+      "endLine": 686,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16699,9 +18160,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 786,
+      "line": 787,
       "column": 17,
-      "endLine": 796,
+      "endLine": 797,
       "name": "point",
       "async": false,
       "parameters": [
@@ -16721,9 +18182,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 841,
+      "line": 842,
       "column": 32,
-      "endLine": 843,
+      "endLine": 844,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16736,9 +18197,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 884,
+      "line": 885,
       "column": 34,
-      "endLine": 886,
+      "endLine": 887,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16751,9 +18212,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1046,
+      "line": 1047,
       "column": 25,
-      "endLine": 1051,
+      "endLine": 1052,
       "name": "getCoalescedEvents",
       "async": false,
       "parameters": [],
@@ -16768,9 +18229,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1092,
+      "line": 1093,
       "column": 32,
-      "endLine": 1096,
+      "endLine": 1097,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -16789,9 +18250,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1094,
+      "line": 1095,
       "column": 19,
-      "endLine": 1094,
+      "endLine": 1095,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16806,9 +18267,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1097,
+      "line": 1098,
       "column": 35,
-      "endLine": 1100,
+      "endLine": 1101,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -16827,9 +18288,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1099,
+      "line": 1100,
       "column": 19,
-      "endLine": 1099,
+      "endLine": 1100,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16844,9 +18305,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1102,
+      "line": 1103,
       "column": 22,
-      "endLine": 1102,
+      "endLine": 1103,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -16861,9 +18322,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1172,
+      "line": 1173,
       "column": 7,
-      "endLine": 1172,
+      "endLine": 1173,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16879,9 +18340,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1227,
+      "line": 1228,
       "column": 5,
-      "endLine": 1227,
+      "endLine": 1228,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16897,9 +18358,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1237,
+      "line": 1238,
       "column": 5,
-      "endLine": 1237,
+      "endLine": 1238,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16915,9 +18376,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1252,
+      "line": 1253,
       "column": 5,
-      "endLine": 1252,
+      "endLine": 1253,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16933,9 +18394,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1348,
+      "line": 1349,
       "column": 23,
-      "endLine": 1348,
+      "endLine": 1349,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -16950,9 +18411,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1359,
+      "line": 1360,
       "column": 15,
-      "endLine": 1359,
+      "endLine": 1360,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -16967,9 +18428,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1381,
+      "line": 1382,
       "column": 16,
-      "endLine": 1393,
+      "endLine": 1394,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -16987,9 +18448,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1385,
+      "line": 1386,
       "column": 9,
-      "endLine": 1390,
+      "endLine": 1391,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17004,9 +18465,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1394,
+      "line": 1395,
       "column": 14,
-      "endLine": 1394,
+      "endLine": 1395,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17017,9 +18478,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1421,
+      "line": 1422,
       "column": 5,
-      "endLine": 1421,
+      "endLine": 1422,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17034,9 +18495,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1425,
+      "line": 1426,
       "column": 5,
-      "endLine": 1425,
+      "endLine": 1426,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17051,9 +18512,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1559,
+      "line": 1560,
       "column": 5,
-      "endLine": 1559,
+      "endLine": 1560,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17066,9 +18527,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1602,
+      "line": 1603,
       "column": 5,
-      "endLine": 1602,
+      "endLine": 1603,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17083,9 +18544,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1634,
+      "line": 1635,
       "column": 5,
-      "endLine": 1634,
+      "endLine": 1635,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17100,9 +18561,26 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1689,
+      "line": 1707,
+      "column": 15,
+      "endLine": 1707,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to until.",
+      "calls": [
+        "$"
+      ],
+      "writes": [],
+      "returns": [
+        "$(\"#modal\").open"
+      ]
+    },
+    {
+      "file": "test/app.integration.cjs",
+      "line": 1740,
       "column": 55,
-      "endLine": 1690,
+      "endLine": 1741,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17119,9 +18597,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1694,
+      "line": 1745,
       "column": 51,
-      "endLine": 1694,
+      "endLine": 1745,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17136,9 +18614,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1711,
+      "line": 1762,
       "column": 44,
-      "endLine": 1711,
+      "endLine": 1762,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17153,9 +18631,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1730,
+      "line": 1781,
       "column": 23,
-      "endLine": 1730,
+      "endLine": 1781,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17170,9 +18648,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1874,
+      "line": 1931,
       "column": 16,
-      "endLine": 1874,
+      "endLine": 1931,
       "name": "request",
       "async": true,
       "parameters": [
@@ -17191,9 +18669,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1893,
+      "line": 1950,
       "column": 16,
-      "endLine": 1893,
+      "endLine": 1950,
       "name": "request",
       "async": true,
       "parameters": [
@@ -17212,9 +18690,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1913,
+      "line": 1970,
       "column": 9,
-      "endLine": 1913,
+      "endLine": 1970,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -17229,9 +18707,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1914,
+      "line": 1971,
       "column": 10,
-      "endLine": 1917,
+      "endLine": 1974,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -17244,6 +18722,515 @@
       ],
       "writes": [],
       "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 8,
+      "column": 1,
+      "endLine": 130,
+      "name": "dashboard",
+      "async": true,
+      "parameters": [
+        "paired = true"
+      ],
+      "purpose": "Exercise the real maintenance controls with isolated pairing and observable restore boundaries.",
+      "calls": [
+        "\"a\".repeat",
+        "Object.values",
+        "dom.getInternalVMContext",
+        "fs .readFileSync",
+        "fs .readFileSync(path.join(__dirname, \"../dist/index.html\"), \"utf8\") .replace",
+        "fs.readFileSync",
+        "module.evaluate",
+        "module.link",
+        "new vm.Script( fs.readFileSync(path.join(__dirname, \"../dist/maintenance.js\"), \"utf8\"), { /** Implem",
+        "path.join"
+      ],
+      "writes": [
+        "modules[\"./sync-engine.mjs\"]",
+        "modules[\"./sync-settings.mjs\"]",
+        "w.$",
+        "w.HTMLDialogElement.prototype.close",
+        "w.HTMLDialogElement.prototype.showModal",
+        "w.LeafInk",
+        "w.LeafnoteApp"
+      ],
+      "returns": [
+        "{ w, dom, snapshot, /** Implement the restored callback in this object. */ get restored() { return restored; }, /** Implement the requests callback in this object. */ get requests("
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 29,
+      "column": 9,
+      "endLine": 29,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "s"
+      ],
+      "purpose": "Handle the callback assigned to w.$.",
+      "calls": [
+        "w.document.querySelector"
+      ],
+      "writes": [],
+      "returns": [
+        "w.document.querySelector(s)"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 32,
+      "column": 14,
+      "endLine": 32,
+      "name": "outline",
+      "async": false,
+      "parameters": [],
+      "purpose": "Create a filled SVG outline for a complete pressure-aware stroke.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "\"\""
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 34,
+      "column": 45,
+      "endLine": 36,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to w.HTMLDialogElement.prototype.showModal.",
+      "calls": [],
+      "writes": [
+        "this.open"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 37,
+      "column": 41,
+      "endLine": 40,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to w.HTMLDialogElement.prototype.close.",
+      "calls": [
+        "this.dispatchEvent"
+      ],
+      "writes": [
+        "this.open"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 44,
+      "column": 11,
+      "endLine": 44,
+      "name": "finish",
+      "async": false,
+      "parameters": [],
+      "purpose": "Finish active note and board edits before a deliberate layout change.",
+      "calls": [],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 47,
+      "column": 14,
+      "endLine": 47,
+      "name": "trash",
+      "async": false,
+      "parameters": [],
+      "purpose": "Implement the trash callback in this object.",
+      "calls": [
+        "structuredClone"
+      ],
+      "writes": [],
+      "returns": [
+        "structuredClone(trash)"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 49,
+      "column": 23,
+      "endLine": 51,
+      "name": "restoreDeleted",
+      "async": true,
+      "parameters": [
+        "id"
+      ],
+      "purpose": "Implement the restoreDeleted callback in this object.",
+      "calls": [
+        "trash.filter"
+      ],
+      "writes": [
+        "trash"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 50,
+      "column": 30,
+      "endLine": 50,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to trash.filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id !== id"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 53,
+      "column": 24,
+      "endLine": 55,
+      "name": "restoreRevision",
+      "async": true,
+      "parameters": [
+        "note",
+        "blob"
+      ],
+      "purpose": "Implement the restoreRevision callback in this object.",
+      "calls": [],
+      "writes": [
+        "restored"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 76,
+      "column": 5,
+      "endLine": 84,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Evaluate an inline callback in test/maintenance-ui.test.cjs; its direct operations are listed below.",
+      "calls": [
+        "this.setExport"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 77,
+      "column": 44,
+      "endLine": 83,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to this.setExport.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "{ /** Implement the load callback in this object. */ load: async () => ({ enabled: paired, token: paired ? \"b\".repeat(64) : null, }), }"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 79,
+      "column": 15,
+      "endLine": 82,
+      "name": "load",
+      "async": true,
+      "parameters": [],
+      "purpose": "Implement the load callback in this object.",
+      "calls": [
+        "\"b\".repeat"
+      ],
+      "writes": [],
+      "returns": [
+        "{ enabled: paired, token: paired ? \"b\".repeat(64) : null, }"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 89,
+      "column": 5,
+      "endLine": 102,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Evaluate an inline callback in test/maintenance-ui.test.cjs; its direct operations are listed below.",
+      "calls": [
+        "this.setExport"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 90,
+      "column": 45,
+      "endLine": 100,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to this.setExport.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "{ /** Implement the history callback in this object. */ history: async () => { requests++; return { commits: [{ hash, at: 1, message: \"Autosave revision 1\" }] }; }, /** Implement t"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 92,
+      "column": 18,
+      "endLine": 95,
+      "name": "history",
+      "async": true,
+      "parameters": [],
+      "purpose": "Implement the history callback in this object.",
+      "calls": [],
+      "writes": [
+        "requests"
+      ],
+      "returns": [
+        "{ commits: [{ hash, at: 1, message: \"Autosave revision 1\" }] }"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 97,
+      "column": 19,
+      "endLine": 97,
+      "name": "revision",
+      "async": true,
+      "parameters": [],
+      "purpose": "Implement the revision callback in this object.",
+      "calls": [
+        "structuredClone"
+      ],
+      "writes": [],
+      "returns": [
+        "structuredClone(snapshot)"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 99,
+      "column": 14,
+      "endLine": 99,
+      "name": "abort",
+      "async": false,
+      "parameters": [],
+      "purpose": "Implement the abort callback in this object.",
+      "calls": [],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 101,
+      "column": 34,
+      "endLine": 101,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Provide the callback passed to this.setExport.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "null"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 106,
+      "column": 23,
+      "endLine": 106,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to module.link.",
+      "calls": [],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 113,
+      "column": 32,
+      "endLine": 113,
+      "name": "importModuleDynamically",
+      "async": true,
+      "parameters": [
+        "s"
+      ],
+      "purpose": "Implement the importModuleDynamically callback in this object.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "modules[s]"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 121,
+      "column": 17,
+      "endLine": 123,
+      "name": "restored",
+      "async": false,
+      "parameters": [],
+      "purpose": "Implement the restored callback in this object.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "restored"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 125,
+      "column": 17,
+      "endLine": 127,
+      "name": "requests",
+      "async": false,
+      "parameters": [],
+      "purpose": "Implement the requests callback in this object.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "requests"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 132,
+      "column": 1,
+      "endLine": 138,
+      "name": "until",
+      "async": true,
+      "parameters": [
+        "predicate"
+      ],
+      "purpose": "Wait for a required UI condition with a bounded test timeout.",
+      "calls": [
+        "Error",
+        "predicate"
+      ],
+      "writes": [
+        "i"
+      ],
+      "returns": [
+        "undefined"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 135,
+      "column": 23,
+      "endLine": 135,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "r"
+      ],
+      "purpose": "Evaluate an inline callback in test/maintenance-ui.test.cjs; its direct operations are listed below.",
+      "calls": [
+        "setTimeout"
+      ],
+      "writes": [],
+      "returns": [
+        "setTimeout(r, 5)"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 139,
+      "column": 81,
+      "endLine": 157,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "assert.equal",
+        "assert.match",
+        "assert.ok",
+        "dashboard",
+        "h.$",
+        "h.$(\"#maintenance\").click",
+        "h.$(\"#maintenancelist button\").onclick",
+        "h.$(\"#showhistory\").click",
+        "h.dom.window.close",
+        "until"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 150,
+      "column": 17,
+      "endLine": 151,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to until.",
+      "calls": [
+        "h.$",
+        "h.$(\"#maintenancestatus\").textContent.includes"
+      ],
+      "writes": [],
+      "returns": [
+        "h.$(\"#maintenancestatus\").textContent.includes(\"Enable Server sync\")"
+      ]
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 158,
+      "column": 110,
+      "endLine": 175,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "assert.equal",
+        "assert.match",
+        "dashboard",
+        "h.$",
+        "h.$(\"#maintenance\").click",
+        "h.$(\"#maintenancelist button\").onclick",
+        "h.$(\"#restorerevision\").onclick",
+        "h.$(\"#showhistory\").click",
+        "h.dom.window.close",
+        "until"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/maintenance-ui.test.cjs",
+      "line": 163,
+      "column": 17,
+      "endLine": 163,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [],
+      "purpose": "Provide the callback passed to until.",
+      "calls": [
+        "h.$"
+      ],
+      "writes": [],
+      "returns": [
+        "h.$(\"#maintenancelist button\")"
+      ]
     },
     {
       "file": "test/package.test.cjs",
@@ -18237,7 +20224,7 @@
       ],
       "writes": [],
       "returns": [
-        "{ ok: true /** Implement the json callback in this object. */, /** Implement the json callback in this object. */ json: async () => ({ enabled: true, protocol: 1 }), }"
+        "{ ok: true /** Implement the json callback in this object. */, /** Implement the json callback in this object. */ json: async () => ({ enabled: true, protocol: 2 }), }"
       ]
     },
     {
@@ -18252,7 +20239,7 @@
       "calls": [],
       "writes": [],
       "returns": [
-        "{ enabled: true, protocol: 1 }"
+        "{ enabled: true, protocol: 2 }"
       ]
     },
     {
@@ -19942,8 +21929,8 @@
     {
       "file": "test/sync.test.cjs",
       "line": 612,
-      "column": 79,
-      "endLine": 639,
+      "column": 91,
+      "endLine": 638,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -19955,13 +21942,13 @@
         "JSON.parse",
         "api",
         "assert.equal",
-        "assert.rejects",
         "createSyncStore",
         "fs.readFile",
         "fs.writeFile",
         "modules",
         "note",
         "path.join",
+        "repaired.state",
         "server.store.commit",
         "server.store.state",
         "snap"
@@ -19971,9 +21958,9 @@
     },
     {
       "file": "test/sync.test.cjs",
-      "line": 640,
+      "line": 639,
       "column": 78,
-      "endLine": 653,
+      "endLine": 652,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [],
@@ -19995,9 +21982,9 @@
     },
     {
       "file": "test/sync.test.cjs",
-      "line": 646,
+      "line": 645,
       "column": 41,
-      "endLine": 646,
+      "endLine": 645,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -20014,9 +22001,9 @@
     },
     {
       "file": "test/sync.test.cjs",
-      "line": 650,
+      "line": 649,
       "column": 33,
-      "endLine": 650,
+      "endLine": 649,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -20031,9 +22018,9 @@
     },
     {
       "file": "test/sync.test.cjs",
-      "line": 655,
+      "line": 654,
       "column": 79,
-      "endLine": 679,
+      "endLine": 678,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -20061,9 +22048,9 @@
     },
     {
       "file": "test/sync.test.cjs",
-      "line": 663,
+      "line": 662,
       "column": 18,
-      "endLine": 671,
+      "endLine": 670,
       "name": "<anonymous callback>",
       "async": true,
       "parameters": [
@@ -20083,9 +22070,9 @@
     },
     {
       "file": "test/sync.test.cjs",
-      "line": 666,
+      "line": 665,
       "column": 16,
-      "endLine": 668,
+      "endLine": 667,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -20096,6 +22083,350 @@
       "writes": [
         "d.notes[0].texts[0].text"
       ],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 680,
+      "column": 100,
+      "endLine": 734,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [
+        "t"
+      ],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "\"f\".repeat",
+        "api",
+        "assert.equal",
+        "assert.match",
+        "assert.rejects",
+        "createSyncStore",
+        "createSyncTransport",
+        "fetch",
+        "fs.readFile",
+        "fs.writeFile",
+        "modules",
+        "note",
+        "path.join",
+        "recovered.state",
+        "snap",
+        "transport.getState",
+        "transport.history",
+        "transport.putState",
+        "transport.revision"
+      ],
+      "writes": [
+        "state",
+        "state.data.notes[0].texts[0].text"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 721,
+      "column": 5,
+      "endLine": 721,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "e"
+      ],
+      "purpose": "Provide the callback passed to assert.rejects.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "e.status === 404"
+      ]
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 735,
+      "column": 66,
+      "endLine": 761,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [
+        "t"
+      ],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "api",
+        "assert.equal",
+        "assert.rejects",
+        "createSyncTransport",
+        "modules",
+        "note",
+        "server.store.state",
+        "snap",
+        "transport.getState",
+        "transport.history",
+        "transport.putState"
+      ],
+      "writes": [
+        "server.store.history.commit"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 741,
+      "column": 33,
+      "endLine": 743,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [],
+      "purpose": "Handle the callback assigned to server.store.history.commit.",
+      "calls": [
+        "Error"
+      ],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 750,
+      "column": 5,
+      "endLine": 750,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "e"
+      ],
+      "purpose": "Provide the callback passed to assert.rejects.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "e.status === 500"
+      ]
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 762,
+      "column": 110,
+      "endLine": 840,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [
+        "t"
+      ],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "(await b.file(\"pdf\")).text",
+        "Object.entries",
+        "Object.entries(state.files).filter",
+        "Object.fromEntries",
+        "a.data.notes.find",
+        "a.data.notes.some",
+        "a.edit",
+        "a.putFile",
+        "api",
+        "assert.equal",
+        "assert.ok",
+        "b.edit",
+        "b.file",
+        "createSyncEngine",
+        "createSyncTransport",
+        "device",
+        "ea.run",
+        "eb.run",
+        "modules",
+        "note",
+        "saved.data.notes.find",
+        "settings",
+        "snap",
+        "state.data.notes.filter",
+        "transport.getState",
+        "transport.putState"
+      ],
+      "writes": [
+        "n.pdf"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 788,
+      "column": 10,
+      "endLine": 791,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "d"
+      ],
+      "purpose": "Provide the callback passed to a.edit.",
+      "calls": [],
+      "writes": [
+        "d.notes[0].deleted",
+        "d.notes[0].deletedAt"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 796,
+      "column": 10,
+      "endLine": 799,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "d"
+      ],
+      "purpose": "Provide the callback passed to b.edit.",
+      "calls": [],
+      "writes": [],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 803,
+      "column": 10,
+      "endLine": 806,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "d"
+      ],
+      "purpose": "Provide the callback passed to a.edit.",
+      "calls": [],
+      "writes": [
+        "d.notes[0].deleted",
+        "d.notes[0].deletedAt"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 807,
+      "column": 10,
+      "endLine": 809,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "d"
+      ],
+      "purpose": "Provide the callback passed to b.edit.",
+      "calls": [],
+      "writes": [
+        "d.notes[0].texts[0].text"
+      ],
+      "returns": []
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 813,
+      "column": 31,
+      "endLine": 813,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to a.data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === \"pdf\""
+      ]
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 816,
+      "column": 7,
+      "endLine": 819,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to a.data.notes.some.",
+      "calls": [
+        "n.title.includes"
+      ],
+      "writes": [],
+      "returns": [
+        "!n.deleted && n.texts[0].text === \"edited offline\" && n.title.includes(\"recovered edit\")"
+      ]
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 825,
+      "column": 36,
+      "endLine": 825,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to state.data.notes.filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id !== \"pdf\""
+      ]
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 832,
+      "column": 42,
+      "endLine": 832,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "[id]"
+      ],
+      "purpose": "Provide the callback passed to Object.entries(state.files).filter.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "id !== \"pdf\""
+      ]
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 836,
+      "column": 27,
+      "endLine": 836,
+      "name": "<anonymous callback>",
+      "async": false,
+      "parameters": [
+        "n"
+      ],
+      "purpose": "Provide the callback passed to saved.data.notes.find.",
+      "calls": [],
+      "writes": [],
+      "returns": [
+        "n.id === \"pdf\""
+      ]
+    },
+    {
+      "file": "test/sync.test.cjs",
+      "line": 842,
+      "column": 77,
+      "endLine": 860,
+      "name": "<anonymous callback>",
+      "async": true,
+      "parameters": [
+        "t"
+      ],
+      "purpose": "Provide the callback passed to test.",
+      "calls": [
+        "api",
+        "assert.equal",
+        "assert.rejects",
+        "createSyncStore",
+        "createSyncTransport",
+        "fs.unlink",
+        "modules",
+        "note",
+        "path.join",
+        "server.store.state",
+        "snap",
+        "transport.getState",
+        "transport.putState"
+      ],
+      "writes": [],
       "returns": []
     }
   ]

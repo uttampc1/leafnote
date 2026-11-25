@@ -92,7 +92,7 @@
         }
         if (!response.ok) return;
         const config = await response.json();
-        available = config.enabled === true && config.protocol === 1;
+        available = config.enabled === true && config.protocol === 2;
         if (
           available &&
           settings.choice === undefined &&

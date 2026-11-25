@@ -101,6 +101,12 @@ function validate(x) {
       ? n.paper
       : "lined",
     star: !!n.star,
+    ...(n.deleted === true
+      ? {
+          deleted: true,
+          deletedAt: Number(n.deletedAt) || Number(n.updated) || Date.now(),
+        }
+      : {}),
     created: Number(n.created) || Date.now(),
     updated: Number(n.updated) || Date.now(),
     strokes: (Array.isArray(n.strokes) ? n.strokes : [])
@@ -128,7 +134,7 @@ data = fresh();
 current = data.notes[0]?.id;
 /** Resolve the currently open note from its stable ID. */
 function note() {
-  return data.notes.find((n) => n.id === current);
+  return data.notes.find((n) => n.id === current && !n.deleted);
 }
 /** Resolve a note’s notebook, falling back to the first available notebook. */
 function book(n) {
@@ -173,12 +179,14 @@ function escapeText(t) {
 }
 /** Refresh notebook navigation, total counts, favorite counts, and notebook choices. */
 function renderNav() {
-  $("#count").textContent = data.notes.length;
-  $("#favoritecount").textContent = data.notes.filter((n) => n.star).length;
+  $("#count").textContent = data.notes.filter((n) => !n.deleted).length;
+  $("#favoritecount").textContent = data.notes.filter(
+    (n) => !n.deleted && n.star,
+  ).length;
   $("#books").innerHTML = data.books
     .map(
       (b) =>
-        `<button class="nav ${filter === b.id ? "active" : ""}" data-filter="${escapeText(b.id)}"><i class="bookdot" style="--bookcolor:${b.color}"></i><span>${escapeText(b.name)}</span><b>${data.notes.filter((n) => n.book === b.id).length}</b></button>`,
+        `<button class="nav ${filter === b.id ? "active" : ""}" data-filter="${escapeText(b.id)}"><i class="bookdot" style="--bookcolor:${b.color}"></i><span>${escapeText(b.name)}</span><b>${data.notes.filter((n) => !n.deleted && n.book === b.id).length}</b></button>`,
     )
     .join("");
   $$("nav .nav").forEach((b) =>
@@ -197,6 +205,7 @@ function renderList() {
   const notes = data.notes
     .filter(
       (n) =>
+        !n.deleted &&
         (filter === "all" ||
           (filter === "star" && n.star) ||
           n.book === filter) &&
@@ -254,7 +263,9 @@ function resizePage() {
 }
 /** Open a note, update its controls, and refresh its drawing surface. */
 function loadNote(id) {
-  current = id;
+  current =
+    data.notes.find((n) => n.id === id && !n.deleted)?.id ||
+    data.notes.find((n) => !n.deleted)?.id;
   redo = [];
   stroke = null;
   const n = note();
@@ -436,18 +447,20 @@ $("#favorite").onclick = () => {
 };
 $("#delete").onclick = async () => {
   const r = await modal(
-    "Delete this note?",
-    `“${note().title || "Untitled note"}” will be permanently removed from this browser.`,
+    "Move this note to Trash?",
+    `“${note().title || "Untitled note"}” can be restored later from Maintenance.`,
     false,
-    "Delete",
+    "Move to Trash",
   );
   if (!r.ok) return;
-  data.notes = data.notes.filter((n) => n.id !== current);
+  note().deleted = true;
+  note().deletedAt = Date.now();
   persist();
   renderNav();
-  if (data.notes.length) loadNote(data.notes[0].id);
+  if (data.notes.some((n) => !n.deleted))
+    loadNote(data.notes.find((n) => !n.deleted).id);
   else createNote();
-  toast("Note deleted");
+  toast("Moved to Trash");
 };
 /** Convert a pointer event to the original canvas coordinates. */
 function point(e) {

@@ -216,6 +216,7 @@ async function makeApp(
     "language-models.js",
     "minimal.js",
     "pwa.js",
+    "maintenance.js",
   ]) {
     new vm.Script(fs.readFileSync(root + "/" + file, "utf8"), {
       filename: file,
@@ -1685,6 +1686,56 @@ async function main() {
   $("#notemenu").open = false;
   $("#toolsettings").open = false;
   w.document.activeElement?.blur();
+
+  const retainedSource = ev("data.notes.find(n=>n.pdf)"),
+    retainedBytes = await w.LeafnoteApp.file(retainedSource.id);
+  await w.LeafnoteApp.maintenance.restoreRevision(
+    retainedSource,
+    retainedBytes,
+  );
+  const retainedId = ev("current");
+  check(
+    retainedId !== retainedSource.id &&
+      (await (await w.LeafnoteApp.file(retainedId)).text()) ===
+        (await retainedBytes.text()),
+    "historical PDF restore creates a separate note with the original bytes",
+  );
+  ev('note().title="Retainedonly sentinel";touch()');
+  await ev("persist()");
+  const activeBeforeTrash = Number($("#count").textContent),
+    deleting = $("#delete").onclick();
+  await until(() => $("#modal").open, "trash confirmation");
+  $("#modal").close("ok");
+  await deleting;
+  check(
+    ev(
+      "data.notes.find(n=>n.id===" + JSON.stringify(retainedId) + ").deleted",
+    ) && Number($("#count").textContent) === activeBeforeTrash - 1,
+    "delete retains a flagged record while removing it from active counts",
+  );
+  check(
+    !!(await w.LeafnoteApp.file(retainedId)),
+    "moving a PDF to Trash keeps its original blob",
+  );
+  check(
+    !Search.search(ev("data"), "Retainedonly").length,
+    "Trash content is excluded from all-note search",
+  );
+  $("#maintenance").click();
+  check(
+    $("#maintenancedialog").open &&
+      $("#maintenancelist").textContent.includes("Retainedonly"),
+    "Maintenance opens local Trash with retained notes",
+  );
+  await $("#maintenancelist button").onclick();
+  check(
+    !ev(
+      "data.notes.find(n=>n.id===" + JSON.stringify(retainedId) + ").deleted",
+    ) && ev("current") === retainedId,
+    "Trash restore returns the original note to the library",
+  );
+  $("#closemaintenance").click();
+  await w.LeafnoteApp.maintenance.trashNote(retainedId);
   const syncEvents = [];
   w.document.addEventListener("leafnote-local-saved", (e) =>
     syncEvents.push(e.detail),
@@ -1862,6 +1913,12 @@ async function main() {
   check(
     again.evaluate('data.notes.some(n=>n.id==="sync-arrival")'),
     "a synced note survives real IndexedDB validation and reopening",
+  );
+  check(
+    again.evaluate(
+      "data.notes.find(n=>n.id===" + JSON.stringify(retainedId) + ").deleted",
+    ) && !!(await again.w.LeafnoteApp.file(retainedId)),
+    "Trash metadata and retained PDF bytes survive reload",
   );
   const blocked = await makeApp(
     undefined,

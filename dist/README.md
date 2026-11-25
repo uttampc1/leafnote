@@ -48,3 +48,7 @@ Choose **••• → New brainstorm board** for a roomy canvas. Add **Idea car
 Notes always save in this browser on this device. If you enable **••• → Server sync**, a copy is also kept on your Linux server. Write offline as usual; reopen the app online to synchronize. First setup asks before connecting and requires your server’s connection code. Conflicting edits are kept as copies.
 
 For a copy you can keep, open **Notes → Library actions → Export backup**. Import that backup to restore your notebook later. Importing a backup replaces the notes currently on that device.
+
+## Recover a note
+
+**Move to Trash** retains the note. Open **••• → Maintenance → Trash** to restore it, even offline. **Revision history** shows server autosaves when sync is connected. Select a revision and use **Restore as new note** to recover an older version while keeping the current note. Offline edits become a Git revision when they next sync.

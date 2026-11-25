@@ -1,6 +1,6 @@
 # Leafnote — local notebook and installable PWA
 
-This is the self-contained local deployment repository. It includes the app, both recognition models, Docker/Compose services, Linux deployment scripts, tests, and review documentation. It includes optional authenticated Linux-folder sync. Notes save first in each client browser’s IndexedDB, so writing and installed recognition models remain available offline.
+This is the self-contained local deployment repository. It includes the app, both recognition models, Docker/Compose services, Linux deployment scripts, tests, and review documentation. It includes optional authenticated Linux-folder sync, Git autosave revisions, and recoverable Trash. Notes save first in each client browser’s IndexedDB, so writing and installed recognition models remain available offline.
 
 ## Run on a Linux LAN server
 
@@ -33,6 +33,8 @@ In the hosted app, choose **Notes → Library actions → Export backup**. At th
 The hosted address, a LAN IP, HTTP, HTTPS, and different ports are separate browser origins. They have separate note stores. Keep one stable local address and use backups when moving between them. Enabling Server sync pairs clients to the same personal notebook. Browser profiles remain separate offline stores; this is not a multi-user account system.
 
 ## Use it like a notebook
+
+Open **••• → Maintenance** to restore deleted notes or browse server Git revisions. Server autosaves create commits; offline work stays local until it syncs. See [sync and recovery](docs/SYNC.md).
 
 See [the simple user guide](USER_GUIDE.md), also available inside the app at **••• → Getting started**.
 
@@ -70,10 +72,10 @@ Build the container with `docker compose build`, or use the deployment script. T
 
 ## Portable Git history
 
-The working directory is already a local Git repository with the imported baseline, local deployment, and offline sync commits. A companion `leafnote-local-sync-v1.1.0.git.bundle` can recreate that history elsewhere:
+The working directory is already a local Git repository with the imported baseline, local deployment, and offline sync commits. A companion `leafnote-local-history-v1.2.0.git.bundle` can recreate that history elsewhere:
 
 ```sh
-git clone leafnote-local-sync-v1.1.0.git.bundle leafnote-review
+git clone leafnote-local-history-v1.2.0.git.bundle leafnote-review
 ```
 
 The Linux source archive includes everything needed to build the app image, including model files, but excludes `.git`, installed npm dependencies, private certificates, server note data, connection codes, and machine-specific `.env` configuration.

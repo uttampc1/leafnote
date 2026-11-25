@@ -1,6 +1,6 @@
 {
   "name": "leafnote-local",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Leafnote notebook — local Linux deployment and installable PWA",
   "engines": {
@@ -9,7 +9,7 @@
   "scripts": {
     "prepare:app": "node scripts/build-precache.mjs",
     "serve": "node scripts/serve.mjs",
-    "test": "node --experimental-vm-modules test/app.integration.cjs && node --experimental-vm-modules --test test/pwa.test.cjs test/pwa-ui.test.cjs test/package.test.cjs test/sync.test.cjs test/sync-ui.test.cjs",
+    "test": "node --experimental-vm-modules test/app.integration.cjs && node --experimental-vm-modules --test test/pwa.test.cjs test/pwa-ui.test.cjs test/package.test.cjs test/sync.test.cjs test/sync-ui.test.cjs test/maintenance-ui.test.cjs",
     "format": "prettier --write \"dist/*.{js,mjs,css,html}\" \"scripts/*.{mjs,cjs}\" \"test/*.{js,cjs}\" \"server/*.mjs\" \"*.{md,json,yml}\" \"docs/*.md\"",
     "docs": "node scripts/document-functions.cjs",
     "check:docs": "node scripts/document-functions.cjs --check",

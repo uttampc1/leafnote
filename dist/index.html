@@ -367,7 +367,8 @@
                     ><span id="date"></span>
                   </div>
                 </div>
-                <button id="serversync">Server sync</button
+                <button id="maintenance">Maintenance</button
+                ><button id="serversync">Server sync</button
                 ><small id="syncstatus" role="status"></small
                 ><button id="installapp">Install app</button
                 ><button id="updateapp" hidden="">Update app</button
@@ -380,10 +381,10 @@
                   >Getting started</a
                 ><button
                   id="delete"
-                  title="Delete note"
-                  aria-label="Delete note"
+                  title="Move note to Trash"
+                  aria-label="Move note to Trash"
                 >
-                  Delete note
+                  Move to Trash
                 </button>
               </div>
             </details>
@@ -567,5 +568,34 @@
       ><button id="closesync">Keep on this device / Close</button>
     </dialog>
     <script src="sync.js"></script>
+    <dialog id="maintenancedialog" aria-labelledby="maintenancetitle">
+      <header>
+        <h2 id="maintenancetitle">Maintenance</h2>
+        <button id="closemaintenance" aria-label="Close maintenance">
+          Close
+        </button>
+      </header>
+      <nav aria-label="Maintenance views">
+        <button id="showtrash" aria-pressed="true">Trash</button
+        ><button id="showhistory" aria-pressed="false">Revision history</button
+        ><button id="refreshmaintenance">Refresh</button>
+      </nav>
+      <p id="maintenancesummary"></p>
+      <p id="maintenancestatus" role="status" aria-live="polite"></p>
+      <div class="maintenance-columns">
+        <section
+          id="maintenancelist"
+          aria-label="Retained notes or revisions"
+        ></section>
+        <section id="revisiondetails" hidden>
+          <label for="revisionnote">Note in this revision</label
+          ><select id="revisionnote"></select>
+          <div id="revisionpreview"></div>
+          <button id="restorerevision" hidden>Restore as new note</button>
+        </section>
+      </div>
+      <button id="olderrevisions" hidden>Older revisions</button>
+    </dialog>
+    <script src="maintenance.js"></script>
   </body>
 </html>

@@ -141,3 +141,23 @@ flowchart TD
 ```
 
 `leafnote-sync` IndexedDB stores device opt-in, code, a stable device ID, the last server ancestor, and a pending receipt. It does not duplicate PDF bytes. The browser writer lock prevents two new app windows from independently overwriting the same profile’s full notebook. The server serializes one process’s metadata commits and rejects stale revisions. API paths are network-only and never enter the PWA shell cache. See SYNC.md for failure behavior and retention.
+
+## Revision and recovery flow (1.2)
+
+```mermaid
+flowchart LR
+  Edit[Local autosave] --> IDB[IndexedDB offline state]
+  IDB --> Sync[Idle authenticated sync]
+  Sync --> CAS[Server revision check]
+  CAS --> Git[Git checkpoint commit]
+  Git --> Current[Publish current snapshot]
+  Delete[Move to Trash] --> Flag[Retain note with deleted flag]
+  Flag --> IDB
+  Menu[Maintenance] --> Trash[Restore retained local note]
+  Menu --> History[Authenticated Git revision preview]
+  History --> Copy[Restore full note under new ID]
+  Trash --> IDB
+  Copy --> IDB
+```
+
+`server/git-history.mjs` executes fixed Git argument arrays with isolated configuration and disabled hooks. The private history folder is never served by Caddy. Snapshot commits retain complete note metadata plus immutable PDF hashes; originals stay in blobs. Startup checks Git workspace/revision identity and repairs a lagging snapshot pointer from a valid HEAD. `maintenance.js` is only loaded with the shell; it requests historical note content after the user opens Revision history. Soft deletion retains all local content/PDF bytes and flows through the same merge and sync engine. Protocol 2 fences clients that do not preserve tombstones.
