@@ -4609,7 +4609,7 @@ Attach this module’s event handlers after the application state is ready.
 - Source: [`dist/library.js:5`](../dist/library.js#L5)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `document .querySelector`, `document .querySelector('input[type="file"][accept*="pdf"]') ?.addEventListener`, `document.addEventListener`, `localStorage.getItem`, `new MutationObserver(decorate).observe`, `open`, `selectMode`
-- Assigned/updated targets: `$("#continuewriting").onclick`, `$("#libraryboard").onclick`, `$("#librarydashboard").onclick`, `$("#librarymaintenance").onclick`, `$("#librarypdf").onclick`, `$("#mobile").onclick`, `$("#viewgrid").onclick`, `$("#viewlist").onclick`, `mode`, `observer`, `window.LeafLibrary`
+- Assigned/updated targets: `$("#continuewriting").onclick`, `$("#libraryboard").onclick`, `$("#librarymaintenance").onclick`, `$("#librarypdf").onclick`, `$("#mobile").onclick`, `$("#viewgrid").onclick`, `$("#viewlist").onclick`, `mode`, `observer`, `window.LeafLibrary`
 - Return expressions: (none)
 
 ### trim — line 21
@@ -4814,7 +4814,7 @@ Provide the callback passed to requestAnimationFrame.
 
 ### <anonymous callback> — line 221
 
-Handle the callback assigned to $("#librarydashboard").onclick.
+Handle the callback assigned to $("#librarymaintenance").onclick.
 
 - Source: [`dist/library.js:221`](../dist/library.js#L221)
 - Parameters: `(none)`; async: false
@@ -4824,39 +4824,29 @@ Handle the callback assigned to $("#librarydashboard").onclick.
 
 ### <anonymous callback> — line 222
 
-Handle the callback assigned to $("#librarymaintenance").onclick.
-
-- Source: [`dist/library.js:222`](../dist/library.js#L222)
-- Parameters: `(none)`; async: false
-- Direct calls: `$`, `$("#maintenance").click`
-- Assigned/updated targets: (none)
-- Return expressions: `$("#maintenance").click()`
-
-### <anonymous callback> — line 223
-
 Handle the callback assigned to $("#libraryboard").onclick.
 
-- Source: [`dist/library.js:223`](../dist/library.js#L223)
+- Source: [`dist/library.js:222`](../dist/library.js#L222)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#newboard").click`, `close`
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 227
+### <anonymous callback> — line 226
 
 Handle the callback assigned to $("#librarypdf").onclick.
 
-- Source: [`dist/library.js:227`](../dist/library.js#L227)
+- Source: [`dist/library.js:226`](../dist/library.js#L226)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`, `$("#importpdf").click`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#importpdf").click()`
 
-### <anonymous callback> — line 230
+### <anonymous callback> — line 229
 
 Handle the "change" event registered by document .querySelector('input[type="file"][accept*="pdf"]') ?.addEventListener.
 
-- Source: [`dist/library.js:230`](../dist/library.js#L230)
+- Source: [`dist/library.js:229`](../dist/library.js#L229)
 - Parameters: `event`; async: false
 - Direct calls: `close`
 - Assigned/updated targets: (none)
@@ -9830,7 +9820,7 @@ Run the full existing notebook, PDF, board, search, formatting, and pencil regre
 
 - Source: [`test/app.integration.cjs:268`](../test/app.integration.cjs#L268)
 - Parameters: `(none)`; async: true
-- Direct calls: `$`, `$("#addpaperpage").onclick`, `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#boardin").click`, `$("#cancelreview").click`, `$("#clearsearch").click`, `$("#closemaintenance").click`, `$("#closemodels").click`, `$("#color").dispatchEvent`, `$("#continuewriting").click`, `$("#delete").onclick`, `$("#deleteidea").click`, `$("#discardreview").click`, `$("#export").onclick`, `$("#extendboard").click`, `$("#favorite").click`, `$("#focusmode").click`, `$("#focusmode").getAttribute`, `$("#indexnotes").onclick`, `$("#indexstatus").textContent.includes`, `$("#inkoptions").contains`, `$("#inktranscript").dispatchEvent`, `$("#inputmode").onchange`, `$("#languagemodels").onclick`, `$("#librarydashboard").click`, `$("#maintenance").click`, `$("#maintenancelist button").onclick`, `$("#maintenancelist").textContent.includes`, `$("#mobile").click`, `$("#mobile").getAttribute`, `$("#modal").close`, `$("#modelcards").querySelectorAll`, `$("#modelcards").textContent.includes`, `$("#modelstatus").textContent.includes`, `$("#newboard").click`, `$("#nextpage").onclick`, `$("#notemenu summary").click`, `$("#notemenu").contains`, `$("#pagepaper").onchange`, `$("#pdffile").onchange`, `$("#pencilgrade").dispatchEvent`, `$("#prevpage").onclick`, `$("#recognitionlanguage").onchange`, `$("#redo").click`, `$("#retryrecognition").onclick`, `$("#reviewhandwriting").click`, `$("#reviewinksearch").click`, `$("#reviewstatus").textContent.includes`, `$("#savetranscript").click`, `$("#savetranscript").onclick`, `$("#search").oninput`, `$("#searchallcontent").click`, `$("#searchkind").onchange`, `$("#searchscope").textContent.includes`, `$("#sheet").querySelector`, `$("#showtrash").click`, `$("#syncdialog").removeAttribute`, `$("#syncdialog").setAttribute`, `$("#textcolor").dispatchEvent`, `$("#textsize").dispatchEvent`, `$("#textspacing").dispatchEvent`, `$("#title").focus`, `$("#toast").textContent.includes`, `$("#toolsettings summary").click`, `$("#toolsettings").contains`, `$("#undo").click`, `$("#viewgrid").click`, `$("#viewgrid").getAttribute`, `$("#viewlist").click`, `$("#viewlist").getAttribute`, `$("#width").dispatchEvent`, `$("#writingkind").dispatchEvent`, `$("#zoomfit").click`, `$("#zoomin").click`, `$(".app").classList.contains`, `$(".app").classList.remove`, `$(".canvas-row").contains`, `$(".library-top").contains`, `$(".topbar").contains`, `$('#modelcards [data-install-model="mr"]').click`, `$('#modelcards [data-remove-model="mr"]').click`, `$('#modelcards [data-use-model="mr"]').click`, `$('#notes [data-result-id="' + plainId + '"]').click`, `$('[data-filter="all"]').click`, `$('[data-filter="star"]').click`, `$('[data-tool="highlighter"]').click`, `$('[data-tool="idea"]').click`, `$('[data-tool="link"]').click`, `$('[data-tool="pen"]').click`, `$('[data-tool="select"]').click`, `$('[data-tool="text"]').click`, `(await w.LeafnoteApp.file(mixedPdfId)).arrayBuffer`, `(await w.LeafnoteApp.file(pdfOrderId)).arrayBuffer`, `(await w.LeafnoteApp.file(retainedId)).text`, `(await w.LeafnoteApp.file(retainedSource.id)).text`, `Buffer.from`, `Ink.hits`, `Ink.imagePlacement`, `Ink.widthAt`, `JSON.parse`, `JSON.stringify`, `Number`, `Object.defineProperty`, `Object.keys`, `PDFLib.PDFDocument.create`, `PDFLib.PDFDocument.load`, `PDFLib.degrees`, `PDFLib.rgb`, `Search.lines`, `Search.norm`, `Search.search`, `Search.signature`, `[ ...w.document.querySelectorAll(".document-page-preview"), ] .find`, `[ ...w.document.querySelectorAll(".document-page-preview"), ] .find((el) => el.dataset.page === "2")`, `["H", "HB", "1B", "2B"].entries`, `[...actionHeader.querySelectorAll("button")] .find`, `[...actionHeader.querySelectorAll("button")] .find((el) => el.textContent === "Move to position") .o`, `[...actionHeader.querySelectorAll("button")] .find((el) => el.textContent === "Move up") .onclick`, `[...orderExport.window.document.querySelectorAll("section")] .map`, `[...orderExport.window.document.querySelectorAll("section")] .map((section) => section.textContent) `, `[...w.document.querySelectorAll("#notes .note")].find`, `[...w.document.querySelectorAll(".document-page-preview")] .find`, `[...w.document.querySelectorAll(".document-page-preview")] .find((el) => el.dataset.page === "0") .q`, `[...w.document.querySelectorAll(".insert-page-inline")] .map`, `[...w.document.querySelectorAll(".insert-page-inline")] .map((el) => el.textContent) .join`, `[...w.document.querySelectorAll(".maintenance-row")].find`, `[...w.document.querySelectorAll(".page-actions-panel button")].find`, `actionHeader.querySelector`, `actionHeader.querySelectorAll`, `again.dom.window.close`, `again.evaluate`, `again.w.LeafnoteApp.file`, `again.w.LeafnoteApp.open`, `again.w.LeafnoteApp.pageIndex`, `again.w.document .querySelector`, `again.w.document .querySelector("#viewlist") .getAttribute`, `again.w.document .querySelector(".app") .classList.contains`, `again.w.document.querySelector`, `app.dom.window.close`, `app.lib.getDocument`, `backup.notes.find`, `blocked.dom.window.close`, `blocked.w.document .querySelector`, `blocked.w.document .querySelector("#loading") .textContent.includes`, `boardCard?.querySelector`, `c.cloneNode`, `c.ondblclick`, `c.onpointercancel`, `c.onpointerdown`, `c.onpointermove`, `c.onpointerup`, `c.querySelector`, `c.querySelector("[data-board]").textContent.includes`, `c.querySelector("text").getAttribute`, `c.querySelectorAll`, `cardContext.drawImage`, `cardContext.getImageData`, `cardSurface.getContext`, `check`, `chosen.click`, `console.log`, `context.getImageData`, `db.close`, `doc.addPage`, `doc.save`, `ev`, `event`, `exportedDoc.getPage`, `exportedDoc.loadingTask.destroy`, `field.onblur`, `field.oninput`, `field.onkeydown`, `field.setSelectionRange`, `field.value.includes`, `formattedSpans[0].getAttribute`, `formattedSpans[1].getAttribute`, `granted.dom.window.close`, `granted.evaluate`, `granted.w.LeafnoteApp.sync.supported`, `incoming.notes.find`, `incoming.notes.push`, `insertedPDF.getPageCount`, `latestSync.data.notes.map`, `makeApp`, `mixedExport.window.close`, `mixedExport.window.document.body.textContent.includes`, `mixedExport.window.document.querySelectorAll`, `mixedMatch.some`, `mixedPDFExport.getPageCount`, `native.createCanvas`, `native.loadImage`, `new w.XMLSerializer().serializeToString`, `nodeField.onblur`, `nodeField.oninput`, `oldPageButton.click`, `orderExport.window.close`, `orderExport.window.document.querySelectorAll`, `orderedPDFExport .getPages`, `orderedPDFExport .getPages() .map`, `orderedPDFExport .getPages() .map((p) => p.getRotation().angle) .join`, `output.getPages`, `p.drawRectangle`, `p.drawText`, `p.getViewport`, `p.render`, `p.setCropBox`, `p.setRotation`, `pdfCard?.querySelector`, `pdfOrderSource.pdf.pages.forEach`, `penButton.click`, `penButton.getAttribute`, `pencilSamples.every`, `pencilSamples.push`, `plainExport.window.close`, `plainExport.window.document.querySelector`, `plainExport.window.document.querySelectorAll`, `point`, `purgeRow.querySelector`, `purgeRow.querySelector(".danger").onclick`, `rawOrder .getPages`, `rawOrder .getPages() .map`, `rawOrder .getPages() .map((p) => p.getRotation().angle) .join`, `retainedBytes.text`, `saved.notes.find`, `scrollFrame.onpointerdown`, `splitCard.click`, `structuredClone`, `surface.getContext`, `syncEvents.some`, `transcript.dispatchEvent`, `transcript.setRangeText`, `transcript.setSelectionRange`, `transcript.value.indexOf`, `typeButton.click`, `typeButton.dispatchEvent`, `typeButton.focus`, `until`, `visibilitySVG.setAttribute`, `w.LeafBoard.finish`, `w.LeafLibrary.close`, `w.LeafLibrary.open`, `w.LeafnoteApp.deletePage`, `w.LeafnoteApp.file`, `w.LeafnoteApp.finish`, `w.LeafnoteApp.goToPage`, `w.LeafnoteApp.maintenance.restoreRevision`, `w.LeafnoteApp.maintenance.trashNote`, `w.LeafnoteApp.maintenance.usage`, `w.LeafnoteApp.movePage`, `w.LeafnoteApp.open`, `w.LeafnoteApp.page`, `w.LeafnoteApp.page().texts.some`, `w.LeafnoteApp.pageIndex`, `w.LeafnoteApp.sync.apply`, `w.LeafnoteApp.sync.busy`, `w.LeafnoteApp.sync.read`, `w.dispatchEvent`, `w.document .querySelector`, `w.document .querySelector('.insert-page-inline[data-after-page="0"]') .onclick`, `w.document.activeElement?.blur`, `w.document.addEventListener`, `w.document.body.dispatchEvent`, `w.document.dispatchEvent`, `w.document.querySelector`, `w.document.querySelectorAll`, `w.localStorage.getItem`
+- Direct calls: `$`, `$("#addpaperpage").onclick`, `$("#backup").onclick`, `$("#backupfile").onchange`, `$("#boardin").click`, `$("#cancelreview").click`, `$("#clearsearch").click`, `$("#closemaintenance").click`, `$("#closemodels").click`, `$("#color").dispatchEvent`, `$("#continuewriting").click`, `$("#delete").onclick`, `$("#deleteidea").click`, `$("#discardreview").click`, `$("#export").onclick`, `$("#extendboard").click`, `$("#favorite").click`, `$("#focusmode").click`, `$("#focusmode").getAttribute`, `$("#indexnotes").onclick`, `$("#indexstatus").textContent.includes`, `$("#inkoptions").contains`, `$("#inktranscript").dispatchEvent`, `$("#inputmode").onchange`, `$("#languagemodels").onclick`, `$("#librarymaintenance").click`, `$("#librarymore").contains`, `$("#maintenance").click`, `$("#maintenancelist button").onclick`, `$("#maintenancelist").textContent.includes`, `$("#mobile").click`, `$("#mobile").getAttribute`, `$("#modal").close`, `$("#modelcards").querySelectorAll`, `$("#modelcards").textContent.includes`, `$("#modelstatus").textContent.includes`, `$("#newboard").click`, `$("#nextpage").onclick`, `$("#notemenu summary").click`, `$("#notemenu").contains`, `$("#pagepaper").onchange`, `$("#pdffile").onchange`, `$("#pencilgrade").dispatchEvent`, `$("#prevpage").onclick`, `$("#recognitionlanguage").onchange`, `$("#redo").click`, `$("#retryrecognition").onclick`, `$("#reviewhandwriting").click`, `$("#reviewinksearch").click`, `$("#reviewstatus").textContent.includes`, `$("#savetranscript").click`, `$("#savetranscript").onclick`, `$("#search").oninput`, `$("#searchallcontent").click`, `$("#searchkind").onchange`, `$("#searchscope").textContent.includes`, `$("#sheet").querySelector`, `$("#showtrash").click`, `$("#syncdialog").removeAttribute`, `$("#syncdialog").setAttribute`, `$("#textcolor").dispatchEvent`, `$("#textsize").dispatchEvent`, `$("#textspacing").dispatchEvent`, `$("#title").focus`, `$("#toast").textContent.includes`, `$("#toolsettings summary").click`, `$("#toolsettings").contains`, `$("#undo").click`, `$("#viewgrid").click`, `$("#viewgrid").getAttribute`, `$("#viewlist").click`, `$("#viewlist").getAttribute`, `$("#width").dispatchEvent`, `$("#writingkind").dispatchEvent`, `$("#zoomfit").click`, `$("#zoomin").click`, `$(".app").classList.contains`, `$(".app").classList.remove`, `$(".canvas-row").contains`, `$(".library-top").contains`, `$(".topbar").contains`, `$('#modelcards [data-install-model="mr"]').click`, `$('#modelcards [data-remove-model="mr"]').click`, `$('#modelcards [data-use-model="mr"]').click`, `$('#notes [data-result-id="' + plainId + '"]').click`, `$('[data-filter="all"]').click`, `$('[data-filter="star"]').click`, `$('[data-tool="highlighter"]').click`, `$('[data-tool="idea"]').click`, `$('[data-tool="link"]').click`, `$('[data-tool="pen"]').click`, `$('[data-tool="select"]').click`, `$('[data-tool="text"]').click`, `(await w.LeafnoteApp.file(mixedPdfId)).arrayBuffer`, `(await w.LeafnoteApp.file(pdfOrderId)).arrayBuffer`, `(await w.LeafnoteApp.file(retainedId)).text`, `(await w.LeafnoteApp.file(retainedSource.id)).text`, `Buffer.from`, `Ink.hits`, `Ink.imagePlacement`, `Ink.widthAt`, `JSON.parse`, `JSON.stringify`, `Number`, `Object.defineProperty`, `Object.keys`, `PDFLib.PDFDocument.create`, `PDFLib.PDFDocument.load`, `PDFLib.degrees`, `PDFLib.rgb`, `Search.lines`, `Search.norm`, `Search.search`, `Search.signature`, `[ ...w.document.querySelectorAll(".document-page-preview"), ] .find`, `[ ...w.document.querySelectorAll(".document-page-preview"), ] .find((el) => el.dataset.page === "2")`, `["H", "HB", "1B", "2B"].entries`, `[...actionHeader.querySelectorAll("button")] .find`, `[...actionHeader.querySelectorAll("button")] .find((el) => el.textContent === "Move to position") .o`, `[...actionHeader.querySelectorAll("button")] .find((el) => el.textContent === "Move up") .onclick`, `[...orderExport.window.document.querySelectorAll("section")] .map`, `[...orderExport.window.document.querySelectorAll("section")] .map((section) => section.textContent) `, `[...w.document.querySelectorAll("#notes .note")].find`, `[...w.document.querySelectorAll(".document-page-preview")] .find`, `[...w.document.querySelectorAll(".document-page-preview")] .find((el) => el.dataset.page === "0") .q`, `[...w.document.querySelectorAll(".insert-page-inline")] .map`, `[...w.document.querySelectorAll(".insert-page-inline")] .map((el) => el.textContent) .join`, `[...w.document.querySelectorAll(".maintenance-row")].find`, `[...w.document.querySelectorAll(".page-actions-panel button")].find`, `actionHeader.querySelector`, `actionHeader.querySelectorAll`, `again.dom.window.close`, `again.evaluate`, `again.w.LeafnoteApp.file`, `again.w.LeafnoteApp.open`, `again.w.LeafnoteApp.pageIndex`, `again.w.document .querySelector`, `again.w.document .querySelector("#viewlist") .getAttribute`, `again.w.document .querySelector(".app") .classList.contains`, `again.w.document.querySelector`, `app.dom.window.close`, `app.lib.getDocument`, `backup.notes.find`, `blocked.dom.window.close`, `blocked.w.document .querySelector`, `blocked.w.document .querySelector("#loading") .textContent.includes`, `boardCard?.querySelector`, `c.cloneNode`, `c.ondblclick`, `c.onpointercancel`, `c.onpointerdown`, `c.onpointermove`, `c.onpointerup`, `c.querySelector`, `c.querySelector("[data-board]").textContent.includes`, `c.querySelector("text").getAttribute`, `c.querySelectorAll`, `cardContext.drawImage`, `cardContext.getImageData`, `cardSurface.getContext`, `check`, `chosen.click`, `console.log`, `context.getImageData`, `db.close`, `doc.addPage`, `doc.save`, `ev`, `event`, `exportedDoc.getPage`, `exportedDoc.loadingTask.destroy`, `field.onblur`, `field.oninput`, `field.onkeydown`, `field.setSelectionRange`, `field.value.includes`, `formattedSpans[0].getAttribute`, `formattedSpans[1].getAttribute`, `granted.dom.window.close`, `granted.evaluate`, `granted.w.LeafnoteApp.sync.supported`, `incoming.notes.find`, `incoming.notes.push`, `insertedPDF.getPageCount`, `latestSync.data.notes.map`, `makeApp`, `mixedExport.window.close`, `mixedExport.window.document.body.textContent.includes`, `mixedExport.window.document.querySelectorAll`, `mixedMatch.some`, `mixedPDFExport.getPageCount`, `native.createCanvas`, `native.loadImage`, `new w.XMLSerializer().serializeToString`, `nodeField.onblur`, `nodeField.oninput`, `oldPageButton.click`, `orderExport.window.close`, `orderExport.window.document.querySelectorAll`, `orderedPDFExport .getPages`, `orderedPDFExport .getPages() .map`, `orderedPDFExport .getPages() .map((p) => p.getRotation().angle) .join`, `output.getPages`, `p.drawRectangle`, `p.drawText`, `p.getViewport`, `p.render`, `p.setCropBox`, `p.setRotation`, `pdfCard?.querySelector`, `pdfOrderSource.pdf.pages.forEach`, `penButton.click`, `penButton.getAttribute`, `pencilSamples.every`, `pencilSamples.push`, `plainExport.window.close`, `plainExport.window.document.querySelector`, `plainExport.window.document.querySelectorAll`, `point`, `purgeRow.querySelector`, `purgeRow.querySelector(".danger").onclick`, `rawOrder .getPages`, `rawOrder .getPages() .map`, `rawOrder .getPages() .map((p) => p.getRotation().angle) .join`, `retainedBytes.text`, `saved.notes.find`, `scrollFrame.onpointerdown`, `splitCard.click`, `structuredClone`, `surface.getContext`, `syncEvents.some`, `transcript.dispatchEvent`, `transcript.setRangeText`, `transcript.setSelectionRange`, `transcript.value.indexOf`, `typeButton.click`, `typeButton.dispatchEvent`, `typeButton.focus`, `until`, `visibilitySVG.setAttribute`, `w.LeafBoard.finish`, `w.LeafLibrary.close`, `w.LeafLibrary.open`, `w.LeafnoteApp.deletePage`, `w.LeafnoteApp.file`, `w.LeafnoteApp.finish`, `w.LeafnoteApp.goToPage`, `w.LeafnoteApp.maintenance.restoreRevision`, `w.LeafnoteApp.maintenance.trashNote`, `w.LeafnoteApp.maintenance.usage`, `w.LeafnoteApp.movePage`, `w.LeafnoteApp.open`, `w.LeafnoteApp.page`, `w.LeafnoteApp.page().texts.some`, `w.LeafnoteApp.pageIndex`, `w.LeafnoteApp.sync.apply`, `w.LeafnoteApp.sync.busy`, `w.LeafnoteApp.sync.read`, `w.dispatchEvent`, `w.document .querySelector`, `w.document .querySelector('.insert-page-inline[data-after-page="0"]') .onclick`, `w.document.activeElement?.blur`, `w.document.addEventListener`, `w.document.body.dispatchEvent`, `w.document.dispatchEvent`, `w.document.querySelector`, `w.document.querySelectorAll`, `w.localStorage.getItem`
 - Assigned/updated targets: `$("#color").value`, `$("#inkoptions").hidden`, `$("#inktranscript").value`, `$("#inputmode").value`, `$("#notemenu").open`, `$("#pagepaper").value`, `$("#pencilgrade").value`, `$("#recognitionlanguage").value`, `$("#recognitionreview").hidden`, `$("#search").value`, `$("#searchkind").value`, `$("#textcolor").value`, `$("#textsize").value`, `$("#textspacing").value`, `$("#toolsettings").open`, `$("#width").value`, `$("#writingkind").value`, `actionHeader`, `actionHeader.querySelector("input").value`, `arrival.id`, `arrival.title`, `createPointer.preventDefault`, `editPointer.preventDefault`, `exported`, `field`, `field.value`, `i`, `nodeField`, `nodeField.value`, `pdfInsertSource.star`, `pdfOrderSource.star`, `purgeSource.star`, `raw.files`, `raw.version`, `rawOrder`, `transcript.value`, `visibleGlyphs`, `w.Worker`, `w.__ocrDelay`, `w.__ocrError`, `w.__ocrResponse`, `w.confirm`, `w.innerWidth`
 - Return expressions: (none)
 
@@ -10184,321 +10174,321 @@ Provide the callback passed to until.
 - Assigned/updated targets: (none)
 - Return expressions: `$("#modal").open`
 
-### <anonymous callback> — line 1828
+### <anonymous callback> — line 1829
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1828`](../test/app.integration.cjs#L1828)
+- Source: [`test/app.integration.cjs:1829`](../test/app.integration.cjs#L1829)
 - Parameters: `(none)`; async: false
 - Direct calls: `$`
 - Assigned/updated targets: (none)
 - Return expressions: `$("#dashboardcontent").textContent !== "Measuring…"`
 
-### <anonymous callback> — line 1849
+### <anonymous callback> — line 1850
 
 Provide the callback passed to [...w.document.querySelectorAll(".maintenance-row")].find.
 
-- Source: [`test/app.integration.cjs:1849`](../test/app.integration.cjs#L1849)
+- Source: [`test/app.integration.cjs:1850`](../test/app.integration.cjs#L1850)
 - Parameters: `row`; async: false
 - Direct calls: `row.textContent.includes`
 - Assigned/updated targets: (none)
 - Return expressions: `row.textContent.includes("restored revision")`
 
-### <anonymous callback> — line 1851
+### <anonymous callback> — line 1852
 
 Handle the callback assigned to w.confirm.
 
-- Source: [`test/app.integration.cjs:1851`](../test/app.integration.cjs#L1851)
+- Source: [`test/app.integration.cjs:1852`](../test/app.integration.cjs#L1852)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `false`
 
-### <anonymous callback> — line 1857
+### <anonymous callback> — line 1858
 
 Handle the callback assigned to w.confirm.
 
-- Source: [`test/app.integration.cjs:1857`](../test/app.integration.cjs#L1857)
+- Source: [`test/app.integration.cjs:1858`](../test/app.integration.cjs#L1858)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `true`
 
-### <anonymous callback> — line 1910
+### <anonymous callback> — line 1911
 
 Provide the callback passed to mixedMatch.some.
 
-- Source: [`test/app.integration.cjs:1910`](../test/app.integration.cjs#L1910)
+- Source: [`test/app.integration.cjs:1911`](../test/app.integration.cjs#L1911)
 - Parameters: `r`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `r.id === mixedId && r.page === 2`
 
-### <anonymous callback> — line 1916
+### <anonymous callback> — line 1917
 
 Provide the callback passed to [ ...w.document.querySelectorAll(".document-page-preview"), ] .find.
 
-- Source: [`test/app.integration.cjs:1916`](../test/app.integration.cjs#L1916)
+- Source: [`test/app.integration.cjs:1917`](../test/app.integration.cjs#L1917)
 - Parameters: `el`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `el.dataset.page === "2"`
 
-### <anonymous callback> — line 1920
+### <anonymous callback> — line 1921
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1920`](../test/app.integration.cjs#L1920)
+- Source: [`test/app.integration.cjs:1921`](../test/app.integration.cjs#L1921)
 - Parameters: `(none)`; async: false
 - Direct calls: `w.LeafnoteApp.pageIndex`
 - Assigned/updated targets: (none)
 - Return expressions: `w.LeafnoteApp.pageIndex() === 2`
 
-### <anonymous callback> — line 1925
+### <anonymous callback> — line 1926
 
 Provide the callback passed to w.LeafnoteApp.page().texts.some.
 
-- Source: [`test/app.integration.cjs:1925`](../test/app.integration.cjs#L1925)
+- Source: [`test/app.integration.cjs:1926`](../test/app.integration.cjs#L1926)
 - Parameters: `t`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `t.text === "Grid page needle"`
 
-### <anonymous callback> — line 1929
+### <anonymous callback> — line 1930
 
 Provide the callback passed to [...w.document.querySelectorAll(".document-page-preview")] .find.
 
-- Source: [`test/app.integration.cjs:1929`](../test/app.integration.cjs#L1929)
+- Source: [`test/app.integration.cjs:1930`](../test/app.integration.cjs#L1930)
 - Parameters: `el`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `el.dataset.page === "0"`
 
-### stopPropagation — line 1937
+### stopPropagation — line 1938
 
 Implement the stopPropagation callback in this object.
 
-- Source: [`test/app.integration.cjs:1937`](../test/app.integration.cjs#L1937)
+- Source: [`test/app.integration.cjs:1938`](../test/app.integration.cjs#L1938)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: (none)
 
-### <anonymous callback> — line 1940
+### <anonymous callback> — line 1941
 
 Provide the callback passed to until.
 
-- Source: [`test/app.integration.cjs:1940`](../test/app.integration.cjs#L1940)
+- Source: [`test/app.integration.cjs:1941`](../test/app.integration.cjs#L1941)
 - Parameters: `(none)`; async: false
 - Direct calls: `ev`, `w.LeafnoteApp.pageIndex`
 - Assigned/updated targets: (none)
 - Return expressions: `w.LeafnoteApp.pageIndex() === 0 && ev("note().strokes.length") > 0`
 
-### <anonymous callback> — line 2029
+### <anonymous callback> — line 2030
 
 Provide the callback passed to [...w.document.querySelectorAll(".insert-page-inline")] .map.
 
-- Source: [`test/app.integration.cjs:2029`](../test/app.integration.cjs#L2029)
+- Source: [`test/app.integration.cjs:2030`](../test/app.integration.cjs#L2030)
 - Parameters: `el`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `el.textContent`
 
-### <anonymous callback> — line 2052
+### <anonymous callback> — line 2053
 
 Provide the callback passed to [...actionHeader.querySelectorAll("button")] .find.
 
-- Source: [`test/app.integration.cjs:2052`](../test/app.integration.cjs#L2052)
+- Source: [`test/app.integration.cjs:2053`](../test/app.integration.cjs#L2053)
 - Parameters: `el`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `el.textContent === "Move to position"`
 
-### <anonymous callback> — line 2074
+### <anonymous callback> — line 2075
 
 Provide the callback passed to [...actionHeader.querySelectorAll("button")] .find.
 
-- Source: [`test/app.integration.cjs:2074`](../test/app.integration.cjs#L2074)
+- Source: [`test/app.integration.cjs:2075`](../test/app.integration.cjs#L2075)
 - Parameters: `el`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `el.textContent === "Move up"`
 
-### <anonymous callback> — line 2081
+### <anonymous callback> — line 2082
 
 Handle the callback assigned to w.confirm.
 
-- Source: [`test/app.integration.cjs:2081`](../test/app.integration.cjs#L2081)
+- Source: [`test/app.integration.cjs:2082`](../test/app.integration.cjs#L2082)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `false`
 
-### <anonymous callback> — line 2087
+### <anonymous callback> — line 2088
 
 Handle the callback assigned to w.confirm.
 
-- Source: [`test/app.integration.cjs:2087`](../test/app.integration.cjs#L2087)
+- Source: [`test/app.integration.cjs:2088`](../test/app.integration.cjs#L2088)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `true`
 
-### <anonymous callback> — line 2098
+### <anonymous callback> — line 2099
 
 Provide the callback passed to [...orderExport.window.document.querySelectorAll("section")] .map.
 
-- Source: [`test/app.integration.cjs:2098`](../test/app.integration.cjs#L2098)
+- Source: [`test/app.integration.cjs:2099`](../test/app.integration.cjs#L2099)
 - Parameters: `section`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `section.textContent`
 
-### <anonymous callback> — line 2109
+### <anonymous callback> — line 2110
 
 Provide the callback passed to [...w.document.querySelectorAll(".page-actions-panel button")].find.
 
-- Source: [`test/app.integration.cjs:2109`](../test/app.integration.cjs#L2109)
+- Source: [`test/app.integration.cjs:2110`](../test/app.integration.cjs#L2110)
 - Parameters: `el`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `el.textContent === "Delete page 1"`
 
-### <anonymous callback> — line 2115
+### <anonymous callback> — line 2116
 
 Provide the callback passed to pdfOrderSource.pdf.pages.forEach.
 
-- Source: [`test/app.integration.cjs:2115`](../test/app.integration.cjs#L2115)
+- Source: [`test/app.integration.cjs:2116`](../test/app.integration.cjs#L2116)
 - Parameters: `pg, i`; async: false
 - Direct calls: `pg.texts.push`
 - Assigned/updated targets: (none)
 - Return expressions: `pg.texts.push({ x: 30, y: 35, size: 16, width: 350, lineHeight: 1.5, font: "monospace", color: "#264c3d", text: "Order label " + i, })`
 
-### <anonymous callback> — line 2140
+### <anonymous callback> — line 2141
 
 Provide the callback passed to rawOrder .getPages() .map.
 
-- Source: [`test/app.integration.cjs:2140`](../test/app.integration.cjs#L2140)
+- Source: [`test/app.integration.cjs:2141`](../test/app.integration.cjs#L2141)
 - Parameters: `p`; async: false
 - Direct calls: `p.getRotation`
 - Assigned/updated targets: (none)
 - Return expressions: `p.getRotation().angle`
 
-### <anonymous callback> — line 2147
+### <anonymous callback> — line 2148
 
 Handle the callback assigned to w.confirm.
 
-- Source: [`test/app.integration.cjs:2147`](../test/app.integration.cjs#L2147)
+- Source: [`test/app.integration.cjs:2148`](../test/app.integration.cjs#L2148)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `false`
 
-### <anonymous callback> — line 2153
+### <anonymous callback> — line 2154
 
 Handle the callback assigned to w.confirm.
 
-- Source: [`test/app.integration.cjs:2153`](../test/app.integration.cjs#L2153)
+- Source: [`test/app.integration.cjs:2154`](../test/app.integration.cjs#L2154)
 - Parameters: `(none)`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `true`
 
-### <anonymous callback> — line 2161
+### <anonymous callback> — line 2162
 
 Provide the callback passed to rawOrder .getPages() .map.
 
-- Source: [`test/app.integration.cjs:2161`](../test/app.integration.cjs#L2161)
+- Source: [`test/app.integration.cjs:2162`](../test/app.integration.cjs#L2162)
 - Parameters: `p`; async: false
 - Direct calls: `p.getRotation`
 - Assigned/updated targets: (none)
 - Return expressions: `p.getRotation().angle`
 
-### <anonymous callback> — line 2175
+### <anonymous callback> — line 2176
 
 Provide the callback passed to orderedPDFExport .getPages() .map.
 
-- Source: [`test/app.integration.cjs:2175`](../test/app.integration.cjs#L2175)
+- Source: [`test/app.integration.cjs:2176`](../test/app.integration.cjs#L2176)
 - Parameters: `p`; async: false
 - Direct calls: `p.getRotation`
 - Assigned/updated targets: (none)
 - Return expressions: `p.getRotation().angle`
 
-### <anonymous callback> — line 2190
+### <anonymous callback> — line 2191
 
 Handle the "leafnote-local-saved" event registered by w.document.addEventListener.
 
-- Source: [`test/app.integration.cjs:2190`](../test/app.integration.cjs#L2190)
+- Source: [`test/app.integration.cjs:2191`](../test/app.integration.cjs#L2191)
 - Parameters: `e`; async: false
 - Direct calls: `syncEvents.push`
 - Assigned/updated targets: (none)
 - Return expressions: `syncEvents.push(e.detail)`
 
-### <anonymous callback> — line 2195
+### <anonymous callback> — line 2196
 
 Provide the callback passed to incoming.notes.find.
 
-- Source: [`test/app.integration.cjs:2195`](../test/app.integration.cjs#L2195)
+- Source: [`test/app.integration.cjs:2196`](../test/app.integration.cjs#L2196)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `!n.pdf && !n.board`
 
-### <anonymous callback> — line 2212
+### <anonymous callback> — line 2213
 
 Provide the callback passed to latestSync.data.notes.map.
 
-- Source: [`test/app.integration.cjs:2212`](../test/app.integration.cjs#L2212)
+- Source: [`test/app.integration.cjs:2213`](../test/app.integration.cjs#L2213)
 - Parameters: `n`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `n.id`
 
-### <anonymous callback> — line 2231
+### <anonymous callback> — line 2232
 
 Provide the callback passed to syncEvents.some.
 
-- Source: [`test/app.integration.cjs:2231`](../test/app.integration.cjs#L2231)
+- Source: [`test/app.integration.cjs:2232`](../test/app.integration.cjs#L2232)
 - Parameters: `e`; async: false
 - Direct calls: (none)
 - Assigned/updated targets: (none)
 - Return expressions: `e.remote`
 
-### request — line 2429
+### request — line 2430
 
 Convert an IndexedDB request to a promise.
 
-- Source: [`test/app.integration.cjs:2429`](../test/app.integration.cjs#L2429)
+- Source: [`test/app.integration.cjs:2430`](../test/app.integration.cjs#L2430)
 - Parameters: `name, options, callback`; async: true
 - Direct calls: `callback`
 - Assigned/updated targets: (none)
 - Return expressions: `callback(null)`
 
-### request — line 2448
+### request — line 2449
 
 Convert an IndexedDB request to a promise.
 
-- Source: [`test/app.integration.cjs:2448`](../test/app.integration.cjs#L2448)
+- Source: [`test/app.integration.cjs:2449`](../test/app.integration.cjs#L2449)
 - Parameters: `name, options, callback`; async: true
 - Direct calls: `callback`
 - Assigned/updated targets: (none)
 - Return expressions: `callback({ name })`
 
-### <anonymous callback> — line 2468
+### <anonymous callback> — line 2469
 
 Provide the callback passed to main() .then.
 
-- Source: [`test/app.integration.cjs:2468`](../test/app.integration.cjs#L2468)
+- Source: [`test/app.integration.cjs:2469`](../test/app.integration.cjs#L2469)
 - Parameters: `(none)`; async: false
 - Direct calls: `process.exit`
 - Assigned/updated targets: (none)
 - Return expressions: `process.exit(0)`
 
-### <anonymous callback> — line 2469
+### <anonymous callback> — line 2470
 
 Provide the callback passed to main() .then(() => process.exit(0)) .catch.
 
-- Source: [`test/app.integration.cjs:2469`](../test/app.integration.cjs#L2469)
+- Source: [`test/app.integration.cjs:2470`](../test/app.integration.cjs#L2470)
 - Parameters: `e`; async: false
 - Direct calls: `console.error`, `process.exit`
 - Assigned/updated targets: (none)

@@ -218,7 +218,6 @@
         }
       });
     });
-    $("#librarydashboard").onclick = () => $("#maintenance").click();
     $("#librarymaintenance").onclick = () => $("#maintenance").click();
     $("#libraryboard").onclick = () => {
       if (mode === "grid") close();

@@ -1,5 +1,5 @@
 {
-  "functionCount": 1262,
+  "functionCount": 1261,
   "functions": [
     {
       "file": "dist/app.js",
@@ -9872,7 +9872,7 @@
       "file": "dist/library.js",
       "line": 2,
       "column": 2,
-      "endLine": 239,
+      "endLine": 238,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -9888,7 +9888,7 @@
       "file": "dist/library.js",
       "line": 5,
       "column": 3,
-      "endLine": 236,
+      "endLine": 235,
       "name": "setup",
       "async": false,
       "parameters": [],
@@ -9906,7 +9906,6 @@
       "writes": [
         "$(\"#continuewriting\").onclick",
         "$(\"#libraryboard\").onclick",
-        "$(\"#librarydashboard\").onclick",
         "$(\"#librarymaintenance\").onclick",
         "$(\"#librarypdf\").onclick",
         "$(\"#mobile\").onclick",
@@ -10343,26 +10342,8 @@
     {
       "file": "dist/library.js",
       "line": 221,
-      "column": 38,
-      "endLine": 221,
-      "name": "<anonymous callback>",
-      "async": false,
-      "parameters": [],
-      "purpose": "Handle the callback assigned to $(\"#librarydashboard\").onclick.",
-      "calls": [
-        "$",
-        "$(\"#maintenance\").click"
-      ],
-      "writes": [],
-      "returns": [
-        "$(\"#maintenance\").click()"
-      ]
-    },
-    {
-      "file": "dist/library.js",
-      "line": 222,
       "column": 40,
-      "endLine": 222,
+      "endLine": 221,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -10378,9 +10359,9 @@
     },
     {
       "file": "dist/library.js",
-      "line": 223,
+      "line": 222,
       "column": 34,
-      "endLine": 226,
+      "endLine": 225,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -10395,9 +10376,9 @@
     },
     {
       "file": "dist/library.js",
-      "line": 227,
+      "line": 226,
       "column": 32,
-      "endLine": 227,
+      "endLine": 226,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -10413,9 +10394,9 @@
     },
     {
       "file": "dist/library.js",
-      "line": 230,
+      "line": 229,
       "column": 36,
-      "endLine": 232,
+      "endLine": 231,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -20572,7 +20553,7 @@
       "file": "test/app.integration.cjs",
       "line": 268,
       "column": 1,
-      "endLine": 2466,
+      "endLine": 2467,
       "name": "main",
       "async": true,
       "parameters": [],
@@ -20603,7 +20584,8 @@
         "$(\"#inktranscript\").dispatchEvent",
         "$(\"#inputmode\").onchange",
         "$(\"#languagemodels\").onclick",
-        "$(\"#librarydashboard\").click",
+        "$(\"#librarymaintenance\").click",
+        "$(\"#librarymore\").contains",
         "$(\"#maintenance\").click",
         "$(\"#maintenancelist button\").onclick",
         "$(\"#maintenancelist\").textContent.includes",
@@ -21501,9 +21483,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1828,
+      "line": 1829,
       "column": 5,
-      "endLine": 1828,
+      "endLine": 1829,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21518,9 +21500,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1849,
+      "line": 1850,
       "column": 5,
-      "endLine": 1849,
+      "endLine": 1850,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21537,9 +21519,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1851,
+      "line": 1852,
       "column": 15,
-      "endLine": 1851,
+      "endLine": 1852,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21552,9 +21534,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1857,
+      "line": 1858,
       "column": 15,
-      "endLine": 1857,
+      "endLine": 1858,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21567,9 +21549,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1910,
+      "line": 1911,
       "column": 21,
-      "endLine": 1910,
+      "endLine": 1911,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21584,9 +21566,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1916,
+      "line": 1917,
       "column": 11,
-      "endLine": 1916,
+      "endLine": 1917,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21601,9 +21583,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1920,
+      "line": 1921,
       "column": 5,
-      "endLine": 1920,
+      "endLine": 1921,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21618,9 +21600,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1925,
+      "line": 1926,
       "column": 39,
-      "endLine": 1925,
+      "endLine": 1926,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21635,9 +21617,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1929,
+      "line": 1930,
       "column": 11,
-      "endLine": 1929,
+      "endLine": 1930,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21652,9 +21634,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1937,
+      "line": 1938,
       "column": 20,
-      "endLine": 1937,
+      "endLine": 1938,
       "name": "stopPropagation",
       "async": false,
       "parameters": [],
@@ -21665,9 +21647,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 1940,
+      "line": 1941,
       "column": 5,
-      "endLine": 1940,
+      "endLine": 1941,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21683,9 +21665,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2029,
+      "line": 2030,
       "column": 12,
-      "endLine": 2029,
+      "endLine": 2030,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21700,9 +21682,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2052,
+      "line": 2053,
       "column": 11,
-      "endLine": 2052,
+      "endLine": 2053,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21717,9 +21699,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2074,
+      "line": 2075,
       "column": 11,
-      "endLine": 2074,
+      "endLine": 2075,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21734,9 +21716,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2081,
+      "line": 2082,
       "column": 15,
-      "endLine": 2081,
+      "endLine": 2082,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21749,9 +21731,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2087,
+      "line": 2088,
       "column": 15,
-      "endLine": 2087,
+      "endLine": 2088,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21764,9 +21746,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2098,
+      "line": 2099,
       "column": 12,
-      "endLine": 2098,
+      "endLine": 2099,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21781,9 +21763,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2109,
+      "line": 2110,
       "column": 9,
-      "endLine": 2109,
+      "endLine": 2110,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21798,9 +21780,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2115,
+      "line": 2116,
       "column": 36,
-      "endLine": 2125,
+      "endLine": 2126,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21818,9 +21800,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2140,
+      "line": 2141,
       "column": 12,
-      "endLine": 2140,
+      "endLine": 2141,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21837,9 +21819,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2147,
+      "line": 2148,
       "column": 15,
-      "endLine": 2147,
+      "endLine": 2148,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21852,9 +21834,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2153,
+      "line": 2154,
       "column": 15,
-      "endLine": 2153,
+      "endLine": 2154,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -21867,9 +21849,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2161,
+      "line": 2162,
       "column": 12,
-      "endLine": 2161,
+      "endLine": 2162,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21886,9 +21868,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2175,
+      "line": 2176,
       "column": 12,
-      "endLine": 2175,
+      "endLine": 2176,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21905,9 +21887,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2190,
+      "line": 2191,
       "column": 55,
-      "endLine": 2191,
+      "endLine": 2192,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21924,9 +21906,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2195,
+      "line": 2196,
       "column": 51,
-      "endLine": 2195,
+      "endLine": 2196,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21941,9 +21923,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2212,
+      "line": 2213,
       "column": 44,
-      "endLine": 2212,
+      "endLine": 2213,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21958,9 +21940,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2231,
+      "line": 2232,
       "column": 23,
-      "endLine": 2231,
+      "endLine": 2232,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [
@@ -21975,9 +21957,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2429,
+      "line": 2430,
       "column": 16,
-      "endLine": 2429,
+      "endLine": 2430,
       "name": "request",
       "async": true,
       "parameters": [
@@ -21996,9 +21978,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2448,
+      "line": 2449,
       "column": 16,
-      "endLine": 2448,
+      "endLine": 2449,
       "name": "request",
       "async": true,
       "parameters": [
@@ -22017,9 +21999,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2468,
+      "line": 2469,
       "column": 9,
-      "endLine": 2468,
+      "endLine": 2469,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [],
@@ -22034,9 +22016,9 @@
     },
     {
       "file": "test/app.integration.cjs",
-      "line": 2469,
+      "line": 2470,
       "column": 10,
-      "endLine": 2472,
+      "endLine": 2473,
       "name": "<anonymous callback>",
       "async": false,
       "parameters": [

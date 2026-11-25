@@ -1820,10 +1820,11 @@ async function main() {
   check(
     $(".library-top").contains($("#librarymore")) &&
       $("#librarymore summary").textContent === "Library actions" &&
-      $(".library-top").contains($("#librarydashboard")),
-    "Library actions and Dashboard have obvious top-of-library entry points",
+      $("#librarymore").contains($("#librarymaintenance")) &&
+      !$("#librarydashboard"),
+    "Dashboard is accessible through Library actions without a duplicate main button",
   );
-  $("#librarydashboard").click();
+  $("#librarymaintenance").click();
   await until(
     () => $("#dashboardcontent").textContent !== "Measuring…",
     "Dashboard storage measurement",
