@@ -1,6 +1,6 @@
 # Suggested code review
 
-1. **Deployment boundary:** read [DEPLOYMENT.md](DEPLOYMENT.md), `Dockerfile`, `compose.yaml`, and `deploy/Caddyfile`. Confirm the actual host address, trusted HTTPS, local-only CA volumes, and absence of server-side notebook storage.
+1. **Deployment boundary:** read [DEPLOYMENT.md](DEPLOYMENT.md), `Dockerfile`, `compose.yaml`, and `deploy/Caddyfile`. Confirm the actual host address, trusted HTTPS, local-only CA volumes, and separation between offline IndexedDB and the chosen private sync folder.
 2. **Page and loading order:** read `dist/index.html`, then the startup diagram in [ARCHITECTURE.md](ARCHITECTURE.md). The order of classic scripts and readiness listeners is significant.
 3. **Data safety first:** inspect `features.js` functions `validStrokes`, `validTexts`, `writeState`, the serialized `persist` override, backup restore, and `finishInput`. Review rejection paths before happy paths.
 4. **Drawing and PDF coordinates:** inspect `ink-engine.js` (`widthAt`, `outline`, `hits`, `imagePlacement`) and `features.js` (`coord`, `renderPDF`, `overlayPNG`, export). Stored coordinates must not depend on zoom or crop rotation.
@@ -22,3 +22,7 @@ Use [FUNCTIONS.md](FUNCTIONS.md) to find every named helper and callback. The JS
 - Preserved the existing app behavior and local data model. The original notebook regression suite is included.
 
 The local Git history separates the imported app snapshot from the packaging/PWA/documentation changes. No remote is configured for this repository.
+
+## Sync review additions (1.1)
+
+Read [SYNC.md](SYNC.md) and inspect `server/sync-server.mjs`, `dist/sync-merge.mjs`, `dist/sync-engine.mjs`, `dist/sync-settings.mjs`, and `dist/sync.js`. Verify opt-in before notebook requests, bearer authentication and same-origin guards, blob hashes, atomic CURRENT publication, CAS rejection, deletion/edit recovery, retry receipts, disconnect cancellation, and the guarded IndexedDB adoption bridge. `features.js` acquires a browser writer lock before opening notebook storage. The sync API is internal to Docker; Caddy is its only published route. Client/server tests cover offline/reconnect and two-device conflicts.

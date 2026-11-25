@@ -1,6 +1,6 @@
 # Leafnote — local notebook and installable PWA
 
-This is the self-contained local deployment repository. It includes the app, both recognition models, a Docker image definition, Linux deployment scripts, tests, and review documentation. It has no cloud-sync backend. Notes stay in each client browser’s IndexedDB.
+This is the self-contained local deployment repository. It includes the app, both recognition models, Docker/Compose services, Linux deployment scripts, tests, and review documentation. It includes optional authenticated Linux-folder sync. Notes save first in each client browser’s IndexedDB, so writing and installed recognition models remain available offline.
 
 ## Run on a Linux LAN server
 
@@ -9,7 +9,10 @@ Install Docker Engine with the Compose plugin. Give the server a stable LAN addr
 ```sh
 sh scripts/deploy.sh 192.168.1.50
 sh scripts/export-ca.sh
+sh scripts/show-sync-code.sh
 ```
+
+The first setup asks which empty folder should hold the server notebook. Each client asks before enabling sync and needs the private connection code. See [server sync](docs/SYNC.md) for first setup and upgrades.
 
 Use your server’s **actual assigned address**, not the example. The script binds HTTPS on that address at port **8443**. It does not assign an address to your network interface.
 
@@ -27,7 +30,7 @@ See [Linux deployment and certificate setup](docs/DEPLOYMENT.md) for firewall, c
 
 In the hosted app, choose **Notes → Library actions → Export backup**. At the new local HTTPS address, choose **Import backup**. Import replaces the notebook already stored at the destination.
 
-The hosted address, a LAN IP, HTTP, HTTPS, and different ports are separate browser origins. They have separate note stores. Keep one stable local address and use backups when moving between them. Sharing this server does not synchronize clients or provide accounts.
+The hosted address, a LAN IP, HTTP, HTTPS, and different ports are separate browser origins. They have separate note stores. Keep one stable local address and use backups when moving between them. Enabling Server sync pairs clients to the same personal notebook. Browser profiles remain separate offline stores; this is not a multi-user account system.
 
 ## Use it like a notebook
 
@@ -41,7 +44,7 @@ Third-party code remains vendored and unmodified; its upstream notices are liste
 
 ## Development and checks
 
-Node.js 22 or newer is required for development tools. The production container needs no Node.js runtime or npm packages.
+Node.js 22 or newer is required for development tools. The Linux host needs no Node installation: the private sync container supplies Node.js, and the frontend container supplies Caddy. Production code needs no npm runtime dependencies.
 
 ```sh
 npm ci
@@ -67,10 +70,10 @@ Build the container with `docker compose build`, or use the deployment script. T
 
 ## Portable Git history
 
-The working directory is already a local Git repository with an imported baseline and a separate local-deployment commit. A companion `leafnote-local.git.bundle` can recreate that history elsewhere:
+The working directory is already a local Git repository with the imported baseline, local deployment, and offline sync commits. A companion `leafnote-local-sync-v1.1.0.git.bundle` can recreate that history elsewhere:
 
 ```sh
-git clone leafnote-local.git.bundle leafnote-review
+git clone leafnote-local-sync-v1.1.0.git.bundle leafnote-review
 ```
 
-The Linux source archive includes everything needed to build the app image, including model files, but excludes `.git`, installed npm dependencies, private certificates, and machine-specific `.env` configuration.
+The Linux source archive includes everything needed to build the app image, including model files, but excludes `.git`, installed npm dependencies, private certificates, server note data, connection codes, and machine-specific `.env` configuration.

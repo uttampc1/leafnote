@@ -2,9 +2,9 @@
 
 ## What runs where
 
-One container serves static files with Caddy HTTPS. Docker volumes hold Caddy’s private certificate authority and configuration. **They do not hold notebook data.** Notes, imported PDFs, preferences, and installed recognition models stay in each client browser. The container serves the same app and model files to every permitted network client.
+Caddy serves the app over HTTPS and forwards the authenticated sync API to a private Node container. Setup asks for an empty server notebook folder. Clients keep IndexedDB as their offline working copy and ask permission before enabling sync. The server folder stores atomic JSON snapshots and immutable original PDF blobs. See [SYNC.md](SYNC.md) for pairing, conflicts, backups, and upgrading an existing 1.0 installation.
 
-No authentication, shared notebook database, or cloud synchronization is included. Use a trusted LAN. Do not forward this service to the public internet without adding your own authenticated access layer.
+Caddy’s volumes still hold only its private certificate authority/configuration. The sync folder is a separate bind mount owned by the Linux setup account. One shared code protects one personal workspace; there are no separate user accounts.
 
 ## 1. Prepare Linux
 
@@ -25,7 +25,7 @@ LEAFNOTE_BIND_IP=192.168.1.50
 LEAFNOTE_HTTPS_PORT=8443
 ```
 
-Then run `docker compose up -d --build --wait`. If a firewall is enabled, allow TCP 8443 from your trusted LAN. On Ubuntu with UFW, for example:
+Then run `sh scripts/configure-sync.sh` to choose the server notebook folder and generate a connection code, followed by `docker compose up -d --build --wait`. If a firewall is enabled, allow TCP 8443 from your trusted LAN. On Ubuntu with UFW, for example:
 
 ```sh
 sudo ufw allow from 192.168.1.0/24 to any port 8443 proto tcp
@@ -82,11 +82,11 @@ docker compose up -d --build --wait
 
 An installed app can continue running its old offline shell while a new version is downloaded. **••• → Update app** saves current edits before asking the waiting worker to activate and reloading. Closing all old app windows also lets a fully downloaded version activate naturally. Failed shell installation leaves the current version available.
 
-Keep an old image tag if you want a rollback: `docker tag leafnote-local:1.0.0 leafnote-local:previous` before rebuilding. To roll back, retag the previous image as `leafnote-local:1.0.0`, then run `docker compose up -d --no-build`. A browser may still have a newer offline shell; close its windows, reconnect, and allow the older server version to install as another complete shell. Do not clear site storage to force an update without first exporting the notebook.
+Keep an old image tag if you want a rollback: `docker tag leafnote-local:1.1.0 leafnote-local:previous` before rebuilding. To roll back, retag the previous image as `leafnote-local:1.1.0`, then run `docker compose up -d --no-build`. A browser may still have a newer offline shell; close its windows, reconnect, and allow the older server version to install as another complete shell. Do not clear site storage to force an update without first exporting the notebook.
 
-Export notebooks from every client. Container/CA backups do not back up those notebooks. Clearing browser site data removes that client’s notes. A new IP, port, or HTTP/HTTPS scheme is a new origin and a different notebook store. **Import backup replaces destination notes.**
+Export notebooks from every client. Synchronization propagates deletions; backups are still needed for recovery. Back up the complete server sync folder as well as client exports; Caddy/CA volumes alone do not contain the synchronized notebook. Clearing browser site data removes that client’s notes. A new IP, port, or HTTP/HTTPS scheme is a new origin and a different notebook store. **Import backup replaces destination notes.**
 
-Stop with `docker compose down`. Avoid `docker compose down -v` unless you intend to remove the local CA and reconfigure client trust. There is no server-side notebook volume to restore deleted client notes from.
+Stop with `docker compose down`. Avoid `docker compose down -v` unless you intend to remove the local CA and reconfigure client trust. The separate server sync folder persists across container replacement; protect and back it up as described in SYNC.md.
 
 ## Troubleshooting
 
@@ -98,3 +98,7 @@ Stop with `docker compose down`. Avoid `docker compose down -v` unless you inten
 - **Offline setup failed:** keep the server available and reload; check storage quota and the browser’s service-worker/cache diagnostics.
 
 Logs: `docker compose logs --tail=100 leafnote`. Service health: `docker compose ps`.
+
+## Server notebook storage and pairing
+
+Version 1.1 asks for a server folder during setup and asks each client to enable sync. Run `sh scripts/show-sync-code.sh` on Linux and paste that private code into **••• → Server sync** on the client. See [SYNC.md](SYNC.md) for upgrades, backups, conflicts, one-writer-per-profile behavior, and the on-disk snapshot format. The sync container is private to the Docker network; only Caddy’s HTTPS port is published.

@@ -367,7 +367,9 @@
                     ><span id="date"></span>
                   </div>
                 </div>
-                <button id="installapp">Install app</button
+                <button id="serversync">Server sync</button
+                ><small id="syncstatus" role="status"></small
+                ><button id="installapp">Install app</button
                 ><button id="updateapp" hidden="">Update app</button
                 ><small id="pwastatus" role="status"></small
                 ><a
@@ -538,5 +540,32 @@
       <button id="closepwainstall">Close</button>
     </dialog>
     <script src="pwa.js"></script>
+
+    <dialog id="syncdialog" aria-labelledby="synctitle">
+      <h2 id="synctitle">Save notes on your Linux server?</h2>
+      <p>
+        Sync keeps a copy on the server and on this device. You can keep writing
+        offline; changes merge when this app reconnects. Conflicting edits are
+        kept as copies.
+      </p>
+      <p>
+        The storage folder is chosen during Linux setup. Paste that server’s
+        private connection code to enable sync on this device.
+      </p>
+      <label for="synccode">Connection code</label
+      ><input
+        id="synccode"
+        type="password"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="128"
+      />
+      <p id="syncdialogstatus" role="status"></p>
+      <button id="enablesync" class="primary">Enable sync</button
+      ><button id="syncnow" hidden="">Sync now</button
+      ><button id="disablesync" hidden="">Disconnect this device</button
+      ><button id="closesync">Keep on this device / Close</button>
+    </dialog>
+    <script src="sync.js"></script>
   </body>
 </html>

@@ -47,7 +47,7 @@ const overviews = {
 };
 /** Enumerate only maintained first-party JavaScript, including tests and tools. */
 function collectFiles() {
-  return ["dist", "scripts", "test"]
+  return ["dist", "scripts", "server", "test"]
     .flatMap((dir) =>
       fs
         .readdirSync(path.join(root, dir))
@@ -176,11 +176,14 @@ function analyze(file) {
     const parent = ancestors.at(-2),
       name = functionName(node, parent),
       target =
-        parent?.type === "VariableDeclarator"
-          ? ancestors.at(-3)
-          : parent?.type === "Property"
-            ? parent
-            : node;
+        parent?.type === "ExportNamedDeclaration" ||
+        parent?.type === "ExportDefaultDeclaration"
+          ? parent
+          : parent?.type === "VariableDeclarator"
+            ? ancestors.at(-3)
+            : parent?.type === "Property"
+              ? parent
+              : node;
     const preceding = comments
       .filter(
         (c) =>

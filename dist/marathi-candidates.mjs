@@ -1,7 +1,7 @@
 /** @file Conservative dictionary-assisted ranking of actual optical candidates. */
 // Rank actual visual readings; never generate a replacement from a word list.
-export /** Read permitted entries from the bundled Marathi spelling dictionary. */
-function dictionaryWords(text) {
+/** Read permitted entries from the bundled Marathi spelling dictionary. */
+export function dictionaryWords(text) {
   return new Set(
     text
       .replace(/^\uFEFF/, "")
@@ -11,8 +11,8 @@ function dictionaryWords(text) {
       .map((line) => line.split("/")[0].normalize("NFC")),
   );
 }
-export /** Summarize visual character scores for candidate ranking, not calibrated accuracy. */
-function ctcConfidence(values, dims) {
+/** Summarize visual character scores for candidate ranking, not calibrated accuracy. */
+export function ctcConfidence(values, dims) {
   const classes = dims.at(-1),
     steps = dims.at(-2);
   let total = 0,
@@ -52,8 +52,8 @@ function editDistance(a, b) {
   }
   return row[b.length];
 }
-export /** Choose an unambiguous nearby dictionary-backed visual reading and retain alternatives. */
-function rankReadings(readings, dictionary) {
+/** Choose an unambiguous nearby dictionary-backed visual reading and retain alternatives. */
+export function rankReadings(readings, dictionary) {
   const base = readings[0];
   if (!base) return { text: "", alternatives: [] };
   let winner = base;

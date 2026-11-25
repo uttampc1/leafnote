@@ -19,6 +19,10 @@ else
   umask 077
   printf 'LEAFNOTE_HOST=%s\nLEAFNOTE_BIND_IP=%s\nLEAFNOTE_HTTPS_PORT=8443\n' "$address" "$address" > .env
 fi
+if ! grep -q '^LEAFNOTE_SYNC_DIR=' .env; then
+  sh scripts/configure-sync.sh "${2:-}"
+fi
 docker compose up -d --build --wait
 echo 'Leafnote is running. Export the public CA with: sh scripts/export-ca.sh'
 echo 'The HTTPS URL is the LEAFNOTE_HOST and LEAFNOTE_HTTPS_PORT in .env.'
+echo 'Pair a client with the code from: sh scripts/show-sync-code.sh'

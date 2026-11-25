@@ -16,6 +16,10 @@
     lastPen = 0,
     pan = null,
     activeText = null;
+  let syncApplying = false,
+    lastSaveOK = true,
+    writerLocked = false;
+  const fileVersions = new Map();
   const undoStack = [],
     redoStack = [];
   const original = {
@@ -356,6 +360,7 @@
   }
   /** Atomically write notebook metadata and optional PDF blobs, pruning only when requested. */
   function writeState(snapshot, files = [], prune = false) {
+    const remote = syncApplying;
     const tx = db.transaction(["state", "pdfs"], "readwrite"),
       done = complete(tx);
     tx.objectStore("state").put(snapshot, "notebook");
@@ -370,11 +375,20 @@
         for (const id of keys.result) if (!keep.has(id)) documents.delete(id);
       };
     }
-    return done;
+    return done.then(() => {
+      for (const [id] of files)
+        fileVersions.set(id, (fileVersions.get(id) || 0) + 1);
+      document.dispatchEvent(
+        new CustomEvent("leafnote-local-saved", {
+          detail: { remote, files: files.map(([id]) => id) },
+        }),
+      );
+    });
   }
   persist =
     /** Queue a snapshot for device storage; report storage errors without discarding the current note. */
     function () {
+      if (syncApplying) return saveQueue.then(() => persist());
       const version = ++saveVersion,
         snapshot = clone(data);
       $("#saved").textContent = "Saving…";
@@ -388,10 +402,12 @@
                 throw Error("PDF storage is unavailable");
               localStorage.setItem(KEY, JSON.stringify(snapshot));
             }
+            lastSaveOK = true;
             if (version === saveVersion)
               $("#saved").textContent = "Saved on device";
             return true;
           } catch (e) {
+            lastSaveOK = false;
             $("#saved").textContent = "Not saved";
             toast(
               "Could not save. Export a backup before closing this tab. " +
@@ -816,6 +832,16 @@
   };
   canvas.oncontextmenu = (e) => e.preventDefault();
   canvas.ondragstart = (e) => e.preventDefault();
+  // Inert blocks pointer input; capture also fences document-level undo shortcuts during adoption.
+  document.addEventListener(
+    "keydown",
+    (e) => {
+      if (!syncApplying) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    },
+    true,
+  );
   document.addEventListener("keydown", (e) => {
     if (e.target.closest('input,textarea,[contenteditable="true"],dialog'))
       return;
@@ -1351,6 +1377,12 @@
         await done;
       } else localStorage.setItem(KEY, JSON.stringify(candidate));
       data = candidate;
+      ++saveVersion;
+      document.dispatchEvent(
+        new CustomEvent("leafnote-local-saved", {
+          detail: { remote: false, files: [n.id] },
+        }),
+      );
       renderNav();
       if (data.notes.length) loadNote(data.notes[0].id);
       else createNote();
@@ -1378,8 +1410,120 @@
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) finishInput();
   });
+  /** Keep two app windows from saving stale full-notebook snapshots in the same browser profile. */
+  async function acquireWriter() {
+    if (!navigator.locks) return true;
+    return new Promise((resolve) => {
+      navigator.locks
+        .request(
+          "leafnote-notebook-writer",
+          { ifAvailable: true },
+          async (lock) => {
+            if (!lock) {
+              resolve(false);
+              return;
+            }
+            writerLocked = true;
+            resolve(true);
+            await new Promise((release) =>
+              window.addEventListener("pagehide", (event) => {
+                if (!event.persisted) release();
+              }),
+            );
+          },
+        )
+        .catch(() => resolve(true));
+    });
+  }
+  /** Defer remote replacement while a pen stroke, editor, review, or editing popup is active. */
+  function syncBusy() {
+    return (
+      syncApplying ||
+      $(".app").inert ||
+      !!active ||
+      !!activeText ||
+      !!window.LeafBoard?.isEditing?.() ||
+      !!document.querySelector("dialog[open]:not(#syncdialog)") ||
+      !$("#recognitionreview").hidden ||
+      !$("#inkoptions").hidden ||
+      $("#toolsettings").open ||
+      !!document.activeElement?.closest(
+        'input,textarea,[contenteditable="true"]',
+      )
+    );
+  }
+  /** Atomically adopt a merged server snapshot only if no local edit appeared during the request. */
+  async function applySyncedNotebook(
+    snapshot,
+    files,
+    expected,
+    { keepUndoIds = [], preferredId = current } = {},
+  ) {
+    if (!db || expected !== saveVersion || syncBusy()) return false;
+    const candidate = validate(clone(snapshot));
+    syncApplying = true;
+    $(".app").inert = true;
+    const operation = saveQueue
+      .catch(() => {})
+      .then(async () => {
+        if (
+          expected !== saveVersion ||
+          active ||
+          activeText ||
+          window.LeafBoard?.isEditing?.()
+        )
+          return false;
+        await writeState(candidate, files, true);
+        data = candidate;
+        ++saveVersion;
+        const keep = new Set(keepUndoIds);
+        for (const stack of [undoStack, redoStack])
+          for (let i = stack.length - 1; i >= 0; i--)
+            if (!keep.has(stack[i].id)) stack.splice(i, 1);
+        renderNav();
+        loadNote(
+          data.notes.some((n) => n.id === preferredId)
+            ? preferredId
+            : data.notes[0]?.id,
+        );
+        lastSaveOK = true;
+        $("#saved").textContent = "Saved on device";
+        return true;
+      })
+      .finally(() => {
+        syncApplying = false;
+        $(".app").inert = false;
+      });
+    saveQueue = operation.then(
+      () => true,
+      () => {
+        lastSaveOK = false;
+        return false;
+      },
+    );
+    return operation;
+  }
+  /** Capture the durable notebook without exporting or duplicating PDF bytes. */
+  async function readSyncNotebook() {
+    await saveQueue;
+    if (!lastSaveOK)
+      throw Error("Save local changes successfully before syncing");
+    return { data: clone(data), version: saveVersion, currentId: current };
+  }
   window.LeafnoteApp = {
     ready: false,
+    sync: {
+      /** Implement the supported callback in this object. */
+      supported: () => !!db && writerLocked,
+      read: readSyncNotebook,
+      apply: applySyncedNotebook,
+      /** Implement the version callback in this object. */
+      version: () => saveVersion,
+      busy: syncBusy,
+      file: getFile,
+      /** Implement the fileVersion callback in this object. */
+      fileVersion: (id) => fileVersions.get(id) || 0,
+    },
     textStyleTarget,
     setTextColor,
     setTextStyle,
@@ -1408,6 +1552,11 @@
     },
   };
   $(".app").inert = true;
+  if (!(await acquireWriter())) {
+    $("#loading").textContent =
+      "This notebook is already open in another window. Close that window, then reload this one.";
+    return;
+  }
   try {
     try {
       db = await openDB();

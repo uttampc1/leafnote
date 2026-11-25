@@ -6,6 +6,8 @@
 flowchart LR
   Client[Browser or installed PWA] -->|trusted HTTPS :8443| Caddy[Caddy static server]
   Caddy --> Files[App shell and bundled models]
+  Caddy -->|authenticated API| Sync[Private sync service]
+  Sync --> ServerNotes[(Chosen Linux notes folder)]
   Client --> SW[Versioned service-worker shell cache]
   Client --> Notes[(IndexedDB leafnote)]
   Client --> Models[(IndexedDB leafnote-language-models)]
@@ -16,7 +18,7 @@ flowchart LR
   Caddy --> CA[(Server-only CA/config volumes)]
 ```
 
-Notebook contents never travel to the container. The browser imports local PDFs and exports backups/downloads. Recognition consumes an RGBA line image in a worker on the client. Model source/licence links are informational; model installation fetches bundled files from the LAN server.
+Notebook contents stay on the client until Server sync is enabled. Paired clients send authenticated snapshots and PDF originals through Caddy to the separate sync API and chosen server folder. The browser imports local PDFs and exports backups/downloads. Recognition consumes an RGBA line image in a worker on the client. Model source/licence links are informational; model installation fetches bundled files from the LAN server.
 
 ## Startup and script order
 
@@ -117,4 +119,25 @@ The shell cache never stores note content or optional model assets. Models have 
 
 `Note` includes stable ID, notebook ID, title, timestamps, favorite, paper, strokes and text boxes. PDF notes add page records and an original-file ID. Board notes add dimensions, nodes, and links. A stroke has color, width, opacity, pressure and sampled points; Pencil adds brush/grade. Text boxes and idea cards retain color, size and line height. Undo snapshots are in memory; exported backups carry persistent note/PDF data, not installed model files or shell caches.
 
-No backend API, server-side authentication, note synchronization, collaboration, or cross-device data replication is introduced by containerization.
+Version 1.1 adds an optional shared-code sync API for one personal notebook. It does not provide multi-user accounts or live collaborative editing.
+
+## Optional server synchronization (1.1)
+
+```mermaid
+flowchart TD
+  Save[Local IndexedDB commit] --> Trigger[Debounce, reconnect, foreground or periodic check]
+  Trigger --> Consent{Device opted in?}
+  Consent -->|yes| Quiet{Editor idle and writer lock held?}
+  Quiet --> Fetch[Fetch server revision and durable ancestor]
+  Fetch --> Merge[Three-way note merge; recover conflict copies]
+  Merge --> PDF[Verify and upload missing PDF originals]
+  PDF --> CAS[Compare-and-swap server snapshot]
+  CAS --> Receipt[Persist successful-push receipt]
+  Receipt --> Guard{Local version still unchanged?}
+  Guard -->|yes| Apply[Atomic local notebook/PDF adoption]
+  Guard -->|no| Retry[Keep local edits; rebase receipt on next attempt]
+  Apply --> Ancestor[Save new merge ancestor]
+  CAS --> Disk[Private Linux folder: snapshots + CURRENT + PDF blobs]
+```
+
+`leafnote-sync` IndexedDB stores device opt-in, code, a stable device ID, the last server ancestor, and a pending receipt. It does not duplicate PDF bytes. The browser writer lock prevents two new app windows from independently overwriting the same profile’s full notebook. The server serializes one process’s metadata commits and rejects stale revisions. API paths are network-only and never enter the PWA shell cache. See SYNC.md for failure behavior and retention.

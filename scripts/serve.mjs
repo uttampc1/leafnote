@@ -22,8 +22,8 @@ const types = {
   ".md": "text/plain; charset=utf-8",
 };
 /** Start a dependency-free development server; production uses Caddy HTTPS. */
-export /** Start the dependency-free development server with safe static paths and correct MIME types. */
-function startServer({ host = "127.0.0.1", port = 8080 } = {}) {
+/** Start the dependency-free development server with safe static paths and correct MIME types. */
+export function startServer({ host = "127.0.0.1", port = 8080 } = {}) {
   const server = http.createServer(async (req, res) => {
     if (!["GET", "HEAD"].includes(req.method)) {
       res.writeHead(405);

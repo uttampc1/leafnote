@@ -6,3 +6,9 @@ coverage/
 *.tar.gz
 *.bundle
 .DS_Store
+server-data/
+**/auth.key
+**/workspace.json
+**/CURRENT
+**/snapshots/
+**/blobs/

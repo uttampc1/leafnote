@@ -284,6 +284,8 @@
     return setTextStyle({ color }, target);
   }
   window.LeafBoard = {
+    /** Implement the isEditing callback in this object. */
+    isEditing: () => !!editing || !!drag,
     scale,
     paint,
     refresh,

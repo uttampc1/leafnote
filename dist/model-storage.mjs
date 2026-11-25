@@ -1,8 +1,8 @@
 /** @file Dedicated IndexedDB model storage with resumable installation, hashes, removal, and runtime URL aliases. */
 import { languageModels, modelFor, assetURL } from "./language-catalog.mjs";
 export { languageModels, modelFor, assetURL };
-export /** Construct an isolated, injectable model store for production or tests. */
-function createModelStore(options = {}) {
+/** Construct an isolated, injectable model store for production or tests. */
+export function createModelStore(options = {}) {
   const idb = options.indexedDB || globalThis.indexedDB,
     fetcher = options.fetcher || ((...args) => fetch(...args)),
     digest = options.crypto || globalThis.crypto,

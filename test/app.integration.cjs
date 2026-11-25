@@ -30,7 +30,15 @@ function check(test, message) {
   console.log("PASS " + message);
 }
 /** Boot the real app against isolated fake storage and native canvas adapters. */
-async function makeApp(legacy, layout, textColor, textFormat, writing) {
+async function makeApp(
+  legacy,
+  layout,
+  textColor,
+  textFormat,
+  writing,
+  writerLock,
+  expectBlocked = false,
+) {
   const html = fs
     .readFileSync(root + "/index.html", "utf8")
     .replace(/<script[\s\S]*?<\/script>/g, "");
@@ -41,6 +49,8 @@ async function makeApp(legacy, layout, textColor, textFormat, writing) {
   });
   const w = dom.window,
     ctx = dom.getInternalVMContext();
+  if (writerLock)
+    Object.defineProperty(w.navigator, "locks", { value: writerLock });
   w.indexedDB = indexedDB;
   w.IDBKeyRange = IDBKeyRange;
   w.structuredClone = structuredClone;
@@ -214,7 +224,15 @@ async function makeApp(legacy, layout, textColor, textFormat, writing) {
         specifier.includes("model-storage") ? modelModule : mockModule,
     }).runInContext(ctx);
   }
-  await until(() => !w.document.querySelector("#loading"), "app startup");
+  if (expectBlocked)
+    await until(
+      () =>
+        w.document
+          .querySelector("#loading")
+          ?.textContent.includes("already open"),
+      "blocked second writer",
+    );
+  else await until(() => !w.document.querySelector("#loading"), "app startup");
   /** Evaluate an inline callback in test/app.integration.cjs; its direct operations are listed below. */
   const evaluate = (code) => vm.runInContext(code, ctx);
   return { w, dom, evaluate, objects, lib };
@@ -1661,6 +1679,59 @@ async function main() {
   $("#favorite").click();
   await ev("persist()");
   $('[data-filter="all"]').click();
+  w.LeafnoteApp.finish();
+  $("#inkoptions").hidden = true;
+  $("#recognitionreview").hidden = true;
+  $("#notemenu").open = false;
+  $("#toolsettings").open = false;
+  w.document.activeElement?.blur();
+  const syncEvents = [];
+  w.document.addEventListener("leafnote-local-saved", (e) =>
+    syncEvents.push(e.detail),
+  );
+  const localSync = await w.LeafnoteApp.sync.read(),
+    incoming = structuredClone(localSync.data),
+    arrival = structuredClone(incoming.notes.find((n) => !n.pdf && !n.board));
+  arrival.id = "sync-arrival";
+  arrival.title = "Arrived from server";
+  incoming.notes.push(arrival);
+  await ev("persist()");
+  check(
+    !(await w.LeafnoteApp.sync.apply(incoming, [], localSync.version)),
+    "remote adoption refuses to replace a newer local version",
+  );
+  $("#notemenu").open = true;
+  $("#syncdialog").setAttribute("open", "");
+  check(
+    !w.LeafnoteApp.sync.busy(),
+    "sync status controls do not block a requested synchronization",
+  );
+  const latestSync = await w.LeafnoteApp.sync.read();
+  const adoption = w.LeafnoteApp.sync.apply(incoming, [], latestSync.version, {
+    keepUndoIds: latestSync.data.notes.map((n) => n.id),
+  });
+  const duringAdoption = new w.KeyboardEvent("keydown", {
+    key: "z",
+    ctrlKey: true,
+    bubbles: true,
+    cancelable: true,
+  });
+  w.document.dispatchEvent(duringAdoption);
+  check(
+    duringAdoption.defaultPrevented,
+    "document shortcuts cannot mutate notes during atomic remote adoption",
+  );
+  check(
+    await adoption,
+    "remote adoption atomically saves a merged notebook when the editor is idle",
+  );
+  check(
+    ev('data.notes.some(n=>n.id==="sync-arrival")') &&
+      syncEvents.some((e) => e.remote),
+    "remote adoption is marked separately from local edits to avoid echo uploads",
+  );
+  $("#syncdialog").removeAttribute("open");
+  $("#notemenu").open = false;
   const again = await makeApp(
     undefined,
     JSON.parse(w.localStorage.getItem("leafnote-layout-v1")),
@@ -1788,6 +1859,50 @@ async function main() {
     again.w.document.querySelector("#writingkind").value === "pen",
     "an explicitly chosen Pen is remembered after reopening",
   );
+  check(
+    again.evaluate('data.notes.some(n=>n.id==="sync-arrival")'),
+    "a synced note survives real IndexedDB validation and reopening",
+  );
+  const blocked = await makeApp(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      /** Convert an IndexedDB request to a promise. */
+      request: async (name, options, callback) => callback(null),
+    },
+    true,
+  );
+  check(
+    !blocked.w.LeafnoteApp.ready &&
+      blocked.w.document
+        .querySelector("#loading")
+        .textContent.includes("already open"),
+    "a second writer window is blocked before it can touch notebook storage",
+  );
+  const granted = await makeApp(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      /** Convert an IndexedDB request to a promise. */
+      request: async (name, options, callback) => callback({ name }),
+    },
+  );
+  check(
+    granted.w.LeafnoteApp.sync.supported(),
+    "a granted browser writer lock enables the sync bridge",
+  );
+  check(
+    granted.evaluate('data.notes.some(n=>n.id==="sync-arrival")'),
+    "opening a blocked writer cannot replace the saved notebook",
+  );
+  blocked.dom.window.close();
+  granted.dom.window.close();
   console.log("ALL " + checks + " CHECKS PASSED");
   await exportedDoc.loadingTask.destroy();
   db.close();

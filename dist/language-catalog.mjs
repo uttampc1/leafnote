@@ -91,11 +91,11 @@ export const languageModels = [
       "https://github.com/LibreOffice/dictionaries/tree/e7b61087d7d42eba51425eae74643ea5623c574a/mr_IN",
   },
 ];
-export /** Look up an approved recognition model by language ID. */
-function modelFor(id) {
+/** Look up an approved recognition model by language ID. */
+export function modelFor(id) {
   return languageModels.find((m) => m.id === id);
 }
-export /** Resolve a pinned model asset to its bundled local server URL. */
-function assetURL(model, file) {
+/** Resolve a pinned model asset to its bundled local server URL. */
+export function assetURL(model, file) {
   return new URL(file.name, new URL(model.baseUrl, import.meta.url)).href;
 }

@@ -7,3 +7,9 @@ coverage
 *.bundle
 docs
 test
+server-data
+**/auth.key
+**/workspace.json
+**/CURRENT
+**/snapshots
+**/blobs

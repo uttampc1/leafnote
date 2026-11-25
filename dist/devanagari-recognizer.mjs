@@ -5,8 +5,8 @@ import {
   rankReadings,
 } from "./marathi-candidates.mjs";
 // PaddleOCR Devanagari line recognizer. All inference runs in the browser worker.
-export /** Resize an RGBA line image and normalize its RGB channels into the Devanagari model’s tensor layout. */
-function prepareRGBA(pixels, width, height, horizontalScale = 1) {
+/** Resize an RGBA line image and normalize its RGB channels into the Devanagari model’s tensor layout. */
+export function prepareRGBA(pixels, width, height, horizontalScale = 1) {
   const h = 48,
     resized = Math.max(
       1,
@@ -37,8 +37,8 @@ function prepareRGBA(pixels, width, height, horizontalScale = 1) {
     }
   return { data: out, dims: [1, 3, h, w] };
 }
-export /** Decode the model’s repeated character/blank predictions into normalized Unicode text. */
-function decodeCTC(values, dims, charset) {
+/** Decode the model’s repeated character/blank predictions into normalized Unicode text. */
+export function decodeCTC(values, dims, charset) {
   const classes = dims.at(-1),
     steps = dims.at(-2),
     tokens = ["", ...charset, " "];
@@ -107,8 +107,8 @@ async function resources(progress) {
     });
   return ready;
 }
-export /** Generate an original, narrower, or wider rendering for recognition. */
-function visualVariant(pixels, width, height, scale) {
+/** Generate an original, narrower, or wider rendering for recognition. */
+export function visualVariant(pixels, width, height, scale) {
   if (
     scale === 1 ||
     typeof OffscreenCanvas === "undefined" ||
@@ -131,8 +131,8 @@ function visualVariant(pixels, width, height, scale) {
     height,
   );
 }
-export /** Recognize three renderings of a handwritten line and rank their visual readings. */
-async function recognizeDevanagari(pixels, width, height, progress) {
+/** Recognize three renderings of a handwritten line and rank their visual readings. */
+export async function recognizeDevanagari(pixels, width, height, progress) {
   const { ort, session, charset, dictionary } = await resources(progress),
     readings = [];
   for (const scale of [1, 0.75, 1.25]) {

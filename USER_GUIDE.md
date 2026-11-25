@@ -45,6 +45,6 @@ Choose **••• → New brainstorm board** for a roomy canvas. Add **Idea car
 
 ## Keep your notebook safe
 
-Notes are saved in this browser on this device. Use the same browser and app address to return to them.
+Notes always save in this browser on this device. If you enable **••• → Server sync**, a copy is also kept on your Linux server. Write offline as usual; reopen the app online to synchronize. First setup asks before connecting and requires your server’s connection code. Conflicting edits are kept as copies.
 
 For a copy you can keep, open **Notes → Library actions → Export backup**. Import that backup to restore your notebook later. Importing a backup replaces the notes currently on that device.
